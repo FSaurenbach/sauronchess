@@ -24,7 +24,6 @@ enum class PieceKind(kind: String){
 
 }
 class Piece(kind: PieceKind, color: RGBA){
-
     init {
         if (color == Colors.WHITE){
             if (kind == PieceKind.Pawn){
