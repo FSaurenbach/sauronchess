@@ -1,3 +1,4 @@
+import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
@@ -8,10 +9,11 @@ import korlibs.math.*
 import korlibs.math.geom.*
 
 val board = Array(8) { Array(8) { SolidRect(512 / 8, 512 / 8) } }
-var sprite = resourcesVfs["w_pawn.png"]
+var whitePawn: Bitmap? = null
 suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
 	val sceneContainer = sceneContainer()
 
+    whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
 	sceneContainer.changeTo{ GameScene(sceneContainer) }
 }
 enum class PieceKind(kind: String){
@@ -20,20 +22,10 @@ enum class PieceKind(kind: String){
     Knight("K"),
     Rook("R"),
     Queen("Q"),
-    King("K")
+    King("K");
 
-}
-class Piece(kind: PieceKind, color: RGBA){
-    init {
-        if (color == Colors.WHITE){
-            if (kind == PieceKind.Pawn){
-                println("pawn")
-            }
-        }
-    }
-    suspend fun main(){
-        Sprite(sprite.readBitmap())
-    }
+
+
 }
 
 
@@ -55,5 +47,8 @@ class GameScene(cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
+
+        var p = Piece(PieceKind.Pawn, Colors.WHITE, 0, 0, cont = sceneContainer)
+
     }
 }
