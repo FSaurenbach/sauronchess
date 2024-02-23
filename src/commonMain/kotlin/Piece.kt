@@ -1,58 +1,75 @@
-import korlibs.image.color.Colors
-import korlibs.image.color.RGBA
+import korlibs.image.color.*
 import korlibs.korge.input.*
-import korlibs.korge.render.RenderContext
-import korlibs.korge.scene.SceneContainer
+import korlibs.korge.render.*
+import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
-import kotlinx.coroutines.*
 
-class Piece(kind: PieceKind, color: RGBA, i: Int, j: Int, cont: SceneContainer) : View() {
 
-        var pieceKind:PieceKind = kind
-        var piece = Image(whitePawn!!)
-        var position = board[i][j].pos
-        init {
-            if (color == Colors.WHITE) {
-                if (kind == PieceKind.whitePawn) {
-                    piece.size(Size(64, 64))
-                    piece.addTo(cont) // Add the piece to the scene first
-                    moveTo(i, j) // Then update its position
-                }
+enum class PieceKind(kind: String) {
+    whitePawn("wP"),
+    blackPawn("bP")
+
+}
+
+fun decodePosition(cxy: Point): Pair<Int, Int> {
+    val x = cxy.x / 64
+    val y = cxy.y / 64
+    return Pair(x.toInt(), y.toInt())
+}
+
+
+fun decode2(cx: Double, cy: Double): Point {
+    val x = cx / 64
+    val y = cy / 64
+    return Point(x, y)
+}
+
+class Piece(kind: PieceKind, color: RGBA, cx: Int, cy: Int, cont: SceneContainer) : View() {
+
+    var pieceKind: PieceKind = kind
+    lateinit var piece:Image
+    var position = board[cx][cy].pos
+
+    init {
+        if (color == Colors.WHITE) {
+            if (kind == PieceKind.whitePawn) {
+                piece = Image(whitePawn!!)
+                piece.size(Size(64, 64))
+                piece.addTo(cont) // Add the piece to the scene first
+                moveTo(cx, cy) // Then update its position
             }
-            clickListener(i, j)
-
+        }
+        if (color == Colors.BLACK) {
+            if (kind == PieceKind.blackPawn) {
+                piece = Image(blackPawn!!)
+                piece.size(Size(64, 64))
+                piece.addTo(cont) // Add the piece to the scene first
+                moveTo(cx, cy) // Then update its position
+            }
         }
 
-    private fun moveTo(i: Int, j: Int) {
-        // Update the position of 'piece' based on 'i' and 'j'
-        piece.pos = board[i][j].pos
-    }
-    private fun decodePosition(i: Point): Pair<Int, Int> {
-        val x = i.x / 64
-        val y = i.y / 64
-        val yx = "[$y][$x]"
-        return Pair(y.toInt(), x.toInt())
+        //clickListener(cx, cy)
+
     }
 
+    fun moveTo(cx: Int, cy: Int) {
+        // Update the position of 'piece' based on 'cx' and 'cy'
+        piece.position((cx * 64), (cy * 64))
+        position = board[cy][cx].pos
+    }
 
 
-    private fun clickListener(i: Int, j: Int){
+    private fun clickListener(cx: Int, cy: Int) {
         piece.onClick {
             println(pieceKind)
-            println("position")
-            println(position)
             println("pair")
-            println(decodePosition(position))
-            lastClicked = board[i][j].pos
+            lastClicked = board[cx][cy].pos
             println(decodePosition(lastClicked!!))
 
 
         }
     }
-
-
-
 
 
     override fun renderInternal(ctx: RenderContext) {

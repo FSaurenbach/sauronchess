@@ -1,22 +1,31 @@
-import korlibs.image.color.RGBA
-import korlibs.korge.input.*
-import korlibs.korge.scene.SceneContainer
+import korlibs.image.color.*
+import korlibs.korge.scene.*
 import korlibs.korge.view.*
 
-class Cell(color: RGBA, i:Int, j:Int, cont: SceneContainer){
-    init {
-        var cell = board[i][j]
-        cell.x = (j * (512 / 8)).toDouble()
-        cell.y = (i * (512 / 8)).toDouble()
-        cell.color = color
-        cont.addChild(cell)
-        clickListener(i, j)
+fun isPiece(i: Int, cy: Int): Piece? {
+    var piss: Piece? = null
+    for (element in pieces) {
+        var pPos = decodePosition(element.piece.pos)
 
-    }
-    fun clickListener(i: Int, j: Int){
-        var cell = board[i][j]
-        cell.onClick {
-            println("$i  $j")
+        println("nigg")
+        println(pPos)
+        if (pPos == Pair(i, cy)) {
+            println("ndfsaaaaaaaaaaaaaa")
+            piss = element
         }
     }
+    return piss
+}
+
+class Cell(color: RGBA, var cx: Int, var cy: Int, cont: SceneContainer) : Container() {
+    init {
+        var cell = board[cx][cy]
+        cell.x = (cy * (512 / 8)).toDouble()
+        cell.y = (cx * (512 / 8)).toDouble()
+        cell.color = color
+        cont.addChild(cell)
+
+    }
+
+
 }

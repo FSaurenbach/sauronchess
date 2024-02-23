@@ -1,28 +1,29 @@
 import korlibs.korge.gradle.*
 
 plugins {
-	alias(libs.plugins.korge)
+    alias(libs.plugins.korge)
 }
 
 korge {
-	id = "com.sample.demo"
+    id = "com.sample.demo"
 
 // To enable all targets at once
 
-	//targetAll()
+    //targetAll()
 
 // To enable targets based on properties/environment variables
-	//targetDefault()
+    //targetDefault()
 
 // To selectively enable targets
-	
-	targetJvm()
-	targetJs()
-	targetDesktop()
-	targetAndroid()
 
-	serializationJson()
+    targetJvm()
+    targetJs()
+
+    serializationJson()
+    jvmMainClassName = "MainKt"
+
 }
+
 
 
 dependencies {

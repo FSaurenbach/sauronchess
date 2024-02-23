@@ -5,5 +5,4 @@ You can open this project in IntelliJ IDEA by opening the folder or the build.gr
 
 You can find this template at GitHub: <https://github.com/korlibs/korge-hello-world>
 
-
 You can find the KorGE documentation here: <https://docs.korge.org/korge/>
