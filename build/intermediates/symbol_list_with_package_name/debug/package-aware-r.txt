@@ -1,0 +1,5 @@
+com.sample.demo
+drawable app_banner
+drawable app_icon
+mipmap icon
+style AppThemeOverride

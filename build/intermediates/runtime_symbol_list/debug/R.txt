@@ -1,0 +1,4 @@
+int drawable app_banner 0x7f010000
+int drawable app_icon 0x7f010001
+int mipmap icon 0x7f020000
+int style AppThemeOverride 0x7f030000

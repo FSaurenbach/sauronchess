@@ -1,0 +1,10 @@
+abi_version=1.8.0
+builtins_platform=JS
+compiler_version=1.9.22
+depends=com.soywiz.korge\:korge com.soywiz.korge\:korge-core com.soywiz.korge\:korge-foundation org.jetbrains.kotlinx\:kotlinx-serialization-json org.jetbrains.kotlinx\:kotlinx-coroutines-core com.soywiz.korge\:korlibs-template org.jetbrains.kotlinx\:atomicfu org.jetbrains.kotlinx\:kotlinx-serialization-core com.soywiz.korge\:korlibs-crypto com.soywiz.korge\:korlibs-time org.jetbrains.kotlin\:kotlin-dom-api-compat kotlin
+ir_signature_versions=1,2
+jsOutputName=korge-hello-world
+metadata_version=1.4.1
+serializedIrFileFingerprints=2j7vqlj01rkq8.143xga0rzg6za 2jwi27uaroluw.1iofk9yg4621b 1a4f2fpsjdp13.23kxvbfp0sobf 2441x77pmgzj4.2n77nwvm55ece
+serializedKlibFingerprint=16gw6u6c5p6sh.2nigun4fmz7f8
+unique_name=korge-hello-world

@@ -1,0 +1,4 @@
+com.sample.demo:mipmap/icon = 0x7f020000
+com.sample.demo:drawable/app_icon = 0x7f010001
+com.sample.demo:style/AppThemeOverride = 0x7f030000
+com.sample.demo:drawable/app_banner = 0x7f010000

@@ -1,0 +1,15 @@
+{
+  "version": "9",
+  "items": {
+    "cb7d13c12a97693448b82c9574c2fd3e": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-stdlib-js\\1.9.22\\95e0c81ba7ee3d36c7d7312a63f1b0bae454b3fe\\kotlin-stdlib-js-1.9.22.klib"
+    },
+    "b50857453dcb30a49d765d6aca822dfe": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-dom-api-compat\\1.9.22\\3c0ac04445c1aeec4366d69e1791cd6ad31ddc07\\kotlin-dom-api-compat-1.9.22.klib"
+    },
+    "a66860f155cb10a237acb5f7d0f6d0e3": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-test-js-runner\\1.9.22\\e9b1fc55af69eb09d63b271d17c217d9483241cc\\kotlin-test-js-runner-1.9.22.jar",
+      "target": "kotlin-test-js-runner\\0.0.1"
+    }
+  }
+}

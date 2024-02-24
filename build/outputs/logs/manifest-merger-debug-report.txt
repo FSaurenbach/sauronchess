@@ -1,0 +1,110 @@
+-- Merging decision tree log ---
+manifest
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12
+MERGED from [:deps] C:\Users\ferdi\Pictures\Chess\deps\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korge-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\d5f5cd993aabd2344ed8f212455b14f4\transformed\korge-debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korge-core-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\0b9d9b6cfac0eb1510bffd3c521ce7d3\transformed\korge-core-debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korge-foundation-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\8d9525d3980795479fc0c6e80a6bc9a8\transformed\korge-foundation-debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korlibs-template-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\da326055cc374814e34dc2a67364606e\transformed\korlibs-template-debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korlibs-crypto-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\be2fcf0aa8759875880e10cc1e79cc72\transformed\korlibs-crypto-debug\AndroidManifest.xml:2:1-7:12
+MERGED from [com.soywiz.korge:korlibs-time-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\ca7b651cecfecbaba902a7a043dc0392\transformed\korlibs-time-debug\AndroidManifest.xml:2:1-7:12
+	package
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+	android:versionName
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+	android:versionCode
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+	xmlns:android
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:3:2-60
+uses-feature#android.hardware.touchscreen
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:2-87
+	android:required
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:60-84
+	android:name
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:16-59
+uses-feature#android.software.leanback
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:2-84
+	android:required
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:57-81
+	android:name
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:16-56
+application
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:7:2-31:16
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:7:2-31:16
+	android:extractNativeLibs
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+	android:supportsRtl
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:14:3-29
+	android:label
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:10:3-26
+	android:roundIcon
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:12:3-57
+	android:icon
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:11:3-30
+	android:allowBackup
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:9:3-29
+	android:theme
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:13:3-42
+profileable
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:16:3-39
+	android:shell
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:16:16-36
+activity#com.sample.demo.MainActivity
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:17:3-30:14
+	android:screenOrientation
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:23:4-38
+	android:label
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:20:4-27
+	android:exported
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:24:4-27
+	android:configChanges
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:22:4-78
+	android:icon
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:19:4-37
+	android:banner
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:18:4-41
+	android:logo
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:21:4-37
+	android:name
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:17:13-41
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:26:4-29:20
+action#android.intent.action.MAIN
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:27:5-56
+	android:name
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:27:13-54
+category#android.intent.category.LAUNCHER
+ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:28:5-64
+	android:name
+		ADDED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:28:15-62
+uses-sdk
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+MERGED from [:deps] C:\Users\ferdi\Pictures\Chess\deps\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-43
+MERGED from [:deps] C:\Users\ferdi\Pictures\Chess\deps\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-43
+MERGED from [com.soywiz.korge:korge-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\d5f5cd993aabd2344ed8f212455b14f4\transformed\korge-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korge-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\d5f5cd993aabd2344ed8f212455b14f4\transformed\korge-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korge-core-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\0b9d9b6cfac0eb1510bffd3c521ce7d3\transformed\korge-core-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korge-core-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\0b9d9b6cfac0eb1510bffd3c521ce7d3\transformed\korge-core-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korge-foundation-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\8d9525d3980795479fc0c6e80a6bc9a8\transformed\korge-foundation-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korge-foundation-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\8d9525d3980795479fc0c6e80a6bc9a8\transformed\korge-foundation-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-template-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\da326055cc374814e34dc2a67364606e\transformed\korlibs-template-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-template-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\da326055cc374814e34dc2a67364606e\transformed\korlibs-template-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-crypto-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\be2fcf0aa8759875880e10cc1e79cc72\transformed\korlibs-crypto-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-crypto-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\be2fcf0aa8759875880e10cc1e79cc72\transformed\korlibs-crypto-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-time-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\ca7b651cecfecbaba902a7a043dc0392\transformed\korlibs-time-debug\AndroidManifest.xml:5:5-44
+MERGED from [com.soywiz.korge:korlibs-time-android:5.3.0] C:\Users\ferdi\.gradle\caches\transforms-3\ca7b651cecfecbaba902a7a043dc0392\transformed\korlibs-time-debug\AndroidManifest.xml:5:5-44
+	android:targetSdkVersion
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+IMPLIED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12 reason: korge.hello.world.deps has a targetSdkVersion < 4
+uses-permission#android.permission.READ_PHONE_STATE
+IMPLIED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12 reason: korge.hello.world.deps has a targetSdkVersion < 4
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+IMPLIED from C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:2:1-32:12 reason: korge.hello.world.deps requested WRITE_EXTERNAL_STORAGE

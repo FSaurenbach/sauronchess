@@ -1,0 +1,80 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.sample.demo"
+4    android:versionCode="1"
+5    android:versionName="0.0.1" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="21"
+9        android:targetSdkVersion="33" />
+10
+11    <uses-feature
+11-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:2-87
+12        android:name="android.hardware.touchscreen"
+12-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:16-59
+13        android:required="false" />
+13-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:5:60-84
+14    <uses-feature
+14-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:2-84
+15        android:name="android.software.leanback"
+15-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:16-56
+16        android:required="false" />
+16-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:6:57-81
+17
+18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+19    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+20    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+21
+22    <application
+22-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:7:2-31:16
+23        android:allowBackup="true"
+23-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:9:3-29
+24        android:debuggable="true"
+25        android:extractNativeLibs="true"
+26        android:icon="@mipmap/icon"
+26-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:11:3-30
+27        android:label="unnamed"
+27-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:10:3-26
+28        android:roundIcon="@android:drawable/sym_def_app_icon"
+28-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:12:3-57
+29        android:supportsRtl="true"
+29-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:14:3-29
+30        android:testOnly="true"
+31        android:theme="@style/AppThemeOverride" >
+31-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:13:3-42
+32        <profileable android:shell="true" />
+32-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:16:3-39
+32-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:16:16-36
+33
+34        <activity
+34-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:17:3-30:14
+35            android:name="com.sample.demo.MainActivity"
+35-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:17:13-41
+36            android:banner="@drawable/app_banner"
+36-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:18:4-41
+37            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"
+37-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:22:4-78
+38            android:exported="true"
+38-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:24:4-27
+39            android:icon="@drawable/app_icon"
+39-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:19:4-37
+40            android:label="unnamed"
+40-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:20:4-27
+41            android:logo="@drawable/app_icon"
+41-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:21:4-37
+42            android:screenOrientation="sensor" >
+42-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:23:4-38
+43            <intent-filter>
+43-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:26:4-29:20
+44                <action android:name="android.intent.action.MAIN" />
+44-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:27:5-56
+44-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:27:13-54
+45
+46                <category android:name="android.intent.category.LAUNCHER" />
+46-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:28:5-64
+46-->C:\Users\ferdi\Pictures\Chess\build\AndroidManifest.xml:28:15-62
+47            </intent-filter>
+48        </activity>
+49    </application>
+50
+51</manifest>
