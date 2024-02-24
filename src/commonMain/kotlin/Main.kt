@@ -43,29 +43,35 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
-        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 5, 3, cont = cont)
-        var z = Piece(PieceKind.blackPawn, Colors.BLACK, 1, 3, cont = cont)
+        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
+        var z = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
         pieces.add(p)
         pieces.add(z)
 
+
+
+
+
         z.draggableCloseable(
-            onMouseDrag {
-                val newPosition = decodePosition(this.globalMousePos)
-                val currentPos = decodePosition(z.position)
+             onMouseDrag {
+                 val newPosition = decodePosition(this.globalMousePos)
+                 val currentPos = decodePosition(z.position)
 
-                // Ensure the piece is moving forward
-                println("Old Position $currentPos")
-                println("New Position $newPosition")
-                if (moveChecker(currentPos, newPosition, z.pieceKind)) z.moveTo(newPosition.first, newPosition.second)
+                 // Ensure the piece is moving forward
+                 println("Old Position $currentPos")
+                 println("New Position $newPosition")
+                 if (moveChecker(currentPos, newPosition, z.pieceKind)) z.moveTo(newPosition.first, newPosition.second)
 
 
-            },
-            false
-        ) { info: DraggableInfo ->
-            info.view.x = info.viewNextXY.x
-        }
 
-         p.draggableCloseable(
+
+             },
+             false
+         ) { info: DraggableInfo ->
+             info.view.x = info.viewNextXY.x
+         }
+
+        p.draggableCloseable(
             onMouseDrag {
                 val newPosition = decodePosition(this.globalMousePos)
                 val currentPos = decodePosition(p.position)
@@ -91,20 +97,24 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind): Boolean {
     when (kind){
 
-
+        // General Code for moving black and white pawns in chess
+        PieceKind.blackPawn -> {
+            if (oldPos.second == 6 && newPos.second == 4) {
+                return true
+            } else if (oldPos.second - newPos.second == 1) {
+                return true
+            }
+        }
         PieceKind.whitePawn -> {
-            if (newPos.second < oldPos.second){
-                println("true but")
+            if (oldPos.second == 1 && newPos.second == 3) {
+                return true
+            } else if (newPos.second - oldPos.second == 1) {
                 return true
             }
+        }
 
-        }
-        PieceKind.blackPawn ->{
-            if (newPos.second > oldPos.second){
-                println("true but")
-                return true
-            }
-        }
+
+
     }
     return false
 }
