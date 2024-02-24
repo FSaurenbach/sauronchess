@@ -522,7 +522,7 @@
         d = d + 1 | 0;
       }
        while (inductionVariable < 8);
-    var p = {_v: new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 2, 2, this.cont_1)};
+    var p = {_v: new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 2, this.cont_1)};
     var z = {_v: new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1)};
     get_pieces().add_utx5q5_k$(p._v);
     get_pieces().add_utx5q5_k$(z._v);
