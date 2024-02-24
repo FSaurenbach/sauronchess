@@ -53,6 +53,7 @@ class Piece(kind: PieceKind, color: RGBA, cx: Int, cy: Int, cont: SceneContainer
 
     }
 
+
     fun moveTo(cx: Int, cy: Int) {
         // Update the position of 'piece' based on 'cx' and 'cy'
         piece.position((cx * 64), (cy * 64))

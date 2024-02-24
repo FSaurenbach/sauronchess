@@ -50,17 +50,16 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
 
 
-
+        var newPositionZ:Pair<Int, Int> = decodePosition(z.position)
+        var currentPosZ:Pair<Int, Int> = decodePosition(z.position)
 
         z.draggableCloseable(
              onMouseDrag {
-                 val newPosition = decodePosition(this.globalMousePos)
-                 val currentPos = decodePosition(z.position)
+                 newPositionZ = decodePosition(this.globalMousePos)
 
                  // Ensure the piece is moving forward
-                 println("Old Position $currentPos")
-                 println("New Position $newPosition")
-                 if (moveChecker(currentPos, newPosition, z.pieceKind)) z.moveTo(newPosition.first, newPosition.second)
+                 println("Old Position $currentPosZ")
+                 println("New Position $newPositionZ")
 
 
 
@@ -69,23 +68,34 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
              false
          ) { info: DraggableInfo ->
              info.view.x = info.viewNextXY.x
-         }
+                if (info.end){
+                    println("End")
+                    if (moveChecker(currentPosZ, newPositionZ, z.pieceKind)) z.moveTo(newPositionZ.first, newPositionZ.second)
+                }
 
+
+
+         }
+        var newPositionP:Pair<Int, Int> = decodePosition(p.position)
+        var currentPosP:Pair<Int, Int> = decodePosition(p.position)
         p.draggableCloseable(
             onMouseDrag {
-                val newPosition = decodePosition(this.globalMousePos)
-                val currentPos = decodePosition(p.position)
+                newPositionP = decodePosition(this.globalMousePos)
 
                 // Ensure the piece is moving forward
-                println("Old Position $currentPos")
-                println("New Position $newPosition")
-                if (moveChecker(currentPos, newPosition, p.pieceKind)) p.moveTo(newPosition.first, newPosition.second)
+                println("Old Position $currentPosP")
+                println("New Position $newPositionP")
+
 
 
             },
             false
         ) { info: DraggableInfo ->
             info.view.x = info.viewNextXY.x
+            if (info.end){
+                println("End")
+                if (moveChecker(currentPosP, newPositionP, p.pieceKind)) p.moveTo(newPositionP.first, newPositionP.second)
+            }
         }
 
 
@@ -104,12 +114,18 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
             } else if (oldPos.second - newPos.second == 1) {
                 return true
             }
+            else {
+                return false
+            }
         }
         PieceKind.whitePawn -> {
             if (oldPos.second == 1 && newPos.second == 3) {
                 return true
             } else if (newPos.second - oldPos.second == 1) {
                 return true
+            }
+            else {
+                return false
             }
         }
 
