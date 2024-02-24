@@ -9,8 +9,6 @@ jobs:
 
       - name: Build and deploy
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
           git subtree push --prefix build/www origin gh-pages
         env:
           GITHUB_TOKEN: ${{ secrets.YOUR_PAT }}
