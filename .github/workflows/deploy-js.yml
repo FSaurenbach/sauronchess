@@ -1,14 +1,5 @@
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches:
-      - master # Change this to your main branch name
-
 jobs:
   deploy:
-    runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -18,4 +9,8 @@ jobs:
 
       - name: Build and deploy
         run: |
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
           git subtree push --prefix build/www origin gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.YOUR_PAT }}
