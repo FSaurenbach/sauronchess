@@ -43,7 +43,6 @@
   var Colors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.z1;
   var Korge = kotlin_com_soywiz_korge_korge.$_$.b;
   var Unit_getInstance = kotlin_kotlin.$_$.c6;
-  var equals = kotlin_kotlin.$_$.me;
   var PixelatedScene = kotlin_com_soywiz_korge_korge.$_$.l;
   var get_isEven = kotlin_com_soywiz_korge_korge_foundation.$_$.zf;
   var onMouseDrag = kotlin_com_soywiz_korge_korge.$_$.j;
@@ -448,51 +447,48 @@
   function _get_cont__d4zd5l($this) {
     return $this.cont_1;
   }
-  function GameScene$sceneMain$lambda($newPositionZ) {
+  function GameScene$sceneMain$lambda($newPositionZ, $currentPosZ) {
     return function ($this$onMouseDrag, it) {
       $newPositionZ._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
-      println('');
+      println('Old Position ' + $currentPosZ._v);
+      println('New Position ' + $newPositionZ._v);
       return Unit_getInstance();
     };
   }
-  function GameScene$sceneMain$lambda_0($z, $currentPosZ, $newPositionZ) {
+  function GameScene$sceneMain$lambda_0($currentPosZ, $newPositionZ, $z) {
     return function (info) {
+      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
       var tmp;
-      if (equals(info.get_view_wow8a6_k$(), $z._v)) {
+      if (info.get_end_18j6ha_k$()) {
+        println('End');
         var tmp_0;
-        if (info.get_end_18j6ha_k$()) {
-          println('End');
-          var tmp_1;
-          if (moveChecker($currentPosZ._v, $newPositionZ._v, $z._v.get_pieceKind_ae3sop_k$())) {
-            $z._v.moveTo_tor82s_k$($newPositionZ._v.get_first_irdx8n_k$(), $newPositionZ._v.get_second_jf7fjx_k$());
-            tmp_1 = Unit_getInstance();
-          }
-          tmp_0 = tmp_1;
+        if (moveChecker($currentPosZ._v, $newPositionZ._v, $z._v.get_pieceKind_ae3sop_k$())) {
+          $z._v.moveTo_tor82s_k$($newPositionZ._v.get_first_irdx8n_k$(), $newPositionZ._v.get_second_jf7fjx_k$());
+          tmp_0 = Unit_getInstance();
         }
         tmp = tmp_0;
       }
       return Unit_getInstance();
     };
   }
-  function GameScene$sceneMain$lambda_1($newPositionP) {
+  function GameScene$sceneMain$lambda_1($newPositionP, $currentPosP) {
     return function ($this$onMouseDrag, it) {
       $newPositionP._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
+      println('Old Position ' + $currentPosP._v);
+      println('New Position ' + $newPositionP._v);
       return Unit_getInstance();
     };
   }
-  function GameScene$sceneMain$lambda_2($p, $currentPosP, $newPositionP) {
+  function GameScene$sceneMain$lambda_2($currentPosP, $newPositionP, $p) {
     return function (info) {
+      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
       var tmp;
-      if (equals(info.get_view_wow8a6_k$(), $p._v)) {
+      if (info.get_end_18j6ha_k$()) {
+        println('End');
         var tmp_0;
-        if (info.get_end_18j6ha_k$()) {
-          println('End');
-          var tmp_1;
-          if (moveChecker($currentPosP._v, $newPositionP._v, $p._v.get_pieceKind_ae3sop_k$())) {
-            $p._v.moveTo_tor82s_k$($newPositionP._v.get_first_irdx8n_k$(), $newPositionP._v.get_second_jf7fjx_k$());
-            tmp_1 = Unit_getInstance();
-          }
-          tmp_0 = tmp_1;
+        if (moveChecker($currentPosP._v, $newPositionP._v, $p._v.get_pieceKind_ae3sop_k$())) {
+          $p._v.moveTo_tor82s_k$($newPositionP._v.get_first_irdx8n_k$(), $newPositionP._v.get_second_jf7fjx_k$());
+          tmp_0 = Unit_getInstance();
         }
         tmp = tmp_0;
       }
@@ -526,20 +522,20 @@
         d = d + 1 | 0;
       }
        while (inductionVariable < 8);
-    var p = {_v: new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 1, this.cont_1)};
+    var p = {_v: new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 2, 2, this.cont_1)};
     var z = {_v: new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1)};
     get_pieces().add_utx5q5_k$(p._v);
     get_pieces().add_utx5q5_k$(z._v);
     var newPositionZ = {_v: decodePosition(z._v.get_position_jfponi_k$())};
     var currentPosZ = {_v: decodePosition(z._v.get_position_jfponi_k$())};
     var tmp = z._v;
-    var tmp_0 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda(newPositionZ));
-    draggableCloseable(tmp, tmp_0, false, GameScene$sceneMain$lambda_0(z, currentPosZ, newPositionZ));
+    var tmp_0 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda(newPositionZ, currentPosZ));
+    draggableCloseable(tmp, tmp_0, false, GameScene$sceneMain$lambda_0(currentPosZ, newPositionZ, z));
     var newPositionP = {_v: decodePosition(p._v.get_position_jfponi_k$())};
     var currentPosP = {_v: decodePosition(p._v.get_position_jfponi_k$())};
     var tmp_1 = p._v;
-    var tmp_2 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda_1(newPositionP));
-    draggableCloseable(tmp_1, tmp_2, false, GameScene$sceneMain$lambda_2(p, currentPosP, newPositionP));
+    var tmp_2 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda_1(newPositionP, currentPosP));
+    draggableCloseable(tmp_1, tmp_2, false, GameScene$sceneMain$lambda_2(currentPosP, newPositionP, p));
     return Unit_getInstance();
   };
   function moveChecker(oldPos, newPos, kind) {
@@ -567,6 +563,7 @@
         noWhenBranchMatchedException();
         break;
     }
+    return false;
   }
   function main$slambda$lambda(it) {
     return it instanceof FixedSizeContainer;

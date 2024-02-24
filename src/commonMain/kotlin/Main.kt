@@ -43,7 +43,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
-        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
+        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 2, 2, cont = cont)
         var z = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
         pieces.add(p)
         pieces.add(z)
