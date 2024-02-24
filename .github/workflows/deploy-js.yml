@@ -1,3 +1,7 @@
+name: Testing2
+
+on:
+  push
 jobs:
   deploy:
     steps:
