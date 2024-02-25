@@ -42,12 +42,12 @@
   var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.z1;
   var Colors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.z1;
   var Korge = kotlin_com_soywiz_korge_korge.$_$.b;
+  var Unit_getInstance = kotlin_kotlin.$_$.c6;
+  var ensureNotNull = kotlin_kotlin.$_$.sl;
   var PixelatedScene = kotlin_com_soywiz_korge_korge.$_$.l;
   var get_isEven = kotlin_com_soywiz_korge_korge_foundation.$_$.zf;
-  var Unit_getInstance = kotlin_kotlin.$_$.c6;
   var onMouseDrag = kotlin_com_soywiz_korge_korge.$_$.j;
   var draggableCloseable = kotlin_com_soywiz_korge_korge.$_$.h;
-  var noWhenBranchMatchedException = kotlin_kotlin.$_$.yl;
   var FixedSizeContainer = kotlin_com_soywiz_korge_korge.$_$.p;
   var CoroutineImpl = kotlin_kotlin.$_$.od;
   var Stage = kotlin_com_soywiz_korge_korge.$_$.q;
@@ -82,7 +82,6 @@
   var Vector2D = kotlin_com_soywiz_korge_korge_foundation.$_$.ge;
   var get_mouse = kotlin_com_soywiz_korge_korge.$_$.i;
   var MouseEvents = kotlin_com_soywiz_korge_korge.$_$.g;
-  var ensureNotNull = kotlin_kotlin.$_$.sl;
   var launchImmediately = kotlin_com_soywiz_korge_korge_core.$_$.o4;
   var View = kotlin_com_soywiz_korge_korge.$_$.r;
   var View_init_$Init$ = kotlin_com_soywiz_korge_korge.$_$.d;
@@ -447,6 +446,41 @@
   function _get_cont__d4zd5l($this) {
     return $this.cont_1;
   }
+  function GameScene$sceneMain$lambda($newPosition) {
+    return function ($this$onMouseDrag, it) {
+      $newPosition._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
+      return Unit_getInstance();
+    };
+  }
+  function GameScene$sceneMain$lambda_0($newPosition, $currentPos, $piss) {
+    return function (info) {
+      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
+      var tmp;
+      if (info.get_start_iypx6h_k$()) {
+        var tmp0_iterator = get_pieces().iterator_jk1svi_k$();
+        while (tmp0_iterator.hasNext_bitz1p_k$()) {
+          var piece = tmp0_iterator.next_20eer_k$();
+          if (piece.get_position_jfponi_k$().equals(get_board()[ensureNotNull($newPosition._v).get_second_jf7fjx_k$()][ensureNotNull($newPosition._v).get_first_irdx8n_k$()].get_pos_18iyad_k$())) {
+            println('' + piece.get_pieceKind_ae3sop_k$());
+            $currentPos._v = $newPosition._v;
+            $piss._v = piece;
+          }
+        }
+        tmp = Unit_getInstance();
+      }
+      var tmp_0;
+      if (info.get_end_18j6ha_k$()) {
+        println('End');
+        var tmp_1;
+        if (moveChecker(ensureNotNull($currentPos._v), ensureNotNull($newPosition._v), ensureNotNull($piss._v).get_pieceKind_ae3sop_k$())) {
+          ensureNotNull($piss._v).moveTo_tor82s_k$(ensureNotNull($newPosition._v).get_first_irdx8n_k$(), ensureNotNull($newPosition._v).get_second_jf7fjx_k$());
+          tmp_1 = Unit_getInstance();
+        }
+        tmp_0 = tmp_1;
+      }
+      return Unit_getInstance();
+    };
+  }
   function GameScene(cont) {
     PixelatedScene.call(this, 512, 512);
     this.cont_1 = cont;
@@ -474,47 +508,56 @@
         d = d + 1 | 0;
       }
        while (inductionVariable < 8);
-    var p = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 2, this.cont_1);
-    var z = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1);
-    get_pieces().add_utx5q5_k$(p);
-    get_pieces().add_utx5q5_k$(z);
-    var newPositionZ = decodePosition(z.get_position_jfponi_k$());
-    var currentPosZ = decodePosition(z.get_position_jfponi_k$());
-    dragPiece(z);
-    dragPiece(p);
+    var pw1 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 0, 1, this.cont_1);
+    var pb1 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 0, 6, this.cont_1);
+    var pw2 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 1, this.cont_1);
+    var pb2 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 1, 6, this.cont_1);
+    var pw3 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 2, 1, this.cont_1);
+    var pb3 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 2, 6, this.cont_1);
+    var pw4 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 3, 1, this.cont_1);
+    var pb4 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 3, 6, this.cont_1);
+    var pw5 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 4, 1, this.cont_1);
+    var pb5 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 4, 6, this.cont_1);
+    var pw6 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 5, 1, this.cont_1);
+    var pb6 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1);
+    var pw7 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 6, 1, this.cont_1);
+    var pb7 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 6, 6, this.cont_1);
+    var pw8 = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 7, 1, this.cont_1);
+    var pb8 = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 7, 6, this.cont_1);
+    get_pieces().add_utx5q5_k$(pw1);
+    get_pieces().add_utx5q5_k$(pb1);
+    get_pieces().add_utx5q5_k$(pw2);
+    get_pieces().add_utx5q5_k$(pb2);
+    get_pieces().add_utx5q5_k$(pw3);
+    get_pieces().add_utx5q5_k$(pb3);
+    get_pieces().add_utx5q5_k$(pw4);
+    get_pieces().add_utx5q5_k$(pb4);
+    get_pieces().add_utx5q5_k$(pw5);
+    get_pieces().add_utx5q5_k$(pb5);
+    get_pieces().add_utx5q5_k$(pw6);
+    get_pieces().add_utx5q5_k$(pb6);
+    get_pieces().add_utx5q5_k$(pw7);
+    get_pieces().add_utx5q5_k$(pb7);
+    get_pieces().add_utx5q5_k$(pw8);
+    get_pieces().add_utx5q5_k$(pb8);
+    var newPosition = {_v: null};
+    var currentPos = {_v: null};
+    var piss = {_v: null};
+    var tmp = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda(newPosition));
+    draggableCloseable(_this__u8e3s4, tmp, false, GameScene$sceneMain$lambda_0(newPosition, currentPos, piss));
     return Unit_getInstance();
   };
-  function dragPiece(piece) {
-    _init_properties_Main_kt__xi25uv();
-    var newPosition = {_v: decodePosition(piece.get_position_jfponi_k$())};
-    var currentPos = {_v: decodePosition(piece.get_position_jfponi_k$())};
-    var tmp = onMouseDrag(piece, VOID, VOID, dragPiece$lambda(newPosition, currentPos));
-    draggableCloseable(piece, tmp, VOID, dragPiece$lambda_0(currentPos, newPosition, piece));
-  }
   function moveChecker(oldPos, newPos, kind) {
     _init_properties_Main_kt__xi25uv();
-    switch (kind.get_ordinal_ip24qg_k$()) {
-      case 1:
-        if (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) {
-          return true;
-        } else if ((oldPos.get_second_jf7fjx_k$() - newPos.get_second_jf7fjx_k$() | 0) === 1) {
-          return true;
-        } else {
-          return false;
-        }
-
-      case 0:
-        if (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) {
-          return true;
-        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1) {
-          return true;
-        } else {
-          return false;
-        }
-
-      default:
-        noWhenBranchMatchedException();
-        break;
+    var tmp0 = kind.get_ordinal_ip24qg_k$();
+    if (tmp0 === 1) {
+      println('Black Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
+      if (((oldPos.get_second_jf7fjx_k$() - newPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false)
+        return true;
+    } else if (tmp0 === 0) {
+      println('White Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
+      if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false)
+        return true;
     }
     return false;
   }
@@ -698,30 +741,6 @@
     };
     l.$arity = 1;
     return l;
-  }
-  function dragPiece$lambda($newPosition, $currentPos) {
-    return function ($this$onMouseDrag, it) {
-      $newPosition._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
-      println('Old Position ' + $currentPos._v);
-      println('New Position ' + $newPosition._v);
-      return Unit_getInstance();
-    };
-  }
-  function dragPiece$lambda_0($currentPos, $newPosition, $piece) {
-    return function (info) {
-      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
-      var tmp;
-      if (info.get_end_18j6ha_k$()) {
-        println('End');
-        var tmp_0;
-        if (moveChecker($currentPos._v, $newPosition._v, $piece.get_pieceKind_ae3sop_k$())) {
-          $piece.moveTo_tor82s_k$($newPosition._v.get_first_irdx8n_k$(), $newPosition._v.get_second_jf7fjx_k$());
-          tmp_0 = Unit_getInstance();
-        }
-        tmp = tmp_0;
-      }
-      return Unit_getInstance();
-    };
   }
   var properties_initialized_Main_kt_gqj46d;
   function _init_properties_Main_kt__xi25uv() {

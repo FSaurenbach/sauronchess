@@ -41,10 +41,39 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
-        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
-        var z = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
-        pieces.add(p)
-        pieces.add(z)
+        var pw1 = Piece(PieceKind.whitePawn, Colors.WHITE, 0, 1, cont = cont)
+        var pb1 = Piece(PieceKind.blackPawn, Colors.BLACK, 0, 6, cont = cont)
+        var pw2 = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
+        var pb2 = Piece(PieceKind.blackPawn, Colors.BLACK, 1, 6, cont = cont)
+        var pw3 = Piece(PieceKind.whitePawn, Colors.WHITE, 2, 1, cont = cont)
+        var pb3 = Piece(PieceKind.blackPawn, Colors.BLACK, 2, 6, cont = cont)
+        var pw4 = Piece(PieceKind.whitePawn, Colors.WHITE, 3, 1, cont = cont)
+        var pb4 = Piece(PieceKind.blackPawn, Colors.BLACK, 3, 6, cont = cont)
+        var pw5 = Piece(PieceKind.whitePawn, Colors.WHITE, 4, 1, cont = cont)
+        var pb5 = Piece(PieceKind.blackPawn, Colors.BLACK, 4, 6, cont = cont)
+        var pw6 = Piece(PieceKind.whitePawn, Colors.WHITE, 5, 1, cont = cont)
+        var pb6 = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
+        var pw7 = Piece(PieceKind.whitePawn, Colors.WHITE, 6, 1, cont = cont)
+        var pb7 = Piece(PieceKind.blackPawn, Colors.BLACK, 6, 6, cont = cont)
+        var pw8 = Piece(PieceKind.whitePawn, Colors.WHITE, 7, 1, cont = cont)
+        var pb8 = Piece(PieceKind.blackPawn, Colors.BLACK, 7, 6, cont = cont)
+        pieces.add(pw1)
+        pieces.add(pb1)
+        pieces.add(pw2)
+        pieces.add(pb2)
+        pieces.add(pw3)
+        pieces.add(pb3)
+        pieces.add(pw4)
+        pieces.add(pb4)
+        pieces.add(pw5)
+        pieces.add(pb5)
+        pieces.add(pw6)
+        pieces.add(pb6)
+        pieces.add(pw7)
+        pieces.add(pb7)
+        pieces.add(pw8)
+        pieces.add(pb8)
+
 
 
         var newPosition: Pair<Int, Int>? = null
