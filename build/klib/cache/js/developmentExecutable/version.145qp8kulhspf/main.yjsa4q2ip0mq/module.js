@@ -438,6 +438,15 @@
     return pieces;
   }
   var pieces;
+  function set_whiteTurn(_set____db54di) {
+    _init_properties_Main_kt__xi25uv();
+    whiteTurn = _set____db54di;
+  }
+  function get_whiteTurn() {
+    _init_properties_Main_kt__xi25uv();
+    return whiteTurn;
+  }
+  var whiteTurn;
   function main($completion) {
     var tmp = Size2D_init_$Create$(512, 512);
     var tmp_0 = Colors_getInstance().get_4ig539_k$('#2b2b2b');
@@ -549,15 +558,27 @@
   };
   function moveChecker(oldPos, newPos, kind) {
     _init_properties_Main_kt__xi25uv();
-    var tmp0 = kind.get_ordinal_ip24qg_k$();
-    if (tmp0 === 1) {
-      println('Black Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
-      if (((oldPos.get_second_jf7fjx_k$() - newPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false)
-        return true;
-    } else if (tmp0 === 0) {
-      println('White Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
-      if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false)
-        return true;
+    if (get_whiteTurn()) {
+      if (kind.get_ordinal_ip24qg_k$() === 0) {
+        println('White Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
+        if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
+          set_whiteTurn(false);
+          return true;
+        }
+      } else {
+        return false;
+      }
+    }
+    if (!get_whiteTurn()) {
+      if (kind.get_ordinal_ip24qg_k$() === 1) {
+        println('Black Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
+        if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === -1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
+          set_whiteTurn(true);
+          return true;
+        }
+      } else {
+        return false;
+      }
     }
     return false;
   }
@@ -766,6 +787,7 @@
       blackPawn = null;
       lastClicked = null;
       pieces = ArrayList_init_$Create$();
+      whiteTurn = true;
     }
   }
   var PieceKind_whitePawn_instance;

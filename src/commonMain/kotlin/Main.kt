@@ -14,6 +14,7 @@ var whitePawn: Bitmap? = null
 var blackPawn: Bitmap? = null
 var lastClicked: Point? = null
 var pieces = ArrayList<Piece>()
+var whiteTurn = true
 suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
     val sceneContainer = sceneContainer()
 
@@ -75,19 +76,13 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         pieces.add(pb8)
 
 
-
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var piss: Piece? = null
-        draggableCloseable(
-            onMouseDrag {
-                newPosition = decodePosition(this.globalMousePos)
+        draggableCloseable(onMouseDrag {
+            newPosition = decodePosition(this.globalMousePos)
 
-                // Ensure the piece is moving forward
-
-
-            }, false
-        ) { info: DraggableInfo ->
+        }) { info: DraggableInfo ->
             info.view.x = info.viewNextXY.x
             if (info.start) {
                 for (piece in pieces) {
@@ -96,6 +91,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         println("${piece.pieceKind}")
                         currentPos = newPosition
                         piss = piece
+
 
                     }
                 }
@@ -108,6 +104,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind)) piss!!.moveTo(
                     newPosition!!.first, newPosition!!.second
                 )
+                else piss!!.moveTo(currentPos!!.first, currentPos!!.second)
 
             }
         }
@@ -119,19 +116,48 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 }
 
 fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind): Boolean {
-    when (kind) {
+    println("oldPos: $oldPos")
+    println("newPos: $newPos")
 
-        PieceKind.blackPawn -> {
-            println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
-            if ((oldPos.second - newPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) return true
+    var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
+    println("Destiny: $destiny")
+    if (destiny != null) {
+            pieces.remove(destiny)
+            destiny.piece.removeFromParent()
+
+    }
+
+
+
+    if (whiteTurn) {
+        when (kind) {
+            PieceKind.whitePawn -> {
+                println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
+                if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
+                    whiteTurn = false
+                    return true
+                }
+            }
+
+            else -> {
+                return false
+            }
         }
+    }
+    if (!whiteTurn) {
+        when (kind) {
+            PieceKind.blackPawn -> {
+                println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
+                if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
+                    whiteTurn = true
+                    return true
+                }
+            }
 
-        PieceKind.whitePawn -> {
-            println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
-            if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) return true
+            else -> {
+                return false
+            }
         }
-
-
     }
     return false
 }
