@@ -28,7 +28,7 @@ fun decode2(cx: Double, cy: Double): Point {
 class Piece(kind: PieceKind, color: RGBA, cx: Int, cy: Int, cont: SceneContainer) : View() {
 
     var pieceKind: PieceKind = kind
-    lateinit var piece:Image
+    lateinit var piece: Image
     var position = board[cx][cy].pos
 
     init {
@@ -52,6 +52,7 @@ class Piece(kind: PieceKind, color: RGBA, cx: Int, cy: Int, cont: SceneContainer
         //clickListener(cx, cy)
 
     }
+
 
 
     fun moveTo(cx: Int, cy: Int) {

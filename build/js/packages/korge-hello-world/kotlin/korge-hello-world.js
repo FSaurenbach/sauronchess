@@ -42,9 +42,9 @@
   var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.z1;
   var Colors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.z1;
   var Korge = kotlin_com_soywiz_korge_korge.$_$.b;
-  var Unit_getInstance = kotlin_kotlin.$_$.c6;
   var PixelatedScene = kotlin_com_soywiz_korge_korge.$_$.l;
   var get_isEven = kotlin_com_soywiz_korge_korge_foundation.$_$.zf;
+  var Unit_getInstance = kotlin_kotlin.$_$.c6;
   var onMouseDrag = kotlin_com_soywiz_korge_korge.$_$.j;
   var draggableCloseable = kotlin_com_soywiz_korge_korge.$_$.h;
   var noWhenBranchMatchedException = kotlin_kotlin.$_$.yl;
@@ -447,54 +447,6 @@
   function _get_cont__d4zd5l($this) {
     return $this.cont_1;
   }
-  function GameScene$sceneMain$lambda($newPositionZ, $currentPosZ) {
-    return function ($this$onMouseDrag, it) {
-      $newPositionZ._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
-      println('Old Position ' + $currentPosZ._v);
-      println('New Position ' + $newPositionZ._v);
-      return Unit_getInstance();
-    };
-  }
-  function GameScene$sceneMain$lambda_0($currentPosZ, $newPositionZ, $z) {
-    return function (info) {
-      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
-      var tmp;
-      if (info.get_end_18j6ha_k$()) {
-        println('End');
-        var tmp_0;
-        if (moveChecker($currentPosZ._v, $newPositionZ._v, $z._v.get_pieceKind_ae3sop_k$())) {
-          $z._v.moveTo_tor82s_k$($newPositionZ._v.get_first_irdx8n_k$(), $newPositionZ._v.get_second_jf7fjx_k$());
-          tmp_0 = Unit_getInstance();
-        }
-        tmp = tmp_0;
-      }
-      return Unit_getInstance();
-    };
-  }
-  function GameScene$sceneMain$lambda_1($newPositionP, $currentPosP) {
-    return function ($this$onMouseDrag, it) {
-      $newPositionP._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
-      println('Old Position ' + $currentPosP._v);
-      println('New Position ' + $newPositionP._v);
-      return Unit_getInstance();
-    };
-  }
-  function GameScene$sceneMain$lambda_2($currentPosP, $newPositionP, $p) {
-    return function (info) {
-      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
-      var tmp;
-      if (info.get_end_18j6ha_k$()) {
-        println('End');
-        var tmp_0;
-        if (moveChecker($currentPosP._v, $newPositionP._v, $p._v.get_pieceKind_ae3sop_k$())) {
-          $p._v.moveTo_tor82s_k$($newPositionP._v.get_first_irdx8n_k$(), $newPositionP._v.get_second_jf7fjx_k$());
-          tmp_0 = Unit_getInstance();
-        }
-        tmp = tmp_0;
-      }
-      return Unit_getInstance();
-    };
-  }
   function GameScene(cont) {
     PixelatedScene.call(this, 512, 512);
     this.cont_1 = cont;
@@ -522,22 +474,23 @@
         d = d + 1 | 0;
       }
        while (inductionVariable < 8);
-    var p = {_v: new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 2, this.cont_1)};
-    var z = {_v: new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1)};
-    get_pieces().add_utx5q5_k$(p._v);
-    get_pieces().add_utx5q5_k$(z._v);
-    var newPositionZ = {_v: decodePosition(z._v.get_position_jfponi_k$())};
-    var currentPosZ = {_v: decodePosition(z._v.get_position_jfponi_k$())};
-    var tmp = z._v;
-    var tmp_0 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda(newPositionZ, currentPosZ));
-    draggableCloseable(tmp, tmp_0, false, GameScene$sceneMain$lambda_0(currentPosZ, newPositionZ, z));
-    var newPositionP = {_v: decodePosition(p._v.get_position_jfponi_k$())};
-    var currentPosP = {_v: decodePosition(p._v.get_position_jfponi_k$())};
-    var tmp_1 = p._v;
-    var tmp_2 = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda_1(newPositionP, currentPosP));
-    draggableCloseable(tmp_1, tmp_2, false, GameScene$sceneMain$lambda_2(currentPosP, newPositionP, p));
+    var p = new Piece(PieceKind_whitePawn_getInstance(), Colors_getInstance().get_WHITE_2x68tz_k$(), 1, 2, this.cont_1);
+    var z = new Piece(PieceKind_blackPawn_getInstance(), Colors_getInstance().get_BLACK_k2cofn_k$(), 5, 6, this.cont_1);
+    get_pieces().add_utx5q5_k$(p);
+    get_pieces().add_utx5q5_k$(z);
+    var newPositionZ = decodePosition(z.get_position_jfponi_k$());
+    var currentPosZ = decodePosition(z.get_position_jfponi_k$());
+    dragPiece(z);
+    dragPiece(p);
     return Unit_getInstance();
   };
+  function dragPiece(piece) {
+    _init_properties_Main_kt__xi25uv();
+    var newPosition = {_v: decodePosition(piece.get_position_jfponi_k$())};
+    var currentPos = {_v: decodePosition(piece.get_position_jfponi_k$())};
+    var tmp = onMouseDrag(piece, VOID, VOID, dragPiece$lambda(newPosition, currentPos));
+    draggableCloseable(piece, tmp, VOID, dragPiece$lambda_0(currentPos, newPosition, piece));
+  }
   function moveChecker(oldPos, newPos, kind) {
     _init_properties_Main_kt__xi25uv();
     switch (kind.get_ordinal_ip24qg_k$()) {
@@ -745,6 +698,30 @@
     };
     l.$arity = 1;
     return l;
+  }
+  function dragPiece$lambda($newPosition, $currentPos) {
+    return function ($this$onMouseDrag, it) {
+      $newPosition._v = decodePosition($this$onMouseDrag.get_globalMousePos_si87y3_k$());
+      println('Old Position ' + $currentPos._v);
+      println('New Position ' + $newPosition._v);
+      return Unit_getInstance();
+    };
+  }
+  function dragPiece$lambda_0($currentPos, $newPosition, $piece) {
+    return function (info) {
+      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
+      var tmp;
+      if (info.get_end_18j6ha_k$()) {
+        println('End');
+        var tmp_0;
+        if (moveChecker($currentPos._v, $newPosition._v, $piece.get_pieceKind_ae3sop_k$())) {
+          $piece.moveTo_tor82s_k$($newPosition._v.get_first_irdx8n_k$(), $newPosition._v.get_second_jf7fjx_k$());
+          tmp_0 = Unit_getInstance();
+        }
+        tmp = tmp_0;
+      }
+      return Unit_getInstance();
+    };
   }
   var properties_initialized_Main_kt_gqj46d;
   function _init_properties_Main_kt__xi25uv() {

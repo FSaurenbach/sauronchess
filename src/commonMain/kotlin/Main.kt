@@ -23,8 +23,6 @@ suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors
 }
 
 
-
-
 class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
 
@@ -49,63 +47,51 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         pieces.add(z)
 
 
+        var newPosition: Pair<Int, Int>? = null
+        var currentPos: Pair<Int, Int>? = null
+        var piss: Piece? = null
+        draggableCloseable(
+            onMouseDrag {
+                newPosition = decodePosition(this.globalMousePos)
 
-        var newPositionZ:Pair<Int, Int> = decodePosition(z.position)
-        var currentPosZ:Pair<Int, Int> = decodePosition(z.position)
-
-        z.draggableCloseable(
-             onMouseDrag {
-                 newPositionZ = decodePosition(this.globalMousePos)
-
-                 // Ensure the piece is moving forward
-                 println("Old Position $currentPosZ")
-                 println("New Position $newPositionZ")
+                // Ensure the piece is moving forward
 
 
+            }, false
+        ) { info: DraggableInfo ->
+            info.view.x = info.viewNextXY.x
+            if (info.start) {
+                currentPos = decodePosition(info.viewNextXY)
+                for (piece in pieces) {
 
+                    if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
+                        println("${piece.pieceKind}")
+                        piss = piece
 
-             },
-             false
-         ) { info: DraggableInfo ->
-             info.view.x = info.viewNextXY.x
-                if (info.end){
-                    println("End")
-                    if (moveChecker(currentPosZ, newPositionZ, z.pieceKind)) z.moveTo(newPositionZ.first, newPositionZ.second)
+                    }
                 }
 
 
+            }
+            if (info.end) {
 
-         }
-        var newPositionP:Pair<Int, Int> = decodePosition(p.position)
-        var currentPosP:Pair<Int, Int> = decodePosition(p.position)
-        p.draggableCloseable(
-            onMouseDrag {
-                newPositionP = decodePosition(this.globalMousePos)
-
-                // Ensure the piece is moving forward
-                println("Old Position $currentPosP")
-                println("New Position $newPositionP")
-
-
-
-            },
-            false
-        ) { info: DraggableInfo ->
-            info.view.x = info.viewNextXY.x
-            if (info.end){
                 println("End")
-                if (moveChecker(currentPosP, newPositionP, p.pieceKind)) p.moveTo(newPositionP.first, newPositionP.second)
+                if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind)) piss!!.moveTo(
+                    newPosition!!.first, newPosition!!.second
+                )
+
             }
         }
 
 
-
     }
-    
+
 
 }
+
 fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind): Boolean {
-    when (kind){
+    return true
+    when (kind) {
 
         // General Code for moving black and white pawns in chess
         PieceKind.blackPawn -> {
@@ -113,22 +99,20 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
                 return true
             } else if (oldPos.second - newPos.second == 1) {
                 return true
-            }
-            else {
+            } else {
                 return false
             }
         }
+
         PieceKind.whitePawn -> {
             if (oldPos.second == 1 && newPos.second == 3) {
                 return true
             } else if (newPos.second - oldPos.second == 1) {
                 return true
-            }
-            else {
+            } else {
                 return false
             }
         }
-
 
 
     }
