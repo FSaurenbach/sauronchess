@@ -41,7 +41,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
-        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 2, cont = cont)
+        var p = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
         var z = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
         pieces.add(p)
         pieces.add(z)
@@ -61,11 +61,11 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         ) { info: DraggableInfo ->
             info.view.x = info.viewNextXY.x
             if (info.start) {
-                currentPos = decodePosition(info.viewNextXY)
                 for (piece in pieces) {
 
                     if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
                         println("${piece.pieceKind}")
+                        currentPos = newPosition
                         piss = piece
 
                     }
@@ -90,28 +90,16 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 }
 
 fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind): Boolean {
-    return true
     when (kind) {
 
-        // General Code for moving black and white pawns in chess
         PieceKind.blackPawn -> {
-            if (oldPos.second == 6 && newPos.second == 4) {
-                return true
-            } else if (oldPos.second - newPos.second == 1) {
-                return true
-            } else {
-                return false
-            }
+            println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
+            if ((oldPos.second - newPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) return true
         }
 
         PieceKind.whitePawn -> {
-            if (oldPos.second == 1 && newPos.second == 3) {
-                return true
-            } else if (newPos.second - oldPos.second == 1) {
-                return true
-            } else {
-                return false
-            }
+            println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
+            if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) return true
         }
 
 
