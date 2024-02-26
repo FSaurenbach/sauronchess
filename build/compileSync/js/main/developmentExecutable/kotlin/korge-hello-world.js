@@ -484,6 +484,9 @@
         if (moveChecker(ensureNotNull($currentPos._v), ensureNotNull($newPosition._v), ensureNotNull($piss._v).get_pieceKind_ae3sop_k$())) {
           ensureNotNull($piss._v).moveTo_tor82s_k$(ensureNotNull($newPosition._v).get_first_irdx8n_k$(), ensureNotNull($newPosition._v).get_second_jf7fjx_k$());
           tmp_1 = Unit_getInstance();
+        } else {
+          ensureNotNull($piss._v).moveTo_tor82s_k$(ensureNotNull($currentPos._v).get_first_irdx8n_k$(), ensureNotNull($currentPos._v).get_second_jf7fjx_k$());
+          tmp_1 = Unit_getInstance();
         }
         tmp_0 = tmp_1;
       }
@@ -553,17 +556,44 @@
     var currentPos = {_v: null};
     var piss = {_v: null};
     var tmp = onMouseDrag(_this__u8e3s4, VOID, VOID, GameScene$sceneMain$lambda(newPosition));
-    draggableCloseable(_this__u8e3s4, tmp, false, GameScene$sceneMain$lambda_0(newPosition, currentPos, piss));
+    draggableCloseable(_this__u8e3s4, tmp, VOID, GameScene$sceneMain$lambda_0(newPosition, currentPos, piss));
     return Unit_getInstance();
   };
   function moveChecker(oldPos, newPos, kind) {
     _init_properties_Main_kt__xi25uv();
+    println('oldPos: ' + oldPos);
+    println('newPos: ' + newPos);
     if (get_whiteTurn()) {
       if (kind.get_ordinal_ip24qg_k$() === 0) {
         println('White Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
         if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
           set_whiteTurn(false);
           return true;
+        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === 1 ? true : (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === -1 : false) {
+          // Inline function 'kotlin.collections.find' call
+          var this_0 = get_pieces();
+          var tmp$ret$1;
+          $l$block: {
+            // Inline function 'kotlin.collections.firstOrNull' call
+            var tmp0_iterator = this_0.iterator_jk1svi_k$();
+            while (tmp0_iterator.hasNext_bitz1p_k$()) {
+              var element = tmp0_iterator.next_20eer_k$();
+              // Inline function 'moveChecker.<anonymous>' call
+              if (element.get_position_jfponi_k$().equals(get_board()[newPos.get_second_jf7fjx_k$()][newPos.get_first_irdx8n_k$()].get_pos_18iyad_k$())) {
+                tmp$ret$1 = element;
+                break $l$block;
+              }
+            }
+            tmp$ret$1 = null;
+          }
+          var destiny = tmp$ret$1;
+          println('Destiny: ' + destiny);
+          if (!(destiny == null)) {
+            get_pieces().remove_cedx0m_k$(destiny);
+            destiny.get_piece_iwvl51_k$().removeFromParent_owh2k8_k$();
+            set_whiteTurn(false);
+            return true;
+          }
         }
       } else {
         return false;
@@ -575,6 +605,31 @@
         if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === -1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
           set_whiteTurn(true);
           return true;
+        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === -1 ? (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === 1 ? true : (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === -1 : false) {
+          // Inline function 'kotlin.collections.find' call
+          var this_1 = get_pieces();
+          var tmp$ret$4;
+          $l$block_0: {
+            // Inline function 'kotlin.collections.firstOrNull' call
+            var tmp0_iterator_0 = this_1.iterator_jk1svi_k$();
+            while (tmp0_iterator_0.hasNext_bitz1p_k$()) {
+              var element_0 = tmp0_iterator_0.next_20eer_k$();
+              // Inline function 'moveChecker.<anonymous>' call
+              if (element_0.get_position_jfponi_k$().equals(get_board()[newPos.get_second_jf7fjx_k$()][newPos.get_first_irdx8n_k$()].get_pos_18iyad_k$())) {
+                tmp$ret$4 = element_0;
+                break $l$block_0;
+              }
+            }
+            tmp$ret$4 = null;
+          }
+          var destiny_0 = tmp$ret$4;
+          println('Destiny: ' + destiny_0);
+          if (!(destiny_0 == null)) {
+            get_pieces().remove_cedx0m_k$(destiny_0);
+            destiny_0.get_piece_iwvl51_k$().removeFromParent_owh2k8_k$();
+            set_whiteTurn(true);
+            return true;
+          }
         }
       } else {
         return false;
