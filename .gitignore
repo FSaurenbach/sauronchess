@@ -11,3 +11,4 @@ local.properties
 src/main/*
 .DS_Store
 
+/build/
