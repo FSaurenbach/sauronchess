@@ -1,5 +1,0 @@
-C:\Users\ferdi\Pictures\Chess\build\KR\KR.kt
-C:\Users\ferdi\Pictures\Chess\src\commonMain\kotlin\main.kt
-C:\Users\ferdi\Pictures\Chess\build\platforms\android\androisrc\MainActivity.kt
-C:\Users\ferdi\Pictures\Chess\src\commonMain\kotlin\Piece.kt
-C:\Users\ferdi\Pictures\Chess\src\commonMain\kotlin\Cell.kt

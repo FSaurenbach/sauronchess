@@ -1,6 +1,0 @@
-R_DEF: Internal format may change without notice
-local
-drawable app_banner
-drawable app_icon
-mipmap icon
-style AppThemeOverride
