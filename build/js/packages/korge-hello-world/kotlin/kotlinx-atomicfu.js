@@ -21,7 +21,7 @@
   var objectMeta = kotlin_kotlin.$_$.zf;
   var toString = kotlin_kotlin.$_$.fg;
   var VOID = kotlin_kotlin.$_$.h;
-  var toString_0 = kotlin_kotlin.$_$.gm;
+  var toString_0 = kotlin_kotlin.$_$.hm;
   //endregion
   //region block: pre-declaration
   setMetadataFor(atomicfu$AtomicRefArray$ref, 'AtomicArray', classMeta);

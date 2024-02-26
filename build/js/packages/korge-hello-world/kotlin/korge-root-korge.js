@@ -28,6 +28,7 @@
   'use strict';
   //region block: imports
   var imul = Math.imul;
+  var log2 = Math.log2;
   var protoOf = kotlin_kotlin.$_$.ag;
   var cancel = kotlin_com_soywiz_korge_korge_core.$_$.g5;
   var CloseableCancellable = kotlin_com_soywiz_korge_korge_core.$_$.h5;
@@ -36,16 +37,16 @@
   var VOID = kotlin_kotlin.$_$.h;
   var FastArrayList_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.n1;
   var Unit_getInstance = kotlin_kotlin.$_$.c6;
-  var FastIdentityMap = kotlin_com_soywiz_korge_korge_foundation.$_$.f7;
+  var FastIdentityMap = kotlin_com_soywiz_korge_korge_foundation.$_$.j7;
   var ensureNotNull = kotlin_kotlin.$_$.sl;
-  var get = kotlin_com_soywiz_korge_korge_foundation.$_$.k8;
-  var set = kotlin_com_soywiz_korge_korge_foundation.$_$.s8;
-  var clear = kotlin_com_soywiz_korge_korge_foundation.$_$.z7;
-  var get_keys = kotlin_com_soywiz_korge_korge_foundation.$_$.n8;
+  var get = kotlin_com_soywiz_korge_korge_foundation.$_$.o8;
+  var set = kotlin_com_soywiz_korge_korge_foundation.$_$.w8;
+  var clear = kotlin_com_soywiz_korge_korge_foundation.$_$.d8;
+  var get_keys = kotlin_com_soywiz_korge_korge_foundation.$_$.r8;
   var toList = kotlin_kotlin.$_$.ac;
   var THROW_CCE = kotlin_kotlin.$_$.zk;
-  var toFastList = kotlin_com_soywiz_korge_korge_foundation.$_$.w8;
-  var Extra = kotlin_com_soywiz_korge_korge_foundation.$_$.d7;
+  var toFastList = kotlin_com_soywiz_korge_korge_foundation.$_$.a9;
+  var Extra = kotlin_com_soywiz_korge_korge_foundation.$_$.h7;
   var toString = kotlin_kotlin.$_$.fg;
   var IllegalStateException_init_$Create$ = kotlin_kotlin.$_$.g2;
   var CancellableGroup = kotlin_com_soywiz_korge_korge_core.$_$.f5;
@@ -58,19 +59,19 @@
   var equals = kotlin_kotlin.$_$.me;
   var _Char___init__impl__6a9atx = kotlin_kotlin.$_$.k3;
   var Companion_getInstance = kotlin_kotlin.$_$.t5;
-  var Companion_getInstance_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.p6;
+  var Companion_getInstance_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.t6;
   var toString_0 = kotlin_kotlin.$_$.s3;
   var Char = kotlin_kotlin.$_$.lk;
   var Char__hashCode_impl_otmys = kotlin_kotlin.$_$.m3;
   var getBooleanHashCode = kotlin_kotlin.$_$.re;
   var getStringHashCode = kotlin_kotlin.$_$.ve;
-  var Vector2I = kotlin_com_soywiz_korge_korge_foundation.$_$.ie;
-  var Companion_getInstance_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.i6;
-  var Mixin = kotlin_com_soywiz_korge_korge_foundation.$_$.a7;
-  var get_niceStr = kotlin_com_soywiz_korge_korge_foundation.$_$.ol;
+  var Vector2I = kotlin_com_soywiz_korge_korge_foundation.$_$.ne;
+  var Companion_getInstance_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.m6;
+  var Mixin = kotlin_com_soywiz_korge_korge_foundation.$_$.e7;
+  var get_niceStr = kotlin_com_soywiz_korge_korge_foundation.$_$.tl;
   var Companion_getInstance_2 = kotlin_com_soywiz_korge_korlibs_time.$_$.i;
   var fillArrayVal = kotlin_kotlin.$_$.oe;
-  var FastIntMap = kotlin_com_soywiz_korge_korge_foundation.$_$.g7;
+  var FastIntMap = kotlin_com_soywiz_korge_korge_foundation.$_$.k7;
   var joinToString = kotlin_kotlin.$_$.r9;
   var DateTime = kotlin_com_soywiz_korge_korlibs_time.$_$.m;
   var DateTime__hashCode_impl_yf0bc9 = kotlin_com_soywiz_korge_korlibs_time.$_$.a;
@@ -81,55 +82,55 @@
   var ArrayList_init_$Create$ = kotlin_kotlin.$_$.v;
   var collectionSizeOrDefault = kotlin_kotlin.$_$.h7;
   var ArrayList_init_$Create$_0 = kotlin_kotlin.$_$.u;
-  var arraycopy = kotlin_com_soywiz_korge_korge_foundation.$_$.lh;
-  var Vector2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.e2;
-  var noWhenBranchMatchedException = kotlin_kotlin.$_$.yl;
+  var arraycopy = kotlin_com_soywiz_korge_korge_foundation.$_$.qh;
+  var Vector2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.g2;
+  var noWhenBranchMatchedException = kotlin_kotlin.$_$.zl;
   var StringBuilder_init_$Create$ = kotlin_kotlin.$_$.q1;
-  var get_niceStr_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.pl;
+  var get_niceStr_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.ul;
   var contains = kotlin_kotlin.$_$.sh;
   var booleanArray = kotlin_kotlin.$_$.be;
-  var IntArrayList = kotlin_com_soywiz_korge_korge_foundation.$_$.o7;
+  var IntArrayList = kotlin_com_soywiz_korge_korge_foundation.$_$.s7;
   var get_lastIndex = kotlin_kotlin.$_$.w9;
-  var Companion_getInstance_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.i5;
+  var Companion_getInstance_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.m5;
   var Level_INFO_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.c;
   var Colors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.z1;
   var RGBA = kotlin_com_soywiz_korge_korge_core.$_$.h3;
   var emptySet = kotlin_kotlin.$_$.s8;
-  var _Int8Buffer___init__impl__e20lvc = kotlin_com_soywiz_korge_korge_foundation.$_$.l4;
-  var _Int8Buffer___get_buffer__impl__q0gulb = kotlin_com_soywiz_korge_korge_foundation.$_$.m4;
-  var Companion_getInstance_4 = kotlin_com_soywiz_korge_korge_foundation.$_$.n6;
-  var _Uint8Buffer___get_buffer__impl__mscllu = kotlin_com_soywiz_korge_korge_foundation.$_$.a5;
-  var _Float32Buffer___init__impl__403k2m = kotlin_com_soywiz_korge_korge_foundation.$_$.c4;
-  var _Float32Buffer___get_buffer__impl__x5nu9x = kotlin_com_soywiz_korge_korge_foundation.$_$.d4;
-  var _Int32Buffer___init__impl__o98lxn = kotlin_com_soywiz_korge_korge_foundation.$_$.i4;
-  var _Int32Buffer___get_buffer__impl__dnrimm = kotlin_com_soywiz_korge_korge_foundation.$_$.j4;
-  var _Int16Buffer___init__impl__dw7hol = kotlin_com_soywiz_korge_korge_foundation.$_$.g4;
-  var _Int16Buffer___get_buffer__impl__eo253o = kotlin_com_soywiz_korge_korge_foundation.$_$.h4;
-  var sliceWithSize = kotlin_com_soywiz_korge_korge_foundation.$_$.ml;
-  var get_size = kotlin_com_soywiz_korge_korge_foundation.$_$.kl;
-  var arrayequal = kotlin_com_soywiz_korge_korge_foundation.$_$.vh;
-  var clone = kotlin_com_soywiz_korge_korge_foundation.$_$.di;
   var objectCreate = kotlin_kotlin.$_$.yf;
-  var RectangleI_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.w1;
+  var RectangleI_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.y1;
   var Long = kotlin_kotlin.$_$.tk;
   var NullBitmap = kotlin_com_soywiz_korge_korge_core.$_$.z2;
-  var Companion_getInstance_5 = kotlin_com_soywiz_korge_korge_foundation.$_$.l6;
-  var Closeable = kotlin_com_soywiz_korge_korge_foundation.$_$.q6;
+  var Companion_getInstance_4 = kotlin_com_soywiz_korge_korge_foundation.$_$.p6;
+  var Closeable = kotlin_com_soywiz_korge_korge_foundation.$_$.u6;
+  var extract = kotlin_com_soywiz_korge_korge_foundation.$_$.pi;
+  var insert5 = kotlin_com_soywiz_korge_korge_foundation.$_$.uk;
+  var insert2 = kotlin_com_soywiz_korge_korge_foundation.$_$.rk;
+  var insert = kotlin_com_soywiz_korge_korge_foundation.$_$.zk;
   var Level_ERROR_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.b;
   var MultiBitmap = kotlin_com_soywiz_korge_korge_core.$_$.v2;
   var ForcedTexId = kotlin_com_soywiz_korge_korge_core.$_$.u2;
   var isInterface = kotlin_kotlin.$_$.if;
-  var extract = kotlin_com_soywiz_korge_korge_core.$_$.c3;
-  var get_isPowerOfTwo = kotlin_com_soywiz_korge_korge_foundation.$_$.bg;
-  var extract_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.ki;
-  var insert5 = kotlin_com_soywiz_korge_korge_foundation.$_$.pk;
-  var insert2 = kotlin_com_soywiz_korge_korge_foundation.$_$.mk;
-  var insert = kotlin_com_soywiz_korge_korge_foundation.$_$.uk;
+  var extract_0 = kotlin_com_soywiz_korge_korge_core.$_$.c3;
+  var get_isPowerOfTwo = kotlin_com_soywiz_korge_korge_foundation.$_$.gg;
+  var _Int8Buffer___init__impl__e20lvc = kotlin_com_soywiz_korge_korge_foundation.$_$.p4;
+  var _Int8Buffer___get_buffer__impl__q0gulb = kotlin_com_soywiz_korge_korge_foundation.$_$.q4;
+  var Companion_getInstance_5 = kotlin_com_soywiz_korge_korge_foundation.$_$.r6;
+  var _Uint8Buffer___get_buffer__impl__mscllu = kotlin_com_soywiz_korge_korge_foundation.$_$.e5;
+  var _Float32Buffer___init__impl__403k2m = kotlin_com_soywiz_korge_korge_foundation.$_$.g4;
+  var _Float32Buffer___get_buffer__impl__x5nu9x = kotlin_com_soywiz_korge_korge_foundation.$_$.h4;
+  var _Int32Buffer___init__impl__o98lxn = kotlin_com_soywiz_korge_korge_foundation.$_$.m4;
+  var _Int32Buffer___get_buffer__impl__dnrimm = kotlin_com_soywiz_korge_korge_foundation.$_$.n4;
+  var _Int16Buffer___init__impl__dw7hol = kotlin_com_soywiz_korge_korge_foundation.$_$.k4;
+  var _Int16Buffer___get_buffer__impl__eo253o = kotlin_com_soywiz_korge_korge_foundation.$_$.l4;
+  var sliceWithSize = kotlin_com_soywiz_korge_korge_foundation.$_$.rl;
+  var get_size = kotlin_com_soywiz_korge_korge_foundation.$_$.pl;
+  var arrayequal = kotlin_com_soywiz_korge_korge_foundation.$_$.ai;
+  var clone = kotlin_com_soywiz_korge_korge_foundation.$_$.ii;
   var distinct = kotlin_kotlin.$_$.m8;
   var compareTo = kotlin_kotlin.$_$.je;
   var getOrNull = kotlin_kotlin.$_$.f9;
-  var fastArrayListOf = kotlin_com_soywiz_korge_korge_foundation.$_$.c8;
-  var insert4 = kotlin_com_soywiz_korge_korge_foundation.$_$.ok;
+  var fastArrayListOf = kotlin_com_soywiz_korge_korge_foundation.$_$.g8;
+  var insert4 = kotlin_com_soywiz_korge_korge_foundation.$_$.tk;
   var _RGBAf___get_r__impl__jfq8gq = kotlin_com_soywiz_korge_korge_core.$_$.q1;
   var _RGBAf___get_a__impl__qnwk97 = kotlin_com_soywiz_korge_korge_core.$_$.k1;
   var _RGBAf___set_r__impl__pz5j5e = kotlin_com_soywiz_korge_korge_core.$_$.r1;
@@ -146,53 +147,53 @@
   var _RGBA___get_bf__impl__1xz5yg = kotlin_com_soywiz_korge_korge_core.$_$.t;
   var Companion_getInstance_6 = kotlin_com_soywiz_korge_korge_core.$_$.b2;
   var Companion_getInstance_7 = kotlin_kotlin.$_$.w5;
-  var fromLowHigh = kotlin_com_soywiz_korge_korge_foundation.$_$.mi;
-  var get_low = kotlin_com_soywiz_korge_korge_foundation.$_$.vk;
-  var get_high = kotlin_com_soywiz_korge_korge_foundation.$_$.gk;
-  var insert8 = kotlin_com_soywiz_korge_korge_foundation.$_$.qk;
-  var insert3 = kotlin_com_soywiz_korge_korge_foundation.$_$.nk;
-  var toShortClamped = kotlin_com_soywiz_korge_korge_foundation.$_$.tg;
-  var toIntRound = kotlin_com_soywiz_korge_korge_foundation.$_$.sg;
-  var toIntRound_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.rg;
+  var fromLowHigh = kotlin_com_soywiz_korge_korge_foundation.$_$.ri;
+  var get_low = kotlin_com_soywiz_korge_korge_foundation.$_$.al;
+  var get_high = kotlin_com_soywiz_korge_korge_foundation.$_$.lk;
+  var insert8 = kotlin_com_soywiz_korge_korge_foundation.$_$.vk;
+  var insert3 = kotlin_com_soywiz_korge_korge_foundation.$_$.sk;
+  var toShortClamped = kotlin_com_soywiz_korge_korge_foundation.$_$.yg;
+  var toIntRound = kotlin_com_soywiz_korge_korge_foundation.$_$.xg;
+  var toIntRound_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.wg;
   var IntCompanionObject_getInstance = kotlin_kotlin.$_$.m5;
   var ShortCompanionObject_getInstance = kotlin_kotlin.$_$.n5;
-  var Companion_getInstance_8 = kotlin_com_soywiz_korge_korge_foundation.$_$.e6;
-  var insert14 = kotlin_com_soywiz_korge_korge_foundation.$_$.kk;
-  var ilog2 = kotlin_com_soywiz_korge_korge_foundation.$_$.yf;
+  var Companion_getInstance_8 = kotlin_com_soywiz_korge_korge_foundation.$_$.i6;
+  var insert14 = kotlin_com_soywiz_korge_korge_foundation.$_$.pk;
+  var ilog2 = kotlin_com_soywiz_korge_korge_foundation.$_$.dg;
   var get_unreachable = kotlin_com_soywiz_korge_korge_core.$_$.v5;
   var RGBA__hashCode_impl_h59qf6 = kotlin_com_soywiz_korge_korge_core.$_$.v;
-  var extractScaledf01 = kotlin_com_soywiz_korge_korge_foundation.$_$.ii;
-  var insertScaledf01 = kotlin_com_soywiz_korge_korge_foundation.$_$.sk;
-  var insert_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.tk;
+  var extractScaledf01 = kotlin_com_soywiz_korge_korge_foundation.$_$.ni;
+  var insertScaledf01 = kotlin_com_soywiz_korge_korge_foundation.$_$.xk;
+  var insert_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.yk;
   var numberToInt = kotlin_kotlin.$_$.vf;
-  var Vector2D_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.d2;
-  var BoundsBuilder__plus_impl_cz7f7x = kotlin_com_soywiz_korge_korge_foundation.$_$.h3;
-  var min = kotlin_com_soywiz_korge_korge_foundation.$_$.eg;
-  var max = kotlin_com_soywiz_korge_korge_foundation.$_$.dg;
-  var ByteUnits = kotlin_com_soywiz_korge_korge_foundation.$_$.wg;
-  var getExtraTyped = kotlin_com_soywiz_korge_korge_foundation.$_$.i8;
-  var setExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.r8;
-  var convertRange = kotlin_com_soywiz_korge_korge_foundation.$_$.vf;
-  var Buffer_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.g2;
-  var asFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ai;
-  var Float32Buffer__set_impl_34szne = kotlin_com_soywiz_korge_korge_foundation.$_$.f4;
+  var Vector2D_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.f2;
+  var BoundsBuilder__plus_impl_cz7f7x = kotlin_com_soywiz_korge_korge_foundation.$_$.l3;
+  var min = kotlin_com_soywiz_korge_korge_foundation.$_$.jg;
+  var max = kotlin_com_soywiz_korge_korge_foundation.$_$.ig;
+  var ByteUnits = kotlin_com_soywiz_korge_korge_foundation.$_$.bh;
+  var getExtraTyped = kotlin_com_soywiz_korge_korge_foundation.$_$.m8;
+  var setExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.v8;
+  var convertRange = kotlin_com_soywiz_korge_korge_foundation.$_$.ag;
+  var Buffer_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.i2;
+  var asFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.fi;
+  var Float32Buffer__set_impl_34szne = kotlin_com_soywiz_korge_korge_foundation.$_$.j4;
   var KProperty1 = kotlin_kotlin.$_$.eh;
   var getPropertyCallableRef = kotlin_kotlin.$_$.ue;
-  var PropertyThis = kotlin_com_soywiz_korge_korge_foundation.$_$.b7;
+  var PropertyThis = kotlin_com_soywiz_korge_korge_foundation.$_$.f7;
   var KProperty0 = kotlin_kotlin.$_$.dh;
-  var lazy = kotlin_kotlin.$_$.xl;
+  var lazy = kotlin_kotlin.$_$.yl;
   var Annotation = kotlin_kotlin.$_$.jk;
   var RuntimeException = kotlin_kotlin.$_$.yk;
   var get_hex = kotlin_com_soywiz_korge_korlibs_crypto.$_$.f;
   var RuntimeException_init_$Init$ = kotlin_kotlin.$_$.p2;
-  var arraycopy_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.sh;
-  var get_i32 = kotlin_com_soywiz_korge_korge_foundation.$_$.hk;
-  var arraycopy_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.ph;
-  var get_f32 = kotlin_com_soywiz_korge_korge_foundation.$_$.li;
-  var arraycopy_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.rh;
+  var arraycopy_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.xh;
+  var get_i32 = kotlin_com_soywiz_korge_korge_foundation.$_$.mk;
+  var arraycopy_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.uh;
+  var get_f32 = kotlin_com_soywiz_korge_korge_foundation.$_$.qi;
+  var arraycopy_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.wh;
   var FloatBitmap32 = kotlin_com_soywiz_korge_korge_core.$_$.t2;
-  var get_i8 = kotlin_com_soywiz_korge_korge_foundation.$_$.ik;
-  var arraycopy_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.mh;
+  var get_i8 = kotlin_com_soywiz_korge_korge_foundation.$_$.nk;
+  var arraycopy_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.rh;
   var Bitmap8 = kotlin_com_soywiz_korge_korge_core.$_$.q2;
   var unsupported = kotlin_com_soywiz_korge_korge_core.$_$.w5;
   var NativeImage = kotlin_com_soywiz_korge_korge_core.$_$.y2;
@@ -200,59 +201,59 @@
   var listOf = kotlin_kotlin.$_$.fa;
   var LinkedHashSet_init_$Create$ = kotlin_kotlin.$_$.g1;
   var HashMap_init_$Create$ = kotlin_kotlin.$_$.y;
-  var Ref = kotlin_com_soywiz_korge_korge_foundation.$_$.s7;
+  var Ref = kotlin_com_soywiz_korge_korge_foundation.$_$.w7;
   var get_currentThreadId = kotlin_com_soywiz_korge_korge_core.$_$.m5;
   var get_currentThreadName = kotlin_com_soywiz_korge_korge_core.$_$.n5;
   var println = kotlin_kotlin.$_$.wd;
   var printStackTrace = kotlin_com_soywiz_korge_korge_core.$_$.r5;
   var numberToLong = kotlin_kotlin.$_$.wf;
-  var sliceBuffer = kotlin_com_soywiz_korge_korge_foundation.$_$.ll;
+  var sliceBuffer = kotlin_com_soywiz_korge_korge_foundation.$_$.ql;
   var NotImplementedError = kotlin_kotlin.$_$.vk;
   var isByteArray = kotlin_kotlin.$_$.bf;
   var isFloatArray = kotlin_kotlin.$_$.gf;
   var isIntArray = kotlin_kotlin.$_$.hf;
-  var Companion_getInstance_9 = kotlin_com_soywiz_korge_korge_foundation.$_$.m6;
-  var allocDirect = kotlin_com_soywiz_korge_korge_foundation.$_$.ch;
-  var getArrayInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.pi;
-  var getArrayFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ni;
-  var getArrayInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.oi;
+  var Companion_getInstance_9 = kotlin_com_soywiz_korge_korge_foundation.$_$.q6;
+  var allocDirect = kotlin_com_soywiz_korge_korge_foundation.$_$.hh;
+  var getArrayInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.ui;
+  var getArrayFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.si;
+  var getArrayInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ti;
   var _RgbaArray___init__impl__oib4y4 = kotlin_com_soywiz_korge_korge_core.$_$.s1;
   var Bitmap32_init_$Create$ = kotlin_com_soywiz_korge_korge_core.$_$.j;
   var KMutableProperty1 = kotlin_kotlin.$_$.ch;
   var Companion_getInstance_10 = kotlin_com_soywiz_korge_korge_core.$_$.l2;
   var korAtomic = kotlin_com_soywiz_korge_korge_core.$_$.w4;
   var korAtomic_0 = kotlin_com_soywiz_korge_korge_core.$_$.x4;
-  var Lock = kotlin_com_soywiz_korge_korge_foundation.$_$.s6;
+  var Lock = kotlin_com_soywiz_korge_korge_foundation.$_$.w6;
   var incrementAndGet = kotlin_com_soywiz_korge_korge_core.$_$.v4;
   var mapCapacity = kotlin_kotlin.$_$.ha;
   var coerceAtLeast = kotlin_kotlin.$_$.rg;
   var LinkedHashMap_init_$Create$ = kotlin_kotlin.$_$.d1;
-  var FastStringMap = kotlin_com_soywiz_korge_korge_foundation.$_$.i7;
+  var FastStringMap = kotlin_com_soywiz_korge_korge_foundation.$_$.m7;
   var replace = kotlin_kotlin.$_$.ti;
   var Level_TRACE_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.d;
   var listOf_0 = kotlin_kotlin.$_$.ga;
   var Level_DEBUG_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.a;
   var Triple = kotlin_kotlin.$_$.cl;
-  var stackTraceToString = kotlin_kotlin.$_$.am;
+  var stackTraceToString = kotlin_kotlin.$_$.bm;
   var last = kotlin_kotlin.$_$.ba;
   var Exception_init_$Create$ = kotlin_kotlin.$_$.y1;
   var Regex_init_$Create$ = kotlin_kotlin.$_$.n1;
   var isCharSequence = kotlin_kotlin.$_$.df;
   var trim = kotlin_kotlin.$_$.dk;
   var toIntOrNull = kotlin_kotlin.$_$.mj;
-  var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.z1;
-  var linkedHashMapOf = kotlin_com_soywiz_korge_korge_foundation.$_$.o8;
+  var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.b2;
+  var linkedHashMapOf = kotlin_com_soywiz_korge_korge_foundation.$_$.s8;
   var toList_0 = kotlin_kotlin.$_$.zb;
   var toList_1 = kotlin_kotlin.$_$.xb;
   var getKClassFromExpression = kotlin_kotlin.$_$.e;
   var get_portableSimpleName = kotlin_com_soywiz_korge_korge_core.$_$.q5;
-  var nextMultipleOf = kotlin_com_soywiz_korge_korge_foundation.$_$.ig;
-  var arrayfill = kotlin_com_soywiz_korge_korge_foundation.$_$.xh;
-  var copyOf = kotlin_com_soywiz_korge_korge_foundation.$_$.ei;
-  var Vector2F = kotlin_com_soywiz_korge_korge_foundation.$_$.he;
-  var Vector3F = kotlin_com_soywiz_korge_korge_foundation.$_$.je;
-  var Vector4F = kotlin_com_soywiz_korge_korge_foundation.$_$.ke;
-  var Ratio__toFloat_impl_1ftup5 = kotlin_com_soywiz_korge_korge_foundation.$_$.a4;
+  var nextMultipleOf = kotlin_com_soywiz_korge_korge_foundation.$_$.ng;
+  var arrayfill = kotlin_com_soywiz_korge_korge_foundation.$_$.ci;
+  var copyOf = kotlin_com_soywiz_korge_korge_foundation.$_$.ji;
+  var Vector2F = kotlin_com_soywiz_korge_korge_foundation.$_$.me;
+  var Vector3F = kotlin_com_soywiz_korge_korge_foundation.$_$.oe;
+  var Vector4F = kotlin_com_soywiz_korge_korge_foundation.$_$.pe;
+  var Ratio__toFloat_impl_1ftup5 = kotlin_com_soywiz_korge_korge_foundation.$_$.e4;
   var _RGBAPremultiplied___get_rf__impl__pt0c4y = kotlin_com_soywiz_korge_korge_core.$_$.i1;
   var _RGBAPremultiplied___get_gf__impl__ivron7 = kotlin_com_soywiz_korge_korge_core.$_$.h1;
   var _RGBAPremultiplied___get_bf__impl__qa3on2 = kotlin_com_soywiz_korge_korge_core.$_$.g1;
@@ -261,9 +262,9 @@
   var _ColorAdd___get_gf__impl__v9pxpl = kotlin_com_soywiz_korge_korge_core.$_$.o;
   var _ColorAdd___get_bf__impl__nvdxpq = kotlin_com_soywiz_korge_korge_core.$_$.n;
   var _ColorAdd___get_af__impl__60q32p = kotlin_com_soywiz_korge_korge_core.$_$.m;
-  var Companion_getInstance_11 = kotlin_com_soywiz_korge_korge_foundation.$_$.b6;
+  var Companion_getInstance_11 = kotlin_com_soywiz_korge_korge_foundation.$_$.f6;
   var KMutableProperty0 = kotlin_kotlin.$_$.bh;
-  var Companion_getInstance_12 = kotlin_com_soywiz_korge_korge_foundation.$_$.o6;
+  var Companion_getInstance_12 = kotlin_com_soywiz_korge_korge_foundation.$_$.s6;
   var Os_UNKNOWN_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.t;
   var Os_LINUX_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.s;
   var Comparator = kotlin_kotlin.$_$.nk;
@@ -279,56 +280,56 @@
   var Indenter = kotlin_com_soywiz_korge_korge_core.$_$.d6;
   var joinToString_0 = kotlin_kotlin.$_$.s9;
   var contains_0 = kotlin_kotlin.$_$.th;
-  var toFastList_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.x8;
-  var nextAlignedTo = kotlin_com_soywiz_korge_korge_foundation.$_$.hg;
-  var maxOrNull = kotlin_kotlin.$_$.la;
-  var Iterable = kotlin_kotlin.$_$.j6;
   var toList_2 = kotlin_kotlin.$_$.bc;
   var checkIndexOverflow = kotlin_kotlin.$_$.f7;
   var contentEquals = kotlin_kotlin.$_$.n7;
   var contentHashCode = kotlin_kotlin.$_$.u7;
   var copyToArray = kotlin_kotlin.$_$.k8;
   var LinkedHashMap_init_$Create$_0 = kotlin_kotlin.$_$.e1;
-  var to = kotlin_kotlin.$_$.hm;
+  var to = kotlin_kotlin.$_$.im;
   var plus_0 = kotlin_kotlin.$_$.sa;
   var withIndex = kotlin_kotlin.$_$.oc;
+  var toFastList_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.b9;
+  var nextAlignedTo = kotlin_com_soywiz_korge_korge_foundation.$_$.mg;
+  var maxOrNull = kotlin_kotlin.$_$.la;
+  var Iterable = kotlin_kotlin.$_$.j6;
   var get_invalidOp = kotlin_com_soywiz_korge_korge_core.$_$.o5;
   var charSequenceGet = kotlin_kotlin.$_$.fe;
   var Char__toInt_impl_vasixd = kotlin_kotlin.$_$.r3;
-  var setInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.il;
-  var getInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.bj;
+  var setInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.nl;
+  var getInt8 = kotlin_com_soywiz_korge_korge_foundation.$_$.gj;
   var numberToChar = kotlin_kotlin.$_$.tf;
-  var toString_1 = kotlin_kotlin.$_$.gm;
+  var toString_1 = kotlin_kotlin.$_$.hm;
   var until = kotlin_kotlin.$_$.zg;
   var toSet = kotlin_kotlin.$_$.kc;
   var split = kotlin_kotlin.$_$.yi;
-  var setInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.hl;
-  var getInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.zi;
-  var Int32Buffer__get_impl_48ysyj = kotlin_com_soywiz_korge_korge_foundation.$_$.k4;
-  var Float32Buffer__get_impl_659lhu = kotlin_com_soywiz_korge_korge_foundation.$_$.e4;
-  var getInt64 = kotlin_com_soywiz_korge_korge_foundation.$_$.aj;
+  var setInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ml;
+  var getInt32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ej;
+  var Int32Buffer__get_impl_48ysyj = kotlin_com_soywiz_korge_korge_foundation.$_$.o4;
+  var Float32Buffer__get_impl_659lhu = kotlin_com_soywiz_korge_korge_foundation.$_$.i4;
+  var getInt64 = kotlin_com_soywiz_korge_korge_foundation.$_$.fj;
   var CoroutineImpl = kotlin_kotlin.$_$.od;
   var CoroutineScope = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.e1;
   var get_COROUTINE_SUSPENDED = kotlin_kotlin.$_$.vc;
   var get_RegisteredImageFormats = kotlin_com_soywiz_korge_korge_core.$_$.q3;
   var Companion_getInstance_14 = kotlin_com_soywiz_korge_korlibs_time.$_$.l;
-  var Injector = kotlin_com_soywiz_korge_korge_foundation.$_$.e9;
+  var Injector = kotlin_com_soywiz_korge_korge_foundation.$_$.i9;
   var Companion_getInstance_15 = kotlin_com_soywiz_korge_korge_core.$_$.i2;
   var withContext = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.k;
-  var Companion_getInstance_16 = kotlin_com_soywiz_korge_korge_foundation.$_$.g6;
-  var Companion_getInstance_17 = kotlin_com_soywiz_korge_korge_foundation.$_$.t5;
-  var Companion_getInstance_18 = kotlin_com_soywiz_korge_korge_foundation.$_$.j6;
-  var Companion_getInstance_19 = kotlin_com_soywiz_korge_korge_foundation.$_$.h6;
-  var Size2D = kotlin_com_soywiz_korge_korge_foundation.$_$.ce;
+  var Companion_getInstance_16 = kotlin_com_soywiz_korge_korge_foundation.$_$.k6;
+  var Companion_getInstance_17 = kotlin_com_soywiz_korge_korge_foundation.$_$.x5;
+  var Companion_getInstance_18 = kotlin_com_soywiz_korge_korge_foundation.$_$.n6;
+  var Companion_getInstance_19 = kotlin_com_soywiz_korge_korge_foundation.$_$.l6;
+  var Size2D = kotlin_com_soywiz_korge_korge_foundation.$_$.he;
   var coroutineScope = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.g;
-  var Vector2D = kotlin_com_soywiz_korge_korge_foundation.$_$.ge;
-  var printStackTrace_0 = kotlin_kotlin.$_$.zl;
+  var Vector2D = kotlin_com_soywiz_korge_korge_foundation.$_$.le;
+  var printStackTrace_0 = kotlin_kotlin.$_$.am;
   var PerformanceCounter_getInstance = kotlin_com_soywiz_korge_korlibs_time.$_$.k;
   var DurationUnit_MICROSECONDS_getInstance = kotlin_kotlin.$_$.m;
   var toDuration = kotlin_kotlin.$_$.hk;
   var get_resourcesVfs = kotlin_com_soywiz_korge_korge_core.$_$.a5;
   var readBitmap = kotlin_com_soywiz_korge_korge_core.$_$.e;
-  var InjectorContext = kotlin_com_soywiz_korge_korge_foundation.$_$.c9;
+  var InjectorContext = kotlin_com_soywiz_korge_korge_foundation.$_$.g9;
   var SupervisorJob = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.n1;
   var Companion_getInstance_20 = kotlin_com_soywiz_korge_korge_core.$_$.j2;
   var Dyn__set_impl_2ozvx8 = kotlin_com_soywiz_korge_korge_core.$_$.u1;
@@ -356,30 +357,30 @@
   var min_0 = kotlin_com_soywiz_korge_korlibs_time.$_$.b1;
   var Duration__plus_impl_yu9v8f = kotlin_kotlin.$_$.e3;
   var get_seconds = kotlin_com_soywiz_korge_korlibs_time.$_$.f1;
-  var convertRange_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.uf;
-  var clamp01 = kotlin_com_soywiz_korge_korge_foundation.$_$.mf;
-  var toRatio = kotlin_com_soywiz_korge_korge_foundation.$_$.kf;
+  var convertRange_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.zf;
+  var clamp01 = kotlin_com_soywiz_korge_korge_foundation.$_$.rf;
+  var toRatio = kotlin_com_soywiz_korge_korge_foundation.$_$.pf;
   var Duration__minus_impl_q5cfm7 = kotlin_kotlin.$_$.d3;
-  var Companion_getInstance_22 = kotlin_com_soywiz_korge_korge_foundation.$_$.k6;
+  var Companion_getInstance_22 = kotlin_com_soywiz_korge_korge_foundation.$_$.o6;
   var invoke = kotlin_com_soywiz_korge_korge_core.$_$.n4;
   var waitOne = kotlin_com_soywiz_korge_korge_core.$_$.h;
   var CancellationException = kotlin_kotlin.$_$.uc;
   var Signal = kotlin_com_soywiz_korge_korge_core.$_$.l4;
-  var TGenDeque_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.r1;
+  var TGenDeque_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.s1;
   var retainAll = kotlin_kotlin.$_$.ab;
   var cancel_0 = kotlin_com_soywiz_korge_korge_core.$_$.l5;
   var CancellationException_init_$Init$ = kotlin_kotlin.$_$.j1;
   var first_0 = kotlin_kotlin.$_$.e9;
   var plus_1 = kotlin_kotlin.$_$.ra;
   var Duration__hashCode_impl_u4exz6 = kotlin_kotlin.$_$.y2;
-  var Companion_getInstance_23 = kotlin_com_soywiz_korge_korge_foundation.$_$.a6;
+  var Companion_getInstance_23 = kotlin_com_soywiz_korge_korge_foundation.$_$.e6;
   var get_lastIndex_0 = kotlin_kotlin.$_$.ki;
-  var get_immutable = kotlin_com_soywiz_korge_korge_foundation.$_$.ne;
+  var get_immutable = kotlin_com_soywiz_korge_korge_foundation.$_$.se;
   var Companion_getInstance_24 = kotlin_com_soywiz_korge_korge_core.$_$.d2;
   var Companion_getInstance_25 = kotlin_com_soywiz_korge_korge_core.$_$.c2;
   var Glyph = kotlin_com_soywiz_korge_korge_core.$_$.j3;
-  var toIntMap = kotlin_com_soywiz_korge_korge_foundation.$_$.z8;
-  var IntMap_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.p1;
+  var toIntMap = kotlin_com_soywiz_korge_korge_foundation.$_$.d9;
+  var IntMap_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.q1;
   var numberToDouble = kotlin_kotlin.$_$.uf;
   var BitmapFontImpl = kotlin_com_soywiz_korge_korge_core.$_$.k3;
   var fromBase64 = kotlin_com_soywiz_korge_korlibs_crypto.$_$.c;
@@ -387,89 +388,89 @@
   var ImageDecodingProps = kotlin_com_soywiz_korge_korge_core.$_$.p3;
   var readBitmap_0 = kotlin_com_soywiz_korge_korge_core.$_$.d;
   var slice = kotlin_com_soywiz_korge_korge_core.$_$.e3;
-  var hasExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.l8;
-  var Property = kotlin_com_soywiz_korge_korge_foundation.$_$.c7;
+  var hasExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.p8;
+  var Property = kotlin_com_soywiz_korge_korge_foundation.$_$.g7;
   var launchImmediately_0 = kotlin_com_soywiz_korge_korge_core.$_$.o4;
-  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.dm;
-  var arraycopy_4 = kotlin_com_soywiz_korge_korge_foundation.$_$.uh;
+  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.em;
+  var arraycopy_4 = kotlin_com_soywiz_korge_korge_foundation.$_$.zh;
   var get_nanoseconds = kotlin_com_soywiz_korge_korlibs_time.$_$.c1;
   var DurationUnit_NANOSECONDS_getInstance = kotlin_kotlin.$_$.p;
   var get_milliseconds = kotlin_com_soywiz_korge_korlibs_time.$_$.z;
-  var setBits = kotlin_com_soywiz_korge_korge_foundation.$_$.fl;
-  var _Ratio___init__impl__9mwvn2 = kotlin_com_soywiz_korge_korge_foundation.$_$.r3;
-  var _Ratio___get_clamped__impl__cvqpjt = kotlin_com_soywiz_korge_korge_foundation.$_$.u3;
+  var setBits = kotlin_com_soywiz_korge_korge_foundation.$_$.kl;
+  var _Ratio___init__impl__9mwvn2 = kotlin_com_soywiz_korge_korge_foundation.$_$.v3;
+  var _Ratio___get_clamped__impl__cvqpjt = kotlin_com_soywiz_korge_korge_foundation.$_$.y3;
   var AsyncSignal = kotlin_com_soywiz_korge_korge_core.$_$.k4;
   var toSet_0 = kotlin_kotlin.$_$.lc;
   var setOf = kotlin_kotlin.$_$.eb;
-  var Vector2D_init_$Create$_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.c2;
+  var Vector2D_init_$Create$_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.e2;
   var DoubleCompanionObject_getInstance = kotlin_kotlin.$_$.k5;
   var DateTime__minus_impl_10njw8 = kotlin_com_soywiz_korge_korlibs_time.$_$.b;
-  var isNaN_0 = kotlin_kotlin.$_$.vl;
+  var isNaN_0 = kotlin_kotlin.$_$.wl;
   var Bitmaps_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.y1;
   var get_Bitmaps_white = kotlin_com_soywiz_korge_korge_core.$_$.s2;
   var RGBA__withAd_impl_cralao = kotlin_com_soywiz_korge_korge_core.$_$.d1;
   var Once = kotlin_com_soywiz_korge_korge_core.$_$.e6;
-  var Pool_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.q1;
-  var valueOf = kotlin_com_soywiz_korge_korge_foundation.$_$.j9;
+  var Pool_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.r1;
+  var valueOf = kotlin_com_soywiz_korge_korge_foundation.$_$.n9;
   var startsWith = kotlin_kotlin.$_$.aj;
   var isBlank = kotlin_kotlin.$_$.gi;
   var charArrayOf = kotlin_kotlin.$_$.de;
   var split_0 = kotlin_kotlin.$_$.xi;
   var get_lastIndex_1 = kotlin_kotlin.$_$.v9;
   var MutableMap = kotlin_kotlin.$_$.u6;
-  var Pool = kotlin_com_soywiz_korge_korge_foundation.$_$.r7;
-  var contains_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.a8;
-  var get_size_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.t8;
+  var Pool = kotlin_com_soywiz_korge_korge_foundation.$_$.v7;
+  var contains_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.e8;
+  var get_size_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.x8;
   var get_baseMipmapLevel = kotlin_com_soywiz_korge_korge_core.$_$.a3;
   var get_maxMipmapLevel = kotlin_com_soywiz_korge_korge_core.$_$.d3;
-  var Companion_getInstance_26 = kotlin_com_soywiz_korge_korge_foundation.$_$.n5;
-  var RectangleI = kotlin_com_soywiz_korge_korge_foundation.$_$.ae;
-  var RectSlice = kotlin_com_soywiz_korge_korge_foundation.$_$.v9;
-  var FastSmallSet = kotlin_com_soywiz_korge_korge_foundation.$_$.h7;
-  var toMap = kotlin_com_soywiz_korge_korge_foundation.$_$.a9;
-  var getAndRemove = kotlin_com_soywiz_korge_korge_foundation.$_$.f8;
-  var Uint16Buffer__set_impl_g0kliu = kotlin_com_soywiz_korge_korge_foundation.$_$.z4;
-  var get_u16 = kotlin_com_soywiz_korge_korge_foundation.$_$.nl;
-  var ReturnablePool = kotlin_com_soywiz_korge_korge_foundation.$_$.u7;
+  var Companion_getInstance_26 = kotlin_com_soywiz_korge_korge_foundation.$_$.r5;
+  var RectangleI = kotlin_com_soywiz_korge_korge_foundation.$_$.fe;
+  var RectSlice = kotlin_com_soywiz_korge_korge_foundation.$_$.z9;
+  var FastSmallSet = kotlin_com_soywiz_korge_korge_foundation.$_$.l7;
+  var toMap = kotlin_com_soywiz_korge_korge_foundation.$_$.e9;
+  var getAndRemove = kotlin_com_soywiz_korge_korge_foundation.$_$.j8;
+  var Uint16Buffer__set_impl_g0kliu = kotlin_com_soywiz_korge_korge_foundation.$_$.d5;
+  var get_u16 = kotlin_com_soywiz_korge_korge_foundation.$_$.sl;
+  var ReturnablePool = kotlin_com_soywiz_korge_korge_foundation.$_$.y7;
   var _RGBA___get_value__impl__hhco8v = kotlin_com_soywiz_korge_korge_core.$_$.c1;
-  var setFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.gl;
+  var setFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.ll;
   var toByte = kotlin_kotlin.$_$.cg;
-  var asUShortArrayInt = kotlin_com_soywiz_korge_korge_foundation.$_$.ci;
-  var arraycopy_5 = kotlin_com_soywiz_korge_korge_foundation.$_$.th;
+  var asUShortArrayInt = kotlin_com_soywiz_korge_korge_foundation.$_$.hi;
+  var arraycopy_5 = kotlin_com_soywiz_korge_korge_foundation.$_$.yh;
   var toShort = kotlin_kotlin.$_$.eg;
-  var arrayadd = kotlin_com_soywiz_korge_korge_foundation.$_$.ih;
-  var arraycopy_6 = kotlin_com_soywiz_korge_korge_foundation.$_$.nh;
-  var arrayfill_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.wh;
+  var arrayadd = kotlin_com_soywiz_korge_korge_foundation.$_$.nh;
+  var arraycopy_6 = kotlin_com_soywiz_korge_korge_foundation.$_$.sh;
+  var arrayfill_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.bi;
   var contains_2 = kotlin_kotlin.$_$.k7;
-  var toMatrix4 = kotlin_com_soywiz_korge_korge_foundation.$_$.ue;
-  var Matrix4_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.u1;
-  var Command_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.s5;
-  var Companion_getInstance_27 = kotlin_com_soywiz_korge_korge_foundation.$_$.j5;
-  var _Ratio___init__impl__9mwvn2_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.s3;
-  var VectorPath = kotlin_com_soywiz_korge_korge_foundation.$_$.hd;
+  var toMatrix4 = kotlin_com_soywiz_korge_korge_foundation.$_$.ze;
+  var Matrix4_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.w1;
+  var Command_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.w5;
+  var Companion_getInstance_27 = kotlin_com_soywiz_korge_korge_foundation.$_$.n5;
+  var _Ratio___init__impl__9mwvn2_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.w3;
+  var VectorPath = kotlin_com_soywiz_korge_korge_foundation.$_$.ld;
   var EmptyCoroutineContext_getInstance = kotlin_kotlin.$_$.h5;
   var round = kotlin_kotlin.$_$.kg;
   var coerceAtLeast_0 = kotlin_kotlin.$_$.qg;
   var Bitmap32 = kotlin_com_soywiz_korge_korge_core.$_$.p2;
-  var MMatrix = kotlin_com_soywiz_korge_korge_foundation.$_$.ud;
-  var RectangleD = kotlin_com_soywiz_korge_korge_foundation.$_$.zd;
-  var strokeToFill = kotlin_com_soywiz_korge_korge_foundation.$_$.md;
-  var toPathPointList = kotlin_com_soywiz_korge_korge_foundation.$_$.s9;
-  var Companion_getInstance_28 = kotlin_com_soywiz_korge_korge_foundation.$_$.y5;
-  var Companion_getInstance_29 = kotlin_com_soywiz_korge_korge_foundation.$_$.d6;
-  var Vector2F_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.f2;
+  var MMatrix = kotlin_com_soywiz_korge_korge_foundation.$_$.yd;
+  var RectangleD = kotlin_com_soywiz_korge_korge_foundation.$_$.ee;
+  var strokeToFill = kotlin_com_soywiz_korge_korge_foundation.$_$.qd;
+  var toPathPointList = kotlin_com_soywiz_korge_korge_foundation.$_$.w9;
+  var Companion_getInstance_28 = kotlin_com_soywiz_korge_korge_foundation.$_$.c6;
+  var Companion_getInstance_29 = kotlin_com_soywiz_korge_korge_foundation.$_$.h6;
+  var Vector2F_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.h2;
   var _RGBA___get_premultipliedFast__impl__qiau4g = kotlin_com_soywiz_korge_korge_core.$_$.y;
-  var Margin_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.s1;
+  var Margin_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.t1;
   var get_lazyBitmap = kotlin_com_soywiz_korge_korge_core.$_$.n3;
   var RGBA__times_impl_wehs9n = kotlin_com_soywiz_korge_korge_core.$_$.b1;
-  var SizeInt = kotlin_com_soywiz_korge_korge_foundation.$_$.de;
-  var SizeableInt = kotlin_com_soywiz_korge_korge_foundation.$_$.ee;
-  var Companion_getInstance_30 = kotlin_com_soywiz_korge_korge_foundation.$_$.f6;
-  var allocNoDirect = kotlin_com_soywiz_korge_korge_foundation.$_$.dh;
-  var Companion_getInstance_31 = kotlin_com_soywiz_korge_korge_foundation.$_$.v5;
-  var _BoundsBuilder___get_bounds__impl__s1l1gx = kotlin_com_soywiz_korge_korge_foundation.$_$.e3;
-  var getFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.yi;
-  var arraycopy_7 = kotlin_com_soywiz_korge_korge_foundation.$_$.oh;
+  var Companion_getInstance_30 = kotlin_com_soywiz_korge_korge_foundation.$_$.j6;
+  var SizeInt = kotlin_com_soywiz_korge_korge_foundation.$_$.ie;
+  var SizeableInt = kotlin_com_soywiz_korge_korge_foundation.$_$.je;
+  var allocNoDirect = kotlin_com_soywiz_korge_korge_foundation.$_$.ih;
+  var Companion_getInstance_31 = kotlin_com_soywiz_korge_korge_foundation.$_$.z5;
+  var _BoundsBuilder___get_bounds__impl__s1l1gx = kotlin_com_soywiz_korge_korge_foundation.$_$.i3;
+  var getFloat32 = kotlin_com_soywiz_korge_korge_foundation.$_$.dj;
+  var arraycopy_7 = kotlin_com_soywiz_korge_korge_foundation.$_$.th;
   var _RGBA___init__impl__lqpay5 = kotlin_com_soywiz_korge_korge_core.$_$.q;
   var VfsFile = kotlin_com_soywiz_korge_korge_core.$_$.b5;
   var _PathInfo___init__impl__vpw96a = kotlin_com_soywiz_korge_korge_core.$_$.v1;
@@ -478,15 +479,15 @@
   var fullPathWithExtension = kotlin_com_soywiz_korge_korge_core.$_$.d5;
   var MountableVfs = kotlin_com_soywiz_korge_korge_core.$_$.y4;
   var toMap_0 = kotlin_kotlin.$_$.fc;
-  var InjectorDependency = kotlin_com_soywiz_korge_korge_foundation.$_$.d9;
+  var InjectorDependency = kotlin_com_soywiz_korge_korge_foundation.$_$.h9;
   var SuspendFunction2 = kotlin_kotlin.$_$.rd;
   var Key_getInstance = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.o;
   var Job = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.j1;
   var cancel_1 = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.s1;
   var ResourcesContainer = kotlin_com_soywiz_korge_korge_core.$_$.y5;
-  var place = kotlin_com_soywiz_korge_korge_foundation.$_$.qe;
+  var place = kotlin_com_soywiz_korge_korge_foundation.$_$.ve;
   var KClass = kotlin_kotlin.$_$.ah;
-  var Ratio = kotlin_com_soywiz_korge_korge_foundation.$_$.af;
+  var Ratio = kotlin_com_soywiz_korge_korge_foundation.$_$.ff;
   var launchUnscopedAndWait = kotlin_com_soywiz_korge_korge_core.$_$.g;
   var launchUnscoped = kotlin_com_soywiz_korge_korge_core.$_$.q4;
   var launchUnscoped_0 = kotlin_com_soywiz_korge_korge_core.$_$.r4;
@@ -494,8 +495,8 @@
   var CoroutineScope_0 = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.d1;
   var async = kotlin_com_soywiz_korge_korge_core.$_$.m4;
   var getOrNull_0 = kotlin_kotlin.$_$.g9;
-  var Size2D_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.a2;
-  var Ratio__compareTo_impl_z2ienc = kotlin_com_soywiz_korge_korge_foundation.$_$.v3;
+  var Size2D_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.c2;
+  var Ratio__compareTo_impl_z2ienc = kotlin_com_soywiz_korge_korge_foundation.$_$.z3;
   var Companion_getInstance_32 = kotlin_kotlin.$_$.x5;
   var _Result___init__impl__xyqfz8 = kotlin_kotlin.$_$.t3;
   var createFailure = kotlin_kotlin.$_$.rl;
@@ -509,29 +510,29 @@
   var Companion_getInstance_33 = kotlin_com_soywiz_korge_korge_core.$_$.f2;
   var THROW_ISE = kotlin_kotlin.$_$.bl;
   var getLocalDelegateReference = kotlin_kotlin.$_$.se;
-  var interpolate = kotlin_com_soywiz_korge_korge_foundation.$_$.hf;
-  var Companion_getInstance_34 = kotlin_com_soywiz_korge_korge_foundation.$_$.b5;
+  var interpolate = kotlin_com_soywiz_korge_korge_foundation.$_$.mf;
+  var Companion_getInstance_34 = kotlin_com_soywiz_korge_korge_foundation.$_$.f5;
   var intercepted = kotlin_kotlin.$_$.yc;
   var SafeContinuation_init_$Create$ = kotlin_kotlin.$_$.m1;
   var returnIfSuspended = kotlin_kotlin.$_$.s;
   var get_MODE_CANCELLABLE = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.k1;
   var CancellableContinuationImpl = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.y;
   var Duration__div_impl_dknbf4 = kotlin_kotlin.$_$.x2;
-  var clamp = kotlin_com_soywiz_korge_korge_foundation.$_$.pf;
+  var clamp = kotlin_com_soywiz_korge_korge_foundation.$_$.uf;
   var maxOrNull_0 = kotlin_kotlin.$_$.ka;
   var clamp_0 = kotlin_com_soywiz_korge_korlibs_time.$_$.t;
   var Duration__times_impl_sfuzvp_0 = kotlin_kotlin.$_$.f3;
   var withTimeoutNullable = kotlin_com_soywiz_korge_korge_core.$_$.i;
   var TimeoutCancellationException = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.o1;
   var get_isNil = kotlin_com_soywiz_korge_korlibs_time.$_$.v;
-  var interpolate_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.ff;
-  var RectCorners = kotlin_com_soywiz_korge_korge_foundation.$_$.yd;
+  var interpolate_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.kf;
+  var RectCorners = kotlin_com_soywiz_korge_korge_foundation.$_$.de;
   var get_Bitmaps_transparent = kotlin_com_soywiz_korge_korge_core.$_$.r2;
   var MaterialColors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.a2;
   var RichTextData_init_$Create$ = kotlin_com_soywiz_korge_korge_core.$_$.l;
-  var _Ratio___init__impl__9mwvn2_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.q3;
-  var Ratio__isNaN_impl_fax2rr = kotlin_com_soywiz_korge_korge_foundation.$_$.x3;
-  var _Ratio___get_value__impl__57cli6 = kotlin_com_soywiz_korge_korge_foundation.$_$.b4;
+  var _Ratio___init__impl__9mwvn2_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.u3;
+  var Ratio__isNaN_impl_fax2rr = kotlin_com_soywiz_korge_korge_foundation.$_$.b4;
+  var _Ratio___get_value__impl__57cli6 = kotlin_com_soywiz_korge_korge_foundation.$_$.f4;
   var Style = kotlin_com_soywiz_korge_korge_core.$_$.v3;
   var RichTextData_init_$Create$_0 = kotlin_com_soywiz_korge_korge_core.$_$.k;
   var _RGBA___get_hexString__impl__kocngm = kotlin_com_soywiz_korge_korge_core.$_$.w;
@@ -541,48 +542,48 @@
   var RegexOption_IGNORE_CASE_getInstance = kotlin_kotlin.$_$.i;
   var Regex_init_$Create$_0 = kotlin_kotlin.$_$.o1;
   var fromHTML = kotlin_com_soywiz_korge_korge_core.$_$.y3;
-  var Margin = kotlin_com_soywiz_korge_korge_foundation.$_$.vd;
+  var Margin = kotlin_com_soywiz_korge_korge_foundation.$_$.ae;
   var firstOrNull = kotlin_kotlin.$_$.bi;
   var dropLast = kotlin_kotlin.$_$.vh;
-  var umod = kotlin_com_soywiz_korge_korge_foundation.$_$.ug;
+  var umod = kotlin_com_soywiz_korge_korge_foundation.$_$.zg;
   var indexOf = kotlin_kotlin.$_$.l9;
-  var getCyclicOrNull = kotlin_com_soywiz_korge_korge_foundation.$_$.g8;
+  var getCyclicOrNull = kotlin_com_soywiz_korge_korge_foundation.$_$.k8;
   var RGBA__withAf_impl_dpdu32 = kotlin_com_soywiz_korge_korge_core.$_$.e1;
   var _RGBA___get_ad__impl__pt5rdj = kotlin_com_soywiz_korge_korge_core.$_$.r;
   var Companion_getInstance_37 = kotlin_com_soywiz_korge_korge_core.$_$.x1;
-  var Ratio__times_impl_ucdh7y = kotlin_com_soywiz_korge_korge_foundation.$_$.y3;
-  var clamp_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.rf;
+  var Ratio__times_impl_ucdh7y = kotlin_com_soywiz_korge_korge_foundation.$_$.c4;
+  var clamp_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.wf;
   var bounds = kotlin_com_soywiz_korge_korge_core.$_$.w3;
-  var clamp_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.qf;
-  var getExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.j8;
+  var clamp_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.vf;
+  var getExtra = kotlin_com_soywiz_korge_korge_foundation.$_$.n8;
   var interpolate_1 = kotlin_com_soywiz_korge_korge_core.$_$.i3;
-  var Anchor2D = kotlin_com_soywiz_korge_korge_foundation.$_$.pd;
+  var Anchor2D = kotlin_com_soywiz_korge_korge_foundation.$_$.td;
   var get_bmp = kotlin_com_soywiz_korge_korge_core.$_$.b3;
-  var MatrixTransform_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.v1;
-  var toIntCeil = kotlin_com_soywiz_korge_korge_foundation.$_$.mg;
+  var MatrixTransform_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.x1;
+  var toIntCeil = kotlin_com_soywiz_korge_korge_foundation.$_$.rg;
   var NativeImageOrBitmap32 = kotlin_com_soywiz_korge_korge_core.$_$.w2;
   var get_indices = kotlin_kotlin.$_$.p9;
   var anyToString = kotlin_kotlin.$_$.zd;
-  var Ref_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.t7;
-  var Scale_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.x1;
+  var Ref_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.x7;
+  var Scale_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.z1;
   var get_isLow = kotlin_com_soywiz_korge_korge_core.$_$.i4;
   var firstOrNull_0 = kotlin_kotlin.$_$.z8;
   var lastOrNull = kotlin_kotlin.$_$.z9;
   var sortWith = kotlin_kotlin.$_$.hb;
-  var FastArrayList = kotlin_com_soywiz_korge_korge_foundation.$_$.e7;
-  var BoundsBuilder__plus_impl_cz7f7x_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.k3;
+  var FastArrayList = kotlin_com_soywiz_korge_korge_foundation.$_$.i7;
+  var BoundsBuilder__plus_impl_cz7f7x_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.o3;
   var FastArrayList_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.m1;
   var MutableIterator = kotlin_kotlin.$_$.s6;
   var Collection = kotlin_kotlin.$_$.g6;
   var MutableCollection = kotlin_kotlin.$_$.r6;
   var List = kotlin_kotlin.$_$.o6;
   var ShapeBuilder = kotlin_com_soywiz_korge_korge_core.$_$.d4;
-  var toShape2d = kotlin_com_soywiz_korge_korge_foundation.$_$.t9;
-  var IntDeque = kotlin_com_soywiz_korge_korge_foundation.$_$.p7;
+  var toShape2d = kotlin_com_soywiz_korge_korge_foundation.$_$.x9;
+  var IntDeque = kotlin_com_soywiz_korge_korge_foundation.$_$.t7;
   var minOrNull = kotlin_kotlin.$_$.ma;
   var get_microsecondsInt = kotlin_com_soywiz_korge_korlibs_time.$_$.y;
-  var roundDecimalPlaces = kotlin_com_soywiz_korge_korge_foundation.$_$.lg;
-  var convertRange_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.wf;
+  var roundDecimalPlaces = kotlin_com_soywiz_korge_korge_foundation.$_$.qg;
+  var convertRange_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.bg;
   var coerceAtMost = kotlin_kotlin.$_$.sg;
   var Duration__div_impl_dknbf4_0 = kotlin_kotlin.$_$.w2;
   var toFrequency = kotlin_com_soywiz_korge_korlibs_time.$_$.g1;
@@ -590,83 +591,92 @@
   var EmptyShape_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.g2;
   var Resourceable = kotlin_com_soywiz_korge_korge_core.$_$.x5;
   var readBitmapSlice = kotlin_com_soywiz_korge_korge_core.$_$.c;
-  var StrokeInfo = kotlin_com_soywiz_korge_korge_foundation.$_$.aa;
+  var StrokeInfo = kotlin_com_soywiz_korge_korge_foundation.$_$.ea;
   var Companion_getInstance_38 = kotlin_com_soywiz_korge_korge_core.$_$.h2;
   var BitmapFont = kotlin_com_soywiz_korge_korge_core.$_$.l3;
   var NativeImage_0 = kotlin_com_soywiz_korge_korge_core.$_$.x2;
   var drawRichText = kotlin_com_soywiz_korge_korge_core.$_$.x3;
   var place_0 = kotlin_com_soywiz_korge_korge_core.$_$.z3;
-  var Scale = kotlin_com_soywiz_korge_korge_foundation.$_$.be;
-  var Angle = kotlin_com_soywiz_korge_korge_foundation.$_$.rd;
-  var Companion_getInstance_39 = kotlin_com_soywiz_korge_korge_foundation.$_$.u5;
+  var Scale = kotlin_com_soywiz_korge_korge_foundation.$_$.ge;
+  var Angle = kotlin_com_soywiz_korge_korge_foundation.$_$.vd;
+  var Companion_getInstance_39 = kotlin_com_soywiz_korge_korge_foundation.$_$.y5;
   var ColorTransformMul = kotlin_com_soywiz_korge_korge_core.$_$.f3;
-  var toShape2d_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.u9;
-  var EmptyShape2D_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.l5;
-  var interpolate_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.cf;
-  var interpolate_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.ef;
-  var _Angle___get_degrees__impl__qg56vw = kotlin_com_soywiz_korge_korge_foundation.$_$.v2;
-  var _Angle___get_absoluteValue__impl__4qoakv = kotlin_com_soywiz_korge_korge_foundation.$_$.s2;
-  var niceStr = kotlin_com_soywiz_korge_korge_foundation.$_$.rl;
+  var toShape2d_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.y9;
+  var EmptyShape2D_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.p5;
+  var interpolate_2 = kotlin_com_soywiz_korge_korge_foundation.$_$.hf;
+  var interpolate_3 = kotlin_com_soywiz_korge_korge_foundation.$_$.jf;
+  var _Angle___get_degrees__impl__qg56vw = kotlin_com_soywiz_korge_korge_foundation.$_$.y2;
+  var _Angle___get_absoluteValue__impl__4qoakv = kotlin_com_soywiz_korge_korge_foundation.$_$.u2;
+  var niceStr = kotlin_com_soywiz_korge_korge_foundation.$_$.wl;
   var _RGBA___get_rgb__impl__tijaqt = kotlin_com_soywiz_korge_korge_core.$_$.a1;
   var toStringDecimal = kotlin_com_soywiz_korge_korge_core.$_$.h6;
   var toStringDecimal_0 = kotlin_com_soywiz_korge_korge_core.$_$.i6;
   var HitTestDirection_ANY_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.g;
-  var Companion_getInstance_40 = kotlin_com_soywiz_korge_korge_foundation.$_$.m5;
-  var get_radians = kotlin_com_soywiz_korge_korge_foundation.$_$.re;
+  var Companion_getInstance_40 = kotlin_com_soywiz_korge_korge_foundation.$_$.q5;
+  var get_radians = kotlin_com_soywiz_korge_korge_foundation.$_$.we;
   var MustOverrideException = kotlin_com_soywiz_korge_korge_core.$_$.j5;
-  var HitTestable = kotlin_com_soywiz_korge_korge_foundation.$_$.o9;
-  var WithHitShape2D = kotlin_com_soywiz_korge_korge_foundation.$_$.p9;
+  var HitTestable = kotlin_com_soywiz_korge_korge_foundation.$_$.s9;
+  var WithHitShape2D = kotlin_com_soywiz_korge_korge_foundation.$_$.t9;
   var StandardPaths_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.k2;
   var AsyncCloseable = kotlin_com_soywiz_korge_korge_core.$_$.j4;
-  var SizeInt_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.b2;
-  var toFloat = kotlin_com_soywiz_korge_korge_foundation.$_$.se;
-  var toRef = kotlin_com_soywiz_korge_korge_foundation.$_$.b9;
-  var toInt = kotlin_com_soywiz_korge_korge_foundation.$_$.te;
+  var SizeInt_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.d2;
+  var toFloat = kotlin_com_soywiz_korge_korge_foundation.$_$.xe;
+  var toRef = kotlin_com_soywiz_korge_korge_foundation.$_$.f9;
+  var toInt = kotlin_com_soywiz_korge_korge_foundation.$_$.ye;
   var injector = kotlin_com_soywiz_korge_korge_foundation.$_$.u;
+  var get_degrees = kotlin_com_soywiz_korge_korge_foundation.$_$.qe;
+  var plus_2 = kotlin_kotlin.$_$.va;
+  var FastArrayList_init_$Create$_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.o1;
+  var addAll = kotlin_kotlin.$_$.z6;
+  var MarginInt = kotlin_com_soywiz_korge_korge_foundation.$_$.zd;
+  var Companion_getInstance_41 = kotlin_com_soywiz_korge_korge_foundation.$_$.d6;
+  var _Angle___get_sine__impl__15nmyi = kotlin_com_soywiz_korge_korge_foundation.$_$.e3;
+  var _Angle___get_cosine__impl__vprvmu = kotlin_com_soywiz_korge_korge_foundation.$_$.w2;
+  var MarginInt_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.v1;
+  var get_PI = kotlin_kotlin.$_$.gg;
+  var toIntCeil_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.sg;
+  var isFinite = kotlin_kotlin.$_$.tl;
   var get_lastIndex_2 = kotlin_kotlin.$_$.u9;
-  var Companion_getInstance_41 = kotlin_com_soywiz_korge_korge_foundation.$_$.z5;
   var Disposable = kotlin_com_soywiz_korge_korge_core.$_$.i5;
+  var countTrailingZeroBits = kotlin_kotlin.$_$.ql;
   var removeAll = kotlin_kotlin.$_$.xa;
   var PolylineShape = kotlin_com_soywiz_korge_korge_core.$_$.c4;
   var FillShape = kotlin_com_soywiz_korge_korge_core.$_$.b4;
   var TextShape = kotlin_com_soywiz_korge_korge_core.$_$.e4;
   var CompoundShape = kotlin_com_soywiz_korge_korge_core.$_$.a4;
-  var Companion_getInstance_42 = kotlin_com_soywiz_korge_korge_foundation.$_$.w5;
-  var get_degrees = kotlin_com_soywiz_korge_korge_foundation.$_$.le;
-  var Line2D = kotlin_com_soywiz_korge_korge_foundation.$_$.td;
-  var Angle_between = kotlin_com_soywiz_korge_korge_foundation.$_$.qd;
-  var Angle__minus_impl_xeau7k = kotlin_com_soywiz_korge_korge_foundation.$_$.y2;
-  var Angle__plus_impl_26v37k = kotlin_com_soywiz_korge_korge_foundation.$_$.z2;
-  var Angle__cosine_impl_bgvzun = kotlin_com_soywiz_korge_korge_foundation.$_$.u2;
-  var Angle__sine_impl_3l11xv = kotlin_com_soywiz_korge_korge_foundation.$_$.b3;
-  var toCurvesList = kotlin_com_soywiz_korge_korge_foundation.$_$.nd;
+  var Companion_getInstance_42 = kotlin_com_soywiz_korge_korge_foundation.$_$.a6;
+  var Line2D = kotlin_com_soywiz_korge_korge_foundation.$_$.xd;
+  var Angle_between = kotlin_com_soywiz_korge_korge_foundation.$_$.ud;
+  var Angle__minus_impl_xeau7k = kotlin_com_soywiz_korge_korge_foundation.$_$.b3;
+  var Angle__plus_impl_26v37k = kotlin_com_soywiz_korge_korge_foundation.$_$.c3;
+  var Angle__cosine_impl_bgvzun = kotlin_com_soywiz_korge_korge_foundation.$_$.x2;
+  var Angle__sine_impl_3l11xv = kotlin_com_soywiz_korge_korge_foundation.$_$.f3;
+  var toCurvesList = kotlin_com_soywiz_korge_korge_foundation.$_$.rd;
   var StrokePointsMode_SCALABLE_POS_NORMAL_WIDTH_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.f;
-  var toStrokePointsList = kotlin_com_soywiz_korge_korge_foundation.$_$.m9;
-  var BoundsBuilder__plus_impl_cz7f7x_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.j3;
-  var _BoundsBuilder___get_xmax__impl__gsz0km = kotlin_com_soywiz_korge_korge_foundation.$_$.l3;
-  var _BoundsBuilder___get_xmin__impl__o2sib0 = kotlin_com_soywiz_korge_korge_foundation.$_$.m3;
-  var _BoundsBuilder___get_ymax__impl__oia4uz = kotlin_com_soywiz_korge_korge_foundation.$_$.o3;
-  var _BoundsBuilder___get_ymin__impl__5n2e8j = kotlin_com_soywiz_korge_korge_foundation.$_$.p3;
-  var get_cachedPoints = kotlin_com_soywiz_korge_korge_foundation.$_$.q9;
-  var getPoints2List = kotlin_com_soywiz_korge_korge_foundation.$_$.r9;
-  var MarginInt_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.t1;
+  var toStrokePointsList = kotlin_com_soywiz_korge_korge_foundation.$_$.q9;
+  var BoundsBuilder__plus_impl_cz7f7x_1 = kotlin_com_soywiz_korge_korge_foundation.$_$.n3;
+  var _BoundsBuilder___get_xmax__impl__gsz0km = kotlin_com_soywiz_korge_korge_foundation.$_$.p3;
+  var _BoundsBuilder___get_xmin__impl__o2sib0 = kotlin_com_soywiz_korge_korge_foundation.$_$.q3;
+  var _BoundsBuilder___get_ymax__impl__oia4uz = kotlin_com_soywiz_korge_korge_foundation.$_$.s3;
+  var _BoundsBuilder___get_ymin__impl__5n2e8j = kotlin_com_soywiz_korge_korge_foundation.$_$.t3;
+  var get_cachedPoints = kotlin_com_soywiz_korge_korge_foundation.$_$.u9;
+  var getPoints2List = kotlin_com_soywiz_korge_korge_foundation.$_$.v9;
+  var MarginInt_init_$Create$_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.u1;
   var Winding_NON_ZERO_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.o;
   var LineScaleMode_NONE_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.l;
   var LineCap_BUTT_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.j;
   var LineJoin_MITER_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.k;
   var FloatCompanionObject_getInstance = kotlin_kotlin.$_$.l5;
-  var floatArrayListOf = kotlin_com_soywiz_korge_korge_foundation.$_$.e8;
+  var floatArrayListOf = kotlin_com_soywiz_korge_korge_foundation.$_$.i8;
   var _RGBA___get_premultiplied__impl__3bulqc = kotlin_com_soywiz_korge_korge_core.$_$.x;
-  var get_PI = kotlin_kotlin.$_$.gg;
   var _RgbaPremultipliedArray___init__impl__lx83hy = kotlin_com_soywiz_korge_korge_core.$_$.t1;
   var GradientPaint = kotlin_com_soywiz_korge_korge_core.$_$.t3;
   var BitmapPaint = kotlin_com_soywiz_korge_korge_core.$_$.s3;
   var NonePaint = kotlin_com_soywiz_korge_korge_core.$_$.u3;
-  var addAll = kotlin_kotlin.$_$.z6;
   var fromGlob = kotlin_com_soywiz_korge_korge_core.$_$.f6;
-  var Angle__times_impl_v3s9y2 = kotlin_com_soywiz_korge_korge_foundation.$_$.c3;
+  var Angle__times_impl_v3s9y2 = kotlin_com_soywiz_korge_korge_foundation.$_$.g3;
   var mapOf = kotlin_kotlin.$_$.ja;
-  var Angle__compareTo_impl_a0hfds = kotlin_com_soywiz_korge_korge_foundation.$_$.t2;
+  var Angle__compareTo_impl_a0hfds = kotlin_com_soywiz_korge_korge_foundation.$_$.v2;
   var renderWithHotspot = kotlin_com_soywiz_korge_korge_core.$_$.f4;
   var Key = kotlin_kotlin.$_$.ld;
   var compareTo_0 = kotlin_com_soywiz_korge_korge_core.$_$.g4;
@@ -681,28 +691,28 @@
   var get_0 = kotlin_kotlin.$_$.id;
   var fold = kotlin_kotlin.$_$.hd;
   var minusKey = kotlin_kotlin.$_$.jd;
-  var plus_2 = kotlin_kotlin.$_$.md;
+  var plus_3 = kotlin_kotlin.$_$.md;
   var Element = kotlin_kotlin.$_$.kd;
   var DisposableHandle = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.i1;
   var Runnable = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.m1;
   var CoroutineDispatcher = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.c1;
-  var TGenQueue = kotlin_com_soywiz_korge_korge_foundation.$_$.x7;
-  var Companion_getInstance_43 = kotlin_com_soywiz_korge_korge_foundation.$_$.f5;
-  var NonRecursiveLock = kotlin_com_soywiz_korge_korge_foundation.$_$.t6;
+  var TGenQueue = kotlin_com_soywiz_korge_korge_foundation.$_$.b8;
+  var Companion_getInstance_43 = kotlin_com_soywiz_korge_korge_foundation.$_$.j5;
+  var NonRecursiveLock = kotlin_com_soywiz_korge_korge_foundation.$_$.x6;
   var runBlockingNoJs = kotlin_com_soywiz_korge_korge_core.$_$.t4;
   var Level_WARN_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.e;
   var roundMilliseconds = kotlin_com_soywiz_korge_korlibs_time.$_$.e1;
   var delay_0 = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.d;
   var Delay = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.h1;
-  var SyncEventLoop = kotlin_com_soywiz_korge_korge_foundation.$_$.r6;
+  var SyncEventLoop = kotlin_com_soywiz_korge_korge_foundation.$_$.v6;
   var toDuration_0 = kotlin_kotlin.$_$.ik;
   var toDisposable = kotlin_com_soywiz_korge_korge_core.$_$.t5;
   var reversed_0 = kotlin_kotlin.$_$.wg;
   var toMutableList_0 = kotlin_kotlin.$_$.hc;
-  var get_arrayUByte = kotlin_com_soywiz_korge_korge_foundation.$_$.hh;
-  var get_arrayByte = kotlin_com_soywiz_korge_korge_foundation.$_$.eh;
-  var get_arrayInt = kotlin_com_soywiz_korge_korge_foundation.$_$.gh;
-  var get_arrayFloat = kotlin_com_soywiz_korge_korge_foundation.$_$.fh;
+  var get_arrayUByte = kotlin_com_soywiz_korge_korge_foundation.$_$.mh;
+  var get_arrayByte = kotlin_com_soywiz_korge_korge_foundation.$_$.jh;
+  var get_arrayInt = kotlin_com_soywiz_korge_korge_foundation.$_$.lh;
+  var get_arrayFloat = kotlin_com_soywiz_korge_korge_foundation.$_$.kh;
   var HtmlNativeImage = kotlin_com_soywiz_korge_korge_core.$_$.o3;
   var removeSuffix = kotlin_kotlin.$_$.ri;
   var jsObject = kotlin_com_soywiz_korge_korge_core.$_$.l6;
@@ -713,7 +723,7 @@
   var removePrefix = kotlin_kotlin.$_$.qi;
   var cancelAndJoin = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.f;
   var toVfs = kotlin_com_soywiz_korge_korge_core.$_$.e5;
-  var isInfinite = kotlin_kotlin.$_$.tl;
+  var isInfinite = kotlin_kotlin.$_$.ul;
   var toHtmlNative = kotlin_com_soywiz_korge_korge_core.$_$.r3;
   var MainScope = kotlin_org_jetbrains_kotlinx_kotlinx_coroutines_core.$_$.l1;
   var filterNotNull = kotlin_kotlin.$_$.y8;
@@ -888,18 +898,18 @@
   setMetadataFor(Mutable, 'Mutable', classMeta, VOID, [AGFeatures], Mutable);
   setMetadataFor(AGContainer, 'AGContainer', interfaceMeta);
   setMetadataFor(AGWindow, 'AGWindow', interfaceMeta, VOID, [AGContainer]);
-  setMetadataFor(AGObject, 'AGObject', classMeta, VOID, [Closeable], AGObject);
-  setMetadataFor(AGBuffer, 'AGBuffer', classMeta, AGObject, VOID, AGBuffer);
   setMetadataFor(Companion_23, 'Companion', objectMeta);
-  setMetadataFor(AGTextureUnits, 'AGTextureUnits', classMeta, VOID, VOID, AGTextureUnits_init_$Create$);
-  setMetadataFor(Companion_24, 'Companion', objectMeta);
   setMetadataFor(AGFrameBuffer, 'AGFrameBuffer', classMeta, VOID, [Closeable], AGFrameBuffer_init_$Create$);
-  setMetadataFor(AGTexture, 'AGTexture', classMeta, AGObject, [AGObject, Closeable], AGTexture);
-  setMetadataFor(Companion_25, 'Companion', objectMeta);
+  setMetadataFor(AGObject, 'AGObject', classMeta, VOID, [Closeable], AGObject);
+  setMetadataFor(Companion_24, 'Companion', objectMeta);
   setMetadataFor(AGTextureUnitInfo, 'AGTextureUnitInfo', classMeta);
-  setMetadataFor(AGFrameBufferBase, 'AGFrameBufferBase', classMeta, AGObject);
-  setMetadataFor(AGTextureUnitInfoArray, 'AGTextureUnitInfoArray', classMeta);
   setMetadataFor(AGNativeObject, 'AGNativeObject', interfaceMeta);
+  setMetadataFor(AGTexture, 'AGTexture', classMeta, AGObject, [AGObject, Closeable], AGTexture);
+  setMetadataFor(AGFrameBufferBase, 'AGFrameBufferBase', classMeta, AGObject);
+  setMetadataFor(Companion_25, 'Companion', objectMeta);
+  setMetadataFor(AGTextureUnits, 'AGTextureUnits', classMeta, VOID, VOID, AGTextureUnits_init_$Create$);
+  setMetadataFor(AGBuffer, 'AGBuffer', classMeta, AGObject, VOID, AGBuffer);
+  setMetadataFor(AGTextureUnitInfoArray, 'AGTextureUnitInfoArray', classMeta);
   setMetadataFor(BufferCache, 'BufferCache', classMeta, VOID, VOID, BufferCache);
   setMetadataFor(AGProgramWithUniforms, 'AGProgramWithUniforms', classMeta);
   setMetadataFor(AGVertexArrayObject, 'AGVertexArrayObject', classMeta, VOID, [Extra]);
@@ -956,6 +966,7 @@
   setMetadataFor(UniformBlock, 'UniformBlock', classMeta);
   setMetadataFor(ProjViewUB, 'ProjViewUB', objectMeta, UniformBlock);
   setMetadataFor(DefaultShaders, 'DefaultShaders', objectMeta);
+  setMetadataFor(ShaderIndices, 'ShaderIndices', objectMeta);
   function get_TVOID() {
     return VarType_TVOID_getInstance();
   }
@@ -1147,7 +1158,7 @@
   function log(v) {
     return Func_init_$Create$('log', [v]);
   }
-  function log2(v) {
+  function log2_0(v) {
     return Func_init_$Create$('log2', [v]);
   }
   function sqrt(v) {
@@ -1383,7 +1394,7 @@
   function minus(_this__u8e3s4, that) {
     return new Binop(_this__u8e3s4, '-', that);
   }
-  function plus_3(_this__u8e3s4, that) {
+  function plus_4(_this__u8e3s4, that) {
     return new Binop(_this__u8e3s4, '+', that);
   }
   function times(_this__u8e3s4, that) {
@@ -1416,7 +1427,7 @@
   function minus_0(_this__u8e3s4, that) {
     return this.minus_ouyim_k$(this.get_lit_xwjtj8_k$(_this__u8e3s4), that);
   }
-  function plus_4(_this__u8e3s4, that) {
+  function plus_5(_this__u8e3s4, that) {
     return this.plus_owi4d4_k$(this.get_lit_xwjtj8_k$(_this__u8e3s4), that);
   }
   function times_0(_this__u8e3s4, that) {
@@ -1431,7 +1442,7 @@
   function minus_1(_this__u8e3s4, that) {
     return this.minus_ouyim_k$(_this__u8e3s4, this.get_lit_xwjtj8_k$(that));
   }
-  function plus_5(_this__u8e3s4, that) {
+  function plus_6(_this__u8e3s4, that) {
     return this.plus_owi4d4_k$(_this__u8e3s4, this.get_lit_xwjtj8_k$(that));
   }
   function times_1(_this__u8e3s4, that) {
@@ -1507,7 +1518,6 @@
   }
   setMetadataFor(IDefaultShaders, 'IDefaultShaders', interfaceMeta);
   setMetadataFor(ProgramBuilderDefault, 'ProgramBuilderDefault', classMeta, Builder, [Builder, IDefaultShaders], ProgramBuilderDefault);
-  setMetadataFor(ShaderIndices, 'ShaderIndices', objectMeta);
   setMetadataFor(KoragExperimental, 'KoragExperimental', classMeta, VOID, [Annotation]);
   setMetadataFor(GLVAO, 'GLVAO', classMeta);
   setMetadataFor(ShaderException, 'ShaderException', classMeta, RuntimeException);
@@ -1706,9 +1716,6 @@
   setMetadataFor(Companion_50, 'Companion', objectMeta);
   setMetadataFor(GlslConfig, 'GlslConfig', classMeta);
   setMetadataFor(GlslBodyGenerator, 'GlslBodyGenerator', classMeta, Visitor, [Visitor, BaseGlslGenerator]);
-  setMetadataFor(ProgramLayout, 'ProgramLayout', classMeta, VOID, [Iterable]);
-  setMetadataFor(Provider, 'Provider', classMeta);
-  setMetadataFor(Attribute, 'Attribute', classMeta, VariableWithOffset);
   setMetadataFor(Stm, 'Stm', classMeta);
   setMetadataFor(Stms, 'Stms', classMeta, Stm);
   setMetadataFor(Set, 'Set', classMeta, Stm);
@@ -1755,23 +1762,26 @@
   setMetadataFor(FuncRefN, 'FuncRefN', interfaceMeta, VOID, [FuncRef]);
   setMetadataFor(BuilderContext, 'BuilderContext', classMeta, VOID, VOID, BuilderContext);
   setMetadataFor(Program, 'Program', classMeta, VOID, [Closeable]);
-  setMetadataFor(Shader, 'Shader', classMeta);
-  setMetadataFor(Provider_0, 'Provider', classMeta);
+  setMetadataFor(Uniform, 'Uniform', classMeta, VariableWithOffset);
+  setMetadataFor(SamplerVarType, 'SamplerVarType', classMeta, Enum);
   setMetadataFor(Varying, 'Varying', classMeta, Variable);
   setMetadataFor(Output, 'Output', objectMeta, Varying);
-  setMetadataFor(Provider_1, 'Provider', classMeta);
-  setMetadataFor(Sampler, 'Sampler', classMeta, Variable);
-  setMetadataFor(SamplerVarType, 'SamplerVarType', classMeta, Enum);
-  setMetadataFor(Uniform, 'Uniform', classMeta, VariableWithOffset);
+  setMetadataFor(ProgramLayout, 'ProgramLayout', classMeta, VOID, [Iterable]);
+  setMetadataFor(Shader, 'Shader', classMeta);
+  setMetadataFor(FuncDecl, 'FuncDecl', classMeta, VOID, [FuncRef, FuncRef0, FuncRef1, FuncRef2, FuncRef3, FuncRef4, FuncRef5, FuncRefN]);
+  setMetadataFor(Temp, 'Temp', classMeta, Variable);
+  setMetadataFor(Precision, 'Precision', classMeta, Enum);
+  setMetadataFor(Provider, 'Provider', classMeta);
+  setMetadataFor(Arg, 'Arg', classMeta, Variable);
+  setMetadataFor(Provider_0, 'Provider', classMeta);
+  setMetadataFor(Attribute, 'Attribute', classMeta, VariableWithOffset);
   setMetadataFor(Companion_52, 'Companion', objectMeta);
   setMetadataFor(VarType, 'VarType', classMeta, Enum);
-  setMetadataFor(Precision, 'Precision', classMeta, Enum);
-  setMetadataFor(Temp, 'Temp', classMeta, Variable);
-  setMetadataFor(FuncDecl, 'FuncDecl', classMeta, VOID, [FuncRef, FuncRef0, FuncRef1, FuncRef2, FuncRef3, FuncRef4, FuncRef5, FuncRefN]);
-  setMetadataFor(VarKind, 'VarKind', classMeta, Enum);
-  setMetadataFor(UniformInProgram, 'UniformInProgram', classMeta);
-  setMetadataFor(Arg, 'Arg', classMeta, Variable);
   setMetadataFor(ShaderType, 'ShaderType', classMeta, Enum);
+  setMetadataFor(VarKind, 'VarKind', classMeta, Enum);
+  setMetadataFor(Provider_1, 'Provider', classMeta);
+  setMetadataFor(Sampler_0, 'Sampler', classMeta, Variable);
+  setMetadataFor(UniformInProgram, 'UniformInProgram', classMeta);
   setMetadataFor(ContextInfo, 'ContextInfo', classMeta, VOID, VOID, ContextInfo);
   setMetadataFor(Companion_53, 'Companion', objectMeta);
   setMetadataFor(KmlGl, 'KmlGl', classMeta, VOID, [Extra, AGFeatures], KmlGl);
@@ -2009,7 +2019,7 @@
     return 96.0 * this.get_devicePixelRatio_171vqc_k$();
   }
   function get_pixelsPerCm() {
-    return this.get_pixelsPerInch_7euru9_k$() / Companion_getInstance_130().INCH_TO_CM_1;
+    return this.get_pixelsPerInch_7euru9_k$() / Companion_getInstance_135().INCH_TO_CM_1;
   }
   function get_pixelsPerLogicalInchRatio() {
     return this.get_pixelsPerInch_7euru9_k$() / Companion_getInstance_67().get_defaultPixelsPerInch_wfy78i_k$();
@@ -2223,7 +2233,7 @@
   setMetadataFor(TimeSlidingWindow, 'TimeSlidingWindow', classMeta);
   setMetadataFor(GraphicsRenderer, 'GraphicsRenderer', classMeta, Enum);
   setMetadataFor(Graphics, 'Graphics', classMeta, Container, [Container, ViewLeaf, Anchorable], Graphics);
-  setMetadataFor($forceLoadSourceFileCOROUTINE$13, '$forceLoadSourceFileCOROUTINE$13', classMeta, CoroutineImpl);
+  setMetadataFor($forceLoadSourceFileCOROUTINE$1, '$forceLoadSourceFileCOROUTINE$1', classMeta, CoroutineImpl);
   function forceLoadSourceFile$default(views, currentVfs, sourceFile, $completion, $super) {
     currentVfs = currentVfs === VOID ? views.get_currentVfs_wuibdf_k$() : currentVfs;
     sourceFile = sourceFile === VOID ? null : sourceFile;
@@ -2294,12 +2304,26 @@
     return Companion_getInstance_41().get_ZERO_wodlgx_k$();
   }
   setMetadataFor(Filter, 'Filter', interfaceMeta);
+  setMetadataFor(ComposedFilter, 'ComposedFilter', classMeta, VOID, [Filter], ComposedFilter_init_$Create$);
+  setMetadataFor(FilterWithFiltering, 'FilterWithFiltering', interfaceMeta, VOID, [Filter]);
+  setMetadataFor(BlurFilter, 'BlurFilter', classMeta, ComposedFilter, [ComposedFilter, FilterWithFiltering], BlurFilter);
+  setMetadataFor(Companion_83, 'Companion', objectMeta);
+  setMetadataFor(BlurUB, 'BlurUB', objectMeta, UniformBlock);
+  setMetadataFor(ProgramProvider, 'ProgramProvider', interfaceMeta);
+  setMetadataFor(BaseProgramProvider, 'BaseProgramProvider', classMeta, VOID, [ProgramProvider], BaseProgramProvider);
+  setMetadataFor(Companion_84, 'Companion', objectMeta, BaseProgramProvider);
+  setMetadataFor(ShaderFilter, 'ShaderFilter', classMeta, VOID, [FilterWithFiltering]);
+  setMetadataFor(DirectionalBlurFilter, 'DirectionalBlurFilter', classMeta, ShaderFilter, VOID, DirectionalBlurFilter);
+  setMetadataFor(Companion_85, 'Companion', objectMeta);
   setMetadataFor(RenderToTextureResult, 'RenderToTextureResult', classMeta, VOID, [Disposable], RenderToTextureResult);
   setMetadataFor(IdentityFilter, 'IdentityFilter', classMeta, VOID, [Filter]);
-  setMetadataFor(Companion_83, 'Companion', objectMeta, IdentityFilter);
+  setMetadataFor(Companion_86, 'Companion', objectMeta, IdentityFilter);
   setMetadataFor(Linear, 'Linear', objectMeta, IdentityFilter);
   setMetadataFor(Nearest, 'Nearest', objectMeta, IdentityFilter);
-  setMetadataFor(Companion_84, 'Companion', objectMeta);
+  setMetadataFor(Companion_87, 'Companion', objectMeta, BaseProgramProvider);
+  setMetadataFor(TexInfoUB, 'TexInfoUB', objectMeta, UniformBlock);
+  setMetadataFor(Companion_88, 'Companion', objectMeta);
+  setMetadataFor(Companion_89, 'Companion', objectMeta);
   setMetadataFor(ViewRenderPhaseFilter, 'ViewRenderPhaseFilter', classMeta, VOID, [ViewRenderPhase], ViewRenderPhaseFilter);
   setMetadataFor(ViewActionList, 'ViewActionList', classMeta);
   setMetadataFor(ViewAction, 'ViewAction', classMeta);
@@ -2320,7 +2344,7 @@
   setMetadataFor(ShapeViewUB, 'ShapeViewUB', objectMeta, UniformBlock);
   setMetadataFor(PaintShader, 'PaintShader', classMeta);
   setMetadataFor(GpuShapeViewPrograms, 'GpuShapeViewPrograms', objectMeta);
-  setMetadataFor(Companion_85, 'Companion', objectMeta);
+  setMetadataFor(Companion_90, 'Companion', objectMeta);
   setMetadataFor(DEFAULT, 'DEFAULT', objectMeta, VOID, [DeviceDimensionsProvider]);
   function get_dialogInterface() {
     return this;
@@ -2354,7 +2378,7 @@
   setMetadataFor(DialogInterface, 'DialogInterface', interfaceMeta, VOID, [DialogInterfaceProvider], VOID, VOID, VOID, [1, 2, 4]);
   setMetadataFor(Unsupported, 'Unsupported', objectMeta, VOID, [DialogInterface], VOID, VOID, VOID, [1, 2, 4]);
   setMetadataFor(FileFilter, 'FileFilter', classMeta);
-  setMetadataFor(Companion_86, 'Companion', objectMeta);
+  setMetadataFor(Companion_91, 'Companion', objectMeta);
   setMetadataFor(ICursor, 'ICursor', interfaceMeta);
   setMetadataFor(CustomCursor, 'CustomCursor', classMeta, VOID, [ICursor, Extra]);
   setMetadataFor(Cursor, 'Cursor', classMeta, Enum, [Enum, ICursor]);
@@ -2372,10 +2396,10 @@
   setMetadataFor(GameWindow, 'GameWindow', classMeta, BaseEventListener, [BaseEventListener, DialogInterfaceProvider, DeviceDimensionsProvider, Element, AGWindow, GameWindowConfig, Extra], GameWindow, VOID, VOID, [0, 1]);
   setMetadataFor(Impl_0, 'Impl', classMeta, VOID, [GameWindowConfig], Impl_0);
   setMetadataFor(ClipboardData, 'ClipboardData', interfaceMeta);
-  setMetadataFor(Companion_87, 'Companion', objectMeta);
+  setMetadataFor(Companion_92, 'Companion', objectMeta);
   setMetadataFor(GameWindowCreationConfig, 'GameWindowCreationConfig', classMeta, VOID, VOID, GameWindowCreationConfig);
   setMetadataFor(TimedTask, 'TimedTask', classMeta);
-  setMetadataFor(Companion_88, 'Companion', objectMeta);
+  setMetadataFor(Companion_93, 'Companion', objectMeta);
   setMetadataFor(sam$kotlinx_coroutines_DisposableHandle$0, 'sam$kotlinx_coroutines_DisposableHandle$0', classMeta, VOID, [DisposableHandle]);
   setMetadataFor(_no_name_provided__qut3iv_0, VOID, classMeta, VOID, [Runnable]);
   setMetadataFor(_no_name_provided__qut3iv_1, VOID, classMeta, VOID, [Runnable]);
@@ -2389,7 +2413,7 @@
   setMetadataFor(KorgeReloadInternal$1, VOID, classMeta, KorgeReloadInternalImpl);
   setMetadataFor(NativeStorage, 'NativeStorage', classMeta, VOID, [IStorageWithKeys]);
   setMetadataFor(NodeJSNativeStorage, 'NodeJSNativeStorage', classMeta, FiledBasedNativeStorage);
-  setMetadataFor(Companion_89, 'Companion', objectMeta);
+  setMetadataFor(Companion_94, 'Companion', objectMeta);
   setMetadataFor(BrowserNativeStorage, 'BrowserNativeStorage', classMeta, VOID, [IStorageWithKeys]);
   setMetadataFor(NativeVibration, 'NativeVibration', classMeta);
   setMetadataFor(JsGameWindow, 'JsGameWindow', classMeta, GameWindow, VOID, JsGameWindow, VOID, VOID, [0, 1]);
@@ -9865,7 +9889,7 @@
     drawOffset = drawOffset === VOID ? 0 : drawOffset;
     blending = blending === VOID ? Companion_getInstance_73().get_NORMAL_lrqjnu_k$() : blending;
     uniformBlocks = uniformBlocks === VOID ? Companion_getInstance_91().get_EMPTY_i8q41w_k$() : uniformBlocks;
-    textureUnits = textureUnits === VOID ? Companion_getInstance_68().get_EMPTY_i8q41w_k$() : textureUnits;
+    textureUnits = textureUnits === VOID ? Companion_getInstance_70().get_EMPTY_i8q41w_k$() : textureUnits;
     stencilRef = stencilRef === VOID ? Companion_getInstance_74().get_DEFAULT_urq3es_k$() : stencilRef;
     stencilOpFunc = stencilOpFunc === VOID ? Companion_getInstance_75().get_DEFAULT_hf08vo_k$() : stencilOpFunc;
     colorMask = colorMask === VOID ? Companion_getInstance_76().get_ALL_ENABLED_najvb4_k$() : colorMask;
@@ -9908,7 +9932,7 @@
     drawOffset = drawOffset === VOID ? 0 : drawOffset;
     blending = blending === VOID ? Companion_getInstance_73().get_NORMAL_lrqjnu_k$() : blending;
     uniformBlocks = uniformBlocks === VOID ? Companion_getInstance_91().get_EMPTY_i8q41w_k$() : uniformBlocks;
-    textureUnits = textureUnits === VOID ? Companion_getInstance_68().get_EMPTY_i8q41w_k$() : textureUnits;
+    textureUnits = textureUnits === VOID ? Companion_getInstance_70().get_EMPTY_i8q41w_k$() : textureUnits;
     stencilRef = stencilRef === VOID ? Companion_getInstance_74().get_DEFAULT_urq3es_k$() : stencilRef;
     stencilOpFunc = stencilOpFunc === VOID ? Companion_getInstance_75().get_DEFAULT_hf08vo_k$() : stencilOpFunc;
     colorMask = colorMask === VOID ? Companion_getInstance_76().get_ALL_ENABLED_najvb4_k$() : colorMask;
@@ -10104,214 +10128,6 @@
   function draw_1(_this__u8e3s4, batch) {
     return batch.execute_8j8wtc_k$(_this__u8e3s4);
   }
-  function _set_mem__4wa5sg($this, _set____db54di) {
-    $this.mem_1 = _set____db54di;
-  }
-  function AGBuffer() {
-    AGObject.call(this);
-    this.mem_1 = null;
-  }
-  protoOf(AGBuffer).get_mem_18j0r8_k$ = function () {
-    return this.mem_1;
-  };
-  protoOf(AGBuffer).upload_xxm7j5_k$ = function (data, offset, length) {
-    return this.upload_qk2afu_k$(_Int8Buffer___get_buffer__impl__q0gulb(_Int8Buffer___init__impl__e20lvc(data, offset, length)));
-  };
-  protoOf(AGBuffer).upload$default_7jbvkd_k$ = function (data, offset, length, $super) {
-    offset = offset === VOID ? 0 : offset;
-    length = length === VOID ? data.length - offset | 0 : length;
-    return $super === VOID ? this.upload_xxm7j5_k$(data, offset, length) : $super.upload_xxm7j5_k$.call(this, data, offset, length);
-  };
-  protoOf(AGBuffer).upload_snilbz_k$ = function (data) {
-    return this.upload_qk2afu_k$(_Uint8Buffer___get_buffer__impl__mscllu(Companion_getInstance_4().invoke_43s6c3_k$(data)));
-  };
-  protoOf(AGBuffer).upload_l9uosp_k$ = function (data, offset, length) {
-    return this.upload_qk2afu_k$(_Float32Buffer___get_buffer__impl__x5nu9x(_Float32Buffer___init__impl__403k2m(data, offset, length)));
-  };
-  protoOf(AGBuffer).upload$default_uibktr_k$ = function (data, offset, length, $super) {
-    offset = offset === VOID ? 0 : offset;
-    length = length === VOID ? data.length - offset | 0 : length;
-    return $super === VOID ? this.upload_l9uosp_k$(data, offset, length) : $super.upload_l9uosp_k$.call(this, data, offset, length);
-  };
-  protoOf(AGBuffer).upload_q0yw6u_k$ = function (data, offset, length) {
-    return this.upload_qk2afu_k$(_Int32Buffer___get_buffer__impl__dnrimm(_Int32Buffer___init__impl__o98lxn(data, offset, length)));
-  };
-  protoOf(AGBuffer).upload$default_rgi61q_k$ = function (data, offset, length, $super) {
-    offset = offset === VOID ? 0 : offset;
-    length = length === VOID ? data.length - offset | 0 : length;
-    return $super === VOID ? this.upload_q0yw6u_k$(data, offset, length) : $super.upload_q0yw6u_k$.call(this, data, offset, length);
-  };
-  protoOf(AGBuffer).upload_spks2f_k$ = function (data, offset, length) {
-    return this.upload_qk2afu_k$(_Int16Buffer___get_buffer__impl__eo253o(_Int16Buffer___init__impl__dw7hol(data, offset, length)));
-  };
-  protoOf(AGBuffer).upload$default_q6ngv_k$ = function (data, offset, length, $super) {
-    offset = offset === VOID ? 0 : offset;
-    length = length === VOID ? data.length - offset | 0 : length;
-    return $super === VOID ? this.upload_spks2f_k$(data, offset, length) : $super.upload_spks2f_k$.call(this, data, offset, length);
-  };
-  protoOf(AGBuffer).upload_o9r5eu_k$ = function (data, offset, length) {
-    return this.upload_qk2afu_k$(sliceWithSize(data, offset, length));
-  };
-  protoOf(AGBuffer).upload$default_ox1db7_k$ = function (data, offset, length, $super) {
-    length = length === VOID ? get_size(data) - offset | 0 : length;
-    return $super === VOID ? this.upload_o9r5eu_k$(data, offset, length) : $super.upload_o9r5eu_k$.call(this, data, offset, length);
-  };
-  protoOf(AGBuffer).upload_qk2afu_k$ = function (data) {
-    if (data.get_sizeInBytes_hla44k_k$() < 1024) {
-      if ((!(this.mem_1 == null) ? ensureNotNull(this.mem_1).get_sizeInBytes_hla44k_k$() === data.get_sizeInBytes_hla44k_k$() : false) ? arrayequal(ensureNotNull(this.mem_1), 0, data, 0, data.get_sizeInBytes_hla44k_k$()) : false)
-        return this;
-    }
-    this.mem_1 = clone(data);
-    this.markAsDirty_l2wh9f_k$();
-    return this;
-  };
-  protoOf(AGBuffer).get_sizeInBytes_hla44k_k$ = function () {
-    var tmp0_safe_receiver = this.mem_1;
-    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.get_sizeInBytes_hla44k_k$();
-    return tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs;
-  };
-  protoOf(AGBuffer).toString = function () {
-    var tmp0_safe_receiver = this.mem_1;
-    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.get_sizeInBytes_hla44k_k$();
-    return 'AGBuffer(' + (tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs) + ')';
-  };
-  function Companion_23() {
-    Companion_instance_23 = this;
-    this.MAX_TEXTURE_UNITS_1 = 8;
-  }
-  protoOf(Companion_23).get_MAX_TEXTURE_UNITS_5jnbkp_k$ = function () {
-    return this.MAX_TEXTURE_UNITS_1;
-  };
-  protoOf(Companion_23).get_EMPTY_i8q41w_k$ = function () {
-    return AGTextureUnits_init_$Create$();
-  };
-  var Companion_instance_23;
-  function Companion_getInstance_68() {
-    if (Companion_instance_23 == null)
-      new Companion_23();
-    return Companion_instance_23;
-  }
-  function AGTextureUnits_init_$Init$(size, $this) {
-    size = size === VOID ? Companion_getInstance_68().MAX_TEXTURE_UNITS_1 : size;
-    // Inline function 'kotlin.arrayOfNulls' call
-    var tmp$ret$0 = fillArrayVal(Array(size), null);
-    AGTextureUnits.call($this, tmp$ret$0, _AGTextureUnitInfoArray___init__impl__c77rdb_0(size));
-    return $this;
-  }
-  function AGTextureUnits_init_$Create$(size) {
-    return AGTextureUnits_init_$Init$(size, objectCreate(protoOf(AGTextureUnits)));
-  }
-  function AGTextureUnits(textures, infos) {
-    Companion_getInstance_68();
-    this.textures_1 = textures;
-    this.infos_1 = infos;
-  }
-  protoOf(AGTextureUnits).get_textures_mn839d_k$ = function () {
-    return this.textures_1;
-  };
-  protoOf(AGTextureUnits).get_infos_rt1v3x_k$ = function () {
-    return this.infos_1;
-  };
-  protoOf(AGTextureUnits).get_size_woubt6_k$ = function () {
-    return this.textures_1.length;
-  };
-  protoOf(AGTextureUnits).copyFrom_wmlpb3_k$ = function (other, sampler) {
-    return this.copyFrom_lxhhkg_k$(other, sampler.get_index_it478p_k$());
-  };
-  protoOf(AGTextureUnits).copyFrom_lxhhkg_k$ = function (other, index) {
-    return this.set_ikr6re_k$(index, other.textures_1[index], AGTextureUnitInfoArray__get_impl_xhvpef(other.infos_1, index));
-  };
-  protoOf(AGTextureUnits).set_ikr6re_k$ = function (index, texture, info) {
-    this.textures_1[index] = texture;
-    AGTextureUnitInfoArray__set_impl_s95rfh(this.infos_1, index, info);
-  };
-  protoOf(AGTextureUnits).set$default_wjvrce_k$ = function (index, texture, info, $super) {
-    info = info === VOID ? Companion_getInstance_70().DEFAULT_1 : info;
-    var tmp;
-    if ($super === VOID) {
-      this.set_ikr6re_k$(index, texture, info);
-      tmp = Unit_getInstance();
-    } else {
-      tmp = $super.set_ikr6re_k$.call(this, index, texture, new AGTextureUnitInfo(info));
-    }
-    return tmp;
-  };
-  protoOf(AGTextureUnits).set_jc72iz_k$ = function (sampler, texture, info) {
-    this.set_ikr6re_k$(sampler.get_index_it478p_k$(), texture, info);
-  };
-  protoOf(AGTextureUnits).set$default_6ddeu7_k$ = function (sampler, texture, info, $super) {
-    info = info === VOID ? Companion_getInstance_70().DEFAULT_1 : info;
-    var tmp;
-    if ($super === VOID) {
-      this.set_jc72iz_k$(sampler, texture, info);
-      tmp = Unit_getInstance();
-    } else {
-      tmp = $super.set_jc72iz_k$.call(this, sampler, texture, new AGTextureUnitInfo(info));
-    }
-    return tmp;
-  };
-  protoOf(AGTextureUnits).clear_j9egeb_k$ = function () {
-    var inductionVariable = 0;
-    var last = this.get_size_woubt6_k$();
-    if (inductionVariable < last)
-      do {
-        var n = inductionVariable;
-        inductionVariable = inductionVariable + 1 | 0;
-        this.set_ikr6re_k$(n, null, Companion_getInstance_70().DEFAULT_1);
-      }
-       while (inductionVariable < last);
-  };
-  protoOf(AGTextureUnits).clone_1keycd_k$ = function () {
-    // Inline function 'kotlin.collections.copyOf' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var tmp$ret$1 = this.textures_1.slice();
-    return new AGTextureUnits(tmp$ret$1, AGTextureUnitInfoArray__copyOf_impl_z2w8z3(this.infos_1));
-  };
-  protoOf(AGTextureUnits).fastForEach_yruhv2_k$ = function (block) {
-    var inductionVariable = 0;
-    var last = this.get_size_woubt6_k$();
-    if (inductionVariable < last)
-      do {
-        var n = inductionVariable;
-        inductionVariable = inductionVariable + 1 | 0;
-        block(n, this.textures_1[n], new AGTextureUnitInfo(AGTextureUnitInfoArray__get_impl_xhvpef(this.infos_1, n)));
-      }
-       while (inductionVariable < last);
-  };
-  protoOf(AGTextureUnits).component1_7eebsc_k$ = function () {
-    return this.textures_1;
-  };
-  protoOf(AGTextureUnits).component2_qkqdh2_k$ = function () {
-    return this.infos_1;
-  };
-  protoOf(AGTextureUnits).copy_1ctjmt_k$ = function (textures, infos) {
-    return new AGTextureUnits(textures, infos);
-  };
-  protoOf(AGTextureUnits).copy$default_b4en1u_k$ = function (textures, infos, $super) {
-    textures = textures === VOID ? this.textures_1 : textures;
-    infos = infos === VOID ? this.infos_1 : infos;
-    return $super === VOID ? this.copy_1ctjmt_k$(textures, infos) : $super.copy_1ctjmt_k$.call(this, textures, new AGTextureUnitInfoArray(infos));
-  };
-  protoOf(AGTextureUnits).toString = function () {
-    return 'AGTextureUnits(textures=' + toString(this.textures_1) + ', infos=' + new AGTextureUnitInfoArray(this.infos_1) + ')';
-  };
-  protoOf(AGTextureUnits).hashCode = function () {
-    var result = hashCode(this.textures_1);
-    result = imul(result, 31) + AGTextureUnitInfoArray__hashCode_impl_siosps(this.infos_1) | 0;
-    return result;
-  };
-  protoOf(AGTextureUnits).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof AGTextureUnits))
-      return false;
-    var tmp0_other_with_cast = other instanceof AGTextureUnits ? other : THROW_CCE();
-    if (!equals(this.textures_1, tmp0_other_with_cast.textures_1))
-      return false;
-    if (!equals(this.infos_1, tmp0_other_with_cast.infos_1))
-      return false;
-    return true;
-  };
   function AGFrameBuffer_init_$Init$(isMain, id, $this) {
     isMain = isMain === VOID ? false : isMain;
     id = id === VOID ? -1 : id;
@@ -10321,22 +10137,22 @@
   function AGFrameBuffer_init_$Create$(isMain, id) {
     return AGFrameBuffer_init_$Init$(isMain, id, objectCreate(protoOf(AGFrameBuffer)));
   }
-  function Companion_24() {
-    Companion_instance_24 = this;
+  function Companion_23() {
+    Companion_instance_23 = this;
     this.DEFAULT_INITIAL_WIDTH_1 = 128;
     this.DEFAULT_INITIAL_HEIGHT_1 = 128;
   }
-  protoOf(Companion_24).get_DEFAULT_INITIAL_WIDTH_7qqxok_k$ = function () {
+  protoOf(Companion_23).get_DEFAULT_INITIAL_WIDTH_7qqxok_k$ = function () {
     return this.DEFAULT_INITIAL_WIDTH_1;
   };
-  protoOf(Companion_24).get_DEFAULT_INITIAL_HEIGHT_js29ah_k$ = function () {
+  protoOf(Companion_23).get_DEFAULT_INITIAL_HEIGHT_js29ah_k$ = function () {
     return this.DEFAULT_INITIAL_HEIGHT_1;
   };
-  var Companion_instance_24;
-  function Companion_getInstance_69() {
-    if (Companion_instance_24 == null)
-      new Companion_24();
-    return Companion_instance_24;
+  var Companion_instance_23;
+  function Companion_getInstance_68() {
+    if (Companion_instance_23 == null)
+      new Companion_23();
+    return Companion_instance_23;
   }
   function _set__scissor__ryim6y($this, _set____db54di) {
     $this._scissor_1 = _set____db54di;
@@ -10347,7 +10163,7 @@
   function markAsDirty($this) {
   }
   function AGFrameBuffer(base, id) {
-    Companion_getInstance_69();
+    Companion_getInstance_68();
     id = id === VOID ? -1 : id;
     this.base_1 = base;
     this.id_1 = id;
@@ -10451,7 +10267,7 @@
     if (((((this.x_1 === x ? this.y_1 === y : false) ? this.width_1 === width : false) ? this.height_1 === height : false) ? this.fullWidth_1 === fullWidth : false) ? this.fullHeight_1 === fullHeight : false)
       return true;
     this.get_tex_18ivk2_k$().upload$default_dptvvg_k$(new NullBitmap(width, height));
-    this.base_1.estimatedMemoryUsage_1 = Companion_getInstance_5().fromBytes_sqdf04_k$(imul(imul(fullWidth, fullHeight), 8));
+    this.base_1.estimatedMemoryUsage_1 = Companion_getInstance_4().fromBytes_sqdf04_k$(imul(imul(fullWidth, fullHeight), 8));
     this.x_1 = x;
     this.y_1 = y;
     this.width_1 = width;
@@ -10500,6 +10316,148 @@
   protoOf(AGFrameBuffer).toString = function () {
     return 'AGFrameBuffer(' + (this.get_isMain_ew1zpo_k$() ? 'main' : '' + this.id_1) + ', ' + this.width_1 + ', ' + this.height_1 + ')';
   };
+  function AGObject() {
+    this._native_1 = null;
+    this._cachedContextVersion_1 = -1;
+    this._cachedVersion_1 = -2;
+    this._version_1 = -1;
+  }
+  protoOf(AGObject).set__native_cjks3f_k$ = function (_set____db54di) {
+    this._native_1 = _set____db54di;
+  };
+  protoOf(AGObject).get__native_snelvx_k$ = function () {
+    return this._native_1;
+  };
+  protoOf(AGObject).set__cachedContextVersion_bu8hqd_k$ = function (_set____db54di) {
+    this._cachedContextVersion_1 = _set____db54di;
+  };
+  protoOf(AGObject).get__cachedContextVersion_4rljz3_k$ = function () {
+    return this._cachedContextVersion_1;
+  };
+  protoOf(AGObject).set__cachedVersion_tko91o_k$ = function (_set____db54di) {
+    this._cachedVersion_1 = _set____db54di;
+  };
+  protoOf(AGObject).get__cachedVersion_dw4334_k$ = function () {
+    return this._cachedVersion_1;
+  };
+  protoOf(AGObject).set__version_xlq9la_k$ = function (_set____db54di) {
+    this._version_1 = _set____db54di;
+  };
+  protoOf(AGObject).get__version_d0fdk2_k$ = function () {
+    return this._version_1;
+  };
+  protoOf(AGObject)._resetVersion_a4sh2g_k$ = function () {
+    this.markAsDirty_l2wh9f_k$();
+    this._cachedVersion_1 = this._version_1 - 1 | 0;
+  };
+  protoOf(AGObject).markAsDirty_l2wh9f_k$ = function () {
+    this._version_1 = this._version_1 + 1 | 0;
+  };
+  protoOf(AGObject).close_yn9xrc_k$ = function () {
+    var tmp0_safe_receiver = this._native_1;
+    if (tmp0_safe_receiver == null)
+      null;
+    else {
+      tmp0_safe_receiver.markToDelete_gzapsz_k$();
+    }
+    this._native_1 = null;
+  };
+  function _AGTextureUnitInfo___init__impl__s1tthu(data) {
+    return data;
+  }
+  function _AGTextureUnitInfo___get_data__impl__oupy3n($this) {
+    return $this;
+  }
+  function Companion_24() {
+    Companion_instance_24 = this;
+    this.INVALID_1 = _AGTextureUnitInfo___init__impl__s1tthu(-1);
+    this.DEFAULT_1 = AGTextureUnitInfo__withKind_impl_aa0b04(AGTextureUnitInfo__withWrap_impl_akwb6y(AGTextureUnitInfo__withLinearTrilinear_impl_aactvz(_AGTextureUnitInfo___init__impl__s1tthu(0), true, true), Companion_getInstance_85().get_CLAMP_TO_EDGE_oagjai_k$()), Companion_getInstance_84().get_TEXTURE_2D_1sdq0k_k$());
+  }
+  protoOf(Companion_24).get_INVALID_felsye_k$ = function () {
+    return this.INVALID_1;
+  };
+  protoOf(Companion_24).get_DEFAULT_7hhlcw_k$ = function () {
+    return this.DEFAULT_1;
+  };
+  protoOf(Companion_24).fromRaw_3bzfmq_k$ = function (data) {
+    return _AGTextureUnitInfo___init__impl__s1tthu(data);
+  };
+  protoOf(Companion_24).invoke_10n3n6_k$ = function (wrap, linear, trilinear) {
+    return AGTextureUnitInfo__withLinearTrilinear_impl_aactvz(AGTextureUnitInfo__withWrap_impl_akwb6y(_AGTextureUnitInfo___init__impl__s1tthu(0), wrap), linear, trilinear);
+  };
+  protoOf(Companion_24).invoke$default_38xk5x_k$ = function (wrap, linear, trilinear, $super) {
+    wrap = wrap === VOID ? Companion_getInstance_85().get_CLAMP_TO_EDGE_oagjai_k$() : wrap;
+    linear = linear === VOID ? true : linear;
+    trilinear = trilinear === VOID ? linear : trilinear;
+    return $super === VOID ? this.invoke_10n3n6_k$(wrap, linear, trilinear) : $super.invoke_10n3n6_k$.call(this, new AGWrapMode(wrap), linear, trilinear).data_1;
+  };
+  var Companion_instance_24;
+  function Companion_getInstance_69() {
+    if (Companion_instance_24 == null)
+      new Companion_24();
+    return Companion_instance_24;
+  }
+  function _AGTextureUnitInfo___get_wrap__impl__dwp6l($this) {
+    // Inline function 'korlibs.memory.extract2' call
+    var tmp$ret$0 = (_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 0 | 0) & 3;
+    return _AGWrapMode___init__impl__x5wmya(tmp$ret$0);
+  }
+  function _AGTextureUnitInfo___get_linear__impl__jak6ny($this) {
+    // Inline function 'korlibs.memory.extract' call
+    // Inline function 'korlibs.memory.extract1' call
+    return !(((_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 2 | 0) & 1) === 0);
+  }
+  function _AGTextureUnitInfo___get_trilinear__impl__hxtqfb($this) {
+    // Inline function 'korlibs.memory.extract' call
+    // Inline function 'korlibs.memory.extract1' call
+    return !(((_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 3 | 0) & 1) === 0);
+  }
+  function _AGTextureUnitInfo___get_kind__impl__6xtjoz($this) {
+    return _AGTextureTargetKind___init__impl__4zdmch(extract(_AGTextureUnitInfo___get_data__impl__oupy3n($this), 8, 5));
+  }
+  function AGTextureUnitInfo__withKind_impl_aa0b04($this, kind) {
+    return _AGTextureUnitInfo___init__impl__s1tthu(insert5(_AGTextureUnitInfo___get_data__impl__oupy3n($this), _AGTextureTargetKind___get_ordinal__impl__gjzc5p(kind), 8));
+  }
+  function AGTextureUnitInfo__withWrap_impl_akwb6y($this, wrap) {
+    return _AGTextureUnitInfo___init__impl__s1tthu(insert2(_AGTextureUnitInfo___get_data__impl__oupy3n($this), _AGWrapMode___get_ordinal__impl__rc38w2(wrap), 0));
+  }
+  function AGTextureUnitInfo__withLinear_impl_jl8yud($this, linear) {
+    return _AGTextureUnitInfo___init__impl__s1tthu(insert(_AGTextureUnitInfo___get_data__impl__oupy3n($this), linear, 2));
+  }
+  function AGTextureUnitInfo__withTrilinear_impl_vhkcy2($this, trilinear) {
+    return _AGTextureUnitInfo___init__impl__s1tthu(insert(_AGTextureUnitInfo___get_data__impl__oupy3n($this), trilinear, 3));
+  }
+  function AGTextureUnitInfo__withLinearTrilinear_impl_aactvz($this, linear, trilinear) {
+    return AGTextureUnitInfo__withTrilinear_impl_vhkcy2(AGTextureUnitInfo__withLinear_impl_jl8yud($this, linear), trilinear);
+  }
+  function AGTextureUnitInfo__toString_impl_7im6je($this) {
+    return 'AGTextureUnitInfo(wrap=' + new AGWrapMode(_AGTextureUnitInfo___get_wrap__impl__dwp6l($this)) + ', linear=' + _AGTextureUnitInfo___get_linear__impl__jak6ny($this) + ', trilinear=' + _AGTextureUnitInfo___get_trilinear__impl__hxtqfb($this) + ', kind=' + new AGTextureTargetKind(_AGTextureUnitInfo___get_kind__impl__6xtjoz($this)) + ')';
+  }
+  function AGTextureUnitInfo__hashCode_impl_e8jq9h($this) {
+    return $this;
+  }
+  function AGTextureUnitInfo__equals_impl_j2jlgn($this, other) {
+    if (!(other instanceof AGTextureUnitInfo))
+      return false;
+    if (!($this === (other instanceof AGTextureUnitInfo ? other.data_1 : THROW_CCE())))
+      return false;
+    return true;
+  }
+  function AGTextureUnitInfo(data) {
+    Companion_getInstance_69();
+    this.data_1 = data;
+  }
+  protoOf(AGTextureUnitInfo).toString = function () {
+    return AGTextureUnitInfo__toString_impl_7im6je(this.data_1);
+  };
+  protoOf(AGTextureUnitInfo).hashCode = function () {
+    return AGTextureUnitInfo__hashCode_impl_e8jq9h(this.data_1);
+  };
+  protoOf(AGTextureUnitInfo).equals = function (other) {
+    return AGTextureUnitInfo__equals_impl_j2jlgn(this.data_1, other);
+  };
+  function AGNativeObject() {
+  }
   function _get_logger__rkp4sl($this) {
     return $this.logger_1;
   }
@@ -10529,7 +10487,7 @@
     this.bitmap_1 = null;
     this.mipmaps_1 = false;
     this.forcedTexId_1 = null;
-    this.estimatedMemoryUsage_1 = Companion_getInstance_5().fromBytes_p7luea_k$(new Long(0, 0));
+    this.estimatedMemoryUsage_1 = Companion_getInstance_4().fromBytes_p7luea_k$(new Long(0, 0));
   }
   protoOf(AGTexture).get_targetKind_2rqbpf_k$ = function () {
     return this.targetKind_1;
@@ -10637,7 +10595,7 @@
     var tmp = this;
     tmp.forcedTexId_1 = (bmp == null ? true : isInterface(bmp, ForcedTexId)) ? bmp : null;
     this.bitmap_1 = bmp;
-    this.estimatedMemoryUsage_1 = Companion_getInstance_5().fromBytes_sqdf04_k$(imul(imul(imul(this.get_width_j0q4yl_k$(), this.get_height_e7t92o_k$()), this.get_depth_iq7qmy_k$()), 4));
+    this.estimatedMemoryUsage_1 = Companion_getInstance_4().fromBytes_sqdf04_k$(imul(imul(imul(this.get_width_j0q4yl_k$(), this.get_height_e7t92o_k$()), this.get_depth_iq7qmy_k$()), 4));
     this.markAsDirty_l2wh9f_k$();
     this.requestMipmaps_1 = mipmaps;
     this.baseMipmapLevel_1 = baseMipmapLevel;
@@ -10651,7 +10609,7 @@
     return $super === VOID ? this.upload_m8t5yu_k$(bmp, mipmaps, baseMipmapLevel, maxMipmapLevel) : $super.upload_m8t5yu_k$.call(this, bmp, mipmaps, baseMipmapLevel, maxMipmapLevel);
   };
   protoOf(AGTexture).upload_a948f0_k$ = function (bmp, mipmaps, baseMipmapLevel, maxMipmapLevel) {
-    return this.upload_m8t5yu_k$(bmp == null ? null : extract(bmp), mipmaps, baseMipmapLevel, maxMipmapLevel);
+    return this.upload_m8t5yu_k$(bmp == null ? null : extract_0(bmp), mipmaps, baseMipmapLevel, maxMipmapLevel);
   };
   protoOf(AGTexture).upload$default_cvrwjc_k$ = function (bmp, mipmaps, baseMipmapLevel, maxMipmapLevel, $super) {
     mipmaps = mipmaps === VOID ? false : mipmaps;
@@ -10669,100 +10627,6 @@
   protoOf(AGTexture).toString = function () {
     return 'AGTexture(size=' + this.get_width_j0q4yl_k$() + ',' + this.get_height_e7t92o_k$() + ')';
   };
-  function _AGTextureUnitInfo___init__impl__s1tthu(data) {
-    return data;
-  }
-  function _AGTextureUnitInfo___get_data__impl__oupy3n($this) {
-    return $this;
-  }
-  function Companion_25() {
-    Companion_instance_25 = this;
-    this.INVALID_1 = _AGTextureUnitInfo___init__impl__s1tthu(-1);
-    this.DEFAULT_1 = AGTextureUnitInfo__withKind_impl_aa0b04(AGTextureUnitInfo__withWrap_impl_akwb6y(AGTextureUnitInfo__withLinearTrilinear_impl_aactvz(_AGTextureUnitInfo___init__impl__s1tthu(0), true, true), Companion_getInstance_85().get_CLAMP_TO_EDGE_oagjai_k$()), Companion_getInstance_84().get_TEXTURE_2D_1sdq0k_k$());
-  }
-  protoOf(Companion_25).get_INVALID_felsye_k$ = function () {
-    return this.INVALID_1;
-  };
-  protoOf(Companion_25).get_DEFAULT_7hhlcw_k$ = function () {
-    return this.DEFAULT_1;
-  };
-  protoOf(Companion_25).fromRaw_3bzfmq_k$ = function (data) {
-    return _AGTextureUnitInfo___init__impl__s1tthu(data);
-  };
-  protoOf(Companion_25).invoke_10n3n6_k$ = function (wrap, linear, trilinear) {
-    return AGTextureUnitInfo__withLinearTrilinear_impl_aactvz(AGTextureUnitInfo__withWrap_impl_akwb6y(_AGTextureUnitInfo___init__impl__s1tthu(0), wrap), linear, trilinear);
-  };
-  protoOf(Companion_25).invoke$default_38xk5x_k$ = function (wrap, linear, trilinear, $super) {
-    wrap = wrap === VOID ? Companion_getInstance_85().get_CLAMP_TO_EDGE_oagjai_k$() : wrap;
-    linear = linear === VOID ? true : linear;
-    trilinear = trilinear === VOID ? linear : trilinear;
-    return $super === VOID ? this.invoke_10n3n6_k$(wrap, linear, trilinear) : $super.invoke_10n3n6_k$.call(this, new AGWrapMode(wrap), linear, trilinear).data_1;
-  };
-  var Companion_instance_25;
-  function Companion_getInstance_70() {
-    if (Companion_instance_25 == null)
-      new Companion_25();
-    return Companion_instance_25;
-  }
-  function _AGTextureUnitInfo___get_wrap__impl__dwp6l($this) {
-    // Inline function 'korlibs.memory.extract2' call
-    var tmp$ret$0 = (_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 0 | 0) & 3;
-    return _AGWrapMode___init__impl__x5wmya(tmp$ret$0);
-  }
-  function _AGTextureUnitInfo___get_linear__impl__jak6ny($this) {
-    // Inline function 'korlibs.memory.extract' call
-    // Inline function 'korlibs.memory.extract1' call
-    return !(((_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 2 | 0) & 1) === 0);
-  }
-  function _AGTextureUnitInfo___get_trilinear__impl__hxtqfb($this) {
-    // Inline function 'korlibs.memory.extract' call
-    // Inline function 'korlibs.memory.extract1' call
-    return !(((_AGTextureUnitInfo___get_data__impl__oupy3n($this) >>> 3 | 0) & 1) === 0);
-  }
-  function _AGTextureUnitInfo___get_kind__impl__6xtjoz($this) {
-    return _AGTextureTargetKind___init__impl__4zdmch(extract_0(_AGTextureUnitInfo___get_data__impl__oupy3n($this), 8, 5));
-  }
-  function AGTextureUnitInfo__withKind_impl_aa0b04($this, kind) {
-    return _AGTextureUnitInfo___init__impl__s1tthu(insert5(_AGTextureUnitInfo___get_data__impl__oupy3n($this), _AGTextureTargetKind___get_ordinal__impl__gjzc5p(kind), 8));
-  }
-  function AGTextureUnitInfo__withWrap_impl_akwb6y($this, wrap) {
-    return _AGTextureUnitInfo___init__impl__s1tthu(insert2(_AGTextureUnitInfo___get_data__impl__oupy3n($this), _AGWrapMode___get_ordinal__impl__rc38w2(wrap), 0));
-  }
-  function AGTextureUnitInfo__withLinear_impl_jl8yud($this, linear) {
-    return _AGTextureUnitInfo___init__impl__s1tthu(insert(_AGTextureUnitInfo___get_data__impl__oupy3n($this), linear, 2));
-  }
-  function AGTextureUnitInfo__withTrilinear_impl_vhkcy2($this, trilinear) {
-    return _AGTextureUnitInfo___init__impl__s1tthu(insert(_AGTextureUnitInfo___get_data__impl__oupy3n($this), trilinear, 3));
-  }
-  function AGTextureUnitInfo__withLinearTrilinear_impl_aactvz($this, linear, trilinear) {
-    return AGTextureUnitInfo__withTrilinear_impl_vhkcy2(AGTextureUnitInfo__withLinear_impl_jl8yud($this, linear), trilinear);
-  }
-  function AGTextureUnitInfo__toString_impl_7im6je($this) {
-    return 'AGTextureUnitInfo(wrap=' + new AGWrapMode(_AGTextureUnitInfo___get_wrap__impl__dwp6l($this)) + ', linear=' + _AGTextureUnitInfo___get_linear__impl__jak6ny($this) + ', trilinear=' + _AGTextureUnitInfo___get_trilinear__impl__hxtqfb($this) + ', kind=' + new AGTextureTargetKind(_AGTextureUnitInfo___get_kind__impl__6xtjoz($this)) + ')';
-  }
-  function AGTextureUnitInfo__hashCode_impl_e8jq9h($this) {
-    return $this;
-  }
-  function AGTextureUnitInfo__equals_impl_j2jlgn($this, other) {
-    if (!(other instanceof AGTextureUnitInfo))
-      return false;
-    if (!($this === (other instanceof AGTextureUnitInfo ? other.data_1 : THROW_CCE())))
-      return false;
-    return true;
-  }
-  function AGTextureUnitInfo(data) {
-    Companion_getInstance_70();
-    this.data_1 = data;
-  }
-  protoOf(AGTextureUnitInfo).toString = function () {
-    return AGTextureUnitInfo__toString_impl_7im6je(this.data_1);
-  };
-  protoOf(AGTextureUnitInfo).hashCode = function () {
-    return AGTextureUnitInfo__hashCode_impl_e8jq9h(this.data_1);
-  };
-  protoOf(AGTextureUnitInfo).equals = function (other) {
-    return AGTextureUnitInfo__equals_impl_j2jlgn(this.data_1, other);
-  };
   function AGFrameBufferBase(isMain) {
     AGObject.call(this);
     this.isMain_1 = isMain;
@@ -10773,7 +10637,7 @@
     // Inline function 'korlibs.graphics.AGFrameBufferBase.tex.<anonymous>' call
     this_0.isFbo_1 = true;
     tmp.tex_1 = this_0;
-    this.estimatedMemoryUsage_1 = Companion_getInstance_5().fromBytes_sqdf04_k$(0);
+    this.estimatedMemoryUsage_1 = Companion_getInstance_4().fromBytes_sqdf04_k$(0);
   }
   protoOf(AGFrameBufferBase).get_isMain_ew1zpo_k$ = function () {
     return this.isMain_1;
@@ -10796,6 +10660,214 @@
   protoOf(AGFrameBufferBase).toString = function () {
     return 'AGFrameBufferBase(isMain=' + this.isMain_1 + ')';
   };
+  function Companion_25() {
+    Companion_instance_25 = this;
+    this.MAX_TEXTURE_UNITS_1 = 8;
+  }
+  protoOf(Companion_25).get_MAX_TEXTURE_UNITS_5jnbkp_k$ = function () {
+    return this.MAX_TEXTURE_UNITS_1;
+  };
+  protoOf(Companion_25).get_EMPTY_i8q41w_k$ = function () {
+    return AGTextureUnits_init_$Create$();
+  };
+  var Companion_instance_25;
+  function Companion_getInstance_70() {
+    if (Companion_instance_25 == null)
+      new Companion_25();
+    return Companion_instance_25;
+  }
+  function AGTextureUnits_init_$Init$(size, $this) {
+    size = size === VOID ? Companion_getInstance_70().MAX_TEXTURE_UNITS_1 : size;
+    // Inline function 'kotlin.arrayOfNulls' call
+    var tmp$ret$0 = fillArrayVal(Array(size), null);
+    AGTextureUnits.call($this, tmp$ret$0, _AGTextureUnitInfoArray___init__impl__c77rdb_0(size));
+    return $this;
+  }
+  function AGTextureUnits_init_$Create$(size) {
+    return AGTextureUnits_init_$Init$(size, objectCreate(protoOf(AGTextureUnits)));
+  }
+  function AGTextureUnits(textures, infos) {
+    Companion_getInstance_70();
+    this.textures_1 = textures;
+    this.infos_1 = infos;
+  }
+  protoOf(AGTextureUnits).get_textures_mn839d_k$ = function () {
+    return this.textures_1;
+  };
+  protoOf(AGTextureUnits).get_infos_rt1v3x_k$ = function () {
+    return this.infos_1;
+  };
+  protoOf(AGTextureUnits).get_size_woubt6_k$ = function () {
+    return this.textures_1.length;
+  };
+  protoOf(AGTextureUnits).copyFrom_wmlpb3_k$ = function (other, sampler) {
+    return this.copyFrom_lxhhkg_k$(other, sampler.get_index_it478p_k$());
+  };
+  protoOf(AGTextureUnits).copyFrom_lxhhkg_k$ = function (other, index) {
+    return this.set_ikr6re_k$(index, other.textures_1[index], AGTextureUnitInfoArray__get_impl_xhvpef(other.infos_1, index));
+  };
+  protoOf(AGTextureUnits).set_ikr6re_k$ = function (index, texture, info) {
+    this.textures_1[index] = texture;
+    AGTextureUnitInfoArray__set_impl_s95rfh(this.infos_1, index, info);
+  };
+  protoOf(AGTextureUnits).set$default_wjvrce_k$ = function (index, texture, info, $super) {
+    info = info === VOID ? Companion_getInstance_69().DEFAULT_1 : info;
+    var tmp;
+    if ($super === VOID) {
+      this.set_ikr6re_k$(index, texture, info);
+      tmp = Unit_getInstance();
+    } else {
+      tmp = $super.set_ikr6re_k$.call(this, index, texture, new AGTextureUnitInfo(info));
+    }
+    return tmp;
+  };
+  protoOf(AGTextureUnits).set_jc72iz_k$ = function (sampler, texture, info) {
+    this.set_ikr6re_k$(sampler.get_index_it478p_k$(), texture, info);
+  };
+  protoOf(AGTextureUnits).set$default_6ddeu7_k$ = function (sampler, texture, info, $super) {
+    info = info === VOID ? Companion_getInstance_69().DEFAULT_1 : info;
+    var tmp;
+    if ($super === VOID) {
+      this.set_jc72iz_k$(sampler, texture, info);
+      tmp = Unit_getInstance();
+    } else {
+      tmp = $super.set_jc72iz_k$.call(this, sampler, texture, new AGTextureUnitInfo(info));
+    }
+    return tmp;
+  };
+  protoOf(AGTextureUnits).clear_j9egeb_k$ = function () {
+    var inductionVariable = 0;
+    var last = this.get_size_woubt6_k$();
+    if (inductionVariable < last)
+      do {
+        var n = inductionVariable;
+        inductionVariable = inductionVariable + 1 | 0;
+        this.set_ikr6re_k$(n, null, Companion_getInstance_69().DEFAULT_1);
+      }
+       while (inductionVariable < last);
+  };
+  protoOf(AGTextureUnits).clone_1keycd_k$ = function () {
+    // Inline function 'kotlin.collections.copyOf' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var tmp$ret$1 = this.textures_1.slice();
+    return new AGTextureUnits(tmp$ret$1, AGTextureUnitInfoArray__copyOf_impl_z2w8z3(this.infos_1));
+  };
+  protoOf(AGTextureUnits).fastForEach_yruhv2_k$ = function (block) {
+    var inductionVariable = 0;
+    var last = this.get_size_woubt6_k$();
+    if (inductionVariable < last)
+      do {
+        var n = inductionVariable;
+        inductionVariable = inductionVariable + 1 | 0;
+        block(n, this.textures_1[n], new AGTextureUnitInfo(AGTextureUnitInfoArray__get_impl_xhvpef(this.infos_1, n)));
+      }
+       while (inductionVariable < last);
+  };
+  protoOf(AGTextureUnits).component1_7eebsc_k$ = function () {
+    return this.textures_1;
+  };
+  protoOf(AGTextureUnits).component2_qkqdh2_k$ = function () {
+    return this.infos_1;
+  };
+  protoOf(AGTextureUnits).copy_1ctjmt_k$ = function (textures, infos) {
+    return new AGTextureUnits(textures, infos);
+  };
+  protoOf(AGTextureUnits).copy$default_b4en1u_k$ = function (textures, infos, $super) {
+    textures = textures === VOID ? this.textures_1 : textures;
+    infos = infos === VOID ? this.infos_1 : infos;
+    return $super === VOID ? this.copy_1ctjmt_k$(textures, infos) : $super.copy_1ctjmt_k$.call(this, textures, new AGTextureUnitInfoArray(infos));
+  };
+  protoOf(AGTextureUnits).toString = function () {
+    return 'AGTextureUnits(textures=' + toString(this.textures_1) + ', infos=' + new AGTextureUnitInfoArray(this.infos_1) + ')';
+  };
+  protoOf(AGTextureUnits).hashCode = function () {
+    var result = hashCode(this.textures_1);
+    result = imul(result, 31) + AGTextureUnitInfoArray__hashCode_impl_siosps(this.infos_1) | 0;
+    return result;
+  };
+  protoOf(AGTextureUnits).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof AGTextureUnits))
+      return false;
+    var tmp0_other_with_cast = other instanceof AGTextureUnits ? other : THROW_CCE();
+    if (!equals(this.textures_1, tmp0_other_with_cast.textures_1))
+      return false;
+    if (!equals(this.infos_1, tmp0_other_with_cast.infos_1))
+      return false;
+    return true;
+  };
+  function _set_mem__4wa5sg($this, _set____db54di) {
+    $this.mem_1 = _set____db54di;
+  }
+  function AGBuffer() {
+    AGObject.call(this);
+    this.mem_1 = null;
+  }
+  protoOf(AGBuffer).get_mem_18j0r8_k$ = function () {
+    return this.mem_1;
+  };
+  protoOf(AGBuffer).upload_xxm7j5_k$ = function (data, offset, length) {
+    return this.upload_qk2afu_k$(_Int8Buffer___get_buffer__impl__q0gulb(_Int8Buffer___init__impl__e20lvc(data, offset, length)));
+  };
+  protoOf(AGBuffer).upload$default_7jbvkd_k$ = function (data, offset, length, $super) {
+    offset = offset === VOID ? 0 : offset;
+    length = length === VOID ? data.length - offset | 0 : length;
+    return $super === VOID ? this.upload_xxm7j5_k$(data, offset, length) : $super.upload_xxm7j5_k$.call(this, data, offset, length);
+  };
+  protoOf(AGBuffer).upload_snilbz_k$ = function (data) {
+    return this.upload_qk2afu_k$(_Uint8Buffer___get_buffer__impl__mscllu(Companion_getInstance_5().invoke_43s6c3_k$(data)));
+  };
+  protoOf(AGBuffer).upload_l9uosp_k$ = function (data, offset, length) {
+    return this.upload_qk2afu_k$(_Float32Buffer___get_buffer__impl__x5nu9x(_Float32Buffer___init__impl__403k2m(data, offset, length)));
+  };
+  protoOf(AGBuffer).upload$default_uibktr_k$ = function (data, offset, length, $super) {
+    offset = offset === VOID ? 0 : offset;
+    length = length === VOID ? data.length - offset | 0 : length;
+    return $super === VOID ? this.upload_l9uosp_k$(data, offset, length) : $super.upload_l9uosp_k$.call(this, data, offset, length);
+  };
+  protoOf(AGBuffer).upload_q0yw6u_k$ = function (data, offset, length) {
+    return this.upload_qk2afu_k$(_Int32Buffer___get_buffer__impl__dnrimm(_Int32Buffer___init__impl__o98lxn(data, offset, length)));
+  };
+  protoOf(AGBuffer).upload$default_rgi61q_k$ = function (data, offset, length, $super) {
+    offset = offset === VOID ? 0 : offset;
+    length = length === VOID ? data.length - offset | 0 : length;
+    return $super === VOID ? this.upload_q0yw6u_k$(data, offset, length) : $super.upload_q0yw6u_k$.call(this, data, offset, length);
+  };
+  protoOf(AGBuffer).upload_spks2f_k$ = function (data, offset, length) {
+    return this.upload_qk2afu_k$(_Int16Buffer___get_buffer__impl__eo253o(_Int16Buffer___init__impl__dw7hol(data, offset, length)));
+  };
+  protoOf(AGBuffer).upload$default_q6ngv_k$ = function (data, offset, length, $super) {
+    offset = offset === VOID ? 0 : offset;
+    length = length === VOID ? data.length - offset | 0 : length;
+    return $super === VOID ? this.upload_spks2f_k$(data, offset, length) : $super.upload_spks2f_k$.call(this, data, offset, length);
+  };
+  protoOf(AGBuffer).upload_o9r5eu_k$ = function (data, offset, length) {
+    return this.upload_qk2afu_k$(sliceWithSize(data, offset, length));
+  };
+  protoOf(AGBuffer).upload$default_ox1db7_k$ = function (data, offset, length, $super) {
+    length = length === VOID ? get_size(data) - offset | 0 : length;
+    return $super === VOID ? this.upload_o9r5eu_k$(data, offset, length) : $super.upload_o9r5eu_k$.call(this, data, offset, length);
+  };
+  protoOf(AGBuffer).upload_qk2afu_k$ = function (data) {
+    if (data.get_sizeInBytes_hla44k_k$() < 1024) {
+      if ((!(this.mem_1 == null) ? ensureNotNull(this.mem_1).get_sizeInBytes_hla44k_k$() === data.get_sizeInBytes_hla44k_k$() : false) ? arrayequal(ensureNotNull(this.mem_1), 0, data, 0, data.get_sizeInBytes_hla44k_k$()) : false)
+        return this;
+    }
+    this.mem_1 = clone(data);
+    this.markAsDirty_l2wh9f_k$();
+    return this;
+  };
+  protoOf(AGBuffer).get_sizeInBytes_hla44k_k$ = function () {
+    var tmp0_safe_receiver = this.mem_1;
+    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.get_sizeInBytes_hla44k_k$();
+    return tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs;
+  };
+  protoOf(AGBuffer).toString = function () {
+    var tmp0_safe_receiver = this.mem_1;
+    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : tmp0_safe_receiver.get_sizeInBytes_hla44k_k$();
+    return 'AGBuffer(' + (tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs) + ')';
+  };
   function _AGTextureUnitInfoArray___init__impl__c77rdb(data) {
     return data;
   }
@@ -10806,7 +10878,7 @@
     var tmp = 0;
     var tmp_0 = new Int32Array(size);
     while (tmp < size) {
-      tmp_0[tmp] = _AGTextureUnitInfo___get_data__impl__oupy3n(Companion_getInstance_70().DEFAULT_1);
+      tmp_0[tmp] = _AGTextureUnitInfo___get_data__impl__oupy3n(Companion_getInstance_69().DEFAULT_1);
       tmp = tmp + 1 | 0;
     }
     return _AGTextureUnitInfoArray___init__impl__c77rdb(tmp_0);
@@ -10815,7 +10887,7 @@
     _AGTextureUnitInfoArray___get_data__impl__a4ycyo($this)[index] = _AGTextureUnitInfo___get_data__impl__oupy3n(value);
   }
   function AGTextureUnitInfoArray__get_impl_xhvpef($this, index) {
-    return Companion_getInstance_70().fromRaw_3bzfmq_k$(_AGTextureUnitInfoArray___get_data__impl__a4ycyo($this)[index]);
+    return Companion_getInstance_69().fromRaw_3bzfmq_k$(_AGTextureUnitInfoArray___get_data__impl__a4ycyo($this)[index]);
   }
   function AGTextureUnitInfoArray__copyOf_impl_z2w8z3($this) {
     // Inline function 'kotlin.collections.copyOf' call
@@ -10849,54 +10921,6 @@
   protoOf(AGTextureUnitInfoArray).equals = function (other) {
     return AGTextureUnitInfoArray__equals_impl_e2lbno(this.data_1, other);
   };
-  function AGObject() {
-    this._native_1 = null;
-    this._cachedContextVersion_1 = -1;
-    this._cachedVersion_1 = -2;
-    this._version_1 = -1;
-  }
-  protoOf(AGObject).set__native_cjks3f_k$ = function (_set____db54di) {
-    this._native_1 = _set____db54di;
-  };
-  protoOf(AGObject).get__native_snelvx_k$ = function () {
-    return this._native_1;
-  };
-  protoOf(AGObject).set__cachedContextVersion_bu8hqd_k$ = function (_set____db54di) {
-    this._cachedContextVersion_1 = _set____db54di;
-  };
-  protoOf(AGObject).get__cachedContextVersion_4rljz3_k$ = function () {
-    return this._cachedContextVersion_1;
-  };
-  protoOf(AGObject).set__cachedVersion_tko91o_k$ = function (_set____db54di) {
-    this._cachedVersion_1 = _set____db54di;
-  };
-  protoOf(AGObject).get__cachedVersion_dw4334_k$ = function () {
-    return this._cachedVersion_1;
-  };
-  protoOf(AGObject).set__version_xlq9la_k$ = function (_set____db54di) {
-    this._version_1 = _set____db54di;
-  };
-  protoOf(AGObject).get__version_d0fdk2_k$ = function () {
-    return this._version_1;
-  };
-  protoOf(AGObject)._resetVersion_a4sh2g_k$ = function () {
-    this.markAsDirty_l2wh9f_k$();
-    this._cachedVersion_1 = this._version_1 - 1 | 0;
-  };
-  protoOf(AGObject).markAsDirty_l2wh9f_k$ = function () {
-    this._version_1 = this._version_1 + 1 | 0;
-  };
-  protoOf(AGObject).close_yn9xrc_k$ = function () {
-    var tmp0_safe_receiver = this._native_1;
-    if (tmp0_safe_receiver == null)
-      null;
-    else {
-      tmp0_safe_receiver.markToDelete_gzapsz_k$();
-    }
-    this._native_1 = null;
-  };
-  function AGNativeObject() {
-  }
   function _get_uniformBlocks__8uo8qx($this) {
     return $this.uniformBlocks_1;
   }
@@ -12266,7 +12290,7 @@
     indexType = indexType === VOID ? Companion_getInstance_72().USHORT_1 : indexType;
     program = program === VOID ? DefaultShaders_getInstance().get_PROGRAM_DEBUG_7p1b3j_k$() : program;
     uniformBlocks = uniformBlocks === VOID ? Companion_getInstance_91().get_EMPTY_i8q41w_k$() : uniformBlocks;
-    textureUnits = textureUnits === VOID ? Companion_getInstance_68().get_EMPTY_i8q41w_k$() : textureUnits;
+    textureUnits = textureUnits === VOID ? Companion_getInstance_70().get_EMPTY_i8q41w_k$() : textureUnits;
     blending = blending === VOID ? Companion_getInstance_73().NORMAL_1 : blending;
     stencilOpFunc = stencilOpFunc === VOID ? Companion_getInstance_75().DEFAULT_1 : stencilOpFunc;
     stencilRef = stencilRef === VOID ? Companion_getInstance_74().DEFAULT_1 : stencilRef;
@@ -13788,7 +13812,7 @@
       return Companion_getInstance_77().NIL_1;
     return AGScissor_init_$Create$(numberToInt(_this__u8e3s4.get_x_1mhr67_k$()), numberToInt(_this__u8e3s4.get_y_1mhr68_k$()), numberToInt(_this__u8e3s4.get_width_j0q4yl_k$()), numberToInt(_this__u8e3s4.get_height_e7t92o_k$()));
   }
-  function plus_6(_this__u8e3s4, scissor) {
+  function plus_7(_this__u8e3s4, scissor) {
     return BoundsBuilder__plus_impl_cz7f7x(BoundsBuilder__plus_impl_cz7f7x(_this__u8e3s4, Vector2D_init_$Create$_0(scissor.get_left_woprgw_k$(), scissor.get_top_18ivbo_k$())), Vector2D_init_$Create$_0(scissor.get_right_ixz7xv_k$(), scissor.get_bottom_bj8ras_k$()));
   }
   function applyMatrixBounds(_this__u8e3s4, m) {
@@ -13854,11 +13878,11 @@
   }
   function AGStats(texturesCount, texturesMemory, buffersCount, buffersMemory, frameBuffersCount, frameBuffersMemory, texturesCreated, texturesDeleted, programCount) {
     texturesCount = texturesCount === VOID ? 0 : texturesCount;
-    texturesMemory = texturesMemory === VOID ? Companion_getInstance_5().fromBytes_sqdf04_k$(0) : texturesMemory;
+    texturesMemory = texturesMemory === VOID ? Companion_getInstance_4().fromBytes_sqdf04_k$(0) : texturesMemory;
     buffersCount = buffersCount === VOID ? 0 : buffersCount;
-    buffersMemory = buffersMemory === VOID ? Companion_getInstance_5().fromBytes_sqdf04_k$(0) : buffersMemory;
+    buffersMemory = buffersMemory === VOID ? Companion_getInstance_4().fromBytes_sqdf04_k$(0) : buffersMemory;
     frameBuffersCount = frameBuffersCount === VOID ? 0 : frameBuffersCount;
-    frameBuffersMemory = frameBuffersMemory === VOID ? Companion_getInstance_5().fromBytes_sqdf04_k$(0) : frameBuffersMemory;
+    frameBuffersMemory = frameBuffersMemory === VOID ? Companion_getInstance_4().fromBytes_sqdf04_k$(0) : frameBuffersMemory;
     texturesCreated = texturesCreated === VOID ? 0 : texturesCreated;
     texturesDeleted = texturesDeleted === VOID ? 0 : texturesDeleted;
     programCount = programCount === VOID ? 0 : programCount;
@@ -13964,7 +13988,7 @@
     // Inline function 'korlibs.graphics.Companion.PROGRAM.<anonymous>.<anonymous>' call
     builder.SET_vs1igi_k$(this_0.get_v_Tex_izzmad_k$(), this_0.get_a_Tex_iofxts_k$());
     builder.SET_vs1igi_k$(builder.get_out_18iyvv_k$(), builder.vec4_735zyq_k$([this_0.get_a_Pos_iofv3h_k$(), builder.get_lit_xwjtj8_k$(0.0), builder.get_lit_xwjtj8_k$(1.0)]));
-    var tmp_0 = VertexShader_0(builder._buildFuncs_9u5nuo_k$());
+    var tmp_0 = VertexShader(builder._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_0 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.Companion.PROGRAM.<anonymous>' call
@@ -13974,7 +13998,7 @@
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.graphics.Companion.PROGRAM.<anonymous>.<anonymous>' call
     builder_0.SET_vs1igi_k$(builder_0.get_out_18iyvv_k$(), builder_0.texture2D_1y7uxf_k$(this_1.get_u_Tex_izftp0_k$(), builder_0.get_r4qghg_k$(this_1.get_v_Tex_izzmad_k$(), 'xy')));
-    var tmp$ret$5 = FragmentShader_0(builder_0._buildFuncs_9u5nuo_k$());
+    var tmp$ret$5 = FragmentShader(builder_0._buildFuncs_9u5nuo_k$());
     tmp.PROGRAM_1 = new Program(tmp_0, tmp$ret$5);
     var tmp_1 = this;
     // Inline function 'korlibs.graphics.shader.VertexShader' call
@@ -13986,7 +14010,7 @@
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.graphics.Companion.PROGRAM_DEBUG.<anonymous>.<anonymous>' call
     builder_1.SET_vs1igi_k$(builder_1.get_out_18iyvv_k$(), builder_1.vec4_735zyq_k$([this_2.get_a_Pos_iofv3h_k$(), builder_1.get_lit_xwjtj8_k$(0.0), builder_1.get_lit_xwjtj8_k$(1.0)]));
-    var tmp_2 = VertexShader_0(builder_1._buildFuncs_9u5nuo_k$());
+    var tmp_2 = VertexShader(builder_1._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_2 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.Companion.PROGRAM_DEBUG.<anonymous>' call
@@ -13996,7 +14020,7 @@
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.graphics.Companion.PROGRAM_DEBUG.<anonymous>.<anonymous>' call
     builder_2.SET_vs1igi_k$(builder_2.get_out_18iyvv_k$(), builder_2.vec4_yzdoco_k$(new Float32Array([1.0, 0.0, 1.0, 1.0])));
-    var tmp$ret$11 = FragmentShader_0(builder_2._buildFuncs_9u5nuo_k$());
+    var tmp$ret$11 = FragmentShader(builder_2._buildFuncs_9u5nuo_k$());
     tmp_1.PROGRAM_DEBUG_1 = new Program(tmp_2, tmp$ret$11);
   }
   protoOf(Companion_45).get_PROGRAM_80tjzv_k$ = function () {
@@ -14146,6 +14170,13 @@
       logger$delegate = lazy(logger$delegate$lambda);
     }
   }
+  function VertexShaderDefault(callback) {
+    // Inline function 'kotlin.also' call
+    var this_0 = new ProgramBuilderDefault();
+    // Inline function 'kotlin.contracts.contract' call
+    callback(this_0);
+    return VertexShader(this_0._buildFuncs_9u5nuo_k$());
+  }
   function ProjViewUB() {
     ProjViewUB_instance = this;
     UniformBlock.call(this, 0);
@@ -14166,8 +14197,8 @@
   }
   function DefaultShaders() {
     DefaultShaders_instance = this;
-    this.u_Tex$delegate_1 = Sampler_0(1, SamplerVarType_Sampler2D_getInstance()).provideDelegate_dbsaej_k$(this, u_Tex$factory());
-    this.u_TexEx$delegate_1 = Sampler_0(2, SamplerVarType_Sampler2D_getInstance()).provideDelegate_dbsaej_k$(this, u_TexEx$factory());
+    this.u_Tex$delegate_1 = Sampler(1, SamplerVarType_Sampler2D_getInstance()).provideDelegate_dbsaej_k$(this, u_Tex$factory());
+    this.u_TexEx$delegate_1 = Sampler(2, SamplerVarType_Sampler2D_getInstance()).provideDelegate_dbsaej_k$(this, u_TexEx$factory());
     this.a_Pos_1 = Attribute_init_$Create$('a_Pos', VarType_Float2_getInstance(), false, Precision_HIGH_getInstance(), 0);
     this.a_Tex_1 = Attribute_init_$Create$('a_Tex', VarType_Float2_getInstance(), false, Precision_MEDIUM_getInstance(), 1);
     this.a_Col_1 = Attribute_init_$Create$('a_Col', VarType_UByte4_getInstance(), true, Precision_LOW_getInstance(), 2);
@@ -14184,7 +14215,7 @@
     builder.SET_vs1igi_k$(builder.get_v_Tex_izzmad_k$(), builder.get_a_Tex_iofxts_k$());
     builder.SET_vs1igi_k$(builder.get_v_Col_izz9wu_k$(), builder.get_a_Col_ioflg9_k$());
     builder.SET_vs1igi_k$(builder.get_out_18iyvv_k$(), builder.times_1dhq1g_k$(builder.times_1dhq1g_k$(builder.get_u_ProjMat_hy6zf4_k$(), builder.get_u_ViewMat_5blkpk_k$()), builder.vec4_735zyq_k$([builder.get_a_Pos_iofv3h_k$(), builder.get_lit_xwjtj8_k$(0.0), builder.get_lit_xwjtj8_k$(1.0)])));
-    tmp.VERTEX_DEFAULT_1 = VertexShader_0(builder._buildFuncs_9u5nuo_k$());
+    tmp.VERTEX_DEFAULT_1 = VertexShader(builder._buildFuncs_9u5nuo_k$());
     var tmp_0 = this;
     // Inline function 'korlibs.graphics.FragmentShaderDefault' call
     // Inline function 'kotlin.also' call
@@ -14193,26 +14224,26 @@
     // Inline function 'korlibs.graphics.DefaultShaders.MERGE_ALPHA_PROGRAM.<anonymous>' call
     var coords = this_0.get_r4qghg_k$(this_0.get_v_Tex_izzmad_k$(), 'xy');
     this_0.SET_vs1igi_k$(this_0.get_out_18iyvv_k$(), this_0.times_1dhq1g_k$(this_0.texture2D_1y7uxf_k$(this_0.get_u_Tex_izftp0_k$(), coords), this_0.get_a_mkrlak_k$(this_0.texture2D_1y7uxf_k$(DefaultShaders_getInstance().get_u_TexEx_awidjt_k$(), coords))));
-    var tmp$ret$2 = FragmentShader_0(this_0._buildFuncs_9u5nuo_k$());
+    var tmp$ret$2 = FragmentShader(this_0._buildFuncs_9u5nuo_k$());
     tmp_0.MERGE_ALPHA_PROGRAM_1 = new Program(this.VERTEX_DEFAULT_1, tmp$ret$2);
     var tmp_1 = this;
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_0 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.FRAGMENT_DEBUG.<anonymous>' call
     builder_0.SET_vs1igi_k$(builder_0.get_out_18iyvv_k$(), builder_0.vec4_735zyq_k$([builder_0.get_lit_xwjtj8_k$(1.0), builder_0.get_lit_xwjtj8_k$(1.0), builder_0.get_lit_xwjtj8_k$(0.0), builder_0.get_lit_xwjtj8_k$(1.0)]));
-    tmp_1.FRAGMENT_DEBUG_1 = FragmentShader_0(builder_0._buildFuncs_9u5nuo_k$());
+    tmp_1.FRAGMENT_DEBUG_1 = FragmentShader(builder_0._buildFuncs_9u5nuo_k$());
     var tmp_2 = this;
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_1 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.FRAGMENT_SOLID_COLOR.<anonymous>' call
     builder_1.SET_vs1igi_k$(builder_1.get_out_18iyvv_k$(), builder_1.get_v_Col_izz9wu_k$());
-    tmp_2.FRAGMENT_SOLID_COLOR_1 = FragmentShader_0(builder_1._buildFuncs_9u5nuo_k$());
+    tmp_2.FRAGMENT_SOLID_COLOR_1 = FragmentShader(builder_1._buildFuncs_9u5nuo_k$());
     var tmp_3 = this;
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_2 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.PROGRAM_TINTED_TEXTURE.<anonymous>' call
     builder_2.SET_vs1igi_k$(builder_2.get_out_18iyvv_k$(), builder_2.times_1dhq1g_k$(builder_2.get_r4qghg_k$(builder_2.texture2D_1y7uxf_k$(builder_2.get_u_Tex_izftp0_k$(), builder_2.get_r4qghg_k$(builder_2.get_v_Tex_izzmad_k$(), 'xy')), 'rgba'), builder_2.get_v_Col_izz9wu_k$()));
-    var tmp$ret$5 = FragmentShader_0(builder_2._buildFuncs_9u5nuo_k$());
+    var tmp$ret$5 = FragmentShader(builder_2._buildFuncs_9u5nuo_k$());
     tmp_3.PROGRAM_TINTED_TEXTURE_1 = new Program(this.VERTEX_DEFAULT_1, tmp$ret$5, 'PROGRAM_TINTED_TEXTURE');
     var tmp_4 = this;
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
@@ -14221,7 +14252,7 @@
     builder_3.SET_vs1igi_k$(builder_3.get_t_Temp0_pkwuyg_k$(), builder_3.texture2D_1y7uxf_k$(builder_3.get_u_Tex_izftp0_k$(), builder_3.get_r4qghg_k$(builder_3.get_v_Tex_izzmad_k$(), 'xy')));
     builder_3.SET_vs1igi_k$(builder_3.get_r4qghg_k$(builder_3.get_t_Temp0_pkwuyg_k$(), 'rgb'), builder_3.div_4hbe01_k$(builder_3.get_r4qghg_k$(builder_3.get_t_Temp0_pkwuyg_k$(), 'rgb'), builder_3.get_r4qghg_k$(builder_3.get_t_Temp0_pkwuyg_k$(), 'a')));
     builder_3.SET_vs1igi_k$(builder_3.get_out_18iyvv_k$(), builder_3.times_1dhq1g_k$(builder_3.get_r4qghg_k$(builder_3.get_t_Temp0_pkwuyg_k$(), 'rgba'), builder_3.get_v_Col_izz9wu_k$()));
-    var tmp$ret$6 = FragmentShader_0(builder_3._buildFuncs_9u5nuo_k$());
+    var tmp$ret$6 = FragmentShader(builder_3._buildFuncs_9u5nuo_k$());
     tmp_4.PROGRAM_TINTED_TEXTURE_PREMULT_1 = new Program(this.VERTEX_DEFAULT_1, tmp$ret$6, 'PROGRAM_TINTED_TEXTURE');
     this.PROGRAM_SOLID_COLOR_1 = new Program(this.VERTEX_DEFAULT_1, this.FRAGMENT_SOLID_COLOR_1, 'PROGRAM_SOLID_COLOR');
     this.LAYOUT_DEBUG_1 = ProgramLayout_init_$Create$_0([this.a_Pos_1]);
@@ -14230,24 +14261,24 @@
     var builder_4 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.PROGRAM_DEBUG.<anonymous>' call
     builder_4.SET_vs1igi_k$(builder_4.get_out_18iyvv_k$(), builder_4.vec4_735zyq_k$([builder_4.get_a_Pos_iofv3h_k$(), builder_4.get_lit_xwjtj8_k$(0.0), builder_4.get_lit_xwjtj8_k$(1.0)]));
-    var tmp_6 = VertexShader_0(builder_4._buildFuncs_9u5nuo_k$());
+    var tmp_6 = VertexShader(builder_4._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_5 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.PROGRAM_DEBUG.<anonymous>' call
     builder_5.SET_vs1igi_k$(builder_5.get_out_18iyvv_k$(), builder_5.vec4_735zyq_k$([builder_5.get_lit_xwjtj8_k$(1.0), builder_5.get_lit_xwjtj8_k$(0.0), builder_5.get_lit_xwjtj8_k$(0.0), builder_5.get_lit_xwjtj8_k$(1.0)]));
-    var tmp$ret$8 = FragmentShader_0(builder_5._buildFuncs_9u5nuo_k$());
+    var tmp$ret$8 = FragmentShader(builder_5._buildFuncs_9u5nuo_k$());
     tmp_5.PROGRAM_DEBUG_1 = new Program(tmp_6, tmp$ret$8, 'PROGRAM_DEBUG');
     var tmp_7 = this;
     // Inline function 'korlibs.graphics.shader.VertexShader' call
     var builder_6 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.PROGRAM_DEBUG_WITH_PROJ.<anonymous>' call
     builder_6.SET_vs1igi_k$(builder_6.get_out_18iyvv_k$(), builder_6.times_1dhq1g_k$(builder_6.times_1dhq1g_k$(builder_6.get_u_ProjMat_hy6zf4_k$(), builder_6.get_u_ViewMat_5blkpk_k$()), builder_6.vec4_735zyq_k$([builder_6.get_a_Pos_iofv3h_k$(), builder_6.get_lit_xwjtj8_k$(0.0), builder_6.get_lit_xwjtj8_k$(1.0)])));
-    var tmp_8 = VertexShader_0(builder_6._buildFuncs_9u5nuo_k$());
+    var tmp_8 = VertexShader(builder_6._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_7 = new ProgramBuilderDefault();
     // Inline function 'korlibs.graphics.DefaultShaders.PROGRAM_DEBUG_WITH_PROJ.<anonymous>' call
     builder_7.SET_vs1igi_k$(builder_7.get_out_18iyvv_k$(), builder_7.vec4_735zyq_k$([builder_7.get_lit_xwjtj8_k$(1.0), builder_7.get_lit_xwjtj8_k$(0.0), builder_7.get_lit_xwjtj8_k$(0.0), builder_7.get_lit_xwjtj8_k$(1.0)]));
-    var tmp$ret$10 = FragmentShader_0(builder_7._buildFuncs_9u5nuo_k$());
+    var tmp$ret$10 = FragmentShader(builder_7._buildFuncs_9u5nuo_k$());
     tmp_7.PROGRAM_DEBUG_WITH_PROJ_1 = new Program(tmp_8, tmp$ret$10, 'PROGRAM_DEBUG_WITH_PROJ');
   }
   protoOf(DefaultShaders).get_u_Tex_izftp0_k$ = function () {
@@ -14334,9 +14365,6 @@
       new DefaultShaders();
     return DefaultShaders_instance;
   }
-  function ProgramBuilderDefault() {
-    Builder.call(this);
-  }
   function ShaderIndices() {
     ShaderIndices_instance = this;
     this.SAMPLER_INDEX0__1 = 0;
@@ -14399,16 +14427,12 @@
     var this_0 = new ProgramBuilderDefault();
     // Inline function 'kotlin.contracts.contract' call
     callback(this_0);
-    return FragmentShader_0(this_0._buildFuncs_9u5nuo_k$());
+    return FragmentShader(this_0._buildFuncs_9u5nuo_k$());
+  }
+  function ProgramBuilderDefault() {
+    Builder.call(this);
   }
   function IDefaultShaders() {
-  }
-  function VertexShaderDefault(callback) {
-    // Inline function 'kotlin.also' call
-    var this_0 = new ProgramBuilderDefault();
-    // Inline function 'kotlin.contracts.contract' call
-    callback(this_0);
-    return VertexShader_0(this_0._buildFuncs_9u5nuo_k$());
   }
   function u_Tex$factory() {
     return getPropertyCallableRef('u_Tex', 1, KProperty1, function (receiver) {
@@ -16320,11 +16344,11 @@
   };
   protoOf(GLGlobalState).readStats_hi680b_k$ = function (out) {
     out.set_buffersCount_luw2r5_k$(this.buffersCreated_1.get_value_j01efc_k$() - this.buffersDeleted_1.get_value_j01efc_k$() | 0);
-    out.set_buffersMemory_s148x0_k$(Companion_getInstance_5().fromBytes_p7luea_k$(this.buffersSize_1.get_value_j01efc_k$()));
+    out.set_buffersMemory_s148x0_k$(Companion_getInstance_4().fromBytes_p7luea_k$(this.buffersSize_1.get_value_j01efc_k$()));
     out.set_texturesCount_rey28i_k$(this.texturesCreated_1.get_value_j01efc_k$() - this.texturesDeleted_1.get_value_j01efc_k$() | 0);
     out.set_texturesCreated_2nwvm3_k$(this.texturesCreated_1.get_value_j01efc_k$());
     out.set_texturesDeleted_q07zvg_k$(this.texturesDeleted_1.get_value_j01efc_k$());
-    out.set_texturesMemory_a89l0l_k$(Companion_getInstance_5().fromBytes_p7luea_k$(this.texturesSize_1.get_value_j01efc_k$()));
+    out.set_texturesMemory_a89l0l_k$(Companion_getInstance_4().fromBytes_p7luea_k$(this.texturesSize_1.get_value_j01efc_k$()));
   };
   function GLBaseProgram(globalState, programInfo) {
     GLBaseObject.call(this, globalState);
@@ -19423,252 +19447,6 @@
   protoOf(GlslBodyGenerator).visit_ffvar2_k$ = function (operand) {
     return this.visit_htdbx5_k$(operand.get_left_woprgw_k$()) + '[' + this.visit_htdbx5_k$(operand.get_index_it478p_k$()) + ']';
   };
-  function _get_layoutSize__1vt7s0($this) {
-    return $this.layoutSize_1;
-  }
-  function ProgramLayout_init_$Init$(variables, $this) {
-    ProgramLayout.call($this, variables, null);
-    return $this;
-  }
-  function ProgramLayout_init_$Create$(variables) {
-    return ProgramLayout_init_$Init$(variables, objectCreate(protoOf(ProgramLayout)));
-  }
-  function ProgramLayout_init_$Init$_0(variables, layoutSize, $this) {
-    layoutSize = layoutSize === VOID ? null : layoutSize;
-    ProgramLayout.call($this, toFastList_0(variables), layoutSize);
-    return $this;
-  }
-  function ProgramLayout_init_$Create$_0(variables, layoutSize) {
-    return ProgramLayout_init_$Init$_0(variables, layoutSize, objectCreate(protoOf(ProgramLayout)));
-  }
-  function _set__lastPos__eo2k9k($this, _set____db54di) {
-    $this._lastPos_1 = _set____db54di;
-  }
-  function _get__lastPos__1v68ss($this) {
-    return $this._lastPos_1;
-  }
-  function ProgramLayout$names$lambda(it) {
-    return it.name_1;
-  }
-  function ProgramLayout(items, layoutSize, fixedLocation) {
-    fixedLocation = fixedLocation === VOID ? -1 : fixedLocation;
-    this.items_1 = items;
-    this.layoutSize_1 = layoutSize;
-    this.fixedLocation_1 = fixedLocation;
-    this._lastPos_1 = 0;
-    var tmp = this;
-    // Inline function 'korlibs.datastructure.mapInt' call
-    var this_0 = this.items_1;
-    // Inline function 'kotlin.also' call
-    var this_1 = new IntArrayList();
-    // Inline function 'kotlin.contracts.contract' call
-    // Inline function 'korlibs.datastructure.mapInt.<anonymous>' call
-    var tmp0_iterator = this_0.iterator_jk1svi_k$();
-    while (tmp0_iterator.hasNext_bitz1p_k$()) {
-      var v = tmp0_iterator.next_20eer_k$();
-      // Inline function 'korlibs.graphics.shader.ProgramLayout.alignments.<anonymous>' call
-      var a = v.get_type_wovaf7_k$().kind_1.bytesSize_1;
-      var tmp$ret$0 = a <= 1 ? 1 : a;
-      this_1.add_c9dakn_k$(tmp$ret$0);
-    }
-    tmp.alignments_1 = this_1;
-    var tmp_0 = this;
-    // Inline function 'korlibs.datastructure.mapInt' call
-    var this_2 = this.items_1;
-    // Inline function 'kotlin.also' call
-    var this_3 = new IntArrayList();
-    // Inline function 'kotlin.contracts.contract' call
-    // Inline function 'korlibs.datastructure.mapInt.<anonymous>' call
-    var tmp0_iterator_0 = this_2.iterator_jk1svi_k$();
-    while (tmp0_iterator_0.hasNext_bitz1p_k$()) {
-      var v_0 = tmp0_iterator_0.next_20eer_k$();
-      // Inline function 'korlibs.graphics.shader.ProgramLayout._positions.<anonymous>' call
-      this._lastPos_1 = !(v_0.offset_1 == null) ? v_0.offset_1 : nextAlignedTo(this._lastPos_1, v_0.get_type_wovaf7_k$().kind_1.bytesSize_1);
-      var out = this._lastPos_1;
-      this._lastPos_1 = this._lastPos_1 + v_0.get_type_wovaf7_k$().bytesSize_1 | 0;
-      this_3.add_c9dakn_k$(out);
-    }
-    tmp_0._positions_1 = this_3;
-    var tmp_1 = this;
-    var tmp0_elvis_lhs = maxOrNull(this.alignments_1);
-    tmp_1.maxAlignment_1 = tmp0_elvis_lhs == null ? 1 : tmp0_elvis_lhs;
-    var tmp_2 = this;
-    var tmp0_elvis_lhs_0 = this.layoutSize_1;
-    tmp_2.totalSize_1 = tmp0_elvis_lhs_0 == null ? nextAlignedTo(this._lastPos_1, this.maxAlignment_1) : tmp0_elvis_lhs_0;
-  }
-  protoOf(ProgramLayout).get_items_it823b_k$ = function () {
-    return this.items_1;
-  };
-  protoOf(ProgramLayout).get_fixedLocation_k1ke74_k$ = function () {
-    return this.fixedLocation_1;
-  };
-  protoOf(ProgramLayout).iterator_jk1svi_k$ = function () {
-    return this.items_1.iterator_jk1svi_k$();
-  };
-  protoOf(ProgramLayout).get_alignments_xtcwah_k$ = function () {
-    return this.alignments_1;
-  };
-  protoOf(ProgramLayout).get__positions_gkc7f0_k$ = function () {
-    return this._positions_1;
-  };
-  protoOf(ProgramLayout).get_maxAlignment_a8pwyw_k$ = function () {
-    return this.maxAlignment_1;
-  };
-  protoOf(ProgramLayout).get_totalSize_116z44_k$ = function () {
-    return this.totalSize_1;
-  };
-  protoOf(ProgramLayout).names_1q9mbs_k$ = function () {
-    return joinToString(this.items_1, ', ', VOID, VOID, VOID, VOID, ProgramLayout$names$lambda);
-  };
-  protoOf(ProgramLayout).toString = function () {
-    return get_portableSimpleName(getKClassFromExpression(this)) + '[' + this.names_1q9mbs_k$() + ', fixedLocation=' + this.fixedLocation_1 + ']';
-  };
-  function Attribute_init_$Init$(name, type, normalized, precision, fixedLocation, $this) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    Attribute.call($this, name, type, normalized, null, true, precision, VOID, fixedLocation);
-    return $this;
-  }
-  function Attribute_init_$Create$(name, type, normalized, precision, fixedLocation) {
-    return Attribute_init_$Init$(name, type, normalized, precision, fixedLocation, objectCreate(protoOf(Attribute)));
-  }
-  function Provider(type, normalized, precision, fixedLocation) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    this.type_1 = type;
-    this.normalized_1 = normalized;
-    this.precision_1 = precision;
-    this.fixedLocation_1 = fixedLocation;
-  }
-  protoOf(Provider).get_type_wovaf7_k$ = function () {
-    return this.type_1;
-  };
-  protoOf(Provider).get_normalized_u3mzcw_k$ = function () {
-    return this.normalized_1;
-  };
-  protoOf(Provider).get_precision_e8tfsb_k$ = function () {
-    return this.precision_1;
-  };
-  protoOf(Provider).get_fixedLocation_k1ke74_k$ = function () {
-    return this.fixedLocation_1;
-  };
-  protoOf(Provider).provideDelegate_dbsaej_k$ = function (thisRef, property) {
-    return Attribute_init_$Create$(property.callableName, this.type_1, this.normalized_1, this.precision_1, this.fixedLocation_1);
-  };
-  function Attribute(name, type, normalized, offset, active, precision, divisor, fixedLocation) {
-    offset = offset === VOID ? null : offset;
-    active = active === VOID ? true : active;
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    divisor = divisor === VOID ? 0 : divisor;
-    VariableWithOffset.call(this, name, type, 1, precision, offset);
-    this.normalized_1 = normalized;
-    this.active_1 = active;
-    this.divisor_1 = divisor;
-    this.fixedLocation_1 = fixedLocation;
-  }
-  protoOf(Attribute).get_normalized_u3mzcw_k$ = function () {
-    return this.normalized_1;
-  };
-  protoOf(Attribute).get_active_avldsf_k$ = function () {
-    return this.active_1;
-  };
-  protoOf(Attribute).get_divisor_syepx1_k$ = function () {
-    return this.divisor_1;
-  };
-  protoOf(Attribute).get_fixedLocation_k1ke74_k$ = function () {
-    return this.fixedLocation_1;
-  };
-  protoOf(Attribute).copy_rwx8ao_k$ = function (name, type, normalized, offset, active, precision, divisor, fixedLocation) {
-    return new Attribute(name, type, normalized, offset, active, precision, divisor, fixedLocation);
-  };
-  protoOf(Attribute).copy$default_mjikzy_k$ = function (name, type, normalized, offset, active, precision, divisor, fixedLocation, $super) {
-    name = name === VOID ? this.name_1 : name;
-    type = type === VOID ? this.get_type_wovaf7_k$() : type;
-    normalized = normalized === VOID ? this.normalized_1 : normalized;
-    offset = offset === VOID ? this.offset_1 : offset;
-    active = active === VOID ? this.active_1 : active;
-    precision = precision === VOID ? this.precision_1 : precision;
-    divisor = divisor === VOID ? this.divisor_1 : divisor;
-    fixedLocation = fixedLocation === VOID ? this.fixedLocation_1 : fixedLocation;
-    return $super === VOID ? this.copy_rwx8ao_k$(name, type, normalized, offset, active, precision, divisor, fixedLocation) : $super.copy_rwx8ao_k$.call(this, name, type, normalized, offset, active, precision, divisor, fixedLocation);
-  };
-  protoOf(Attribute).inactived_cn8hg9_k$ = function () {
-    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, false);
-  };
-  protoOf(Attribute).withDivisor_bmnrfk_k$ = function (divisor) {
-    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, VOID, VOID, divisor);
-  };
-  protoOf(Attribute).withFixedLocation_d6r8wl_k$ = function (fixedLocation) {
-    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, VOID, VOID, VOID, fixedLocation);
-  };
-  protoOf(Attribute).toString = function () {
-    return 'Attribute(' + this.name_1 + ')';
-  };
-  protoOf(Attribute).toStringEx_tcr4n3_k$ = function () {
-    return 'Attribute(' + this.name_1 + ', type=' + this.get_type_wovaf7_k$() + ', normalized=' + this.normalized_1 + ', offset=' + this.offset_1 + ', active=' + this.active_1 + ', precision=' + this.precision_1 + ', divisor=' + this.divisor_1 + ', fixedLocation=' + this.fixedLocation_1 + ')';
-  };
-  protoOf(Attribute).equals = function (other) {
-    var tmp;
-    var tmp_0;
-    var tmp_1;
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
-    var tmp_2;
-    var tmp_3;
-    var tmp_4;
-    var tmp_5;
-    if (other instanceof Attribute) {
-      tmp_5 = this.id_1 === other.id_1;
-    } else {
-      tmp_5 = false;
-    }
-    if (tmp_5) {
-      tmp_4 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_4 = false;
-    }
-    if (tmp_4) {
-      tmp_3 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_3 = false;
-    }
-    if (tmp_3) {
-      tmp_2 = this.name_1 === other.name_1;
-    } else {
-      tmp_2 = false;
-    }
-    if (tmp_2) {
-      tmp_1 = this.normalized_1 === (other instanceof Attribute ? other : THROW_CCE()).normalized_1;
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.offset_1 == other.offset_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.active_1 === other.active_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Attribute).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    var out = (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-    out = imul(out, 7);
-    out = out + getBooleanHashCode(this.normalized_1) | 0;
-    out = imul(out, 7);
-    var tmp = out;
-    // Inline function 'kotlin.hashCode' call
-    var tmp0_safe_receiver = this.offset_1;
-    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : hashCode(tmp0_safe_receiver);
-    out = tmp + (tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs) | 0;
-    out = imul(out, 7);
-    out = out + getBooleanHashCode(this.active_1) | 0;
-    return out;
-  };
-  protoOf(Attribute).getValue_fbnwi2_k$ = function (thisRef, property) {
-    return this;
-  };
   function Func_init_$Init$(name, ops, type, $this) {
     type = type === VOID ? VarType_Float1_getInstance() : type;
     Func.call($this, name, toList_2(ops), type);
@@ -21705,7 +21483,7 @@
       if (operand instanceof Varying) {
         tmp = this.visit_n9o8bu_k$(operand);
       } else {
-        if (operand instanceof Sampler) {
+        if (operand instanceof Sampler_0) {
           tmp = this.visit_uqcdoe_k$(operand);
         } else {
           if (operand instanceof Uniform) {
@@ -21947,6 +21725,283 @@
     name = name === VOID ? this.name_1 : name;
     return $super === VOID ? this.copy_2wp0vb_k$(vertex, fragment, name) : $super.copy_2wp0vb_k$.call(this, vertex, fragment, name);
   };
+  function VertexShader(info) {
+    return VertexShader_1(info.get_first_irdx8n_k$(), info.get_second_jf7fjx_k$());
+  }
+  function Operand(type) {
+    this.type_1 = type;
+  }
+  protoOf(Operand).get_type_wovaf7_k$ = function () {
+    return this.type_1;
+  };
+  protoOf(Operand).get_elementCount_5d672c_k$ = function () {
+    return this.get_type_wovaf7_k$().elementCount_1;
+  };
+  function VertexShader_0(callback) {
+    var builder = new ProgramBuilderDefault();
+    callback(builder);
+    return VertexShader(builder._buildFuncs_9u5nuo_k$());
+  }
+  function Sampler(index, stype) {
+    return new Provider_1(index, stype);
+  }
+  function Uniform(name, type, arrayCount, precision, offset, typedUniform) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    offset = offset === VOID ? null : offset;
+    VariableWithOffset.call(this, name, type, arrayCount, precision, offset);
+    this.typedUniform_1 = typedUniform;
+    if (type.get_isSampler_trm7dh_k$()) {
+      // Inline function 'kotlin.error' call
+      var message = "Can't create uniform '" + name + "' with a sampler type '" + type + "', please use `Sampler` class instead";
+      throw IllegalStateException_init_$Create$(toString(message));
+    }
+  }
+  protoOf(Uniform).get_typedUniform_dx6ek3_k$ = function () {
+    return this.typedUniform_1;
+  };
+  protoOf(Uniform).get_totalElementCount_gfo0k2_k$ = function () {
+    return imul(this.get_type_wovaf7_k$().elementCount_1, this.arrayCount_1);
+  };
+  protoOf(Uniform).toString = function () {
+    return 'Uniform(' + this.name_1 + ')';
+  };
+  protoOf(Uniform).equals = function (other) {
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    var tmp_2;
+    if (other instanceof Uniform) {
+      tmp_2 = this.id_1 === other.id_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.name_1 === other.name_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Uniform).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  protoOf(Uniform).getValue_fbnwi2_k$ = function (thisRef, property) {
+    return this;
+  };
+  function FragmentShader(info) {
+    return FragmentShader_1(info.get_first_irdx8n_k$(), info.get_second_jf7fjx_k$());
+  }
+  var SamplerVarType_Sampler1D_instance;
+  var SamplerVarType_Sampler2D_instance;
+  var SamplerVarType_Sampler3D_instance;
+  var SamplerVarType_SamplerCube_instance;
+  function values_18() {
+    return [SamplerVarType_Sampler1D_getInstance(), SamplerVarType_Sampler2D_getInstance(), SamplerVarType_Sampler3D_getInstance(), SamplerVarType_SamplerCube_getInstance()];
+  }
+  function valueOf_19(value) {
+    switch (value) {
+      case 'Sampler1D':
+        return SamplerVarType_Sampler1D_getInstance();
+      case 'Sampler2D':
+        return SamplerVarType_Sampler2D_getInstance();
+      case 'Sampler3D':
+        return SamplerVarType_Sampler3D_getInstance();
+      case 'SamplerCube':
+        return SamplerVarType_SamplerCube_getInstance();
+      default:
+        SamplerVarType_initEntries();
+        THROW_IAE('No enum constant value.');
+        break;
+    }
+  }
+  function get_entries_18() {
+    if ($ENTRIES_18 == null)
+      $ENTRIES_18 = enumEntries(values_18());
+    return $ENTRIES_18;
+  }
+  var SamplerVarType_entriesInitialized;
+  function SamplerVarType_initEntries() {
+    if (SamplerVarType_entriesInitialized)
+      return Unit_getInstance();
+    SamplerVarType_entriesInitialized = true;
+    SamplerVarType_Sampler1D_instance = new SamplerVarType('Sampler1D', 0, VarType_Sampler1D_getInstance());
+    SamplerVarType_Sampler2D_instance = new SamplerVarType('Sampler2D', 1, VarType_Sampler2D_getInstance());
+    SamplerVarType_Sampler3D_instance = new SamplerVarType('Sampler3D', 2, VarType_Sampler3D_getInstance());
+    SamplerVarType_SamplerCube_instance = new SamplerVarType('SamplerCube', 3, VarType_SamplerCube_getInstance());
+  }
+  var $ENTRIES_18;
+  function SamplerVarType(name, ordinal, vtype) {
+    Enum.call(this, name, ordinal);
+    this.vtype_1 = vtype;
+  }
+  protoOf(SamplerVarType).get_vtype_j0dsp3_k$ = function () {
+    return this.vtype_1;
+  };
+  function get_attributePositions(_this__u8e3s4) {
+    return _this__u8e3s4._positions_1;
+  }
+  function Output() {
+    Output_instance = this;
+    Varying_init_$Init$('out', VarType_Float4_getInstance(), VOID, this);
+  }
+  protoOf(Output).toString = function () {
+    return 'Output';
+  };
+  protoOf(Output).equals = function (other) {
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    var tmp_2;
+    if (other instanceof Output) {
+      tmp_2 = this.id_1 === other.id_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.name_1 === other.name_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Output).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  var Output_instance;
+  function Output_getInstance() {
+    if (Output_instance == null)
+      new Output();
+    return Output_instance;
+  }
+  function _get_layoutSize__1vt7s0($this) {
+    return $this.layoutSize_1;
+  }
+  function ProgramLayout_init_$Init$(variables, $this) {
+    ProgramLayout.call($this, variables, null);
+    return $this;
+  }
+  function ProgramLayout_init_$Create$(variables) {
+    return ProgramLayout_init_$Init$(variables, objectCreate(protoOf(ProgramLayout)));
+  }
+  function ProgramLayout_init_$Init$_0(variables, layoutSize, $this) {
+    layoutSize = layoutSize === VOID ? null : layoutSize;
+    ProgramLayout.call($this, toFastList_0(variables), layoutSize);
+    return $this;
+  }
+  function ProgramLayout_init_$Create$_0(variables, layoutSize) {
+    return ProgramLayout_init_$Init$_0(variables, layoutSize, objectCreate(protoOf(ProgramLayout)));
+  }
+  function _set__lastPos__eo2k9k($this, _set____db54di) {
+    $this._lastPos_1 = _set____db54di;
+  }
+  function _get__lastPos__1v68ss($this) {
+    return $this._lastPos_1;
+  }
+  function ProgramLayout$names$lambda(it) {
+    return it.name_1;
+  }
+  function ProgramLayout(items, layoutSize, fixedLocation) {
+    fixedLocation = fixedLocation === VOID ? -1 : fixedLocation;
+    this.items_1 = items;
+    this.layoutSize_1 = layoutSize;
+    this.fixedLocation_1 = fixedLocation;
+    this._lastPos_1 = 0;
+    var tmp = this;
+    // Inline function 'korlibs.datastructure.mapInt' call
+    var this_0 = this.items_1;
+    // Inline function 'kotlin.also' call
+    var this_1 = new IntArrayList();
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.datastructure.mapInt.<anonymous>' call
+    var tmp0_iterator = this_0.iterator_jk1svi_k$();
+    while (tmp0_iterator.hasNext_bitz1p_k$()) {
+      var v = tmp0_iterator.next_20eer_k$();
+      // Inline function 'korlibs.graphics.shader.ProgramLayout.alignments.<anonymous>' call
+      var a = v.get_type_wovaf7_k$().kind_1.bytesSize_1;
+      var tmp$ret$0 = a <= 1 ? 1 : a;
+      this_1.add_c9dakn_k$(tmp$ret$0);
+    }
+    tmp.alignments_1 = this_1;
+    var tmp_0 = this;
+    // Inline function 'korlibs.datastructure.mapInt' call
+    var this_2 = this.items_1;
+    // Inline function 'kotlin.also' call
+    var this_3 = new IntArrayList();
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.datastructure.mapInt.<anonymous>' call
+    var tmp0_iterator_0 = this_2.iterator_jk1svi_k$();
+    while (tmp0_iterator_0.hasNext_bitz1p_k$()) {
+      var v_0 = tmp0_iterator_0.next_20eer_k$();
+      // Inline function 'korlibs.graphics.shader.ProgramLayout._positions.<anonymous>' call
+      this._lastPos_1 = !(v_0.offset_1 == null) ? v_0.offset_1 : nextAlignedTo(this._lastPos_1, v_0.get_type_wovaf7_k$().kind_1.bytesSize_1);
+      var out = this._lastPos_1;
+      this._lastPos_1 = this._lastPos_1 + v_0.get_type_wovaf7_k$().bytesSize_1 | 0;
+      this_3.add_c9dakn_k$(out);
+    }
+    tmp_0._positions_1 = this_3;
+    var tmp_1 = this;
+    var tmp0_elvis_lhs = maxOrNull(this.alignments_1);
+    tmp_1.maxAlignment_1 = tmp0_elvis_lhs == null ? 1 : tmp0_elvis_lhs;
+    var tmp_2 = this;
+    var tmp0_elvis_lhs_0 = this.layoutSize_1;
+    tmp_2.totalSize_1 = tmp0_elvis_lhs_0 == null ? nextAlignedTo(this._lastPos_1, this.maxAlignment_1) : tmp0_elvis_lhs_0;
+  }
+  protoOf(ProgramLayout).get_items_it823b_k$ = function () {
+    return this.items_1;
+  };
+  protoOf(ProgramLayout).get_fixedLocation_k1ke74_k$ = function () {
+    return this.fixedLocation_1;
+  };
+  protoOf(ProgramLayout).iterator_jk1svi_k$ = function () {
+    return this.items_1.iterator_jk1svi_k$();
+  };
+  protoOf(ProgramLayout).get_alignments_xtcwah_k$ = function () {
+    return this.alignments_1;
+  };
+  protoOf(ProgramLayout).get__positions_gkc7f0_k$ = function () {
+    return this._positions_1;
+  };
+  protoOf(ProgramLayout).get_maxAlignment_a8pwyw_k$ = function () {
+    return this.maxAlignment_1;
+  };
+  protoOf(ProgramLayout).get_totalSize_116z44_k$ = function () {
+    return this.totalSize_1;
+  };
+  protoOf(ProgramLayout).names_1q9mbs_k$ = function () {
+    return joinToString(this.items_1, ', ', VOID, VOID, VOID, VOID, ProgramLayout$names$lambda);
+  };
+  protoOf(ProgramLayout).toString = function () {
+    return get_portableSimpleName(getKClassFromExpression(this)) + '[' + this.names_1q9mbs_k$() + ', fixedLocation=' + this.fixedLocation_1 + ']';
+  };
+  function FragmentShader_0(callback) {
+    var builder = new ProgramBuilderDefault();
+    callback(builder);
+    return FragmentShader(builder._buildFuncs_9u5nuo_k$());
+  }
   function _get_stmHashCode__ad375i($this) {
     return $this.stmHashCode_1;
   }
@@ -22069,10 +22124,274 @@
   protoOf(Shader).toString = function () {
     return 'Shader(type=' + this.type_1 + ', stm=' + this.stm_1 + ', functions=' + this.functions_1 + ', name=' + this.name_1 + ')';
   };
-  function VertexShader(callback) {
-    var builder = new ProgramBuilderDefault();
-    callback(builder);
-    return VertexShader_0(builder._buildFuncs_9u5nuo_k$());
+  function VarTypeAccessor() {
+  }
+  function OperandWithArray(type, arrayCount) {
+    Operand.call(this, type);
+    this.arrayCount_1 = arrayCount;
+    this.kind_1 = type.kind_1;
+    this.stride_1 = type.elementCount_1;
+    this.totalElements_1 = imul(this.stride_1, this.arrayCount_1);
+    this.totalBytes_1 = imul(type.bytesSize_1, this.arrayCount_1);
+  }
+  protoOf(OperandWithArray).get_arrayCount_udic3j_k$ = function () {
+    return this.arrayCount_1;
+  };
+  protoOf(OperandWithArray).get_kind_wop7ml_k$ = function () {
+    return this.kind_1;
+  };
+  protoOf(OperandWithArray).get_stride_jnpski_k$ = function () {
+    return this.stride_1;
+  };
+  protoOf(OperandWithArray).get_totalElements_wyi8e_k$ = function () {
+    return this.totalElements_1;
+  };
+  protoOf(OperandWithArray).get_totalBytes_wa2n74_k$ = function () {
+    return this.totalBytes_1;
+  };
+  function FuncDecl(name, rettype, args, stm) {
+    this.name_1 = name;
+    this.rettype_1 = rettype;
+    this.args_1 = args;
+    this.stm_1 = stm;
+    this.ref_1 = this;
+  }
+  protoOf(FuncDecl).get_name_woqyms_k$ = function () {
+    return this.name_1;
+  };
+  protoOf(FuncDecl).get_rettype_jfjlo2_k$ = function () {
+    return this.rettype_1;
+  };
+  protoOf(FuncDecl).get_args_woj09y_k$ = function () {
+    return this.args_1;
+  };
+  protoOf(FuncDecl).get_stm_18ivy5_k$ = function () {
+    return this.stm_1;
+  };
+  protoOf(FuncDecl).get_ref_18ix1y_k$ = function () {
+    return this.ref_1;
+  };
+  protoOf(FuncDecl).getValue_fbnwi2_k$ = function (thisRef, property) {
+    return this;
+  };
+  protoOf(FuncDecl).component1_7eebsc_k$ = function () {
+    return this.name_1;
+  };
+  protoOf(FuncDecl).component2_7eebsb_k$ = function () {
+    return this.rettype_1;
+  };
+  protoOf(FuncDecl).component3_7eebsa_k$ = function () {
+    return this.args_1;
+  };
+  protoOf(FuncDecl).component4_7eebs9_k$ = function () {
+    return this.stm_1;
+  };
+  protoOf(FuncDecl).copy_6fklv4_k$ = function (name, rettype, args, stm) {
+    return new FuncDecl(name, rettype, args, stm);
+  };
+  protoOf(FuncDecl).copy$default_glqhx5_k$ = function (name, rettype, args, stm, $super) {
+    name = name === VOID ? this.name_1 : name;
+    rettype = rettype === VOID ? this.rettype_1 : rettype;
+    args = args === VOID ? this.args_1 : args;
+    stm = stm === VOID ? this.stm_1 : stm;
+    return $super === VOID ? this.copy_6fklv4_k$(name, rettype, args, stm) : $super.copy_6fklv4_k$.call(this, name, rettype, args, stm);
+  };
+  protoOf(FuncDecl).toString = function () {
+    return 'FuncDecl(name=' + this.name_1 + ', rettype=' + this.rettype_1 + ', args=' + this.args_1 + ', stm=' + this.stm_1 + ')';
+  };
+  protoOf(FuncDecl).hashCode = function () {
+    var result = getStringHashCode(this.name_1);
+    result = imul(result, 31) + this.rettype_1.hashCode() | 0;
+    result = imul(result, 31) + hashCode(this.args_1) | 0;
+    result = imul(result, 31) + hashCode(this.stm_1) | 0;
+    return result;
+  };
+  protoOf(FuncDecl).equals = function (other) {
+    if (this === other)
+      return true;
+    if (!(other instanceof FuncDecl))
+      return false;
+    var tmp0_other_with_cast = other instanceof FuncDecl ? other : THROW_CCE();
+    if (!(this.name_1 === tmp0_other_with_cast.name_1))
+      return false;
+    if (!this.rettype_1.equals(tmp0_other_with_cast.rettype_1))
+      return false;
+    if (!equals(this.args_1, tmp0_other_with_cast.args_1))
+      return false;
+    if (!equals(this.stm_1, tmp0_other_with_cast.stm_1))
+      return false;
+    return true;
+  };
+  function Temp_init_$Init$(id, type, precision, $this) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    Temp.call($this, id, type, 1, precision);
+    return $this;
+  }
+  function Temp_init_$Create$(id, type, precision) {
+    return Temp_init_$Init$(id, type, precision, objectCreate(protoOf(Temp)));
+  }
+  function Temp(id, type, arrayCount, precision) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    Variable.call(this, 'temp' + id, type, arrayCount, precision);
+  }
+  protoOf(Temp).toString = function () {
+    return 'Temp(' + this.name_1 + ')';
+  };
+  protoOf(Temp).equals = function (other) {
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    var tmp_2;
+    if (other instanceof Temp) {
+      tmp_2 = this.id_1 === other.id_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.name_1 === other.name_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Temp).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  function Variable_init_$Init$(name, type, precision, $this) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    Variable.call($this, name, type, 1, precision);
+    return $this;
+  }
+  function Variable_init_$Create$(name, type, precision) {
+    return Variable_init_$Init$(name, type, precision, objectCreate(protoOf(Variable)));
+  }
+  function Variable(name, type, arrayCount, precision) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    OperandWithArray.call(this, type, arrayCount);
+    this.name_1 = name;
+    this.precision_1 = precision;
+    var tmp = this;
+    var tmp_0 = 0;
+    // Inline function 'kotlin.arrayOfNulls' call
+    var tmp_1 = fillArrayVal(Array(arrayCount), null);
+    while (tmp_0 < arrayCount) {
+      var tmp_2 = tmp_0;
+      tmp_1[tmp_2] = this.name_1 + '[' + tmp_2 + ']';
+      tmp_0 = tmp_0 + 1 | 0;
+    }
+    tmp.indexNames_1 = tmp_1;
+    this.id_1 = 0;
+    this.data_1 = null;
+  }
+  protoOf(Variable).get_name_woqyms_k$ = function () {
+    return this.name_1;
+  };
+  protoOf(Variable).get_precision_e8tfsb_k$ = function () {
+    return this.precision_1;
+  };
+  protoOf(Variable).get_indexNames_833mxt_k$ = function () {
+    return this.indexNames_1;
+  };
+  protoOf(Variable).set_id_kpjn9s_k$ = function (_set____db54di) {
+    this.id_1 = _set____db54di;
+  };
+  protoOf(Variable).get_id_kntnx8_k$ = function () {
+    return this.id_1;
+  };
+  protoOf(Variable).set_data_p3tbe0_k$ = function (_set____db54di) {
+    this.data_1 = _set____db54di;
+  };
+  protoOf(Variable).get_data_wokkxf_k$ = function () {
+    return this.data_1;
+  };
+  protoOf(Variable).mhashcode_bni7vs_k$ = function () {
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  protoOf(Variable).equals = function (other) {
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    var tmp_2;
+    if (other instanceof Variable) {
+      tmp_2 = this.id_1 === other.id_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.name_1 === other.name_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Variable).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  var Precision_DEFAULT_instance;
+  var Precision_LOW_instance;
+  var Precision_MEDIUM_instance;
+  var Precision_HIGH_instance;
+  function values_19() {
+    return [Precision_DEFAULT_getInstance(), Precision_LOW_getInstance(), Precision_MEDIUM_getInstance(), Precision_HIGH_getInstance()];
+  }
+  function valueOf_20(value) {
+    switch (value) {
+      case 'DEFAULT':
+        return Precision_DEFAULT_getInstance();
+      case 'LOW':
+        return Precision_LOW_getInstance();
+      case 'MEDIUM':
+        return Precision_MEDIUM_getInstance();
+      case 'HIGH':
+        return Precision_HIGH_getInstance();
+      default:
+        Precision_initEntries();
+        THROW_IAE('No enum constant value.');
+        break;
+    }
+  }
+  function get_entries_19() {
+    if ($ENTRIES_19 == null)
+      $ENTRIES_19 = enumEntries(values_19());
+    return $ENTRIES_19;
+  }
+  var Precision_entriesInitialized;
+  function Precision_initEntries() {
+    if (Precision_entriesInitialized)
+      return Unit_getInstance();
+    Precision_entriesInitialized = true;
+    Precision_DEFAULT_instance = new Precision('DEFAULT', 0);
+    Precision_LOW_instance = new Precision('LOW', 1);
+    Precision_MEDIUM_instance = new Precision('MEDIUM', 2);
+    Precision_HIGH_instance = new Precision('HIGH', 3);
+  }
+  var $ENTRIES_19;
+  function Precision(name, ordinal) {
+    Enum.call(this, name, ordinal);
   }
   function Varying_init_$Init$(name, type, precision, $this) {
     precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
@@ -22082,22 +22401,22 @@
   function Varying_init_$Create$(name, type, precision) {
     return Varying_init_$Init$(name, type, precision, objectCreate(protoOf(Varying)));
   }
-  function Provider_0(type, arrayCount, precision) {
+  function Provider(type, arrayCount, precision) {
     precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
     this.type_1 = type;
     this.arrayCount_1 = arrayCount;
     this.precision_1 = precision;
   }
-  protoOf(Provider_0).get_type_wovaf7_k$ = function () {
+  protoOf(Provider).get_type_wovaf7_k$ = function () {
     return this.type_1;
   };
-  protoOf(Provider_0).get_arrayCount_udic3j_k$ = function () {
+  protoOf(Provider).get_arrayCount_udic3j_k$ = function () {
     return this.arrayCount_1;
   };
-  protoOf(Provider_0).get_precision_e8tfsb_k$ = function () {
+  protoOf(Provider).get_precision_e8tfsb_k$ = function () {
     return this.precision_1;
   };
-  protoOf(Provider_0).provideDelegate_dbsaej_k$ = function (thisRef, property) {
+  protoOf(Provider).provideDelegate_dbsaej_k$ = function (thisRef, property) {
     return new Varying(property.callableName, this.type_1, this.arrayCount_1, this.precision_1);
   };
   function Varying(name, type, arrayCount, precision) {
@@ -22142,203 +22461,30 @@
   protoOf(Varying).getValue_fbnwi2_k$ = function (thisRef, property) {
     return this;
   };
-  function Output() {
-    Output_instance = this;
-    Varying_init_$Init$('out', VarType_Float4_getInstance(), VOID, this);
-  }
-  protoOf(Output).toString = function () {
-    return 'Output';
-  };
-  protoOf(Output).equals = function (other) {
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
-    var tmp;
-    var tmp_0;
-    var tmp_1;
-    var tmp_2;
-    if (other instanceof Output) {
-      tmp_2 = this.id_1 === other.id_1;
-    } else {
-      tmp_2 = false;
-    }
-    if (tmp_2) {
-      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.name_1 === other.name_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Output).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  var Output_instance;
-  function Output_getInstance() {
-    if (Output_instance == null)
-      new Output();
-    return Output_instance;
-  }
-  function Operand(type) {
-    this.type_1 = type;
-  }
-  protoOf(Operand).get_type_wovaf7_k$ = function () {
-    return this.type_1;
-  };
-  protoOf(Operand).get_elementCount_5d672c_k$ = function () {
-    return this.get_type_wovaf7_k$().elementCount_1;
-  };
-  function FragmentShader(callback) {
-    var builder = new ProgramBuilderDefault();
-    callback(builder);
-    return FragmentShader_0(builder._buildFuncs_9u5nuo_k$());
-  }
-  function Provider_1(index, stype) {
-    this.index_1 = index;
-    this.stype_1 = stype;
-  }
-  protoOf(Provider_1).get_index_it478p_k$ = function () {
-    return this.index_1;
-  };
-  protoOf(Provider_1).get_stype_iyqex0_k$ = function () {
-    return this.stype_1;
-  };
-  protoOf(Provider_1).provideDelegate_dbsaej_k$ = function (thisRef, property) {
-    return new Sampler(property.callableName, this.index_1, this.stype_1);
-  };
-  function Sampler(name, index, stype) {
-    Variable_init_$Init$(name, stype.vtype_1, VOID, this);
-    this.index_1 = index;
-    this.stype_1 = stype;
-  }
-  protoOf(Sampler).get_index_it478p_k$ = function () {
-    return this.index_1;
-  };
-  protoOf(Sampler).get_stype_iyqex0_k$ = function () {
-    return this.stype_1;
-  };
-  protoOf(Sampler).toString = function () {
-    return 'Sampler(' + this.name_1 + ', ' + this.index_1 + ', ' + this.stype_1 + ')';
-  };
-  protoOf(Sampler).equals = function (other) {
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
-    var tmp;
-    var tmp_0;
-    var tmp_1;
-    var tmp_2;
-    if (other instanceof Sampler) {
-      tmp_2 = this.id_1 === other.id_1;
-    } else {
-      tmp_2 = false;
-    }
-    if (tmp_2) {
-      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.name_1 === other.name_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Sampler).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  protoOf(Sampler).getValue_fbnwi2_k$ = function (thisRef, property) {
-    return this;
-  };
-  function Sampler_0(index, stype) {
-    return new Provider_1(index, stype);
-  }
-  var SamplerVarType_Sampler1D_instance;
-  var SamplerVarType_Sampler2D_instance;
-  var SamplerVarType_Sampler3D_instance;
-  var SamplerVarType_SamplerCube_instance;
-  function values_18() {
-    return [SamplerVarType_Sampler1D_getInstance(), SamplerVarType_Sampler2D_getInstance(), SamplerVarType_Sampler3D_getInstance(), SamplerVarType_SamplerCube_getInstance()];
-  }
-  function valueOf_19(value) {
-    switch (value) {
-      case 'Sampler1D':
-        return SamplerVarType_Sampler1D_getInstance();
-      case 'Sampler2D':
-        return SamplerVarType_Sampler2D_getInstance();
-      case 'Sampler3D':
-        return SamplerVarType_Sampler3D_getInstance();
-      case 'SamplerCube':
-        return SamplerVarType_SamplerCube_getInstance();
-      default:
-        SamplerVarType_initEntries();
-        THROW_IAE('No enum constant value.');
-        break;
-    }
-  }
-  function get_entries_18() {
-    if ($ENTRIES_18 == null)
-      $ENTRIES_18 = enumEntries(values_18());
-    return $ENTRIES_18;
-  }
-  var SamplerVarType_entriesInitialized;
-  function SamplerVarType_initEntries() {
-    if (SamplerVarType_entriesInitialized)
-      return Unit_getInstance();
-    SamplerVarType_entriesInitialized = true;
-    SamplerVarType_Sampler1D_instance = new SamplerVarType('Sampler1D', 0, VarType_Sampler1D_getInstance());
-    SamplerVarType_Sampler2D_instance = new SamplerVarType('Sampler2D', 1, VarType_Sampler2D_getInstance());
-    SamplerVarType_Sampler3D_instance = new SamplerVarType('Sampler3D', 2, VarType_Sampler3D_getInstance());
-    SamplerVarType_SamplerCube_instance = new SamplerVarType('SamplerCube', 3, VarType_SamplerCube_getInstance());
-  }
-  var $ENTRIES_18;
-  function SamplerVarType(name, ordinal, vtype) {
-    Enum.call(this, name, ordinal);
-    this.vtype_1 = vtype;
-  }
-  protoOf(SamplerVarType).get_vtype_j0dsp3_k$ = function () {
-    return this.vtype_1;
-  };
-  function Uniform(name, type, arrayCount, precision, offset, typedUniform) {
+  function VariableWithOffset(name, type, arrayCount, precision, offset) {
     precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
     offset = offset === VOID ? null : offset;
-    VariableWithOffset.call(this, name, type, arrayCount, precision, offset);
-    this.typedUniform_1 = typedUniform;
-    if (type.get_isSampler_trm7dh_k$()) {
-      // Inline function 'kotlin.error' call
-      var message = "Can't create uniform '" + name + "' with a sampler type '" + type + "', please use `Sampler` class instead";
-      throw IllegalStateException_init_$Create$(toString(message));
-    }
+    Variable.call(this, name, type, arrayCount, precision);
+    this.offset_1 = offset;
   }
-  protoOf(Uniform).get_typedUniform_dx6ek3_k$ = function () {
-    return this.typedUniform_1;
+  protoOf(VariableWithOffset).get_offset_hjmqak_k$ = function () {
+    return this.offset_1;
   };
-  protoOf(Uniform).get_totalElementCount_gfo0k2_k$ = function () {
-    return imul(this.get_type_wovaf7_k$().elementCount_1, this.arrayCount_1);
+  function Arg(name, type, arrayCount, precision) {
+    arrayCount = arrayCount === VOID ? 1 : arrayCount;
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    Variable.call(this, name, type, arrayCount, precision);
+  }
+  protoOf(Arg).toString = function () {
+    return 'Arg(' + this.name_1 + ')';
   };
-  protoOf(Uniform).toString = function () {
-    return 'Uniform(' + this.name_1 + ')';
-  };
-  protoOf(Uniform).equals = function (other) {
+  protoOf(Arg).equals = function (other) {
     // Inline function 'korlibs.graphics.shader.Variable.mequals' call
     var tmp;
     var tmp_0;
     var tmp_1;
     var tmp_2;
-    if (other instanceof Uniform) {
+    if (other instanceof Arg) {
       tmp_2 = this.id_1 === other.id_1;
     } else {
       tmp_2 = false;
@@ -22360,11 +22506,157 @@
     }
     return tmp;
   };
-  protoOf(Uniform).hashCode = function () {
+  protoOf(Arg).hashCode = function () {
     // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
     return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
   };
-  protoOf(Uniform).getValue_fbnwi2_k$ = function (thisRef, property) {
+  protoOf(Arg).getValue_fbnwi2_k$ = function (thisRef, property) {
+    return this;
+  };
+  function Attribute_init_$Init$(name, type, normalized, precision, fixedLocation, $this) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    Attribute.call($this, name, type, normalized, null, true, precision, VOID, fixedLocation);
+    return $this;
+  }
+  function Attribute_init_$Create$(name, type, normalized, precision, fixedLocation) {
+    return Attribute_init_$Init$(name, type, normalized, precision, fixedLocation, objectCreate(protoOf(Attribute)));
+  }
+  function Provider_0(type, normalized, precision, fixedLocation) {
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    this.type_1 = type;
+    this.normalized_1 = normalized;
+    this.precision_1 = precision;
+    this.fixedLocation_1 = fixedLocation;
+  }
+  protoOf(Provider_0).get_type_wovaf7_k$ = function () {
+    return this.type_1;
+  };
+  protoOf(Provider_0).get_normalized_u3mzcw_k$ = function () {
+    return this.normalized_1;
+  };
+  protoOf(Provider_0).get_precision_e8tfsb_k$ = function () {
+    return this.precision_1;
+  };
+  protoOf(Provider_0).get_fixedLocation_k1ke74_k$ = function () {
+    return this.fixedLocation_1;
+  };
+  protoOf(Provider_0).provideDelegate_dbsaej_k$ = function (thisRef, property) {
+    return Attribute_init_$Create$(property.callableName, this.type_1, this.normalized_1, this.precision_1, this.fixedLocation_1);
+  };
+  function Attribute(name, type, normalized, offset, active, precision, divisor, fixedLocation) {
+    offset = offset === VOID ? null : offset;
+    active = active === VOID ? true : active;
+    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
+    divisor = divisor === VOID ? 0 : divisor;
+    VariableWithOffset.call(this, name, type, 1, precision, offset);
+    this.normalized_1 = normalized;
+    this.active_1 = active;
+    this.divisor_1 = divisor;
+    this.fixedLocation_1 = fixedLocation;
+  }
+  protoOf(Attribute).get_normalized_u3mzcw_k$ = function () {
+    return this.normalized_1;
+  };
+  protoOf(Attribute).get_active_avldsf_k$ = function () {
+    return this.active_1;
+  };
+  protoOf(Attribute).get_divisor_syepx1_k$ = function () {
+    return this.divisor_1;
+  };
+  protoOf(Attribute).get_fixedLocation_k1ke74_k$ = function () {
+    return this.fixedLocation_1;
+  };
+  protoOf(Attribute).copy_rwx8ao_k$ = function (name, type, normalized, offset, active, precision, divisor, fixedLocation) {
+    return new Attribute(name, type, normalized, offset, active, precision, divisor, fixedLocation);
+  };
+  protoOf(Attribute).copy$default_mjikzy_k$ = function (name, type, normalized, offset, active, precision, divisor, fixedLocation, $super) {
+    name = name === VOID ? this.name_1 : name;
+    type = type === VOID ? this.get_type_wovaf7_k$() : type;
+    normalized = normalized === VOID ? this.normalized_1 : normalized;
+    offset = offset === VOID ? this.offset_1 : offset;
+    active = active === VOID ? this.active_1 : active;
+    precision = precision === VOID ? this.precision_1 : precision;
+    divisor = divisor === VOID ? this.divisor_1 : divisor;
+    fixedLocation = fixedLocation === VOID ? this.fixedLocation_1 : fixedLocation;
+    return $super === VOID ? this.copy_rwx8ao_k$(name, type, normalized, offset, active, precision, divisor, fixedLocation) : $super.copy_rwx8ao_k$.call(this, name, type, normalized, offset, active, precision, divisor, fixedLocation);
+  };
+  protoOf(Attribute).inactived_cn8hg9_k$ = function () {
+    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, false);
+  };
+  protoOf(Attribute).withDivisor_bmnrfk_k$ = function (divisor) {
+    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, VOID, VOID, divisor);
+  };
+  protoOf(Attribute).withFixedLocation_d6r8wl_k$ = function (fixedLocation) {
+    return this.copy$default_mjikzy_k$(VOID, VOID, VOID, VOID, VOID, VOID, VOID, fixedLocation);
+  };
+  protoOf(Attribute).toString = function () {
+    return 'Attribute(' + this.name_1 + ')';
+  };
+  protoOf(Attribute).toStringEx_tcr4n3_k$ = function () {
+    return 'Attribute(' + this.name_1 + ', type=' + this.get_type_wovaf7_k$() + ', normalized=' + this.normalized_1 + ', offset=' + this.offset_1 + ', active=' + this.active_1 + ', precision=' + this.precision_1 + ', divisor=' + this.divisor_1 + ', fixedLocation=' + this.fixedLocation_1 + ')';
+  };
+  protoOf(Attribute).equals = function (other) {
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp_2;
+    var tmp_3;
+    var tmp_4;
+    var tmp_5;
+    if (other instanceof Attribute) {
+      tmp_5 = this.id_1 === other.id_1;
+    } else {
+      tmp_5 = false;
+    }
+    if (tmp_5) {
+      tmp_4 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_4 = false;
+    }
+    if (tmp_4) {
+      tmp_3 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_3 = false;
+    }
+    if (tmp_3) {
+      tmp_2 = this.name_1 === other.name_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.normalized_1 === (other instanceof Attribute ? other : THROW_CCE()).normalized_1;
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.offset_1 == other.offset_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.active_1 === other.active_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Attribute).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    var out = (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+    out = imul(out, 7);
+    out = out + getBooleanHashCode(this.normalized_1) | 0;
+    out = imul(out, 7);
+    var tmp = out;
+    // Inline function 'kotlin.hashCode' call
+    var tmp0_safe_receiver = this.offset_1;
+    var tmp1_elvis_lhs = tmp0_safe_receiver == null ? null : hashCode(tmp0_safe_receiver);
+    out = tmp + (tmp1_elvis_lhs == null ? 0 : tmp1_elvis_lhs) | 0;
+    out = imul(out, 7);
+    out = out + getBooleanHashCode(this.active_1) | 0;
+    return out;
+  };
+  protoOf(Attribute).getValue_fbnwi2_k$ = function (thisRef, property) {
     return this;
   };
   var VarType_TVOID_instance;
@@ -22614,10 +22906,10 @@
       new Companion_52();
     return Companion_instance_52;
   }
-  function values_19() {
+  function values_20() {
     return [VarType_TVOID_getInstance(), VarType_Mat2_getInstance(), VarType_Mat3_getInstance(), VarType_Mat4_getInstance(), VarType_Sampler1D_getInstance(), VarType_Sampler2D_getInstance(), VarType_Sampler3D_getInstance(), VarType_SamplerCube_getInstance(), VarType_Int1_getInstance(), VarType_Float1_getInstance(), VarType_Float2_getInstance(), VarType_Float3_getInstance(), VarType_Float4_getInstance(), VarType_Short1_getInstance(), VarType_Short2_getInstance(), VarType_Short3_getInstance(), VarType_Short4_getInstance(), VarType_Bool1_getInstance(), VarType_Bool2_getInstance(), VarType_Bool3_getInstance(), VarType_Bool4_getInstance(), VarType_Byte4_getInstance(), VarType_SByte1_getInstance(), VarType_SByte2_getInstance(), VarType_SByte3_getInstance(), VarType_SByte4_getInstance(), VarType_UByte1_getInstance(), VarType_UByte2_getInstance(), VarType_UByte3_getInstance(), VarType_UByte4_getInstance(), VarType_SShort1_getInstance(), VarType_SShort2_getInstance(), VarType_SShort3_getInstance(), VarType_SShort4_getInstance(), VarType_UShort1_getInstance(), VarType_UShort2_getInstance(), VarType_UShort3_getInstance(), VarType_UShort4_getInstance(), VarType_SInt1_getInstance(), VarType_SInt2_getInstance(), VarType_SInt3_getInstance(), VarType_SInt4_getInstance()];
   }
-  function valueOf_20(value) {
+  function valueOf_21(value) {
     switch (value) {
       case 'TVOID':
         return VarType_TVOID_getInstance();
@@ -22709,10 +23001,10 @@
         break;
     }
   }
-  function get_entries_19() {
-    if ($ENTRIES_19 == null)
-      $ENTRIES_19 = enumEntries(values_19());
-    return $ENTRIES_19;
+  function get_entries_20() {
+    if ($ENTRIES_20 == null)
+      $ENTRIES_20 = enumEntries(values_20());
+    return $ENTRIES_20;
   }
   var VarType_entriesInitialized;
   function VarType_initEntries() {
@@ -22763,7 +23055,7 @@
     VarType_SInt4_instance = new VarType('SInt4', 41, VarKind_TINT_getInstance(), 4);
     Companion_getInstance_97();
   }
-  var $ENTRIES_19;
+  var $ENTRIES_20;
   function VarType(name, ordinal, kind, elementCount, isMatrix) {
     isMatrix = isMatrix === VOID ? false : isMatrix;
     Enum.call(this, name, ordinal);
@@ -22813,180 +23105,40 @@
   protoOf(VarType).get_bytesSize_p49g9p_k$ = function () {
     return this.bytesSize_1;
   };
-  var Precision_DEFAULT_instance;
-  var Precision_LOW_instance;
-  var Precision_MEDIUM_instance;
-  var Precision_HIGH_instance;
-  function values_20() {
-    return [Precision_DEFAULT_getInstance(), Precision_LOW_getInstance(), Precision_MEDIUM_getInstance(), Precision_HIGH_getInstance()];
+  var ShaderType_VERTEX_instance;
+  var ShaderType_FRAGMENT_instance;
+  function values_21() {
+    return [ShaderType_VERTEX_getInstance(), ShaderType_FRAGMENT_getInstance()];
   }
-  function valueOf_21(value) {
+  function valueOf_22(value) {
     switch (value) {
-      case 'DEFAULT':
-        return Precision_DEFAULT_getInstance();
-      case 'LOW':
-        return Precision_LOW_getInstance();
-      case 'MEDIUM':
-        return Precision_MEDIUM_getInstance();
-      case 'HIGH':
-        return Precision_HIGH_getInstance();
+      case 'VERTEX':
+        return ShaderType_VERTEX_getInstance();
+      case 'FRAGMENT':
+        return ShaderType_FRAGMENT_getInstance();
       default:
-        Precision_initEntries();
+        ShaderType_initEntries();
         THROW_IAE('No enum constant value.');
         break;
     }
   }
-  function get_entries_20() {
-    if ($ENTRIES_20 == null)
-      $ENTRIES_20 = enumEntries(values_20());
-    return $ENTRIES_20;
+  function get_entries_21() {
+    if ($ENTRIES_21 == null)
+      $ENTRIES_21 = enumEntries(values_21());
+    return $ENTRIES_21;
   }
-  var Precision_entriesInitialized;
-  function Precision_initEntries() {
-    if (Precision_entriesInitialized)
+  var ShaderType_entriesInitialized;
+  function ShaderType_initEntries() {
+    if (ShaderType_entriesInitialized)
       return Unit_getInstance();
-    Precision_entriesInitialized = true;
-    Precision_DEFAULT_instance = new Precision('DEFAULT', 0);
-    Precision_LOW_instance = new Precision('LOW', 1);
-    Precision_MEDIUM_instance = new Precision('MEDIUM', 2);
-    Precision_HIGH_instance = new Precision('HIGH', 3);
+    ShaderType_entriesInitialized = true;
+    ShaderType_VERTEX_instance = new ShaderType('VERTEX', 0);
+    ShaderType_FRAGMENT_instance = new ShaderType('FRAGMENT', 1);
   }
-  var $ENTRIES_20;
-  function Precision(name, ordinal) {
+  var $ENTRIES_21;
+  function ShaderType(name, ordinal) {
     Enum.call(this, name, ordinal);
   }
-  function Temp_init_$Init$(id, type, precision, $this) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    Temp.call($this, id, type, 1, precision);
-    return $this;
-  }
-  function Temp_init_$Create$(id, type, precision) {
-    return Temp_init_$Init$(id, type, precision, objectCreate(protoOf(Temp)));
-  }
-  function Temp(id, type, arrayCount, precision) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    Variable.call(this, 'temp' + id, type, arrayCount, precision);
-  }
-  protoOf(Temp).toString = function () {
-    return 'Temp(' + this.name_1 + ')';
-  };
-  protoOf(Temp).equals = function (other) {
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
-    var tmp;
-    var tmp_0;
-    var tmp_1;
-    var tmp_2;
-    if (other instanceof Temp) {
-      tmp_2 = this.id_1 === other.id_1;
-    } else {
-      tmp_2 = false;
-    }
-    if (tmp_2) {
-      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.name_1 === other.name_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Temp).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  function FragmentShader_0(info) {
-    return FragmentShader_1(info.get_first_irdx8n_k$(), info.get_second_jf7fjx_k$());
-  }
-  function FuncDecl(name, rettype, args, stm) {
-    this.name_1 = name;
-    this.rettype_1 = rettype;
-    this.args_1 = args;
-    this.stm_1 = stm;
-    this.ref_1 = this;
-  }
-  protoOf(FuncDecl).get_name_woqyms_k$ = function () {
-    return this.name_1;
-  };
-  protoOf(FuncDecl).get_rettype_jfjlo2_k$ = function () {
-    return this.rettype_1;
-  };
-  protoOf(FuncDecl).get_args_woj09y_k$ = function () {
-    return this.args_1;
-  };
-  protoOf(FuncDecl).get_stm_18ivy5_k$ = function () {
-    return this.stm_1;
-  };
-  protoOf(FuncDecl).get_ref_18ix1y_k$ = function () {
-    return this.ref_1;
-  };
-  protoOf(FuncDecl).getValue_fbnwi2_k$ = function (thisRef, property) {
-    return this;
-  };
-  protoOf(FuncDecl).component1_7eebsc_k$ = function () {
-    return this.name_1;
-  };
-  protoOf(FuncDecl).component2_7eebsb_k$ = function () {
-    return this.rettype_1;
-  };
-  protoOf(FuncDecl).component3_7eebsa_k$ = function () {
-    return this.args_1;
-  };
-  protoOf(FuncDecl).component4_7eebs9_k$ = function () {
-    return this.stm_1;
-  };
-  protoOf(FuncDecl).copy_6fklv4_k$ = function (name, rettype, args, stm) {
-    return new FuncDecl(name, rettype, args, stm);
-  };
-  protoOf(FuncDecl).copy$default_glqhx5_k$ = function (name, rettype, args, stm, $super) {
-    name = name === VOID ? this.name_1 : name;
-    rettype = rettype === VOID ? this.rettype_1 : rettype;
-    args = args === VOID ? this.args_1 : args;
-    stm = stm === VOID ? this.stm_1 : stm;
-    return $super === VOID ? this.copy_6fklv4_k$(name, rettype, args, stm) : $super.copy_6fklv4_k$.call(this, name, rettype, args, stm);
-  };
-  protoOf(FuncDecl).toString = function () {
-    return 'FuncDecl(name=' + this.name_1 + ', rettype=' + this.rettype_1 + ', args=' + this.args_1 + ', stm=' + this.stm_1 + ')';
-  };
-  protoOf(FuncDecl).hashCode = function () {
-    var result = getStringHashCode(this.name_1);
-    result = imul(result, 31) + this.rettype_1.hashCode() | 0;
-    result = imul(result, 31) + hashCode(this.args_1) | 0;
-    result = imul(result, 31) + hashCode(this.stm_1) | 0;
-    return result;
-  };
-  protoOf(FuncDecl).equals = function (other) {
-    if (this === other)
-      return true;
-    if (!(other instanceof FuncDecl))
-      return false;
-    var tmp0_other_with_cast = other instanceof FuncDecl ? other : THROW_CCE();
-    if (!(this.name_1 === tmp0_other_with_cast.name_1))
-      return false;
-    if (!this.rettype_1.equals(tmp0_other_with_cast.rettype_1))
-      return false;
-    if (!equals(this.args_1, tmp0_other_with_cast.args_1))
-      return false;
-    if (!equals(this.stm_1, tmp0_other_with_cast.stm_1))
-      return false;
-    return true;
-  };
-  function VariableWithOffset(name, type, arrayCount, precision, offset) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    offset = offset === VOID ? null : offset;
-    Variable.call(this, name, type, arrayCount, precision);
-    this.offset_1 = offset;
-  }
-  protoOf(VariableWithOffset).get_offset_hjmqak_k$ = function () {
-    return this.offset_1;
-  };
   var VarKind_TBOOL_instance;
   var VarKind_TBYTE_instance;
   var VarKind_TUNSIGNED_BYTE_instance;
@@ -22994,10 +23146,10 @@
   var VarKind_TUNSIGNED_SHORT_instance;
   var VarKind_TINT_instance;
   var VarKind_TFLOAT_instance;
-  function values_21() {
+  function values_22() {
     return [VarKind_TBOOL_getInstance(), VarKind_TBYTE_getInstance(), VarKind_TUNSIGNED_BYTE_getInstance(), VarKind_TSHORT_getInstance(), VarKind_TUNSIGNED_SHORT_getInstance(), VarKind_TINT_getInstance(), VarKind_TFLOAT_getInstance()];
   }
-  function valueOf_22(value) {
+  function valueOf_23(value) {
     switch (value) {
       case 'TBOOL':
         return VarKind_TBOOL_getInstance();
@@ -23019,10 +23171,10 @@
         break;
     }
   }
-  function get_entries_21() {
-    if ($ENTRIES_21 == null)
-      $ENTRIES_21 = enumEntries(values_21());
-    return $ENTRIES_21;
+  function get_entries_22() {
+    if ($ENTRIES_22 == null)
+      $ENTRIES_22 = enumEntries(values_22());
+    return $ENTRIES_22;
   }
   var VarKind_entriesInitialized;
   function VarKind_initEntries() {
@@ -23037,7 +23189,7 @@
     VarKind_TINT_instance = new VarKind('TINT', 5, 4);
     VarKind_TFLOAT_instance = new VarKind('TFLOAT', 6, 4);
   }
-  var $ENTRIES_21;
+  var $ENTRIES_22;
   function VarKind(name, ordinal, bytesSize) {
     Enum.call(this, name, ordinal);
     this.bytesSize_1 = bytesSize;
@@ -23045,6 +23197,71 @@
   protoOf(VarKind).get_bytesSize_p49g9p_k$ = function () {
     return this.bytesSize_1;
   };
+  function Provider_1(index, stype) {
+    this.index_1 = index;
+    this.stype_1 = stype;
+  }
+  protoOf(Provider_1).get_index_it478p_k$ = function () {
+    return this.index_1;
+  };
+  protoOf(Provider_1).get_stype_iyqex0_k$ = function () {
+    return this.stype_1;
+  };
+  protoOf(Provider_1).provideDelegate_dbsaej_k$ = function (thisRef, property) {
+    return new Sampler_0(property.callableName, this.index_1, this.stype_1);
+  };
+  function Sampler_0(name, index, stype) {
+    Variable_init_$Init$(name, stype.vtype_1, VOID, this);
+    this.index_1 = index;
+    this.stype_1 = stype;
+  }
+  protoOf(Sampler_0).get_index_it478p_k$ = function () {
+    return this.index_1;
+  };
+  protoOf(Sampler_0).get_stype_iyqex0_k$ = function () {
+    return this.stype_1;
+  };
+  protoOf(Sampler_0).toString = function () {
+    return 'Sampler(' + this.name_1 + ', ' + this.index_1 + ', ' + this.stype_1 + ')';
+  };
+  protoOf(Sampler_0).equals = function (other) {
+    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+    var tmp;
+    var tmp_0;
+    var tmp_1;
+    var tmp_2;
+    if (other instanceof Sampler_0) {
+      tmp_2 = this.id_1 === other.id_1;
+    } else {
+      tmp_2 = false;
+    }
+    if (tmp_2) {
+      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
+    } else {
+      tmp_1 = false;
+    }
+    if (tmp_1) {
+      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
+    } else {
+      tmp_0 = false;
+    }
+    if (tmp_0) {
+      tmp = this.name_1 === other.name_1;
+    } else {
+      tmp = false;
+    }
+    return tmp;
+  };
+  protoOf(Sampler_0).hashCode = function () {
+    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
+    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
+  };
+  protoOf(Sampler_0).getValue_fbnwi2_k$ = function (thisRef, property) {
+    return this;
+  };
+  function get_attributes(_this__u8e3s4) {
+    return _this__u8e3s4.items_1;
+  }
   function UniformInProgram(uniform, index) {
     this.uniform_1 = uniform;
     this.index_1 = index;
@@ -23089,192 +23306,16 @@
       return false;
     return true;
   };
-  function Variable_init_$Init$(name, type, precision, $this) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    Variable.call($this, name, type, 1, precision);
-    return $this;
-  }
-  function Variable_init_$Create$(name, type, precision) {
-    return Variable_init_$Init$(name, type, precision, objectCreate(protoOf(Variable)));
-  }
-  function Variable(name, type, arrayCount, precision) {
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    OperandWithArray.call(this, type, arrayCount);
-    this.name_1 = name;
-    this.precision_1 = precision;
-    var tmp = this;
-    var tmp_0 = 0;
-    // Inline function 'kotlin.arrayOfNulls' call
-    var tmp_1 = fillArrayVal(Array(arrayCount), null);
-    while (tmp_0 < arrayCount) {
-      var tmp_2 = tmp_0;
-      tmp_1[tmp_2] = this.name_1 + '[' + tmp_2 + ']';
-      tmp_0 = tmp_0 + 1 | 0;
-    }
-    tmp.indexNames_1 = tmp_1;
-    this.id_1 = 0;
-    this.data_1 = null;
-  }
-  protoOf(Variable).get_name_woqyms_k$ = function () {
-    return this.name_1;
-  };
-  protoOf(Variable).get_precision_e8tfsb_k$ = function () {
-    return this.precision_1;
-  };
-  protoOf(Variable).get_indexNames_833mxt_k$ = function () {
-    return this.indexNames_1;
-  };
-  protoOf(Variable).set_id_kpjn9s_k$ = function (_set____db54di) {
-    this.id_1 = _set____db54di;
-  };
-  protoOf(Variable).get_id_kntnx8_k$ = function () {
-    return this.id_1;
-  };
-  protoOf(Variable).set_data_p3tbe0_k$ = function (_set____db54di) {
-    this.data_1 = _set____db54di;
-  };
-  protoOf(Variable).get_data_wokkxf_k$ = function () {
-    return this.data_1;
-  };
-  protoOf(Variable).mhashcode_bni7vs_k$ = function () {
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  protoOf(Variable).equals = function (other) {
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
+  function VertexShader_1(stm, funcs) {
     var tmp;
-    var tmp_0;
-    var tmp_1;
-    var tmp_2;
-    if (other instanceof Variable) {
-      tmp_2 = this.id_1 === other.id_1;
+    if (funcs === VOID) {
+      // Inline function 'kotlin.collections.listOf' call
+      tmp = emptyList();
     } else {
-      tmp_2 = false;
+      tmp = funcs;
     }
-    if (tmp_2) {
-      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.name_1 === other.name_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Variable).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  function OperandWithArray(type, arrayCount) {
-    Operand.call(this, type);
-    this.arrayCount_1 = arrayCount;
-    this.kind_1 = type.kind_1;
-    this.stride_1 = type.elementCount_1;
-    this.totalElements_1 = imul(this.stride_1, this.arrayCount_1);
-    this.totalBytes_1 = imul(type.bytesSize_1, this.arrayCount_1);
-  }
-  protoOf(OperandWithArray).get_arrayCount_udic3j_k$ = function () {
-    return this.arrayCount_1;
-  };
-  protoOf(OperandWithArray).get_kind_wop7ml_k$ = function () {
-    return this.kind_1;
-  };
-  protoOf(OperandWithArray).get_stride_jnpski_k$ = function () {
-    return this.stride_1;
-  };
-  protoOf(OperandWithArray).get_totalElements_wyi8e_k$ = function () {
-    return this.totalElements_1;
-  };
-  protoOf(OperandWithArray).get_totalBytes_wa2n74_k$ = function () {
-    return this.totalBytes_1;
-  };
-  function VarTypeAccessor() {
-  }
-  function Arg(name, type, arrayCount, precision) {
-    arrayCount = arrayCount === VOID ? 1 : arrayCount;
-    precision = precision === VOID ? Precision_DEFAULT_getInstance() : precision;
-    Variable.call(this, name, type, arrayCount, precision);
-  }
-  protoOf(Arg).toString = function () {
-    return 'Arg(' + this.name_1 + ')';
-  };
-  protoOf(Arg).equals = function (other) {
-    // Inline function 'korlibs.graphics.shader.Variable.mequals' call
-    var tmp;
-    var tmp_0;
-    var tmp_1;
-    var tmp_2;
-    if (other instanceof Arg) {
-      tmp_2 = this.id_1 === other.id_1;
-    } else {
-      tmp_2 = false;
-    }
-    if (tmp_2) {
-      tmp_1 = this.get_type_wovaf7_k$().equals(other.get_type_wovaf7_k$());
-    } else {
-      tmp_1 = false;
-    }
-    if (tmp_1) {
-      tmp_0 = this.arrayCount_1 === other.arrayCount_1;
-    } else {
-      tmp_0 = false;
-    }
-    if (tmp_0) {
-      tmp = this.name_1 === other.name_1;
-    } else {
-      tmp = false;
-    }
-    return tmp;
-  };
-  protoOf(Arg).hashCode = function () {
-    // Inline function 'korlibs.graphics.shader.Variable.mhashcode' call
-    return (this.id_1 + imul(this.get_type_wovaf7_k$().hashCode(), 7) | 0) + imul(getStringHashCode(this.name_1), 11) | 0;
-  };
-  protoOf(Arg).getValue_fbnwi2_k$ = function (thisRef, property) {
-    return this;
-  };
-  var ShaderType_VERTEX_instance;
-  var ShaderType_FRAGMENT_instance;
-  function values_22() {
-    return [ShaderType_VERTEX_getInstance(), ShaderType_FRAGMENT_getInstance()];
-  }
-  function valueOf_23(value) {
-    switch (value) {
-      case 'VERTEX':
-        return ShaderType_VERTEX_getInstance();
-      case 'FRAGMENT':
-        return ShaderType_FRAGMENT_getInstance();
-      default:
-        ShaderType_initEntries();
-        THROW_IAE('No enum constant value.');
-        break;
-    }
-  }
-  function get_entries_22() {
-    if ($ENTRIES_22 == null)
-      $ENTRIES_22 = enumEntries(values_22());
-    return $ENTRIES_22;
-  }
-  var ShaderType_entriesInitialized;
-  function ShaderType_initEntries() {
-    if (ShaderType_entriesInitialized)
-      return Unit_getInstance();
-    ShaderType_entriesInitialized = true;
-    ShaderType_VERTEX_instance = new ShaderType('VERTEX', 0);
-    ShaderType_FRAGMENT_instance = new ShaderType('FRAGMENT', 1);
-  }
-  var $ENTRIES_22;
-  function ShaderType(name, ordinal) {
-    Enum.call(this, name, ordinal);
-  }
-  function VertexShader_0(info) {
-    return VertexShader_1(info.get_first_irdx8n_k$(), info.get_second_jf7fjx_k$());
+    funcs = tmp;
+    return new Shader(ShaderType_VERTEX_getInstance(), stm, funcs);
   }
   function FragmentShader_1(stm, funcs) {
     var tmp;
@@ -23287,22 +23328,15 @@
     funcs = tmp;
     return new Shader(ShaderType_FRAGMENT_getInstance(), stm, funcs);
   }
-  function VertexShader_1(stm, funcs) {
-    var tmp;
-    if (funcs === VOID) {
-      // Inline function 'kotlin.collections.listOf' call
-      tmp = emptyList();
-    } else {
-      tmp = funcs;
-    }
-    funcs = tmp;
-    return new Shader(ShaderType_VERTEX_getInstance(), stm, funcs);
-  }
-  function get_attributes(_this__u8e3s4) {
-    return _this__u8e3s4.items_1;
-  }
-  function get_attributePositions(_this__u8e3s4) {
-    return _this__u8e3s4._positions_1;
+  function appending(_this__u8e3s4, block) {
+    if (_this__u8e3s4.get_isRaw_it70qd_k$())
+      return _this__u8e3s4;
+    // Inline function 'kotlin.also' call
+    var this_0 = (new ProgramBuilderDefault()).WITH_47vya4_k$(_this__u8e3s4);
+    // Inline function 'kotlin.contracts.contract' call
+    block(this_0);
+    var pair = this_0._buildFuncs_9u5nuo_k$();
+    return new Shader(_this__u8e3s4.type_1, pair.get_first_irdx8n_k$(), pair.get_second_jf7fjx_k$());
   }
   function SamplerVarType_Sampler1D_getInstance() {
     SamplerVarType_initEntries();
@@ -23319,6 +23353,22 @@
   function SamplerVarType_SamplerCube_getInstance() {
     SamplerVarType_initEntries();
     return SamplerVarType_SamplerCube_instance;
+  }
+  function Precision_DEFAULT_getInstance() {
+    Precision_initEntries();
+    return Precision_DEFAULT_instance;
+  }
+  function Precision_LOW_getInstance() {
+    Precision_initEntries();
+    return Precision_LOW_instance;
+  }
+  function Precision_MEDIUM_getInstance() {
+    Precision_initEntries();
+    return Precision_MEDIUM_instance;
+  }
+  function Precision_HIGH_getInstance() {
+    Precision_initEntries();
+    return Precision_HIGH_instance;
   }
   function VarType_TVOID_getInstance() {
     VarType_initEntries();
@@ -23488,21 +23538,13 @@
     VarType_initEntries();
     return VarType_SInt4_instance;
   }
-  function Precision_DEFAULT_getInstance() {
-    Precision_initEntries();
-    return Precision_DEFAULT_instance;
+  function ShaderType_VERTEX_getInstance() {
+    ShaderType_initEntries();
+    return ShaderType_VERTEX_instance;
   }
-  function Precision_LOW_getInstance() {
-    Precision_initEntries();
-    return Precision_LOW_instance;
-  }
-  function Precision_MEDIUM_getInstance() {
-    Precision_initEntries();
-    return Precision_MEDIUM_instance;
-  }
-  function Precision_HIGH_getInstance() {
-    Precision_initEntries();
-    return Precision_HIGH_instance;
+  function ShaderType_FRAGMENT_getInstance() {
+    ShaderType_initEntries();
+    return ShaderType_FRAGMENT_instance;
   }
   function VarKind_TBOOL_getInstance() {
     VarKind_initEntries();
@@ -23531,14 +23573,6 @@
   function VarKind_TFLOAT_getInstance() {
     VarKind_initEntries();
     return VarKind_TFLOAT_instance;
-  }
-  function ShaderType_VERTEX_getInstance() {
-    ShaderType_initEntries();
-    return ShaderType_VERTEX_instance;
-  }
-  function ShaderType_FRAGMENT_getInstance() {
-    ShaderType_initEntries();
-    return ShaderType_FRAGMENT_instance;
   }
   function putAsciiString(_this__u8e3s4, str) {
     var n = 0;
@@ -39788,7 +39822,7 @@
       // Inline function 'korlibs.korge.render.AgBitmapTextureManager._getTexture.<anonymous>' call
       var tmp;
       if (slice instanceof RectSlice) {
-        tmp = Texture_1(info.textureBase_1).slice$default_42wdcr_k$(new RectangleI(slice.get_left_woprgw_k$(), slice.get_top_18ivbo_k$(), slice.get_width_j0q4yl_k$(), slice.get_height_e7t92o_k$()));
+        tmp = Texture_0(info.textureBase_1).slice$default_42wdcr_k$(new RectangleI(slice.get_left_woprgw_k$(), slice.get_top_18ivbo_k$(), slice.get_width_j0q4yl_k$(), slice.get_height_e7t92o_k$()));
       } else {
         tmp = Companion_getInstance_26().invoke$default_uuyw4m_k$(info.textureBase_1, slice);
       }
@@ -39870,7 +39904,7 @@
     return this.toStringStats_vnyv83_k$();
   };
   protoOf(AgBitmapTextureManager).toStringStats_vnyv83_k$ = function () {
-    return 'AgBitmapTextureManager(numCachedBitmaps=' + this.get_numCachedBitmaps_75wsjp_k$() + ', numReferencedBitmapsSinceGC=' + this.get_numReferencedBitmapsSinceGC_2ejk6g_k$() + ', numReferencedBitmaps=' + this.get_numReferencedBitmaps_s29lfy_k$() + ', maxCachedMemory=' + new ByteUnits(Companion_getInstance_5().fromBytes_p7luea_k$(this.maxCachedMemory_1)) + ', managedTextureMemory=' + new ByteUnits(Companion_getInstance_5().fromBytes_p7luea_k$(this.managedTextureMemory_1)) + ')';
+    return 'AgBitmapTextureManager(numCachedBitmaps=' + this.get_numCachedBitmaps_75wsjp_k$() + ', numReferencedBitmapsSinceGC=' + this.get_numReferencedBitmapsSinceGC_2ejk6g_k$() + ', numReferencedBitmaps=' + this.get_numReferencedBitmaps_s29lfy_k$() + ', maxCachedMemory=' + new ByteUnits(Companion_getInstance_4().fromBytes_p7luea_k$(this.maxCachedMemory_1)) + ', managedTextureMemory=' + new ByteUnits(Companion_getInstance_4().fromBytes_p7luea_k$(this.managedTextureMemory_1)) + ')';
   };
   protoOf(AgBitmapTextureManager).set_framesBetweenGC_ww1jtl_k$ = function (_set____db54di) {
     this.framesBetweenGC_1 = _set____db54di;
@@ -40171,7 +40205,7 @@
     var tmp_2 = fillArrayVal(Array(tmp_1), null);
     while (tmp_0 < tmp_1) {
       var tmp_3 = tmp_0;
-      tmp_2[tmp_3] = new Sampler('u_Tex' + tmp_3, ShaderIndices_getInstance().get_SAMPLER_MTEX_INDEX_x915gz_k$() + tmp_3 | 0, SamplerVarType_Sampler2D_getInstance());
+      tmp_2[tmp_3] = new Sampler_0('u_Tex' + tmp_3, ShaderIndices_getInstance().get_SAMPLER_MTEX_INDEX_x915gz_k$() + tmp_3 | 0, SamplerVarType_Sampler2D_getInstance());
       tmp_0 = tmp_0 + 1 | 0;
     }
     tmp.u_TexN_1 = tmp_2;
@@ -40234,7 +40268,7 @@
     this_4.SET_vs1igi_k$(Companion_getInstance_107().get_v_ColMul_wy83re_k$(), this_4.vec4_735zyq_k$([this_4.times_1dhq1g_k$(this_4.get_r4qghg_k$(Companion_getInstance_107().get_a_ColMul_11ofqj_k$(), 'rgb'), this_4.get_r4qghg_k$(Companion_getInstance_107().get_a_ColMul_11ofqj_k$(), 'a')), this_4.get_r4qghg_k$(Companion_getInstance_107().get_a_ColMul_11ofqj_k$(), 'a')]));
     this_4.SET_vs1igi_k$(Companion_getInstance_107().v_ColAdd_1, Companion_getInstance_107().a_ColAdd_1);
     this_4.SET_vs1igi_k$(this_4.get_out_18iyvv_k$(), this_4.times_1dhq1g_k$(this_4.times_1dhq1g_k$(this_4.get_u_ProjMat_hy6zf4_k$(), this_4.get_u_ViewMat_5blkpk_k$()), this_4.vec4_735zyq_k$([this_4.get_a_Pos_iofv3h_k$(), this_4.get_lit_xwjtj8_k$(0.0), this_4.get_lit_xwjtj8_k$(1.0)])));
-    var tmp_9 = VertexShader_0(this_4._buildFuncs_9u5nuo_k$());
+    var tmp_9 = VertexShader(this_4._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.FragmentShaderDefault' call
     // Inline function 'kotlin.also' call
     var this_5 = new ProgramBuilderDefault();
@@ -40250,7 +40284,7 @@
     var stmIf = new If(cond, body._build_oht6dt_k$());
     // Inline function 'kotlin.collections.plusAssign' call
     this_5.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf);
-    var tmp$ret$14 = FragmentShader_0(this_5._buildFuncs_9u5nuo_k$());
+    var tmp$ret$14 = FragmentShader(this_5._buildFuncs_9u5nuo_k$());
     tmp_8.PROGRAM_1 = new Program(tmp_9, tmp$ret$14, 'BatchBuilder2D.Tinted');
     // Inline function 'korlibs.logger.Logger.trace' call
     var this_6 = get_logger_1();
@@ -41031,7 +41065,7 @@
       do {
         var n = inductionVariable;
         inductionVariable = inductionVariable + 1 | 0;
-        var info = Companion_getInstance_70().invoke$default_38xk5x_k$(VOID, this.currentSmoothing_1);
+        var info = Companion_getInstance_69().invoke$default_38xk5x_k$(VOID, this.currentSmoothing_1);
         this.ctx_1.get_textureUnits_kh5lsz_k$().set_jc72iz_k$(Companion_getInstance_107().u_TexN_1[n], this.currentTexN_1[n], info);
       }
        while (inductionVariable < last);
@@ -41271,7 +41305,7 @@
     // Inline function 'korlibs.korge.render.Companion.VERTEX.<anonymous>.<anonymous>' call
     builder.SET_vs1igi_k$(builder.get_out_18iyvv_k$(), builder.times_1dhq1g_k$(builder.times_1dhq1g_k$(this_0.get_u_ProjMat_hy6zf4_k$(), this_0.get_u_ViewMat_5blkpk_k$()), builder.vec4_735zyq_k$([this_0.get_a_Pos_iofv3h_k$(), builder.get_lit_xwjtj8_k$(0.0), builder.get_lit_xwjtj8_k$(1.0)])));
     builder.SET_vs1igi_k$(this_0.get_v_Col_izz9wu_k$(), this_0.get_a_Col_ioflg9_k$());
-    tmp.VERTEX_1 = VertexShader_0(builder._buildFuncs_9u5nuo_k$());
+    tmp.VERTEX_1 = VertexShader(builder._buildFuncs_9u5nuo_k$());
     var tmp_0 = this;
     // Inline function 'korlibs.graphics.shader.FragmentShader' call
     var builder_0 = new ProgramBuilderDefault();
@@ -41281,7 +41315,7 @@
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.korge.render.Companion.FRAGMENT.<anonymous>.<anonymous>' call
     builder_0.SET_vs1igi_k$(builder_0.get_out_18iyvv_k$(), this_1.get_v_Col_izz9wu_k$());
-    tmp_0.FRAGMENT_1 = FragmentShader_0(builder_0._buildFuncs_9u5nuo_k$());
+    tmp_0.FRAGMENT_1 = FragmentShader(builder_0._buildFuncs_9u5nuo_k$());
     this.PROGRAM_1 = new Program(this.VERTEX_1, this.FRAGMENT_1);
   }
   protoOf(Companion_63).get_LAYOUT_egilv_k$ = function () {
@@ -43791,7 +43825,7 @@
     // Inline function 'kotlin.collections.plusAssign' call
     this_0.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf_3);
     this_0.SET_vs1igi_k$(this_0.get_out_18iyvv_k$(), this_0.times_1dhq1g_k$(this_0.get_out_18iyvv_k$(), this_0.get_v_Col_izz9wu_k$()));
-    var tmp3_fragment = FragmentShader_0(this_0._buildFuncs_9u5nuo_k$());
+    var tmp3_fragment = FragmentShader(this_0._buildFuncs_9u5nuo_k$());
     tmp.PROGRAM_1 = tmp1_$this.copy$default_f0yhe4_k$(VOID, tmp3_fragment, tmp2_name);
   }
   protoOf(MaterialRender).get_u_ShadowColor_9orvg0_k$ = function () {
@@ -44363,6 +44397,16 @@
       return receiver.get_opCombinePremultipliedColors_2skt81_k$();
     }, null);
   }
+  function Texture(frameBuffer) {
+    return Texture_1(frameBuffer.get_tex_18ivk2_k$(), frameBuffer.get_width_j0q4yl_k$(), frameBuffer.get_height_e7t92o_k$());
+  }
+  function Texture_0(base, left, top, right, bottom) {
+    left = left === VOID ? 0 : left;
+    top = top === VOID ? 0 : top;
+    right = right === VOID ? base.get_width_j0q4yl_k$() : right;
+    bottom = bottom === VOID ? base.get_height_e7t92o_k$() : bottom;
+    return new RectSlice(base, Companion_getInstance_30().fromBounds_ao9h8h_k$(left, top, right, bottom));
+  }
   function TextureBase_init_$Init$(base, width, height, $this) {
     TextureBase.call($this, base, new SizeInt(width, height));
     return $this;
@@ -44424,18 +44468,8 @@
   protoOf(TextureBase).toString = function () {
     return 'TextureBase(' + this.base_1 + ')';
   };
-  function Texture(frameBuffer) {
-    return Texture_0(frameBuffer.get_tex_18ivk2_k$(), frameBuffer.get_width_j0q4yl_k$(), frameBuffer.get_height_e7t92o_k$());
-  }
-  function Texture_0(agBase, width, height) {
+  function Texture_1(agBase, width, height) {
     return new RectSlice(new TextureBase(agBase, new SizeInt(width, height)), new RectangleI(0, 0, width, height));
-  }
-  function Texture_1(base, left, top, right, bottom) {
-    left = left === VOID ? 0 : left;
-    top = top === VOID ? 0 : top;
-    right = right === VOID ? base.get_width_j0q4yl_k$() : right;
-    bottom = bottom === VOID ? base.get_height_e7t92o_k$() : bottom;
-    return new RectSlice(base, Companion_getInstance_30().fromBounds_ao9h8h_k$(left, top, right, bottom));
   }
   function get_TEXTURED_ARRAY_QUAD_INDICES() {
     _init_properties_TexturedVertexArray_kt__kev7cq();
@@ -48259,7 +48293,7 @@
       this_0.SET_vs1igi_k$(alpha, this_0.minus_ouyim_k$(this_0.get_lit_xwjtj8_k$(1.0), alpha));
     }
     this_0.SET_vs1igi_k$(this_0.get_out_18iyvv_k$(), this_0.times_1dhq1g_k$(this_0.get_v_Col_izz9wu_k$(), alpha));
-    var tmp3_fragment = FragmentShader_0(this_0._buildFuncs_9u5nuo_k$());
+    var tmp3_fragment = FragmentShader(this_0._buildFuncs_9u5nuo_k$());
     return tmp1_$this.copy$default_f0yhe4_k$(VOID, tmp3_fragment, tmp2_name);
   };
   protoOf(MsdfRender).createProgram$default_lyxfbm_k$ = function (msdf, sdf, inverted, $super) {
@@ -57224,7 +57258,7 @@
           var old = renderingInternalRef.get_value_j01efc_k$();
           try {
             renderingInternalRef.set_value_3hvtnu_k$(true);
-            renderFiltered(this, ctx, Companion_getInstance_128());
+            renderFiltered(this, ctx, Companion_getInstance_131());
           }finally {
             renderingInternalRef.set_value_3hvtnu_k$(old);
           }
@@ -57279,7 +57313,7 @@
     this.ctx_1 = ctx;
     this.rb_1 = this.ctx_1.unsafeAllocateFrameBuffer$default_bb54fh_k$(16, 16, VOID, VOID, VOID, false);
     this.texBase_1 = TextureBase_init_$Create$(this.rb_1.get_tex_18ivk2_k$(), 16, 16);
-    this.tex_1 = Texture_1(this.texBase_1);
+    this.tex_1 = Texture_0(this.texBase_1);
   }
   protoOf(CacheTexture).get_ctx_18j7sy_k$ = function () {
     return this.ctx_1;
@@ -57300,7 +57334,7 @@
     this.rb_1.setSize$default_9iqdzk_k$(0, 0, width, height);
     this.texBase_1.set_width_2l5qrj_k$(width);
     this.texBase_1.set_height_ubp1uk_k$(height);
-    this.tex_1 = Texture_1(this.texBase_1);
+    this.tex_1 = Texture_0(this.texBase_1);
   };
   protoOf(CacheTexture).close_yn9xrc_k$ = function () {
     this.$this_1._cacheTex_1 = null;
@@ -58897,7 +58931,7 @@
         var old = renderingInternalRef.get_value_j01efc_k$();
         try {
           renderingInternalRef.set_value_3hvtnu_k$(true);
-          renderFiltered(view, ctx, Companion_getInstance_128());
+          renderFiltered(view, ctx, Companion_getInstance_131());
         }finally {
           renderingInternalRef.set_value_3hvtnu_k$(old);
         }
@@ -58996,7 +59030,7 @@
           var old = renderingInternalRef.get_value_j01efc_k$();
           try {
             renderingInternalRef.set_value_3hvtnu_k$(true);
-            renderFiltered(this, ctx, Companion_getInstance_128());
+            renderFiltered(this, ctx, Companion_getInstance_131());
           }finally {
             renderingInternalRef.set_value_3hvtnu_k$(old);
           }
@@ -59737,146 +59771,6 @@
     GraphicsRenderer_initEntries();
     return GraphicsRenderer_GPU_instance;
   }
-  function Image_init_$Init$(bitmap, anchor, hitShape, smoothing, $this) {
-    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
-    hitShape = hitShape === VOID ? null : hitShape;
-    smoothing = smoothing === VOID ? true : smoothing;
-    Image.call($this, Resourceable(bitmap), anchor, hitShape, smoothing);
-    return $this;
-  }
-  function Image_init_$Create$(bitmap, anchor, hitShape, smoothing) {
-    return Image_init_$Init$(bitmap, anchor, hitShape, smoothing, objectCreate(protoOf(Image)));
-  }
-  function _set_imageSourceFile__8jmrbn($this, _set____db54di) {
-    var this_0 = $this.imageSourceFile$delegate_1;
-    imageSourceFile$factory();
-    this_0.set(_set____db54di);
-    return Unit_getInstance();
-  }
-  function _get_imageSourceFile__incyu7($this) {
-    // Inline function 'kotlin.getValue' call
-    var this_0 = $this.imageSourceFile$delegate_1;
-    imageSourceFile$factory_0();
-    return this_0.get();
-  }
-  function Image_init_$Init$_0(bitmap, anchor, hitShape, smoothing, $this) {
-    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
-    hitShape = hitShape === VOID ? null : hitShape;
-    smoothing = smoothing === VOID ? true : smoothing;
-    Image_init_$Init$(slice(bitmap), anchor, hitShape, smoothing, $this);
-    return $this;
-  }
-  function Image_init_$Create$_0(bitmap, anchor, hitShape, smoothing) {
-    return Image_init_$Init$_0(bitmap, anchor, hitShape, smoothing, objectCreate(protoOf(Image)));
-  }
-  function $forceLoadSourceFileCOROUTINE$13(_this__u8e3s4, views, currentVfs, sourceFile, resultContinuation) {
-    CoroutineImpl.call(this, resultContinuation);
-    this._this__u8e3s4__1 = _this__u8e3s4;
-    this.views_1 = views;
-    this.currentVfs_1 = currentVfs;
-    this.sourceFile_1 = sourceFile;
-  }
-  protoOf($forceLoadSourceFileCOROUTINE$13).doResume_5yljmg_k$ = function () {
-    var suspendResult = this.get_result_iyg5d2_k$();
-    $sm: do
-      try {
-        var tmp = this.get_state_iypx7s_k$();
-        switch (tmp) {
-          case 0:
-            this.set_exceptionState_fex74n_k$(5);
-            this.set_state_rjd8d0_k$(1);
-            suspendResult = this._this__u8e3s4__1.baseForceLoadSourceFile_5n86ns_k$(this._this__u8e3s4__1, this.views_1, this.currentVfs_1, this.sourceFile_1, this);
-            if (suspendResult === get_COROUTINE_SUSPENDED()) {
-              return suspendResult;
-            }
-
-            continue $sm;
-          case 1:
-            this.set_exceptionState_fex74n_k$(3);
-            this.set_state_rjd8d0_k$(2);
-            suspendResult = readBitmapSlice(this.currentVfs_1.get_6bo4tg_k$('' + this.sourceFile_1), VOID, VOID, VOID, this);
-            if (suspendResult === get_COROUTINE_SUSPENDED()) {
-              return suspendResult;
-            }
-
-            continue $sm;
-          case 2:
-            var ARGUMENT = suspendResult;
-            this._this__u8e3s4__1.set_bitmap_pu70ss_k$(ARGUMENT);
-            this._this__u8e3s4__1.set_scale_zghmqf_k$(1.0);
-            this.set_exceptionState_fex74n_k$(5);
-            this.set_state_rjd8d0_k$(4);
-            continue $sm;
-          case 3:
-            this.set_exceptionState_fex74n_k$(5);
-            var tmp_0 = this.get_exception_x0n6w6_k$();
-            if (tmp_0 instanceof Error) {
-              var e = this.get_exception_x0n6w6_k$();
-              Bitmaps_getInstance();
-              this._this__u8e3s4__1.set_bitmap_pu70ss_k$(get_Bitmaps_white());
-              this._this__u8e3s4__1.set_scale_zghmqf_k$(100.0);
-              this.set_state_rjd8d0_k$(4);
-              continue $sm;
-            } else {
-              throw this.get_exception_x0n6w6_k$();
-            }
-
-          case 4:
-            this.set_exceptionState_fex74n_k$(5);
-            return Unit_getInstance();
-          case 5:
-            throw this.get_exception_x0n6w6_k$();
-        }
-      } catch ($p) {
-        var e_0 = $p;
-        if (this.get_exceptionState_wflpxn_k$() === 5) {
-          throw e_0;
-        } else {
-          this.set_state_rjd8d0_k$(this.get_exceptionState_wflpxn_k$());
-          this.set_exception_px07aa_k$(e_0);
-        }
-      }
-     while (true);
-  };
-  function Image(bitmap, anchor, hitShape, smoothing) {
-    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
-    hitShape = hitShape === VOID ? null : hitShape;
-    smoothing = smoothing === VOID ? true : smoothing;
-    BaseImage.call(this, bitmap, anchor, hitShape, smoothing);
-    this.$$delegate_0__1 = new Mixin_0();
-    this.imageSourceFile$delegate_1 = sourceFile$factory(this);
-  }
-  protoOf(Image).set_sourceFile_2nf5lv_k$ = function (_set____db54di) {
-    this.$$delegate_0__1.set_sourceFile_2nf5lv_k$(_set____db54di);
-  };
-  protoOf(Image).get_sourceFile_wgvveo_k$ = function () {
-    return this.$$delegate_0__1.get_sourceFile_wgvveo_k$();
-  };
-  protoOf(Image).set_sourceTreeLoaded_1g8a86_k$ = function (_set____db54di) {
-    this.$$delegate_0__1.set_sourceTreeLoaded_1g8a86_k$(_set____db54di);
-  };
-  protoOf(Image).get_sourceTreeLoaded_piy64n_k$ = function () {
-    return this.$$delegate_0__1.get_sourceTreeLoaded_piy64n_k$();
-  };
-  protoOf(Image).lazyLoadRenderInternal_b6lvdn_k$ = function (ctx, view) {
-    this.$$delegate_0__1.lazyLoadRenderInternal_b6lvdn_k$(ctx, view);
-  };
-  protoOf(Image).baseForceLoadSourceFile_5n86ns_k$ = function (_this__u8e3s4, views, currentVfs, sourceFile, $completion) {
-    return this.$$delegate_0__1.baseForceLoadSourceFile_5n86ns_k$(_this__u8e3s4, views, currentVfs, sourceFile, $completion);
-  };
-  protoOf(Image).createInstance_ofs69d_k$ = function () {
-    return Image_init_$Create$(this.get_bitmap_bfxu7s_k$(), this.get_anchor_b1c8n2_k$(), this.get_hitShape_h77ezb_k$(), this.get_smoothing_odssvp_k$());
-  };
-  protoOf(Image).renderInternal_q0pc4n_k$ = function (ctx) {
-    this.lazyLoadRenderInternal_b6lvdn_k$(ctx, this);
-    protoOf(BaseImage).renderInternal_q0pc4n_k$.call(this, ctx);
-  };
-  protoOf(Image).forceLoadSourceFile_su6bet_k$ = function (views, currentVfs, sourceFile, $completion) {
-    var tmp = new $forceLoadSourceFileCOROUTINE$13(this, views, currentVfs, sourceFile, $completion);
-    tmp.set_result_xj64lm_k$(Unit_getInstance());
-    tmp.set_exception_px07aa_k$(null);
-    return tmp.doResume_5yljmg_k$();
-  };
   function BaseImage_init_$Init$(bitmap, anchor, hitShape, smoothing, $this) {
     anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
     hitShape = hitShape === VOID ? null : hitShape;
@@ -59987,8 +59881,146 @@
   protoOf(BaseImage).toString = function () {
     return protoOf(RectBase).toString.call(this) + (':bitmap=' + this.get_bitmap_bfxu7s_k$());
   };
-  function SmoothedBmpSlice() {
+  function Image_init_$Init$(bitmap, anchor, hitShape, smoothing, $this) {
+    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
+    hitShape = hitShape === VOID ? null : hitShape;
+    smoothing = smoothing === VOID ? true : smoothing;
+    Image.call($this, Resourceable(bitmap), anchor, hitShape, smoothing);
+    return $this;
   }
+  function Image_init_$Create$(bitmap, anchor, hitShape, smoothing) {
+    return Image_init_$Init$(bitmap, anchor, hitShape, smoothing, objectCreate(protoOf(Image)));
+  }
+  function _set_imageSourceFile__8jmrbn($this, _set____db54di) {
+    var this_0 = $this.imageSourceFile$delegate_1;
+    imageSourceFile$factory();
+    this_0.set(_set____db54di);
+    return Unit_getInstance();
+  }
+  function _get_imageSourceFile__incyu7($this) {
+    // Inline function 'kotlin.getValue' call
+    var this_0 = $this.imageSourceFile$delegate_1;
+    imageSourceFile$factory_0();
+    return this_0.get();
+  }
+  function Image_init_$Init$_0(bitmap, anchor, hitShape, smoothing, $this) {
+    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
+    hitShape = hitShape === VOID ? null : hitShape;
+    smoothing = smoothing === VOID ? true : smoothing;
+    Image_init_$Init$(slice(bitmap), anchor, hitShape, smoothing, $this);
+    return $this;
+  }
+  function Image_init_$Create$_0(bitmap, anchor, hitShape, smoothing) {
+    return Image_init_$Init$_0(bitmap, anchor, hitShape, smoothing, objectCreate(protoOf(Image)));
+  }
+  function $forceLoadSourceFileCOROUTINE$1(_this__u8e3s4, views, currentVfs, sourceFile, resultContinuation) {
+    CoroutineImpl.call(this, resultContinuation);
+    this._this__u8e3s4__1 = _this__u8e3s4;
+    this.views_1 = views;
+    this.currentVfs_1 = currentVfs;
+    this.sourceFile_1 = sourceFile;
+  }
+  protoOf($forceLoadSourceFileCOROUTINE$1).doResume_5yljmg_k$ = function () {
+    var suspendResult = this.get_result_iyg5d2_k$();
+    $sm: do
+      try {
+        var tmp = this.get_state_iypx7s_k$();
+        switch (tmp) {
+          case 0:
+            this.set_exceptionState_fex74n_k$(5);
+            this.set_state_rjd8d0_k$(1);
+            suspendResult = this._this__u8e3s4__1.baseForceLoadSourceFile_5n86ns_k$(this._this__u8e3s4__1, this.views_1, this.currentVfs_1, this.sourceFile_1, this);
+            if (suspendResult === get_COROUTINE_SUSPENDED()) {
+              return suspendResult;
+            }
+
+            continue $sm;
+          case 1:
+            this.set_exceptionState_fex74n_k$(3);
+            this.set_state_rjd8d0_k$(2);
+            suspendResult = readBitmapSlice(this.currentVfs_1.get_6bo4tg_k$('' + this.sourceFile_1), VOID, VOID, VOID, this);
+            if (suspendResult === get_COROUTINE_SUSPENDED()) {
+              return suspendResult;
+            }
+
+            continue $sm;
+          case 2:
+            var ARGUMENT = suspendResult;
+            this._this__u8e3s4__1.set_bitmap_pu70ss_k$(ARGUMENT);
+            this._this__u8e3s4__1.set_scale_zghmqf_k$(1.0);
+            this.set_exceptionState_fex74n_k$(5);
+            this.set_state_rjd8d0_k$(4);
+            continue $sm;
+          case 3:
+            this.set_exceptionState_fex74n_k$(5);
+            var tmp_0 = this.get_exception_x0n6w6_k$();
+            if (tmp_0 instanceof Error) {
+              var e = this.get_exception_x0n6w6_k$();
+              Bitmaps_getInstance();
+              this._this__u8e3s4__1.set_bitmap_pu70ss_k$(get_Bitmaps_white());
+              this._this__u8e3s4__1.set_scale_zghmqf_k$(100.0);
+              this.set_state_rjd8d0_k$(4);
+              continue $sm;
+            } else {
+              throw this.get_exception_x0n6w6_k$();
+            }
+
+          case 4:
+            this.set_exceptionState_fex74n_k$(5);
+            return Unit_getInstance();
+          case 5:
+            throw this.get_exception_x0n6w6_k$();
+        }
+      } catch ($p) {
+        var e_0 = $p;
+        if (this.get_exceptionState_wflpxn_k$() === 5) {
+          throw e_0;
+        } else {
+          this.set_state_rjd8d0_k$(this.get_exceptionState_wflpxn_k$());
+          this.set_exception_px07aa_k$(e_0);
+        }
+      }
+     while (true);
+  };
+  function Image(bitmap, anchor, hitShape, smoothing) {
+    anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
+    hitShape = hitShape === VOID ? null : hitShape;
+    smoothing = smoothing === VOID ? true : smoothing;
+    BaseImage.call(this, bitmap, anchor, hitShape, smoothing);
+    this.$$delegate_0__1 = new Mixin_0();
+    this.imageSourceFile$delegate_1 = sourceFile$factory(this);
+  }
+  protoOf(Image).set_sourceFile_2nf5lv_k$ = function (_set____db54di) {
+    this.$$delegate_0__1.set_sourceFile_2nf5lv_k$(_set____db54di);
+  };
+  protoOf(Image).get_sourceFile_wgvveo_k$ = function () {
+    return this.$$delegate_0__1.get_sourceFile_wgvveo_k$();
+  };
+  protoOf(Image).set_sourceTreeLoaded_1g8a86_k$ = function (_set____db54di) {
+    this.$$delegate_0__1.set_sourceTreeLoaded_1g8a86_k$(_set____db54di);
+  };
+  protoOf(Image).get_sourceTreeLoaded_piy64n_k$ = function () {
+    return this.$$delegate_0__1.get_sourceTreeLoaded_piy64n_k$();
+  };
+  protoOf(Image).lazyLoadRenderInternal_b6lvdn_k$ = function (ctx, view) {
+    this.$$delegate_0__1.lazyLoadRenderInternal_b6lvdn_k$(ctx, view);
+  };
+  protoOf(Image).baseForceLoadSourceFile_5n86ns_k$ = function (_this__u8e3s4, views, currentVfs, sourceFile, $completion) {
+    return this.$$delegate_0__1.baseForceLoadSourceFile_5n86ns_k$(_this__u8e3s4, views, currentVfs, sourceFile, $completion);
+  };
+  protoOf(Image).createInstance_ofs69d_k$ = function () {
+    return Image_init_$Create$(this.get_bitmap_bfxu7s_k$(), this.get_anchor_b1c8n2_k$(), this.get_hitShape_h77ezb_k$(), this.get_smoothing_odssvp_k$());
+  };
+  protoOf(Image).renderInternal_q0pc4n_k$ = function (ctx) {
+    this.lazyLoadRenderInternal_b6lvdn_k$(ctx, this);
+    protoOf(BaseImage).renderInternal_q0pc4n_k$.call(this, ctx);
+  };
+  protoOf(Image).forceLoadSourceFile_su6bet_k$ = function (views, currentVfs, sourceFile, $completion) {
+    var tmp = new $forceLoadSourceFileCOROUTINE$1(this, views, currentVfs, sourceFile, $completion);
+    tmp.set_result_xj64lm_k$(Unit_getInstance());
+    tmp.set_exception_px07aa_k$(null);
+    return tmp.doResume_5yljmg_k$();
+  };
   function image(_this__u8e3s4, texture, anchor, callback) {
     anchor = anchor === VOID ? Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$() : anchor;
     var tmp;
@@ -60005,6 +60037,8 @@
     // Inline function 'kotlin.contracts.contract' call
     callback(this_1);
     return this_1;
+  }
+  function SmoothedBmpSlice() {
   }
   function image$lambda($this$null) {
     return Unit_getInstance();
@@ -60285,7 +60319,7 @@
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.korge.view.Companion.buildShader.<anonymous>' call
     callback(this_0);
-    var tmp3_fragment = FragmentShader_0(this_0._buildFuncs_9u5nuo_k$());
+    var tmp3_fragment = FragmentShader(this_0._buildFuncs_9u5nuo_k$());
     return tmp1_$this.copy$default_f0yhe4_k$(VOID, tmp3_fragment, tmp2_name);
   };
   var Companion_instance_75;
@@ -64510,7 +64544,7 @@
     return this.get_pixelsPerInch_7euru9_k$() / this.get_globalToWindowScaleAvg_tiuq1r_k$();
   };
   protoOf(Views).get_virtualPixelsPerCm_rl58hk_k$ = function () {
-    return this.get_virtualPixelsPerInch_gxv0yg_k$() / Companion_getInstance_130().get_INCH_TO_CM_j1qsqq_k$();
+    return this.get_virtualPixelsPerInch_gxv0yg_k$() / Companion_getInstance_135().get_INCH_TO_CM_j1qsqq_k$();
   };
   protoOf(Views).get_resizedEvent_b7trhp_k$ = function () {
     return this.resizedEvent_1;
@@ -65361,6 +65395,555 @@
       return receiver.set_updatedSinceFrame_ssy4k7_k$(value);
     });
   }
+  function Companion_82() {
+    Companion_instance_82 = this;
+  }
+  protoOf(Companion_82).invoke_bacxfx_k$ = function (radius, expandBorder, optimize) {
+    return new BlurFilter(numberToDouble(radius), expandBorder, optimize);
+  };
+  var Companion_instance_82;
+  function Companion_getInstance_127() {
+    if (Companion_instance_82 == null)
+      new Companion_82();
+    return Companion_instance_82;
+  }
+  function _get_horizontal__u39a8p_0($this) {
+    return $this.horizontal_1;
+  }
+  function _get_vertical__1pbgut_0($this) {
+    return $this.vertical_1;
+  }
+  function BlurFilter(radius, expandBorder, optimize) {
+    Companion_getInstance_127();
+    radius = radius === VOID ? 4.0 : radius;
+    expandBorder = expandBorder === VOID ? true : expandBorder;
+    optimize = optimize === VOID ? true : optimize;
+    ComposedFilter_init_$Init$(this);
+    this.optimize_1 = optimize;
+    var tmp = this;
+    // Inline function 'kotlin.also' call
+    var this_0 = new DirectionalBlurFilter(get_degrees(0), radius, expandBorder);
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.korge.view.filter.BlurFilter.horizontal.<anonymous>' call
+    this.get_filters_cv7yzy_k$().add_utx5q5_k$(this_0);
+    tmp.horizontal_1 = this_0;
+    var tmp_0 = this;
+    // Inline function 'kotlin.also' call
+    var this_1 = new DirectionalBlurFilter(get_degrees(90), radius, expandBorder);
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.korge.view.filter.BlurFilter.vertical.<anonymous>' call
+    this.get_filters_cv7yzy_k$().add_utx5q5_k$(this_1);
+    tmp_0.vertical_1 = this_1;
+    this.radius_1 = radius;
+  }
+  protoOf(BlurFilter).set_optimize_aamwvv_k$ = function (_set____db54di) {
+    this.optimize_1 = _set____db54di;
+  };
+  protoOf(BlurFilter).get_optimize_x40pqy_k$ = function () {
+    return this.optimize_1;
+  };
+  protoOf(BlurFilter).set_filtering_oa3bu0_k$ = function (value) {
+    this.horizontal_1.set_filtering_oa3bu0_k$(value);
+    this.vertical_1.set_filtering_oa3bu0_k$(value);
+  };
+  protoOf(BlurFilter).get_filtering_627uin_k$ = function () {
+    return this.horizontal_1.get_filtering_627uin_k$();
+  };
+  protoOf(BlurFilter).set_expandBorder_uwsufm_k$ = function (value) {
+    this.horizontal_1.set_expandBorder_uwsufm_k$(value);
+    this.vertical_1.set_expandBorder_uwsufm_k$(value);
+  };
+  protoOf(BlurFilter).get_expandBorder_kflmxd_k$ = function () {
+    return this.horizontal_1.get_expandBorder_kflmxd_k$();
+  };
+  protoOf(BlurFilter).set_radius_emnm61_k$ = function (value) {
+    this.radius_1 = value;
+    this.horizontal_1.set_radius_emnm61_k$(this.radius_1);
+    this.vertical_1.set_radius_emnm61_k$(this.radius_1);
+  };
+  protoOf(BlurFilter).get_radius_ivz5i3_k$ = function () {
+    return this.radius_1;
+  };
+  protoOf(BlurFilter).get_recommendedFilterScale_sr73vk_k$ = function () {
+    var tmp;
+    if (!this.optimize_1 ? true : this.radius_1 <= 2.0) {
+      tmp = 1.0;
+    } else {
+      // Inline function 'kotlin.math.log2' call
+      var x = this.radius_1 * 0.5;
+      tmp = 1.0 / log2(x);
+    }
+    return tmp;
+  };
+  protoOf(BlurFilter).get_isIdentity_zhqljl_k$ = function () {
+    return this.radius_1 === 0.0;
+  };
+  function Companion_83() {
+    Companion_instance_83 = this;
+  }
+  protoOf(Companion_83).combine_7vcywx_k$ = function (left, right) {
+    var tmp;
+    if (left == null ? right == null : false) {
+      tmp = null;
+    } else {
+      if (left == null) {
+        tmp = right;
+      } else {
+        if (right == null) {
+          tmp = left;
+        } else {
+          var tmp_0;
+          if (left instanceof ComposedFilter) {
+            tmp_0 = right instanceof ComposedFilter;
+          } else {
+            tmp_0 = false;
+          }
+          if (tmp_0) {
+            tmp = ComposedFilter_init_$Create$_0(plus(left.filters_1, right.filters_1));
+          } else {
+            if (left instanceof ComposedFilter) {
+              tmp = ComposedFilter_init_$Create$_0(plus_2(left.filters_1, right));
+            } else {
+              if (right instanceof ComposedFilter) {
+                tmp = ComposedFilter_init_$Create$_0(plus_2(listOf(left), right));
+              } else {
+                tmp = ComposedFilter_init_$Create$_1([left, right]);
+              }
+            }
+          }
+        }
+      }
+    }
+    return tmp;
+  };
+  protoOf(Companion_83).combine_9prl52_k$ = function (left, right) {
+    var tmp;
+    if (left == null) {
+      tmp = right.isEmpty_y1axqb_k$() ? null : right.get_size_woubt6_k$() === 1 ? first(right) : ComposedFilter_init_$Create$_0(right);
+    } else {
+      if (left instanceof ComposedFilter) {
+        tmp = ComposedFilter_init_$Create$_0(plus(left.filters_1, right));
+      } else {
+        tmp = ComposedFilter_init_$Create$_0(plus(listOf(left), right));
+      }
+    }
+    return tmp;
+  };
+  var Companion_instance_83;
+  function Companion_getInstance_128() {
+    if (Companion_instance_83 == null)
+      new Companion_83();
+    return Companion_instance_83;
+  }
+  function ComposedFilter_init_$Init$($this) {
+    // Inline function 'kotlin.collections.mutableListOf' call
+    var tmp$ret$0 = ArrayList_init_$Create$();
+    ComposedFilter_init_$Init$_0(tmp$ret$0, $this);
+    return $this;
+  }
+  function ComposedFilter_init_$Create$() {
+    return ComposedFilter_init_$Init$(objectCreate(protoOf(ComposedFilter)));
+  }
+  function ComposedFilter_init_$Init$_0(filters, $this) {
+    var tmp;
+    if (filters instanceof FastArrayList) {
+      tmp = filters;
+    } else {
+      tmp = FastArrayList_init_$Create$_1(filters);
+    }
+    ComposedFilter.call($this, tmp);
+    return $this;
+  }
+  function ComposedFilter_init_$Create$_0(filters) {
+    return ComposedFilter_init_$Init$_0(filters, objectCreate(protoOf(ComposedFilter)));
+  }
+  function ComposedFilter_init_$Init$_1(filters, $this) {
+    ComposedFilter_init_$Init$_0(toList_2(filters), $this);
+    return $this;
+  }
+  function ComposedFilter_init_$Create$_1(filters) {
+    return ComposedFilter_init_$Init$_1(filters, objectCreate(protoOf(ComposedFilter)));
+  }
+  function ComposedFilter(filters, unit) {
+    Companion_getInstance_128();
+    unit = unit === VOID ? Unit_getInstance() : unit;
+    this.filters_1 = filters;
+  }
+  protoOf(ComposedFilter).get_filters_cv7yzy_k$ = function () {
+    return this.filters_1;
+  };
+  protoOf(ComposedFilter).get_allFilters_batahp_k$ = function () {
+    // Inline function 'kotlin.collections.flatMap' call
+    // Inline function 'kotlin.collections.flatMapTo' call
+    var this_0 = this.filters_1;
+    var destination = ArrayList_init_$Create$();
+    var tmp0_iterator = this_0.iterator_jk1svi_k$();
+    while (tmp0_iterator.hasNext_bitz1p_k$()) {
+      var element = tmp0_iterator.next_20eer_k$();
+      // Inline function 'korlibs.korge.view.filter.ComposedFilter.<get-allFilters>.<anonymous>' call
+      var list = element.get_allFilters_batahp_k$();
+      addAll(destination, list);
+    }
+    return destination;
+  };
+  protoOf(ComposedFilter).get_recommendedFilterScale_sr73vk_k$ = function () {
+    var out = 1.0;
+    // Inline function 'korlibs.datastructure.FastArrayList.fastForEach' call
+    // Inline function 'korlibs.datastructure.FastArrayList.jsArray' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var array = this.filters_1.get___array_ljp66o_k$();
+    var n = 0;
+    while (n < array.length) {
+      // Inline function 'korlibs.korge.view.filter.ComposedFilter.<get-recommendedFilterScale>.<anonymous>' call
+      // Inline function 'kotlin.js.unsafeCast' call
+      // Inline function 'korlibs.js.get' call
+      var tmp0 = n;
+      n = tmp0 + 1 | 0;
+      // Inline function 'kotlin.js.asDynamic' call
+      // Inline function 'kotlin.js.asDynamic' call
+      out = out * array[tmp0].get_recommendedFilterScale_sr73vk_k$();
+    }
+    return out;
+  };
+  protoOf(ComposedFilter).computeBorder_cnyscj_k$ = function (texWidth, texHeight) {
+    var sumLeft = 0;
+    var sumTop = 0;
+    var sumRight = 0;
+    var sumBottom = 0;
+    // Inline function 'korlibs.datastructure.FastArrayList.fastForEach' call
+    // Inline function 'korlibs.datastructure.FastArrayList.jsArray' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var array = this.filters_1.get___array_ljp66o_k$();
+    var n = 0;
+    while (n < array.length) {
+      // Inline function 'korlibs.korge.view.filter.ComposedFilter.computeBorder.<anonymous>' call
+      // Inline function 'kotlin.js.unsafeCast' call
+      // Inline function 'korlibs.js.get' call
+      var tmp0 = n;
+      n = tmp0 + 1 | 0;
+      // Inline function 'kotlin.js.asDynamic' call
+      // Inline function 'kotlin.js.asDynamic' call
+      var out = array[tmp0].computeBorder_cnyscj_k$(texWidth, texHeight);
+      sumLeft = sumLeft + out.get_left_woprgw_k$() | 0;
+      sumRight = sumRight + out.get_right_ixz7xv_k$() | 0;
+      sumTop = sumTop + out.get_top_18ivbo_k$() | 0;
+      sumBottom = sumBottom + out.get_bottom_bj8ras_k$() | 0;
+    }
+    return new MarginInt(sumTop, sumRight, sumBottom, sumLeft);
+  };
+  protoOf(ComposedFilter).get_isIdentity_zhqljl_k$ = function () {
+    return false;
+  };
+  protoOf(ComposedFilter).render_myjvme_k$ = function (ctx, matrix, texture, texWidth, texHeight, renderColorMul, blendMode, filterScale) {
+    var mat = matrix;
+    var tex = texture;
+    var last = null;
+    var texWidth_0 = texWidth;
+    var texHeight_0 = texHeight;
+    var filterScale_0 = filterScale;
+    var resultPool = get_renderToTextureResultPool(ctx);
+    if (!this.get_isIdentity_zhqljl_k$()) {
+      // Inline function 'korlibs.datastructure.FastArrayList.fastForEach' call
+      // Inline function 'korlibs.datastructure.FastArrayList.jsArray' call
+      // Inline function 'kotlin.js.unsafeCast' call
+      // Inline function 'kotlin.js.asDynamic' call
+      var array = this.filters_1.get___array_ljp66o_k$();
+      var n = 0;
+      while (n < array.length) {
+        // Inline function 'korlibs.korge.view.filter.ComposedFilter.render.<anonymous>' call
+        // Inline function 'kotlin.js.unsafeCast' call
+        // Inline function 'korlibs.js.get' call
+        var tmp0 = n;
+        n = tmp0 + 1 | 0;
+        // Inline function 'kotlin.js.asDynamic' call
+        // Inline function 'kotlin.js.asDynamic' call
+        var filter = array[tmp0];
+        var result = resultPool.alloc_1jbayd_k$();
+        this.stepBefore_mh1krp_k$();
+        renderToTextureWithBorderUnsafe(filter, ctx, mat, tex, texWidth_0, texHeight_0, filterScale_0, result);
+        result.render_dje1iy_k$();
+        ctx.flush$default_vlfazv_k$();
+        resultPool.freeNotNull_i2wdef_k$(last);
+        last = result;
+        mat = result.get_matrix_gj1fpm_k$();
+        tex = ensureNotNull(result.get_newtex_h2c6ts_k$());
+        texWidth_0 = result.get_newTexWidth_hnbhh2_k$();
+        texHeight_0 = result.get_newTexHeight_sbsz0p_k$();
+      }
+    }
+    Companion_getInstance_131().render_myjvme_k$(ctx, mat, tex, texWidth_0, texHeight_0, renderColorMul, blendMode, filterScale_0);
+    resultPool.freeNotNull_i2wdef_k$(last);
+  };
+  protoOf(ComposedFilter).stepBefore_mh1krp_k$ = function () {
+  };
+  function DirectionalBlurFilter$Companion$fragment$lambda($loopLen, $gaussianResult, $$this$FragmentShaderDefault) {
+    return function ($this$null) {
+      $this$null.SET_vs1igi_k$($this$null.get_out_18iyvv_k$(), $this$null.vec4_735zyq_k$([$this$null.get_lit_xwjtj8_k$(0.0), $this$null.get_lit_xwjtj8_k$(0.0), $this$null.get_lit_xwjtj8_k$(0.0), $this$null.get_lit_xwjtj8_k$(0.0)]));
+      $this$null.SET_vs1igi_k$($loopLen, $this$null.int_l5jqv1_k$($this$null.ceil_8rnhwt_k$(BlurUB_getInstance().get_u_radius_vak291_k$())));
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL_FIXED_BREAK' call
+      var len = $loopLen;
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL_FIXED' call
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL' call
+      var len_0 = $this$null.get_lit_j5r0rg_k$(256);
+      var temp = $this$null.createTemp_d2ld9q_k$(VarType_Int1_getInstance());
+      // Inline function 'kotlin.apply' call
+      var this_0 = $this$null.createChildBuilder_lubw91_k$();
+      // Inline function 'kotlin.contracts.contract' call
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL.<anonymous>' call
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL_FIXED_BREAK.<anonymous>' call
+      // Inline function 'korlibs.graphics.shader.Builder.IF' call
+      var cond = this_0.ge_r8ilw4_k$(temp, len);
+      var body = this_0.createChildBuilder_lubw91_k$();
+      // Inline function 'korlibs.graphics.shader.Builder.FOR_0_UNTIL_FIXED_BREAK.<anonymous>.<anonymous>' call
+      body.BREAK_u4m4v_k$();
+      var stmIf = new If(cond, body._build_oht6dt_k$());
+      // Inline function 'kotlin.collections.plusAssign' call
+      this_0.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf);
+      // Inline function 'korlibs.korge.view.filter.Companion.fragment.<anonymous>.<anonymous>.<anonymous>' call
+      var xfloat = this_0.createTemp_d2ld9q_k$(this_0.get_Float1_1rrmgy_k$());
+      this_0.SET_vs1igi_k$(xfloat, this_0.float_fcpvm2_k$(temp));
+      this_0.SET_vs1igi_k$($gaussianResult, this_0.times_1dhq1g_k$(BlurUB_getInstance().get_u_constant1_e8l9ye_k$(), this_0.exp_eaneej_k$(this_0.times_1dhq1g_k$(this_0.times_1dhq1g_k$(this_0.unaryMinus_yw3b8d_k$(xfloat), xfloat), BlurUB_getInstance().get_u_constant2_e8l9yd_k$()))));
+      var addTemp = this_0.createTemp_d2ld9q_k$(this_0.get_Float2_1rrmgx_k$());
+      this_0.SET_vs1igi_k$(addTemp, this_0.times_1dhq1g_k$(this_0.times_1dhq1g_k$(BlurUB_getInstance().get_u_direction_n6a2wk_k$(), xfloat), TexInfoUB_getInstance().get_u_StdTexDerivates_h3ta08_k$()));
+      this_0.SET_vs1igi_k$(this_0.get_out_18iyvv_k$(), this_0.plus_owi4d4_k$(this_0.get_out_18iyvv_k$(), this_0.times_1dhq1g_k$(Companion_getInstance_133().texture2DZeroOutside_dabsm9_k$(this_0, $$this$FragmentShaderDefault.get_u_Tex_izftp0_k$(), this_0.plus_owi4d4_k$(Companion_getInstance_133().get_fragmentCoords01_amdezo_k$(this_0), addTemp), !get_VIEW_FILTER_TRANSPARENT_EDGE()), $gaussianResult)));
+      // Inline function 'korlibs.graphics.shader.Builder.IF' call
+      var cond_0 = this_0.ne_adt9j9_k$(temp, this_0.get_lit_j5r0rg_k$(0));
+      var body_0 = this_0.createChildBuilder_lubw91_k$();
+      // Inline function 'korlibs.korge.view.filter.Companion.fragment.<anonymous>.<anonymous>.<anonymous>.<anonymous>' call
+      body_0.SET_vs1igi_k$(body_0.get_out_18iyvv_k$(), body_0.plus_owi4d4_k$(body_0.get_out_18iyvv_k$(), body_0.times_1dhq1g_k$(Companion_getInstance_133().texture2DZeroOutside_dabsm9_k$(body_0, $$this$FragmentShaderDefault.get_u_Tex_izftp0_k$(), body_0.minus_ouyim_k$(Companion_getInstance_133().get_fragmentCoords01_amdezo_k$(body_0), addTemp), !get_VIEW_FILTER_TRANSPARENT_EDGE()), $gaussianResult)));
+      var stmIf_0 = new If(cond_0, body_0._build_oht6dt_k$());
+      // Inline function 'kotlin.collections.plusAssign' call
+      this_0.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf_0);
+      var body_1 = this_0;
+      var stmFor = new ForSimple(temp, $this$null.get_lit_j5r0rg_k$(0), len_0, body_1._build_oht6dt_k$());
+      // Inline function 'kotlin.collections.plusAssign' call
+      $this$null.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmFor);
+      return Unit_getInstance();
+    };
+  }
+  function BlurUB() {
+    BlurUB_instance = this;
+    UniformBlock.call(this, 5);
+    this.u_radius$delegate_1 = this.float$default_whow14_k$().provideDelegate_jb69ae_k$(this, u_radius$factory());
+    this.u_constant1$delegate_1 = this.float$default_whow14_k$().provideDelegate_jb69ae_k$(this, u_constant1$factory());
+    this.u_constant2$delegate_1 = this.float$default_whow14_k$().provideDelegate_jb69ae_k$(this, u_constant2$factory());
+    this.u_direction$delegate_1 = this.vec2$default_1dpoq2_k$().provideDelegate_jb69ae_k$(this, u_direction$factory());
+  }
+  protoOf(BlurUB).get_u_radius_vak291_k$ = function () {
+    return this.u_radius$delegate_1.getValue_fbnwi2_k$(this, u_radius$factory_0());
+  };
+  protoOf(BlurUB).get_u_constant1_e8l9ye_k$ = function () {
+    return this.u_constant1$delegate_1.getValue_fbnwi2_k$(this, u_constant1$factory_0());
+  };
+  protoOf(BlurUB).get_u_constant2_e8l9yd_k$ = function () {
+    return this.u_constant2$delegate_1.getValue_fbnwi2_k$(this, u_constant2$factory_0());
+  };
+  protoOf(BlurUB).get_u_direction_n6a2wk_k$ = function () {
+    return this.u_direction$delegate_1.getValue_fbnwi2_k$(this, u_direction$factory_0());
+  };
+  var BlurUB_instance;
+  function BlurUB_getInstance() {
+    if (BlurUB_instance == null)
+      new BlurUB();
+    return BlurUB_instance;
+  }
+  function Companion_84() {
+    Companion_instance_84 = this;
+    BaseProgramProvider.call(this);
+    var tmp = this;
+    // Inline function 'kotlin.also' call
+    // Inline function 'korlibs.graphics.FragmentShaderDefault' call
+    // Inline function 'kotlin.also' call
+    var this_0 = new ProgramBuilderDefault();
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.korge.view.filter.Companion.fragment.<anonymous>' call
+    var loopLen = this_0.createTemp_d2ld9q_k$(this_0.get_Int1_wo3lvv_k$());
+    var gaussianResult = this_0.createTemp_d2ld9q_k$(this_0.get_Float1_1rrmgy_k$());
+    // Inline function 'korlibs.graphics.shader.Builder.IF' call
+    var cond = this_0.lt_psx6ja_k$(BlurUB_getInstance().get_u_radius_vak291_k$(), this_0.get_lit_xwjtj8_k$(1.0));
+    var body = this_0.createChildBuilder_lubw91_k$();
+    // Inline function 'korlibs.korge.view.filter.Companion.fragment.<anonymous>.<anonymous>' call
+    body.SET_vs1igi_k$(body.get_out_18iyvv_k$(), body.texture2D_1y7uxf_k$(this_0.get_u_Tex_izftp0_k$(), Companion_getInstance_133().get_fragmentCoords01_amdezo_k$(body)));
+    var stmIf = new If(cond, body._build_oht6dt_k$());
+    // Inline function 'kotlin.collections.plusAssign' call
+    this_0.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf);
+    var tmp_0 = stmIf;
+    this_0.ELSE_q9c9fe_k$(tmp_0, DirectionalBlurFilter$Companion$fragment$lambda(loopLen, gaussianResult, this_0));
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.korge.view.filter.Companion.fragment.<anonymous>' call
+    tmp.fragment_2 = FragmentShader(this_0._buildFuncs_9u5nuo_k$());
+  }
+  protoOf(Companion_84).invoke_vzfgu4_k$ = function (angle, radius, expandBorder) {
+    return new DirectionalBlurFilter(angle, numberToDouble(radius), expandBorder);
+  };
+  protoOf(Companion_84).get_fragment_bxnb4p_k$ = function () {
+    return this.fragment_2;
+  };
+  var Companion_instance_84;
+  function Companion_getInstance_129() {
+    if (Companion_instance_84 == null)
+      new Companion_84();
+    return Companion_instance_84;
+  }
+  function _get_qfactor__6o1zip($this) {
+    return $this.qfactor_1;
+  }
+  function _get_rradius__1gjegj($this) {
+    return $this.radius_1 * $this.qfactor_1;
+  }
+  function gaussian($this, x, constant1, constant2) {
+    // Inline function 'kotlin.math.exp' call
+    var x_0 = -x * x * constant2;
+    return constant1 * Math.exp(x_0);
+  }
+  function DirectionalBlurFilter(angle, radius, expandBorder) {
+    Companion_getInstance_129();
+    angle = angle === VOID ? get_degrees(0) : angle;
+    radius = radius === VOID ? 4.0 : radius;
+    expandBorder = expandBorder === VOID ? true : expandBorder;
+    ShaderFilter.call(this);
+    this.angle_1 = angle;
+    this.radius_1 = radius;
+    this.expandBorder_1 = expandBorder;
+    var tmp = this;
+    // Inline function 'kotlin.math.sqrt' call
+    // Inline function 'kotlin.math.ln' call
+    var x = 2 * Math.log(255.0);
+    tmp.qfactor_1 = Math.sqrt(x);
+  }
+  protoOf(DirectionalBlurFilter).set_angle_loj29k_k$ = function (_set____db54di) {
+    this.angle_1 = _set____db54di;
+  };
+  protoOf(DirectionalBlurFilter).get_angle_d7axz0_k$ = function () {
+    return this.angle_1;
+  };
+  protoOf(DirectionalBlurFilter).set_radius_emnm61_k$ = function (_set____db54di) {
+    this.radius_1 = _set____db54di;
+  };
+  protoOf(DirectionalBlurFilter).get_radius_ivz5i3_k$ = function () {
+    return this.radius_1;
+  };
+  protoOf(DirectionalBlurFilter).set_expandBorder_uwsufm_k$ = function (_set____db54di) {
+    this.expandBorder_1 = _set____db54di;
+  };
+  protoOf(DirectionalBlurFilter).get_expandBorder_kflmxd_k$ = function () {
+    return this.expandBorder_1;
+  };
+  protoOf(DirectionalBlurFilter).computeBorder_cnyscj_k$ = function (texWidth, texHeight) {
+    if (!this.expandBorder_1)
+      return Companion_getInstance_41().get_ZERO_wodlgx_k$();
+    var radius = _get_rradius__1gjegj(this);
+    // Inline function 'kotlin.math.absoluteValue' call
+    var this_0 = _Angle___get_sine__impl__15nmyi(this.angle_1);
+    var tmp$ret$0 = Math.abs(this_0);
+    var tmp = toIntCeil(tmp$ret$0 * radius);
+    // Inline function 'kotlin.math.absoluteValue' call
+    var this_1 = _Angle___get_cosine__impl__vprvmu(this.angle_1);
+    var tmp$ret$1 = Math.abs(this_1);
+    return MarginInt_init_$Create$(tmp, toIntCeil(tmp$ret$1 * radius));
+  };
+  protoOf(DirectionalBlurFilter).updateUniforms_daokgu_k$ = function (ctx, filterScale) {
+    var radius = _get_rradius__1gjegj(this) * filterScale;
+    var sigma = (radius + 1) / this.qfactor_1;
+    // Inline function 'kotlin.math.sqrt' call
+    var x = 2.0 * get_PI();
+    var constant1 = 1.0 / (sigma * Math.sqrt(x));
+    var constant2 = 1.0 / (2.0 * sigma * sigma);
+    var scaleSum = 0.0;
+    if (isFinite(radius)) {
+      var inductionVariable = 0;
+      var last = toIntCeil_0(radius);
+      if (inductionVariable < last)
+        do {
+          var n = inductionVariable;
+          inductionVariable = inductionVariable + 1 | 0;
+          var gauss = gaussian(this, n, constant1, constant2);
+          scaleSum = scaleSum + (!(n === 0) ? gauss * 2 : gauss);
+        }
+         while (inductionVariable < last);
+    }
+    $l$block: {
+      // Inline function 'korlibs.graphics.shader.UniformBlockBuffer.push' call
+      var this_0 = ctx.get_g82s8p_k$(BlurUB_getInstance());
+      var tmp1 = this_0.get_currentIndex_shwroi_k$();
+      this_0.set_currentIndex_yhm4em_k$(tmp1 + 1 | 0);
+      this_0.ensure_uwiv7a_k$(this_0.get_currentIndex_shwroi_k$() + 1 | 0);
+      var blockSize = this_0.get_blockSize_mxxr45_k$();
+      var index0 = imul(this_0.get_currentIndex_shwroi_k$() - 1 | 0, blockSize);
+      var index1 = imul(this_0.get_currentIndex_shwroi_k$(), blockSize);
+      var texBlockSize = this_0.get_block_ip8l7o_k$().get_uniforms_y6pqfc_k$().get_size_woubt6_k$();
+      var texIndex0 = imul(this_0.get_currentIndex_shwroi_k$() - 1 | 0, texBlockSize);
+      var texIndex1 = imul(this_0.get_currentIndex_shwroi_k$(), texBlockSize);
+      if (this_0.get_currentIndex_shwroi_k$() > 0) {
+        arraycopy_0(this_0.get_buffer_bmaafd_k$(), index0, this_0.get_buffer_bmaafd_k$(), index1, blockSize);
+      } else {
+        arrayfill(this_0.get_buffer_bmaafd_k$(), 0, 0, blockSize);
+      }
+      // Inline function 'korlibs.korge.view.filter.DirectionalBlurFilter.updateUniforms.<anonymous>' call
+      var $this$push = this_0.get_block_ip8l7o_k$();
+      var it = this_0.get_current_jwi6j4_k$();
+      it.set_1yro47_k$($this$push.get_u_radius_vak291_k$(), radius);
+      it.set_1yro47_k$($this$push.get_u_constant1_e8l9ye_k$(), constant1 * (1.0 / scaleSum));
+      it.set_1yro47_k$($this$push.get_u_constant2_e8l9yd_k$(), constant2);
+      it.set_ohhory_k$($this$push.get_u_direction_n6a2wk_k$(), new Vector2D(_Angle___get_cosine__impl__vprvmu(this.angle_1), _Angle___get_sine__impl__15nmyi(this.angle_1)));
+      if (true ? this_0.get_currentIndex_shwroi_k$() >= 1 : false) {
+        var equals = arrayequal(this_0.get_buffer_bmaafd_k$(), index0, this_0.get_buffer_bmaafd_k$(), index1, blockSize);
+        if (equals) {
+          var tmp3 = this_0.get_currentIndex_shwroi_k$();
+          this_0.set_currentIndex_yhm4em_k$(tmp3 - 1 | 0);
+          break $l$block;
+        }
+      }
+    }
+  };
+  protoOf(DirectionalBlurFilter).get_programProvider_i0plqs_k$ = function () {
+    return Companion_getInstance_129();
+  };
+  protoOf(DirectionalBlurFilter).get_isIdentity_zhqljl_k$ = function () {
+    return this.radius_1 === 0.0;
+  };
+  function u_radius$factory() {
+    return getPropertyCallableRef('u_radius', 1, KProperty1, function (receiver) {
+      return receiver.get_u_radius_vak291_k$();
+    }, null);
+  }
+  function u_constant1$factory() {
+    return getPropertyCallableRef('u_constant1', 1, KProperty1, function (receiver) {
+      return receiver.get_u_constant1_e8l9ye_k$();
+    }, null);
+  }
+  function u_constant2$factory() {
+    return getPropertyCallableRef('u_constant2', 1, KProperty1, function (receiver) {
+      return receiver.get_u_constant2_e8l9yd_k$();
+    }, null);
+  }
+  function u_direction$factory() {
+    return getPropertyCallableRef('u_direction', 1, KProperty1, function (receiver) {
+      return receiver.get_u_direction_n6a2wk_k$();
+    }, null);
+  }
+  function u_radius$factory_0() {
+    return getPropertyCallableRef('u_radius', 1, KProperty1, function (receiver) {
+      return receiver.get_u_radius_vak291_k$();
+    }, null);
+  }
+  function u_constant1$factory_0() {
+    return getPropertyCallableRef('u_constant1', 1, KProperty1, function (receiver) {
+      return receiver.get_u_constant1_e8l9ye_k$();
+    }, null);
+  }
+  function u_constant2$factory_0() {
+    return getPropertyCallableRef('u_constant2', 1, KProperty1, function (receiver) {
+      return receiver.get_u_constant2_e8l9yd_k$();
+    }, null);
+  }
+  function u_direction$factory_0() {
+    return getPropertyCallableRef('u_direction', 1, KProperty1, function (receiver) {
+      return receiver.get_u_direction_n6a2wk_k$();
+    }, null);
+  }
   function get_renderToTextureResultPool(_this__u8e3s4) {
     _init_properties_Filter_kt__xu8pbc();
     var tmp$ret$6;
@@ -65409,13 +65992,13 @@
   function _get_VALID_FILTER_SCALES__8imwfw($this) {
     return $this.VALID_FILTER_SCALES_1;
   }
-  function Companion_82() {
-    Companion_instance_82 = this;
+  function Companion_85() {
+    Companion_instance_85 = this;
     var tmp = this;
     // Inline function 'kotlin.doubleArrayOf' call
     tmp.VALID_FILTER_SCALES_1 = new Float64Array([0.03125, 0.0625, 0.125, 0.25, 0.5, 0.75, 1.0]);
   }
-  protoOf(Companion_82).discretizeFilterScale_23w44k_k$ = function (scale) {
+  protoOf(Companion_85).discretizeFilterScale_23w44k_k$ = function (scale) {
     var tmp$ret$1;
     $l$block_0: {
       // Inline function 'kotlin.collections.minByOrNull' call
@@ -65455,11 +66038,11 @@
     }
     return ensureNotNull(tmp$ret$1);
   };
-  var Companion_instance_82;
-  function Companion_getInstance_127() {
-    if (Companion_instance_82 == null)
-      new Companion_82();
-    return Companion_instance_82;
+  var Companion_instance_85;
+  function Companion_getInstance_130() {
+    if (Companion_instance_85 == null)
+      new Companion_85();
+    return Companion_instance_85;
   }
   function Filter() {
   }
@@ -65682,6 +66265,29 @@
     this.ctx_1 = null;
     this.newtex_1 = null;
   };
+  function renderToTextureWithBorderUnsafe(_this__u8e3s4, ctx, matrix, texture, texWidth, texHeight, filterScale, result) {
+    result = result === VOID ? new RenderToTextureResult() : result;
+    _init_properties_Filter_kt__xu8pbc();
+    var filter = _this__u8e3s4;
+    var margin = getBorder(filter, texWidth, texHeight);
+    var borderLeft = toIntCeil(margin.get_left_woprgw_k$() * filterScale);
+    var borderTop = toIntCeil(margin.get_top_18ivbo_k$() * filterScale);
+    var newTexWidth = texWidth + toIntCeil(margin.get_leftPlusRight_fu0kb2_k$() * filterScale) | 0;
+    var newTexHeight = texHeight + toIntCeil(margin.get_topPlusBottom_97eiy9_k$() * filterScale) | 0;
+    ctx.flush$default_vlfazv_k$();
+    var fb = ctx.unsafeAllocateFrameBuffer$default_bb54fh_k$(newTexWidth, newTexHeight);
+    result.borderLeft_1 = borderLeft;
+    result.borderTop_1 = borderTop;
+    result.newTexWidth_1 = newTexWidth;
+    result.newTexHeight_1 = newTexHeight;
+    result.texture_1 = texture;
+    result.filter_1 = filter;
+    result.filterScale_1 = filterScale;
+    result.matrix_1 = matrix.pretranslated_7qm29z_k$(-borderLeft | 0, -borderTop | 0);
+    result.ctx_1 = ctx;
+    result.fb_1 = fb;
+    return result;
+  }
   function getBorder(_this__u8e3s4, texWidth, texHeight) {
     _init_properties_Filter_kt__xu8pbc();
     return _this__u8e3s4.computeBorder_cnyscj_k$(texWidth, texHeight);
@@ -65712,15 +66318,17 @@
       renderToTextureResultPool$delegate = new Property(VOID, renderToTextureResultPool$delegate$lambda);
     }
   }
-  function Companion_83() {
-    Companion_instance_83 = this;
+  function FilterWithFiltering() {
+  }
+  function Companion_86() {
+    Companion_instance_86 = this;
     IdentityFilter.call(this, true);
   }
-  var Companion_instance_83;
-  function Companion_getInstance_128() {
-    if (Companion_instance_83 == null)
-      new Companion_83();
-    return Companion_instance_83;
+  var Companion_instance_86;
+  function Companion_getInstance_131() {
+    if (Companion_instance_86 == null)
+      new Companion_86();
+    return Companion_instance_86;
   }
   function Linear() {
     Linear_instance = this;
@@ -65743,7 +66351,7 @@
     return Nearest_instance;
   }
   function IdentityFilter(smoothing) {
-    Companion_getInstance_128();
+    Companion_getInstance_131();
     this.smoothing_1 = smoothing;
   }
   protoOf(IdentityFilter).get_smoothing_odssvp_k$ = function () {
@@ -65760,6 +66368,342 @@
     }
     this_0.drawQuad$default_qr6d47_k$(texture, VOID, VOID, VOID, VOID, matrix, this.smoothing_1, renderColorMul, blendMode, Companion_getInstance_107().get_PROGRAM_80tjzv_k$());
   };
+  function Companion_87() {
+    Companion_instance_87 = this;
+    BaseProgramProvider.call(this);
+  }
+  var Companion_instance_87;
+  function Companion_getInstance_132() {
+    if (Companion_instance_87 == null)
+      new Companion_87();
+    return Companion_instance_87;
+  }
+  function _get__program__9g4ap2($this) {
+    // Inline function 'kotlin.getValue' call
+    var this_0 = $this._program$delegate_1;
+    _program$factory();
+    return this_0.get_value_j01efc_k$();
+  }
+  function ShaderFilter$BaseProgramProvider$_program$delegate$lambda(this$0) {
+    return function () {
+      return this$0.createProgram_zgaqgk_k$(this$0.get_vertex_kulz1p_k$(), this$0.get_fragment_bxnb4p_k$());
+    };
+  }
+  function TexInfoUB() {
+    TexInfoUB_instance = this;
+    UniformBlock.call(this, 4);
+    this.u_TextureSize$delegate_1 = this.vec2$default_1dpoq2_k$().provideDelegate_jb69ae_k$(this, u_TextureSize$factory());
+    this.u_MaxTexCoords$delegate_1 = this.vec2$default_1dpoq2_k$().provideDelegate_jb69ae_k$(this, u_MaxTexCoords$factory());
+    this.u_StdTexDerivates$delegate_1 = this.vec2$default_1dpoq2_k$().provideDelegate_jb69ae_k$(this, u_StdTexDerivates$factory());
+    this.u_filterScale$delegate_1 = this.float$default_whow14_k$().provideDelegate_jb69ae_k$(this, u_filterScale$factory());
+  }
+  protoOf(TexInfoUB).get_u_TextureSize_rqn0wn_k$ = function () {
+    return this.u_TextureSize$delegate_1.getValue_fbnwi2_k$(this, u_TextureSize$factory_0());
+  };
+  protoOf(TexInfoUB).get_u_MaxTexCoords_ouwqtw_k$ = function () {
+    return this.u_MaxTexCoords$delegate_1.getValue_fbnwi2_k$(this, u_MaxTexCoords$factory_0());
+  };
+  protoOf(TexInfoUB).get_u_StdTexDerivates_h3ta08_k$ = function () {
+    return this.u_StdTexDerivates$delegate_1.getValue_fbnwi2_k$(this, u_StdTexDerivates$factory_0());
+  };
+  protoOf(TexInfoUB).get_u_filterScale_pw1d8h_k$ = function () {
+    return this.u_filterScale$delegate_1.getValue_fbnwi2_k$(this, u_filterScale$factory_0());
+  };
+  var TexInfoUB_instance;
+  function TexInfoUB_getInstance() {
+    if (TexInfoUB_instance == null)
+      new TexInfoUB();
+    return TexInfoUB_instance;
+  }
+  function Companion_88() {
+    Companion_instance_88 = this;
+    this.DEFAULT_FRAGMENT_1 = Companion_getInstance_107().get_PROGRAM_80tjzv_k$().get_fragment_bxnb4p_k$();
+  }
+  protoOf(Companion_88).get_DEFAULT_FRAGMENT_xbcdqh_k$ = function () {
+    return this.DEFAULT_FRAGMENT_1;
+  };
+  protoOf(Companion_88).get_fragmentCoords01_amdezo_k$ = function (_this__u8e3s4) {
+    return _this__u8e3s4.get_r4qghg_k$(DefaultShaders_getInstance().get_v_Tex_izzmad_k$(), 'xy');
+  };
+  protoOf(Companion_88).get_fragmentCoords_24ghxf_k$ = function (_this__u8e3s4) {
+    return _this__u8e3s4.times_1dhq1g_k$(this.get_fragmentCoords01_amdezo_k$(_this__u8e3s4), TexInfoUB_getInstance().get_u_TextureSize_rqn0wn_k$());
+  };
+  protoOf(Companion_88).tex_qlpuit_k$ = function (_this__u8e3s4, coords) {
+    return _this__u8e3s4.texture2D_1y7uxf_k$(DefaultShaders_getInstance().get_u_Tex_izftp0_k$(), _this__u8e3s4.div_4hbe01_k$(coords, TexInfoUB_getInstance().get_u_TextureSize_rqn0wn_k$()));
+  };
+  protoOf(Companion_88).get_v_Tex01_eg2e8u_k$ = function (_this__u8e3s4) {
+    return _this__u8e3s4.div_4hbe01_k$(_this__u8e3s4.get_r4qghg_k$(DefaultShaders_getInstance().get_v_Tex_izzmad_k$(), 'xy'), TexInfoUB_getInstance().get_u_MaxTexCoords_ouwqtw_k$());
+  };
+  protoOf(Companion_88).texture2DZeroOutside_dabsm9_k$ = function (_this__u8e3s4, sampler, coords, check) {
+    var tmp;
+    if (check) {
+      tmp = _this__u8e3s4.TERNARY_8xa1s9_k$(_this__u8e3s4.and_mw5yn9_k$(_this__u8e3s4.inRange_gezu38_k$(_this__u8e3s4.get_x_1cul2j_k$(coords), _this__u8e3s4.get_lit_xwjtj8_k$(0.0), _this__u8e3s4.get_lit_xwjtj8_k$(1.0)), _this__u8e3s4.inRange_gezu38_k$(_this__u8e3s4.get_y_kxdtos_k$(coords), _this__u8e3s4.get_lit_xwjtj8_k$(0.0), _this__u8e3s4.get_lit_xwjtj8_k$(1.0))), _this__u8e3s4.texture2D_1y7uxf_k$(sampler, coords), _this__u8e3s4.vec4_735zyq_k$([_this__u8e3s4.get_lit_xwjtj8_k$(0.0)]));
+    } else {
+      tmp = _this__u8e3s4.texture2D_1y7uxf_k$(sampler, coords);
+    }
+    return tmp;
+  };
+  protoOf(Companion_88).texture2DZeroOutside$default_39ecrk_k$ = function (_this__u8e3s4, sampler, coords, check, $super) {
+    check = check === VOID ? true : check;
+    return $super === VOID ? this.texture2DZeroOutside_dabsm9_k$(_this__u8e3s4, sampler, coords, check) : $super.texture2DZeroOutside_dabsm9_k$.call(this, _this__u8e3s4, sampler, coords, check);
+  };
+  var Companion_instance_88;
+  function Companion_getInstance_133() {
+    if (Companion_instance_88 == null)
+      new Companion_88();
+    return Companion_instance_88;
+  }
+  function ProgramProvider() {
+  }
+  function BaseProgramProvider() {
+    Companion_getInstance_132();
+    this.vertex_1 = Companion_getInstance_107().get_PROGRAM_80tjzv_k$().get_vertex_kulz1p_k$();
+    this.fragment_1 = Companion_getInstance_133().DEFAULT_FRAGMENT_1;
+    var tmp = this;
+    tmp._program$delegate_1 = lazy(ShaderFilter$BaseProgramProvider$_program$delegate$lambda(this));
+  }
+  protoOf(BaseProgramProvider).createProgram_zgaqgk_k$ = function (vertex, fragment) {
+    var tmp$ret$0;
+    $l$block: {
+      // Inline function 'korlibs.graphics.shader.appending' call
+      if (fragment.get_isRaw_it70qd_k$()) {
+        tmp$ret$0 = fragment;
+        break $l$block;
+      }
+      // Inline function 'kotlin.also' call
+      var this_0 = (new ProgramBuilderDefault()).WITH_47vya4_k$(fragment);
+      // Inline function 'kotlin.contracts.contract' call
+      // Inline function 'korlibs.korge.view.filter.BaseProgramProvider.createProgram.<anonymous>' call
+      // Inline function 'korlibs.graphics.shader.Builder.IF' call
+      var cond = this_0.le_knqpq1_k$(this_0.get_r4qghg_k$(this_0.get_out_18iyvv_k$(), 'a'), this_0.get_lit_xwjtj8_k$(0.0));
+      var body = this_0.createChildBuilder_lubw91_k$();
+      // Inline function 'korlibs.korge.view.filter.BaseProgramProvider.createProgram.<anonymous>.<anonymous>' call
+      body.DISCARD_1k4z82_k$();
+      var stmIf = new If(cond, body._build_oht6dt_k$());
+      // Inline function 'kotlin.collections.plusAssign' call
+      this_0.get_outputStms_tsfd9t_k$().add_utx5q5_k$(stmIf);
+      var pair = this_0._buildFuncs_9u5nuo_k$();
+      tmp$ret$0 = new Shader(fragment.get_type_wovaf7_k$(), pair.get_first_irdx8n_k$(), pair.get_second_jf7fjx_k$());
+    }
+    return new Program(vertex, tmp$ret$0);
+  };
+  protoOf(BaseProgramProvider).get_vertex_kulz1p_k$ = function () {
+    return this.vertex_1;
+  };
+  protoOf(BaseProgramProvider).get_fragment_bxnb4p_k$ = function () {
+    return this.fragment_1;
+  };
+  protoOf(BaseProgramProvider).getProgram_c149ji_k$ = function () {
+    return _get__program__9g4ap2(this);
+  };
+  function _set_textureSizeHolder__xv8rb1($this, _set____db54di) {
+    $this.textureSizeHolder_1 = _set____db54di;
+  }
+  function _get_textureSizeHolder__c5fv0p($this) {
+    return $this.textureSizeHolder_1;
+  }
+  function _set_textureMaxTexCoords__360tyh($this, _set____db54di) {
+    $this.textureMaxTexCoords_1 = _set____db54di;
+  }
+  function _get_textureMaxTexCoords__ggr2ut($this) {
+    return $this.textureMaxTexCoords_1;
+  }
+  function _set_textureStdTexDerivates__ogtiyf($this, _set____db54di) {
+    $this.textureStdTexDerivates_1 = _set____db54di;
+  }
+  function _get_textureStdTexDerivates__ob72l1($this) {
+    return $this.textureStdTexDerivates_1;
+  }
+  function _get_oldTextureUnits__hsxhm2($this) {
+    return $this.oldTextureUnits_1;
+  }
+  function _set_resetTex__9216p($this, _set____db54di) {
+    $this.resetTex_1 = _set____db54di;
+  }
+  function _get_resetTex__d1ycnh($this) {
+    return $this.resetTex_1;
+  }
+  function _restoreUniforms($this, ctx, filterScale) {
+    // Inline function 'korlibs.memory.fastForEachOneBits' call
+    var value = $this.resetTex_1;
+    var index = 0;
+    while (!(value === 0)) {
+      var shift = countTrailingZeroBits(value);
+      index = index + shift | 0;
+      if (index < 32) {
+        // Inline function 'korlibs.korge.view.filter.ShaderFilter._restoreUniforms.<anonymous>' call
+        var it = index;
+        ctx.get_textureUnits_kh5lsz_k$().copyFrom_lxhhkg_k$($this.oldTextureUnits_1, it);
+        $this.oldTextureUnits_1.set$default_wjvrce_k$(it, null);
+      }
+      value = value >>> (shift + 1 | 0) | 0;
+      index = index + 1 | 0;
+    }
+    $this.resetTex_1 = 0;
+  }
+  function _updateUniforms($this, ctx, filterScale, texture, texWidth, texHeight) {
+    $this.textureSizeHolder_1 = Vector2D_init_$Create$(texture.get_base_wojaxm_k$().get_width_j0q4yl_k$(), texture.get_base_wojaxm_k$().get_height_e7t92o_k$());
+    $this.textureStdTexDerivates_1 = Vector2D_init_$Create$(1.0 / texture.get_base_wojaxm_k$().get_width_j0q4yl_k$(), 1.0 / texture.get_base_wojaxm_k$().get_height_e7t92o_k$());
+    $this.textureMaxTexCoords_1 = Vector2D_init_$Create$(texWidth / texture.get_base_wojaxm_k$().get_width_j0q4yl_k$(), texHeight / texture.get_base_wojaxm_k$().get_height_e7t92o_k$());
+    $l$block: {
+      // Inline function 'korlibs.graphics.shader.UniformBlockBuffer.push' call
+      var this_0 = ctx.get_g82s8p_k$(TexInfoUB_getInstance());
+      var tmp1 = this_0.get_currentIndex_shwroi_k$();
+      this_0.set_currentIndex_yhm4em_k$(tmp1 + 1 | 0);
+      this_0.ensure_uwiv7a_k$(this_0.get_currentIndex_shwroi_k$() + 1 | 0);
+      var blockSize = this_0.get_blockSize_mxxr45_k$();
+      var index0 = imul(this_0.get_currentIndex_shwroi_k$() - 1 | 0, blockSize);
+      var index1 = imul(this_0.get_currentIndex_shwroi_k$(), blockSize);
+      var texBlockSize = this_0.get_block_ip8l7o_k$().get_uniforms_y6pqfc_k$().get_size_woubt6_k$();
+      var texIndex0 = imul(this_0.get_currentIndex_shwroi_k$() - 1 | 0, texBlockSize);
+      var texIndex1 = imul(this_0.get_currentIndex_shwroi_k$(), texBlockSize);
+      if (this_0.get_currentIndex_shwroi_k$() > 0) {
+        arraycopy_0(this_0.get_buffer_bmaafd_k$(), index0, this_0.get_buffer_bmaafd_k$(), index1, blockSize);
+      } else {
+        arrayfill(this_0.get_buffer_bmaafd_k$(), 0, 0, blockSize);
+      }
+      // Inline function 'korlibs.korge.view.filter.ShaderFilter._updateUniforms.<anonymous>' call
+      var $this$push = this_0.get_block_ip8l7o_k$();
+      var it = this_0.get_current_jwi6j4_k$();
+      it.set_rdrz7b_k$($this$push.get_u_filterScale_pw1d8h_k$(), filterScale);
+      it.set_ohhory_k$($this$push.get_u_TextureSize_rqn0wn_k$(), $this.textureSizeHolder_1);
+      it.set_ohhory_k$($this$push.get_u_MaxTexCoords_ouwqtw_k$(), $this.textureMaxTexCoords_1);
+      it.set_ohhory_k$($this$push.get_u_StdTexDerivates_h3ta08_k$(), $this.textureStdTexDerivates_1);
+      if (true ? this_0.get_currentIndex_shwroi_k$() >= 1 : false) {
+        var equals = arrayequal(this_0.get_buffer_bmaafd_k$(), index0, this_0.get_buffer_bmaafd_k$(), index1, blockSize);
+        if (equals) {
+          var tmp3 = this_0.get_currentIndex_shwroi_k$();
+          this_0.set_currentIndex_yhm4em_k$(tmp3 - 1 | 0);
+          break $l$block;
+        }
+      }
+    }
+    $this.updateUniforms_daokgu_k$(ctx, filterScale);
+  }
+  function ShaderFilter() {
+    Companion_getInstance_133();
+    this.filtering_1 = true;
+    this.textureSizeHolder_1 = Vector2D_init_$Create$_1();
+    this.textureMaxTexCoords_1 = Vector2D_init_$Create$_1();
+    this.textureStdTexDerivates_1 = Vector2D_init_$Create$_1();
+    this.programProvider_1 = Companion_getInstance_132();
+    this.oldTextureUnits_1 = AGTextureUnits_init_$Create$();
+    this.resetTex_1 = 0;
+  }
+  protoOf(ShaderFilter).set_filtering_oa3bu0_k$ = function (_set____db54di) {
+    this.filtering_1 = _set____db54di;
+  };
+  protoOf(ShaderFilter).get_filtering_627uin_k$ = function () {
+    return this.filtering_1;
+  };
+  protoOf(ShaderFilter).computeBorder_cnyscj_k$ = function (texWidth, texHeight) {
+    return Companion_getInstance_41().get_ZERO_wodlgx_k$();
+  };
+  protoOf(ShaderFilter).get_programProvider_i0plqs_k$ = function () {
+    return this.programProvider_1;
+  };
+  protoOf(ShaderFilter).setTex_spyic6_k$ = function (ctx, sampler, texture, info) {
+    this.oldTextureUnits_1.copyFrom_wmlpb3_k$(ctx.get_textureUnits_kh5lsz_k$(), sampler);
+    ctx.get_textureUnits_kh5lsz_k$().set_jc72iz_k$(sampler, texture, info);
+    this.resetTex_1 = this.resetTex_1 | 1 << sampler.get_index_it478p_k$();
+  };
+  protoOf(ShaderFilter).setTex$default_j0ewr3_k$ = function (ctx, sampler, texture, info, $super) {
+    info = info === VOID ? Companion_getInstance_69().get_DEFAULT_7hhlcw_k$() : info;
+    var tmp;
+    if ($super === VOID) {
+      this.setTex_spyic6_k$(ctx, sampler, texture, info);
+      tmp = Unit_getInstance();
+    } else {
+      tmp = $super.setTex_spyic6_k$.call(this, ctx, sampler, texture, new AGTextureUnitInfo(info));
+    }
+    return tmp;
+  };
+  protoOf(ShaderFilter).updateUniforms_daokgu_k$ = function (ctx, filterScale) {
+  };
+  protoOf(ShaderFilter).get_isIdentity_zhqljl_k$ = function () {
+    return false;
+  };
+  protoOf(ShaderFilter).render_myjvme_k$ = function (ctx, matrix, texture, texWidth, texHeight, renderColorMul, blendMode, filterScale) {
+    if (this.get_isIdentity_zhqljl_k$())
+      return Companion_getInstance_131().render_myjvme_k$(ctx, matrix, texture, texWidth, texHeight, renderColorMul, blendMode, filterScale);
+    var _margin = getBorder(this, texWidth, texHeight);
+    var marginLeft = toIntCeil(_margin.get_left_woprgw_k$() * filterScale);
+    var marginRight = toIntCeil(_margin.get_right_ixz7xv_k$() * filterScale);
+    var marginTop = toIntCeil(_margin.get_top_18ivbo_k$() * filterScale);
+    var marginBottom = toIntCeil(_margin.get_bottom_bj8ras_k$() * filterScale);
+    // Inline function 'korlibs.korge.render.RenderContext.useBatcher' call
+    // Inline function 'korlibs.korge.render.BatchBuilder2D.use' call
+    var this_0 = ctx.get_batch_ip1o29_k$();
+    var this_1 = this_0.get_ctx_18j7sy_k$();
+    if (!(this_1.get_currentBatcher_1kvxyv_k$() === this_0)) {
+      this_1.set_currentBatcher_uqyhb8_k$(this_0);
+      this_1.flush$default_vlfazv_k$();
+    }
+    var slice = texture.sliceWithBounds$default_f9ho5_k$(-marginLeft | 0, -marginTop | 0, texture.get_width_j0q4yl_k$() + marginRight | 0, texture.get_height_e7t92o_k$() + marginBottom | 0, VOID, false);
+    $l$block: {
+      // Inline function 'korlibs.korge.render.BatchBuilder2D.temporalTextureUnit' call
+      var sampler = DefaultShaders_getInstance().get_u_Tex_izftp0_k$();
+      var tex = slice.get_base_wojaxm_k$().get_base_wojaxm_k$();
+      var info = Companion_getInstance_69().get_DEFAULT_7hhlcw_k$();
+      var oldTex = this_0.get_ctx_18j7sy_k$().get_textureUnits_kh5lsz_k$().get_textures_mn839d_k$()[sampler.get_index_it478p_k$()];
+      var oldInfo = AGTextureUnitInfoArray__get_impl_xhvpef(this_0.get_ctx_18j7sy_k$().get_textureUnits_kh5lsz_k$().get_infos_rt1v3x_k$(), sampler.get_index_it478p_k$());
+      this_0.get_ctx_18j7sy_k$().get_textureUnits_kh5lsz_k$().set_jc72iz_k$(sampler, tex, info);
+      try {
+        _updateUniforms(this, ctx, filterScale, texture, texWidth, texHeight);
+        this_0.drawQuad$default_qr6d47_k$(slice, -marginLeft, -marginTop, VOID, VOID, matrix, this.get_filtering_627uin_k$(), renderColorMul, blendMode, this.get_programProvider_i0plqs_k$().getProgram_c149ji_k$());
+        break $l$block;
+      }finally {
+        this_0.createBatchIfRequired_ere7uy_k$();
+        this_0.get_ctx_18j7sy_k$().get_textureUnits_kh5lsz_k$().set_jc72iz_k$(sampler, oldTex, oldInfo);
+      }
+    }
+    _restoreUniforms(this, ctx, filterScale);
+  };
+  function u_TextureSize$factory() {
+    return getPropertyCallableRef('u_TextureSize', 1, KProperty1, function (receiver) {
+      return receiver.get_u_TextureSize_rqn0wn_k$();
+    }, null);
+  }
+  function u_MaxTexCoords$factory() {
+    return getPropertyCallableRef('u_MaxTexCoords', 1, KProperty1, function (receiver) {
+      return receiver.get_u_MaxTexCoords_ouwqtw_k$();
+    }, null);
+  }
+  function u_StdTexDerivates$factory() {
+    return getPropertyCallableRef('u_StdTexDerivates', 1, KProperty1, function (receiver) {
+      return receiver.get_u_StdTexDerivates_h3ta08_k$();
+    }, null);
+  }
+  function u_filterScale$factory() {
+    return getPropertyCallableRef('u_filterScale', 1, KProperty1, function (receiver) {
+      return receiver.get_u_filterScale_pw1d8h_k$();
+    }, null);
+  }
+  function u_TextureSize$factory_0() {
+    return getPropertyCallableRef('u_TextureSize', 1, KProperty1, function (receiver) {
+      return receiver.get_u_TextureSize_rqn0wn_k$();
+    }, null);
+  }
+  function u_MaxTexCoords$factory_0() {
+    return getPropertyCallableRef('u_MaxTexCoords', 1, KProperty1, function (receiver) {
+      return receiver.get_u_MaxTexCoords_ouwqtw_k$();
+    }, null);
+  }
+  function u_StdTexDerivates$factory_0() {
+    return getPropertyCallableRef('u_StdTexDerivates', 1, KProperty1, function (receiver) {
+      return receiver.get_u_StdTexDerivates_h3ta08_k$();
+    }, null);
+  }
+  function u_filterScale$factory_0() {
+    return getPropertyCallableRef('u_filterScale', 1, KProperty1, function (receiver) {
+      return receiver.get_u_filterScale_pw1d8h_k$();
+    }, null);
+  }
+  function _program$factory() {
+    return getPropertyCallableRef('_program', 1, KProperty1, function (receiver) {
+      return _get__program__9g4ap2(receiver);
+    }, null);
+  }
   function set_filterScale(_this__u8e3s4, _set____db54di) {
     _init_properties_ViewFilter_kt__pd9xp9();
     var this_0 = filterScale$delegate;
@@ -65791,13 +66735,104 @@
     return tmp$ret$0;
   }
   var filterScale$delegate;
+  function set_filter(_this__u8e3s4, value) {
+    _init_properties_ViewFilter_kt__pd9xp9();
+    var enabled = !(value == null);
+    if (enabled) {
+      var tmp$ret$3;
+      $l$block_0: {
+        // Inline function 'korlibs.korge.view.View.getOrCreateAndAddRenderPhase' call
+        // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull' call
+        var tmp0_safe_receiver = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
+        var tmp;
+        if (tmp0_safe_receiver == null) {
+          tmp = null;
+        } else {
+          var tmp$ret$1;
+          $l$block: {
+            // Inline function 'kotlin.collections.firstOrNull' call
+            var tmp0_iterator = tmp0_safe_receiver.iterator_jk1svi_k$();
+            while (tmp0_iterator.hasNext_bitz1p_k$()) {
+              var element = tmp0_iterator.next_20eer_k$();
+              // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull.<anonymous>' call
+              if (element instanceof ViewRenderPhaseFilter) {
+                tmp$ret$1 = element;
+                break $l$block;
+              }
+            }
+            tmp$ret$1 = null;
+          }
+          tmp = tmp$ret$1;
+        }
+        var tmp_0 = tmp;
+        var tmp0_safe_receiver_0 = (tmp_0 == null ? true : tmp_0 instanceof ViewRenderPhaseFilter) ? tmp_0 : null;
+        if (tmp0_safe_receiver_0 == null)
+          null;
+        else {
+          // Inline function 'kotlin.let' call
+          // Inline function 'kotlin.contracts.contract' call
+          tmp$ret$3 = tmp0_safe_receiver_0;
+          break $l$block_0;
+        }
+        // Inline function 'kotlin.also' call
+        // Inline function 'korlibs.korge.view.filter.<set-filter>.<anonymous>' call
+        var this_0 = new ViewRenderPhaseFilter(value);
+        // Inline function 'kotlin.contracts.contract' call
+        // Inline function 'korlibs.korge.view.View.getOrCreateAndAddRenderPhase.<anonymous>' call
+        _this__u8e3s4.addRenderPhase_7zbga4_k$(this_0);
+        tmp$ret$3 = this_0;
+      }
+      tmp$ret$3.filter_1 = value;
+    } else {
+      // Inline function 'korlibs.korge.view.View.removeRenderPhaseOfType' call
+      var tmp0_safe_receiver_1 = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
+      if (tmp0_safe_receiver_1 == null)
+        null;
+      else {
+        removeAll(tmp0_safe_receiver_1, _set_filter_$lambda_rgmh04);
+      }
+    }
+    _this__u8e3s4.invalidate_p4aufp_k$();
+  }
+  function get_filter(_this__u8e3s4) {
+    _init_properties_ViewFilter_kt__pd9xp9();
+    // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull' call
+    var tmp0_safe_receiver = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
+    var tmp;
+    if (tmp0_safe_receiver == null) {
+      tmp = null;
+    } else {
+      var tmp$ret$1;
+      $l$block: {
+        // Inline function 'kotlin.collections.firstOrNull' call
+        var tmp0_iterator = tmp0_safe_receiver.iterator_jk1svi_k$();
+        while (tmp0_iterator.hasNext_bitz1p_k$()) {
+          var element = tmp0_iterator.next_20eer_k$();
+          // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull.<anonymous>' call
+          if (element instanceof ViewRenderPhaseFilter) {
+            tmp$ret$1 = element;
+            break $l$block;
+          }
+        }
+        tmp$ret$1 = null;
+      }
+      tmp = tmp$ret$1;
+    }
+    var tmp_0 = tmp;
+    var tmp0_safe_receiver_0 = (tmp_0 == null ? true : tmp_0 instanceof ViewRenderPhaseFilter) ? tmp_0 : null;
+    return tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.filter_1;
+  }
+  function get_VIEW_FILTER_TRANSPARENT_EDGE() {
+    return VIEW_FILTER_TRANSPARENT_EDGE;
+  }
+  var VIEW_FILTER_TRANSPARENT_EDGE;
   function renderFiltered(_this__u8e3s4, ctx, filter, first) {
     first = first === VOID ? true : first;
     _init_properties_ViewFilter_kt__pd9xp9();
     var bounds = _this__u8e3s4.getLocalBounds$default_sjt25l_k$(VOID, false);
     if (bounds.get_width_j0q4yl_k$() <= 0.0 ? true : bounds.get_height_e7t92o_k$() <= 0.0)
       return Unit_getInstance();
-    var tmp = Companion_getInstance_127();
+    var tmp = Companion_getInstance_130();
     // Inline function 'kotlin.math.min' call
     var a = get_filterScale(_this__u8e3s4);
     var b = filter.get_recommendedFilterScale_sr73vk_k$();
@@ -65924,112 +66959,21 @@
       ctx.unsafeFreeFrameBuffer_o7up9a_k$(rb);
     }
   }
-  function set_filter(_this__u8e3s4, value) {
-    _init_properties_ViewFilter_kt__pd9xp9();
-    var enabled = !(value == null);
-    if (enabled) {
-      var tmp$ret$3;
-      $l$block_0: {
-        // Inline function 'korlibs.korge.view.View.getOrCreateAndAddRenderPhase' call
-        // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull' call
-        var tmp0_safe_receiver = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
-        var tmp;
-        if (tmp0_safe_receiver == null) {
-          tmp = null;
-        } else {
-          var tmp$ret$1;
-          $l$block: {
-            // Inline function 'kotlin.collections.firstOrNull' call
-            var tmp0_iterator = tmp0_safe_receiver.iterator_jk1svi_k$();
-            while (tmp0_iterator.hasNext_bitz1p_k$()) {
-              var element = tmp0_iterator.next_20eer_k$();
-              // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull.<anonymous>' call
-              if (element instanceof ViewRenderPhaseFilter) {
-                tmp$ret$1 = element;
-                break $l$block;
-              }
-            }
-            tmp$ret$1 = null;
-          }
-          tmp = tmp$ret$1;
-        }
-        var tmp_0 = tmp;
-        var tmp0_safe_receiver_0 = (tmp_0 == null ? true : tmp_0 instanceof ViewRenderPhaseFilter) ? tmp_0 : null;
-        if (tmp0_safe_receiver_0 == null)
-          null;
-        else {
-          // Inline function 'kotlin.let' call
-          // Inline function 'kotlin.contracts.contract' call
-          tmp$ret$3 = tmp0_safe_receiver_0;
-          break $l$block_0;
-        }
-        // Inline function 'kotlin.also' call
-        // Inline function 'korlibs.korge.view.filter.<set-filter>.<anonymous>' call
-        var this_0 = new ViewRenderPhaseFilter(value);
-        // Inline function 'kotlin.contracts.contract' call
-        // Inline function 'korlibs.korge.view.View.getOrCreateAndAddRenderPhase.<anonymous>' call
-        _this__u8e3s4.addRenderPhase_7zbga4_k$(this_0);
-        tmp$ret$3 = this_0;
-      }
-      tmp$ret$3.filter_1 = value;
-    } else {
-      // Inline function 'korlibs.korge.view.View.removeRenderPhaseOfType' call
-      var tmp0_safe_receiver_1 = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
-      if (tmp0_safe_receiver_1 == null)
-        null;
-      else {
-        removeAll(tmp0_safe_receiver_1, _set_filter_$lambda_rgmh04);
-      }
-    }
-    _this__u8e3s4.invalidate_p4aufp_k$();
-  }
-  function get_filter(_this__u8e3s4) {
-    _init_properties_ViewFilter_kt__pd9xp9();
-    // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull' call
-    var tmp0_safe_receiver = _this__u8e3s4.get__renderPhases_pcgq0s_k$();
-    var tmp;
-    if (tmp0_safe_receiver == null) {
-      tmp = null;
-    } else {
-      var tmp$ret$1;
-      $l$block: {
-        // Inline function 'kotlin.collections.firstOrNull' call
-        var tmp0_iterator = tmp0_safe_receiver.iterator_jk1svi_k$();
-        while (tmp0_iterator.hasNext_bitz1p_k$()) {
-          var element = tmp0_iterator.next_20eer_k$();
-          // Inline function 'korlibs.korge.view.View.getRenderPhaseOfTypeOrNull.<anonymous>' call
-          if (element instanceof ViewRenderPhaseFilter) {
-            tmp$ret$1 = element;
-            break $l$block;
-          }
-        }
-        tmp$ret$1 = null;
-      }
-      tmp = tmp$ret$1;
-    }
-    var tmp_0 = tmp;
-    var tmp0_safe_receiver_0 = (tmp_0 == null ? true : tmp_0 instanceof ViewRenderPhaseFilter) ? tmp_0 : null;
-    return tmp0_safe_receiver_0 == null ? null : tmp0_safe_receiver_0.filter_1;
-  }
-  function get_VIEW_FILTER_TRANSPARENT_EDGE() {
-    return VIEW_FILTER_TRANSPARENT_EDGE;
-  }
-  var VIEW_FILTER_TRANSPARENT_EDGE;
-  function Companion_84() {
-    Companion_instance_84 = this;
+  function Companion_89() {
+    Companion_instance_89 = this;
     this.PRIORITY_1 = -200;
   }
-  protoOf(Companion_84).get_PRIORITY_ww8ui5_k$ = function () {
+  protoOf(Companion_89).get_PRIORITY_ww8ui5_k$ = function () {
     return this.PRIORITY_1;
   };
-  var Companion_instance_84;
-  function Companion_getInstance_129() {
-    if (Companion_instance_84 == null)
-      new Companion_84();
-    return Companion_instance_84;
+  var Companion_instance_89;
+  function Companion_getInstance_134() {
+    if (Companion_instance_89 == null)
+      new Companion_89();
+    return Companion_instance_89;
   }
   function ViewRenderPhaseFilter(filter) {
-    Companion_getInstance_129();
+    Companion_getInstance_134();
     filter = filter === VOID ? null : filter;
     this.filter_1 = filter;
   }
@@ -66051,7 +66995,7 @@
   };
   function filterScale$delegate$lambda($this$extraPropertyThis, it) {
     _init_properties_ViewFilter_kt__pd9xp9();
-    return Companion_getInstance_127().discretizeFilterScale_23w44k_k$(it);
+    return Companion_getInstance_130().discretizeFilterScale_23w44k_k$(it);
   }
   function filterScale$delegate$lambda_0($this$extraPropertyThis) {
     _init_properties_ViewFilter_kt__pd9xp9();
@@ -67067,10 +68011,10 @@
       var tmp0 = n;
       n = tmp0 + 1 | 0;
       var it = pathDataList.get_c1px32_k$(tmp0);
-      bb = plus_6(bb, it.bounds_1);
+      bb = plus_7(bb, it.bounds_1);
     }
     var pathBoundsNoExpanded = _BoundsBuilder___get_bounds__impl__s1l1gx(bb);
-    var pathBounds = toAGScissor(pathBoundsNoExpanded.expanded_zcum1l_k$(MarginInt_init_$Create$(2)));
+    var pathBounds = toAGScissor(pathBoundsNoExpanded.expanded_zcum1l_k$(MarginInt_init_$Create$_0(2)));
     var clipDataStart = $this.gpuShapeViewCommands_1.verticesStart_rkudjr_k$();
     var tmp1_safe_receiver = shape.get_clip_wok5uh_k$();
     var tmp_0;
@@ -68292,7 +69236,7 @@
     this_0.SET_vs1igi_k$(this_0.get_v_Tex_izzmad_k$(), DefaultShaders_getInstance().get_a_Pos_iofv3h_k$());
     this_0.SET_vs1igi_k$(GpuShapeViewPrograms_getInstance().v_Dist_1, GpuShapeViewPrograms_getInstance().a_Dist_1);
     this_0.SET_vs1igi_k$(GpuShapeViewPrograms_getInstance().v_MaxDist_1, GpuShapeViewPrograms_getInstance().a_MaxDist_1);
-    var tmp0_vertex = VertexShader_0(this_0._buildFuncs_9u5nuo_k$());
+    var tmp0_vertex = VertexShader(this_0._buildFuncs_9u5nuo_k$());
     // Inline function 'korlibs.graphics.FragmentShaderDefault' call
     // Inline function 'kotlin.also' call
     var this_1 = new ProgramBuilderDefault();
@@ -68319,7 +69263,7 @@
     this_1.IF_ELSE_LIST_dp7xoq_k$(tmp_0, 0, 4, GpuShapeViewPrograms$PROGRAM_COMBINED$lambda(this_1));
     var aaAlpha = this_1.minus_ouyim_k$(this_1.get_lit_xwjtj8_k$(1.0), this_1.smoothstep_vk8nfc_k$(this_1.minus_ouyim_k$(this_1.times_1dhq1g_k$(GpuShapeViewPrograms_getInstance().v_MaxDist_1, GpuShapeViewPrograms_getInstance().get_u_GlobalPixelScale_2rz1cq_k$()), this_1.get_lit_xwjtj8_k$(1.5)), this_1.times_1dhq1g_k$(GpuShapeViewPrograms_getInstance().v_MaxDist_1, GpuShapeViewPrograms_getInstance().get_u_GlobalPixelScale_2rz1cq_k$()), this_1.abs_7c27ts_k$(this_1.times_1dhq1g_k$(GpuShapeViewPrograms_getInstance().v_Dist_1, GpuShapeViewPrograms_getInstance().get_u_GlobalPixelScale_2rz1cq_k$()))));
     this_1.SET_vs1igi_k$(this_1.get_out_18iyvv_k$(), this_1.times_1dhq1g_k$(this_1.times_1dhq1g_k$(this_1.times_1dhq1g_k$(this_1.get_out_18iyvv_k$(), GpuShapeViewPrograms_getInstance().get_u_ColorMul_hxikr8_k$()), GpuShapeViewPrograms_getInstance().get_u_GlobalAlpha_282vs8_k$()), aaAlpha));
-    var tmp1_fragment = FragmentShader_0(this_1._buildFuncs_9u5nuo_k$());
+    var tmp1_fragment = FragmentShader(this_1._buildFuncs_9u5nuo_k$());
     tmp.PROGRAM_COMBINED_1 = new Program(tmp0_vertex, tmp1_fragment, 'GpuShapeViewPrograms.Combined');
     var tmp_1 = this;
     // Inline function 'korlibs.graphics.shader.Companion.single' call
@@ -68705,18 +69649,18 @@
       return receiver.get_u_Gradientp1_pdn78k_k$();
     }, null);
   }
-  function Companion_85() {
-    Companion_instance_85 = this;
+  function Companion_90() {
+    Companion_instance_90 = this;
     this.INCH_TO_CM_1 = 2.54;
   }
-  protoOf(Companion_85).get_INCH_TO_CM_j1qsqq_k$ = function () {
+  protoOf(Companion_90).get_INCH_TO_CM_j1qsqq_k$ = function () {
     return this.INCH_TO_CM_1;
   };
-  var Companion_instance_85;
-  function Companion_getInstance_130() {
-    if (Companion_instance_85 == null)
-      new Companion_85();
-    return Companion_instance_85;
+  var Companion_instance_90;
+  function Companion_getInstance_135() {
+    if (Companion_instance_90 == null)
+      new Companion_90();
+    return Companion_instance_90;
   }
   function DEFAULT() {
     DEFAULT_instance = this;
@@ -68862,14 +69806,14 @@
   var Cursor_RESIZE_NORTH_WEST_instance;
   var Cursor_RESIZE_SOUTH_EAST_instance;
   var Cursor_RESIZE_SOUTH_WEST_instance;
-  function Companion_86() {
-    Companion_instance_86 = this;
+  function Companion_91() {
+    Companion_instance_91 = this;
     this.ANGLE_TO_CURSOR_1 = mapOf([to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 0)), Cursor_RESIZE_EAST_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 1)), Cursor_RESIZE_SOUTH_EAST_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 2)), Cursor_RESIZE_SOUTH_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 3)), Cursor_RESIZE_SOUTH_WEST_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 4)), Cursor_RESIZE_WEST_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 5)), Cursor_RESIZE_NORTH_WEST_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 6)), Cursor_RESIZE_NORTH_getInstance()), to(new Angle(Angle__times_impl_v3s9y2(get_degrees(45), 7)), Cursor_RESIZE_NORTH_EAST_getInstance())]);
   }
-  protoOf(Companion_86).get_ANGLE_TO_CURSOR_f9gso5_k$ = function () {
+  protoOf(Companion_91).get_ANGLE_TO_CURSOR_f9gso5_k$ = function () {
     return this.ANGLE_TO_CURSOR_1;
   };
-  protoOf(Companion_86).fromAngleResize_hqgy4q_k$ = function (angle) {
+  protoOf(Companion_91).fromAngleResize_hqgy4q_k$ = function (angle) {
     var minDistance = get_degrees(360);
     var cursor = null;
     var tmp = angle;
@@ -68891,15 +69835,15 @@
     }
     return cursor;
   };
-  protoOf(Companion_86).fromAnchorResize_p4w2fg_k$ = function (anchor) {
+  protoOf(Companion_91).fromAnchorResize_p4w2fg_k$ = function (anchor) {
     return anchor.equals(Companion_getInstance_17().get_TOP_LEFT_yco2ue_k$()) ? Cursor_RESIZE_NORTH_WEST_getInstance() : anchor.equals(Companion_getInstance_17().get_TOP_18jjuc_k$()) ? Cursor_RESIZE_NORTH_getInstance() : anchor.equals(Companion_getInstance_17().get_TOP_RIGHT_nbphl_k$()) ? Cursor_RESIZE_NORTH_EAST_getInstance() : anchor.equals(Companion_getInstance_17().get_LEFT_wo4ndc_k$()) ? Cursor_RESIZE_WEST_getInstance() : anchor.equals(Companion_getInstance_17().get_RIGHT_ifsour_k$()) ? Cursor_RESIZE_EAST_getInstance() : anchor.equals(Companion_getInstance_17().get_BOTTOM_LEFT_v476q6_k$()) ? Cursor_RESIZE_SOUTH_WEST_getInstance() : anchor.equals(Companion_getInstance_17().get_BOTTOM_44doek_k$()) ? Cursor_RESIZE_SOUTH_getInstance() : anchor.equals(Companion_getInstance_17().get_BOTTOM_RIGHT_twrb5d_k$()) ? Cursor_RESIZE_SOUTH_EAST_getInstance() : null;
   };
-  var Companion_instance_86;
-  function Companion_getInstance_131() {
+  var Companion_instance_91;
+  function Companion_getInstance_136() {
     Cursor_initEntries();
-    if (Companion_instance_86 == null)
-      new Companion_86();
-    return Companion_instance_86;
+    if (Companion_instance_91 == null)
+      new Companion_91();
+    return Companion_instance_91;
   }
   function values_29() {
     return [Cursor_DEFAULT_getInstance(), Cursor_CROSSHAIR_getInstance(), Cursor_TEXT_getInstance(), Cursor_HAND_getInstance(), Cursor_MOVE_getInstance(), Cursor_WAIT_getInstance(), Cursor_RESIZE_EAST_getInstance(), Cursor_RESIZE_WEST_getInstance(), Cursor_RESIZE_SOUTH_getInstance(), Cursor_RESIZE_NORTH_getInstance(), Cursor_RESIZE_NORTH_EAST_getInstance(), Cursor_RESIZE_NORTH_WEST_getInstance(), Cursor_RESIZE_SOUTH_EAST_getInstance(), Cursor_RESIZE_SOUTH_WEST_getInstance()];
@@ -68964,7 +69908,7 @@
     Cursor_RESIZE_NORTH_WEST_instance = new Cursor('RESIZE_NORTH_WEST', 11);
     Cursor_RESIZE_SOUTH_EAST_instance = new Cursor('RESIZE_SOUTH_EAST', 12);
     Cursor_RESIZE_SOUTH_WEST_instance = new Cursor('RESIZE_SOUTH_WEST', 13);
-    Companion_getInstance_131();
+    Companion_getInstance_136();
   }
   var $ENTRIES_29;
   function GameWindow$MenuItem$_init_$lambda_465oqx() {
@@ -70683,21 +71627,21 @@
   }
   function ClipboardData() {
   }
-  function Companion_87() {
-    Companion_instance_87 = this;
+  function Companion_92() {
+    Companion_instance_92 = this;
     this.DEFAULT_1 = new GameWindowCreationConfig();
   }
-  protoOf(Companion_87).get_DEFAULT_wccqmg_k$ = function () {
+  protoOf(Companion_92).get_DEFAULT_wccqmg_k$ = function () {
     return this.DEFAULT_1;
   };
-  var Companion_instance_87;
-  function Companion_getInstance_132() {
-    if (Companion_instance_87 == null)
-      new Companion_87();
-    return Companion_instance_87;
+  var Companion_instance_92;
+  function Companion_getInstance_137() {
+    if (Companion_instance_92 == null)
+      new Companion_92();
+    return Companion_instance_92;
   }
   function GameWindowCreationConfig(multithreaded, hdr, msaa, checkGl, logGl, cacheGl, fullscreen, decorated, transparent, resizable) {
-    Companion_getInstance_132();
+    Companion_getInstance_137();
     multithreaded = multithreaded === VOID ? null : multithreaded;
     hdr = hdr === VOID ? null : hdr;
     msaa = msaa === VOID ? null : msaa;
@@ -70895,18 +71839,18 @@
   protoOf(TimedTask).get_exception_x0n6w6_k$ = function () {
     return this.exception_1;
   };
-  function Companion_88() {
-    Companion_instance_88 = this;
+  function Companion_93() {
+    Companion_instance_93 = this;
     this.logger_1 = Companion_getInstance_3().invoke_lt562m_k$('GameWindow');
   }
-  protoOf(Companion_88).get_logger_g9gejd_k$ = function () {
+  protoOf(Companion_93).get_logger_g9gejd_k$ = function () {
     return this.logger_1;
   };
-  var Companion_instance_88;
-  function Companion_getInstance_133() {
-    if (Companion_instance_88 == null)
-      new Companion_88();
-    return Companion_instance_88;
+  var Companion_instance_93;
+  function Companion_getInstance_138() {
+    if (Companion_instance_93 == null)
+      new Companion_93();
+    return Companion_instance_93;
   }
   function sam$kotlinx_coroutines_DisposableHandle$0(function_0) {
     this.function_1 = function_0;
@@ -71010,7 +71954,7 @@
     };
   }
   function GameWindowCoroutineDispatcher(nowProvider, fast) {
-    Companion_getInstance_133();
+    Companion_getInstance_138();
     var tmp;
     if (nowProvider === VOID) {
       tmp = GameWindowCoroutineDispatcher$_init_$lambda_ooms1e;
@@ -71316,7 +72260,7 @@
     var tmp$ret$1 = toDuration(2, DurationUnit_SECONDS_getInstance());
     this.executePending_6s11ub_k$(tmp$ret$1);
     // Inline function 'korlibs.logger.Logger.info' call
-    var this_0 = Companion_getInstance_133().logger_1;
+    var this_0 = Companion_getInstance_138().logger_1;
     var level = Level_INFO_getInstance();
     var tmp;
     if (this_0.isEnabled_481qtp_k$(level)) {
@@ -72683,24 +73627,24 @@
     var tmp$ret$0 = this.get_fs_kntnze_k$().readFileSync(this.get_gameStorageFile_ao6o9o_k$());
     return toString_2(tmp$ret$0, get_UTF8());
   };
-  function Companion_89() {
-    Companion_instance_89 = this;
+  function Companion_94() {
+    Companion_instance_94 = this;
     this.PREFIX_1 = 'org.korge.storage.';
   }
-  protoOf(Companion_89).get_PREFIX_2jmjkr_k$ = function () {
+  protoOf(Companion_94).get_PREFIX_2jmjkr_k$ = function () {
     return this.PREFIX_1;
   };
-  protoOf(Companion_89).getKey_otms35_k$ = function (key) {
+  protoOf(Companion_94).getKey_otms35_k$ = function (key) {
     return this.PREFIX_1 + key;
   };
-  var Companion_instance_89;
-  function Companion_getInstance_134() {
-    if (Companion_instance_89 == null)
-      new Companion_89();
-    return Companion_instance_89;
+  var Companion_instance_94;
+  function Companion_getInstance_139() {
+    if (Companion_instance_94 == null)
+      new Companion_94();
+    return Companion_instance_94;
   }
   function BrowserNativeStorage(views) {
-    Companion_getInstance_134();
+    Companion_getInstance_139();
     this.views_1 = views;
   }
   protoOf(BrowserNativeStorage).get_views_j06d6t_k$ = function () {
@@ -72730,7 +73674,7 @@
     while (tmp0_iterator_0.hasNext_bitz1p_k$()) {
       var element = tmp0_iterator_0.next_20eer_k$();
       // Inline function 'korlibs.korge.service.storage.BrowserNativeStorage.keys.<anonymous>' call
-      if (startsWith_0(element, Companion_getInstance_134().PREFIX_1)) {
+      if (startsWith_0(element, Companion_getInstance_139().PREFIX_1)) {
         destination_0.add_utx5q5_k$(element);
       }
     }
@@ -72740,19 +73684,19 @@
     while (tmp0_iterator_1.hasNext_bitz1p_k$()) {
       var item_0 = tmp0_iterator_1.next_20eer_k$();
       // Inline function 'korlibs.korge.service.storage.BrowserNativeStorage.keys.<anonymous>' call
-      var tmp$ret$6 = removePrefix(item_0, Companion_getInstance_134().PREFIX_1);
+      var tmp$ret$6 = removePrefix(item_0, Companion_getInstance_139().PREFIX_1);
       destination_1.add_utx5q5_k$(tmp$ret$6);
     }
     return destination_1;
   };
   protoOf(BrowserNativeStorage).set_j87cuq_k$ = function (key, value) {
-    localStorage.setItem(Companion_getInstance_134().getKey_otms35_k$(key), value);
+    localStorage.setItem(Companion_getInstance_139().getKey_otms35_k$(key), value);
   };
   protoOf(BrowserNativeStorage).getOrNull_x7829y_k$ = function (key) {
-    return localStorage.getItem(Companion_getInstance_134().getKey_otms35_k$(key));
+    return localStorage.getItem(Companion_getInstance_139().getKey_otms35_k$(key));
   };
   protoOf(BrowserNativeStorage).remove_6241ba_k$ = function (key) {
-    localStorage.removeItem(Companion_getInstance_134().getKey_otms35_k$(key));
+    localStorage.removeItem(Companion_getInstance_139().getKey_otms35_k$(key));
   };
   function require_node(name) {
     return eval('(' + get_REQ() + "uire('" + name + "'))");
@@ -74298,7 +75242,7 @@
   protoOf(Builder).exp_eaneej_k$ = exp;
   protoOf(Builder).exp2_930d37_k$ = exp2;
   protoOf(Builder).log_tqymuq_k$ = log;
-  protoOf(Builder).log2_933qsk_k$ = log2;
+  protoOf(Builder).log2_933qsk_k$ = log2_0;
   protoOf(Builder).sqrt_m8b2j2_k$ = sqrt;
   protoOf(Builder).inversesqrt_4tvcci_k$ = inversesqrt;
   protoOf(Builder).abs_7c27ts_k$ = abs;
@@ -74356,9 +75300,9 @@
   protoOf(Builder).minus_ouyim_k$ = minus;
   protoOf(Builder).minus_xilspk_k$ = minus_0;
   protoOf(Builder).minus_foy52c_k$ = minus_1;
-  protoOf(Builder).plus_owi4d4_k$ = plus_3;
-  protoOf(Builder).plus_wkgxmm_k$ = plus_4;
-  protoOf(Builder).plus_kmzgpa_k$ = plus_5;
+  protoOf(Builder).plus_owi4d4_k$ = plus_4;
+  protoOf(Builder).plus_wkgxmm_k$ = plus_5;
+  protoOf(Builder).plus_kmzgpa_k$ = plus_6;
   protoOf(Builder).times_1dhq1g_k$ = times;
   protoOf(Builder).times_wyzhci_k$ = times_0;
   protoOf(Builder).times_k8gwze_k$ = times_1;
@@ -74428,7 +75372,7 @@
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).exp_eaneej_k$ = exp;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).exp2_930d37_k$ = exp2;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).log_tqymuq_k$ = log;
-  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).log2_933qsk_k$ = log2;
+  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).log2_933qsk_k$ = log2_0;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).sqrt_m8b2j2_k$ = sqrt;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).inversesqrt_4tvcci_k$ = inversesqrt;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).abs_7c27ts_k$ = abs;
@@ -74486,9 +75430,9 @@
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).minus_ouyim_k$ = minus;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).minus_xilspk_k$ = minus_0;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).minus_foy52c_k$ = minus_1;
-  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_owi4d4_k$ = plus_3;
-  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_wkgxmm_k$ = plus_4;
-  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_kmzgpa_k$ = plus_5;
+  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_owi4d4_k$ = plus_4;
+  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_wkgxmm_k$ = plus_5;
+  protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).plus_kmzgpa_k$ = plus_6;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).times_1dhq1g_k$ = times;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).times_wyzhci_k$ = times_0;
   protoOf(Program$ExpressionBuilder$Companion$INSTANCE$1).times_k8gwze_k$ = times_1;
@@ -74550,6 +75494,8 @@
   protoOf(Base).get_globalToWindowScaleAvg_tiuq1r_k$ = get_globalToWindowScaleAvg;
   protoOf(Base).windowToGlobalCoords_4harfo_k$ = windowToGlobalCoords;
   protoOf(Base).globalToWindowCoords_bat5ss_k$ = globalToWindowCoords;
+  protoOf(ShaderFilter).get_allFilters_batahp_k$ = get_allFilters;
+  protoOf(ShaderFilter).get_recommendedFilterScale_sr73vk_k$ = get_recommendedFilterScale;
   protoOf(IdentityFilter).get_allFilters_batahp_k$ = get_allFilters;
   protoOf(IdentityFilter).get_recommendedFilterScale_sr73vk_k$ = get_recommendedFilterScale;
   protoOf(IdentityFilter).computeBorder_cnyscj_k$ = computeBorder;
@@ -74578,7 +75524,7 @@
   protoOf(GameWindow).get_y2st91_k$ = get_0;
   protoOf(GameWindow).fold_j2vaxd_k$ = fold;
   protoOf(GameWindow).minusKey_9i5ggf_k$ = minusKey;
-  protoOf(GameWindow).plus_s13ygv_k$ = plus_2;
+  protoOf(GameWindow).plus_s13ygv_k$ = plus_3;
   protoOf(GameWindowCoroutineDispatcher).delay_xigjxo_k$ = delay_0;
   protoOf(SyncEventLoopCoroutineDispatcher).delay_xigjxo_k$ = delay_0;
   protoOf(BrowserNativeStorage).toMap_1tsnvl_k$ = toMap_1;
@@ -74612,14 +75558,16 @@
   _.$_$.l = PixelatedScene;
   _.$_$.m = SceneContainer;
   _.$_$.n = withEasing;
-  _.$_$.o = Container;
-  _.$_$.p = FixedSizeContainer;
-  _.$_$.q = Stage;
-  _.$_$.r = View;
-  _.$_$.s = addTo;
-  _.$_$.t = findFirstAscendant;
-  _.$_$.u = size_0;
-  _.$_$.v = xy_0;
+  _.$_$.o = BlurFilter;
+  _.$_$.p = set_filter;
+  _.$_$.q = Container;
+  _.$_$.r = FixedSizeContainer;
+  _.$_$.s = Stage;
+  _.$_$.t = View;
+  _.$_$.u = addTo;
+  _.$_$.v = findFirstAscendant;
+  _.$_$.w = size_0;
+  _.$_$.x = xy_0;
   //endregion
   return _;
 }));

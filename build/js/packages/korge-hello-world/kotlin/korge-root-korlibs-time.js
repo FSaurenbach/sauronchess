@@ -53,7 +53,7 @@
   var DurationUnit_HOURS_getInstance = kotlin_kotlin.$_$.l;
   var DurationUnit_SECONDS_getInstance = kotlin_kotlin.$_$.q;
   var objectCreate = kotlin_kotlin.$_$.yf;
-  var lazy = kotlin_kotlin.$_$.xl;
+  var lazy = kotlin_kotlin.$_$.yl;
   var Duration__times_impl_sfuzvp = kotlin_kotlin.$_$.g3;
   var Duration__compareTo_impl_pchp0f = kotlin_kotlin.$_$.v2;
   var ArrayList_init_$Create$ = kotlin_kotlin.$_$.v;
@@ -100,7 +100,7 @@
   var round = kotlin_kotlin.$_$.kg;
   var toList_0 = kotlin_kotlin.$_$.bc;
   var first_0 = kotlin_kotlin.$_$.b9;
-  var to = kotlin_kotlin.$_$.hm;
+  var to = kotlin_kotlin.$_$.im;
   var toMap = kotlin_kotlin.$_$.fc;
   var plus = kotlin_kotlin.$_$.ua;
   var isCharSequence = kotlin_kotlin.$_$.df;

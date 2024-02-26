@@ -151,11 +151,11 @@ if (typeof String.prototype.endsWith === 'undefined') {
   var imul = Math.imul;
   var isView = ArrayBuffer.isView;
   var clz32 = Math.clz32;
-  var log10 = Math.log10;
   var sign = Math.sign;
   var hypot = Math.hypot;
-  var log2 = Math.log2;
+  var log10 = Math.log10;
   var trunc = Math.trunc;
+  var log2 = Math.log2;
   //endregion
   //region block: pre-declaration
   setMetadataFor(Sequence, 'Sequence', interfaceMeta);
@@ -8773,8 +8773,20 @@ if (typeof String.prototype.endsWith === 'undefined') {
   }
   function Comparator() {
   }
+  function countLeadingZeroBits(_this__u8e3s4) {
+    return clz32(_this__u8e3s4);
+  }
   function isNaN_0(_this__u8e3s4) {
     return !(_this__u8e3s4 === _this__u8e3s4);
+  }
+  function countTrailingZeroBits(_this__u8e3s4) {
+    var tmp = IntCompanionObject_getInstance().get_SIZE_BITS_7qhjj9_k$();
+    // Inline function 'kotlin.countLeadingZeroBits' call
+    var this_0 = ~(_this__u8e3s4 | (-_this__u8e3s4 | 0));
+    return tmp - clz32(this_0) | 0;
+  }
+  function isFinite(_this__u8e3s4) {
+    return !isInfinite_0(_this__u8e3s4) ? !isNaN_1(_this__u8e3s4) : false;
   }
   function countOneBits(_this__u8e3s4) {
     var v = _this__u8e3s4;
@@ -8785,22 +8797,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
     v = (v & 65535) + (v >>> 16 | 0) | 0;
     return v;
   }
-  function countLeadingZeroBits(_this__u8e3s4) {
-    return clz32(_this__u8e3s4);
-  }
-  function countTrailingZeroBits(_this__u8e3s4) {
-    var tmp = IntCompanionObject_getInstance().get_SIZE_BITS_7qhjj9_k$();
-    // Inline function 'kotlin.countLeadingZeroBits' call
-    var this_0 = ~(_this__u8e3s4 | (-_this__u8e3s4 | 0));
-    return tmp - clz32(this_0) | 0;
-  }
-  function isNaN_1(_this__u8e3s4) {
-    return !(_this__u8e3s4 === _this__u8e3s4);
-  }
-  function isInfinite(_this__u8e3s4) {
-    return _this__u8e3s4 === DoubleCompanionObject_getInstance().get_POSITIVE_INFINITY_yq30fv_k$() ? true : _this__u8e3s4 === DoubleCompanionObject_getInstance().get_NEGATIVE_INFINITY_e9bp9z_k$();
-  }
-  function isFinite(_this__u8e3s4) {
+  function isFinite_0(_this__u8e3s4) {
     return !isInfinite(_this__u8e3s4) ? !isNaN_0(_this__u8e3s4) : false;
   }
   function takeHighestOneBit(_this__u8e3s4) {
@@ -8813,6 +8810,15 @@ if (typeof String.prototype.endsWith === 'undefined') {
       tmp = 1 << (tmp_0 - clz32(_this__u8e3s4) | 0);
     }
     return tmp;
+  }
+  function isNaN_1(_this__u8e3s4) {
+    return !(_this__u8e3s4 === _this__u8e3s4);
+  }
+  function isInfinite(_this__u8e3s4) {
+    return _this__u8e3s4 === DoubleCompanionObject_getInstance().get_POSITIVE_INFINITY_yq30fv_k$() ? true : _this__u8e3s4 === DoubleCompanionObject_getInstance().get_NEGATIVE_INFINITY_e9bp9z_k$();
+  }
+  function isInfinite_0(_this__u8e3s4) {
+    return _this__u8e3s4 === FloatCompanionObject_getInstance().get_POSITIVE_INFINITY_yq30fv_k$() ? true : _this__u8e3s4 === FloatCompanionObject_getInstance().get_NEGATIVE_INFINITY_e9bp9z_k$();
   }
   function JsQualifier(value) {
     this.value_1 = value;
@@ -11481,28 +11487,131 @@ if (typeof String.prototype.endsWith === 'undefined') {
     // Inline function 'kotlin.js.asDynamic' call
     _this__u8e3s4.sort(comparison);
   }
-  function pow(_this__u8e3s4, n) {
-    return Math.pow(_this__u8e3s4, n);
+  function sqrt(x) {
+    return Math.sqrt(x);
   }
-  function pow_0(_this__u8e3s4, x) {
-    return Math.pow(_this__u8e3s4, x);
+  function get_sign(_this__u8e3s4) {
+    return _this__u8e3s4.compareTo_9jj042_k$(new Long(0, 0)) < 0 ? -1 : _this__u8e3s4.compareTo_9jj042_k$(new Long(0, 0)) > 0 ? 1 : 0;
   }
-  function get_absoluteValue(_this__u8e3s4) {
-    return abs(_this__u8e3s4);
+  function sin(x) {
+    return Math.sin(x);
   }
-  function get_absoluteValue_0(_this__u8e3s4) {
-    return Math.abs(_this__u8e3s4);
+  function tan(x) {
+    return Math.tan(x);
   }
-  function get_absoluteValue_1(_this__u8e3s4) {
-    return abs_2(_this__u8e3s4);
-  }
-  function ceil(x) {
-    return Math.ceil(x);
+  function sign_0(x) {
+    return sign(x);
   }
   function floor(x) {
     return Math.floor(x);
   }
+  function get_absoluteValue(_this__u8e3s4) {
+    return abs_2(_this__u8e3s4);
+  }
+  function get_absoluteValue_0(_this__u8e3s4) {
+    return Math.abs(_this__u8e3s4);
+  }
+  function acos(x) {
+    return Math.acos(x);
+  }
+  function get_sign_0(_this__u8e3s4) {
+    return sign(_this__u8e3s4);
+  }
+  function sqrt_0(x) {
+    return Math.sqrt(x);
+  }
+  function min(a, b) {
+    return Math.min(a, b);
+  }
+  function hypot_0(x, y) {
+    return hypot(x, y);
+  }
+  function pow(_this__u8e3s4, x) {
+    return Math.pow(_this__u8e3s4, x);
+  }
+  function ln(x) {
+    return Math.log(x);
+  }
+  function get_sign_1(_this__u8e3s4) {
+    return _this__u8e3s4 < 0 ? -1 : _this__u8e3s4 > 0 ? 1 : 0;
+  }
+  function pow_0(_this__u8e3s4, n) {
+    return Math.pow(_this__u8e3s4, n);
+  }
+  function floor_0(x) {
+    return Math.floor(x);
+  }
+  function hypot_1(x, y) {
+    return hypot(x, y);
+  }
+  function abs(x) {
+    return Math.abs(x);
+  }
+  function log10_0(x) {
+    return log10(x);
+  }
+  function min_0(a, b) {
+    return Math.min(a, b);
+  }
+  function get_sign_2(_this__u8e3s4) {
+    return sign(_this__u8e3s4);
+  }
+  function roundToInt(_this__u8e3s4) {
+    return roundToInt_0(_this__u8e3s4);
+  }
+  function asin(x) {
+    return Math.asin(x);
+  }
+  function cos(x) {
+    return Math.cos(x);
+  }
+  function asin_0(x) {
+    return Math.asin(x);
+  }
+  function min_1(a, b) {
+    return a.compareTo_9jj042_k$(b) <= 0 ? a : b;
+  }
   function round(x) {
+    return round_0(x);
+  }
+  function max(a, b) {
+    return Math.max(a, b);
+  }
+  function pow_1(_this__u8e3s4, x) {
+    return Math.pow(_this__u8e3s4, x);
+  }
+  function min_2(a, b) {
+    return Math.min(a, b);
+  }
+  function roundToLong(_this__u8e3s4) {
+    var tmp;
+    if (isNaN_0(_this__u8e3s4)) {
+      throw IllegalArgumentException_init_$Create$_0('Cannot round NaN value.');
+    } else if (_this__u8e3s4 > Companion_getInstance_1().get_MAX_VALUE_54a9lf_k$().toDouble_ygsx0s_k$()) {
+      tmp = Companion_getInstance_1().get_MAX_VALUE_54a9lf_k$();
+    } else if (_this__u8e3s4 < Companion_getInstance_1().get_MIN_VALUE_7nmmor_k$().toDouble_ygsx0s_k$()) {
+      tmp = Companion_getInstance_1().get_MIN_VALUE_7nmmor_k$();
+    } else {
+      tmp = numberToLong(Math.round(_this__u8e3s4));
+    }
+    return tmp;
+  }
+  function max_0(a, b) {
+    return Math.max(a, b);
+  }
+  function cos_0(x) {
+    return Math.cos(x);
+  }
+  function atan2(y, x) {
+    return Math.atan2(y, x);
+  }
+  function truncate(x) {
+    return trunc(x);
+  }
+  function get_absoluteValue_1(_this__u8e3s4) {
+    return abs_1(_this__u8e3s4);
+  }
+  function round_0(x) {
     if (!(x % 0.5 === 0.0)) {
       return Math.round(x);
     }
@@ -11517,52 +11626,28 @@ if (typeof String.prototype.endsWith === 'undefined') {
     }
     return tmp;
   }
-  function log10_0(x) {
-    return log10(x);
-  }
-  function abs(n) {
-    return n < 0 ? -n | 0 | 0 : n;
-  }
-  function min(a, b) {
-    return Math.min(a, b);
+  function get_absoluteValue_2(_this__u8e3s4) {
+    return Math.abs(_this__u8e3s4);
   }
   function abs_0(x) {
     return Math.abs(x);
   }
-  function sign_0(x) {
-    return sign(x);
-  }
-  function max(a, b) {
-    return a.compareTo_9jj042_k$(b) >= 0 ? a : b;
-  }
-  function min_0(a, b) {
-    return Math.min(a, b);
-  }
-  function max_0(a, b) {
-    return Math.max(a, b);
-  }
-  function acos(x) {
-    return Math.acos(x);
-  }
-  function sqrt(x) {
-    return Math.sqrt(x);
-  }
-  function atan2(y, x) {
-    return Math.atan2(y, x);
-  }
-  function sin(x) {
-    return Math.sin(x);
-  }
-  function cos(x) {
-    return Math.cos(x);
-  }
   function max_1(a, b) {
     return Math.max(a, b);
   }
-  function hypot_0(x, y) {
-    return hypot(x, y);
+  function atan2_0(y, x) {
+    return Math.atan2(y, x);
   }
-  function roundToInt(_this__u8e3s4) {
+  function max_2(a, b) {
+    return a.compareTo_9jj042_k$(b) >= 0 ? a : b;
+  }
+  function abs_1(n) {
+    return n < 0 ? -n | 0 | 0 : n;
+  }
+  function ceil(x) {
+    return Math.ceil(x);
+  }
+  function roundToInt_0(_this__u8e3s4) {
     var tmp;
     if (isNaN_0(_this__u8e3s4)) {
       throw IllegalArgumentException_init_$Create$_0('Cannot round NaN value.');
@@ -11572,85 +11657,6 @@ if (typeof String.prototype.endsWith === 'undefined') {
       tmp = IntCompanionObject_getInstance().get_MIN_VALUE_7nmmor_k$();
     } else {
       tmp = numberToInt(Math.round(_this__u8e3s4));
-    }
-    return tmp;
-  }
-  function hypot_1(x, y) {
-    return hypot(x, y);
-  }
-  function get_sign(_this__u8e3s4) {
-    return sign(_this__u8e3s4);
-  }
-  function tan(x) {
-    return Math.tan(x);
-  }
-  function atan2_0(y, x) {
-    return Math.atan2(y, x);
-  }
-  function asin(x) {
-    return Math.asin(x);
-  }
-  function asin_0(x) {
-    return Math.asin(x);
-  }
-  function acos_0(x) {
-    return Math.acos(x);
-  }
-  function get_sign_0(_this__u8e3s4) {
-    return _this__u8e3s4 < 0 ? -1 : _this__u8e3s4 > 0 ? 1 : 0;
-  }
-  function min_1(a, b) {
-    return Math.min(a, b);
-  }
-  function max_2(a, b) {
-    return Math.max(a, b);
-  }
-  function roundToInt_0(_this__u8e3s4) {
-    return roundToInt(_this__u8e3s4);
-  }
-  function round_0(x) {
-    return round(x);
-  }
-  function ceil_0(x) {
-    return Math.ceil(x);
-  }
-  function floor_0(x) {
-    return Math.floor(x);
-  }
-  function abs_1(x) {
-    return Math.abs(x);
-  }
-  function pow_1(_this__u8e3s4, x) {
-    return Math.pow(_this__u8e3s4, x);
-  }
-  function get_absoluteValue_2(_this__u8e3s4) {
-    return Math.abs(_this__u8e3s4);
-  }
-  function log2_0(x) {
-    return log2(x);
-  }
-  function min_2(a, b) {
-    return a.compareTo_9jj042_k$(b) <= 0 ? a : b;
-  }
-  function sqrt_0(x) {
-    return Math.sqrt(x);
-  }
-  function abs_2(n) {
-    return n.compareTo_9jj042_k$(new Long(0, 0)) < 0 ? n.unaryMinus_6uz0qp_k$() : n;
-  }
-  function get_sign_1(_this__u8e3s4) {
-    return _this__u8e3s4.compareTo_9jj042_k$(new Long(0, 0)) < 0 ? -1 : _this__u8e3s4.compareTo_9jj042_k$(new Long(0, 0)) > 0 ? 1 : 0;
-  }
-  function roundToLong(_this__u8e3s4) {
-    var tmp;
-    if (isNaN_0(_this__u8e3s4)) {
-      throw IllegalArgumentException_init_$Create$_0('Cannot round NaN value.');
-    } else if (_this__u8e3s4 > Companion_getInstance_1().get_MAX_VALUE_54a9lf_k$().toDouble_ygsx0s_k$()) {
-      tmp = Companion_getInstance_1().get_MAX_VALUE_54a9lf_k$();
-    } else if (_this__u8e3s4 < Companion_getInstance_1().get_MIN_VALUE_7nmmor_k$().toDouble_ygsx0s_k$()) {
-      tmp = Companion_getInstance_1().get_MIN_VALUE_7nmmor_k$();
-    } else {
-      tmp = numberToLong(Math.round(_this__u8e3s4));
     }
     return tmp;
   }
@@ -11671,20 +11677,26 @@ if (typeof String.prototype.endsWith === 'undefined') {
     }
     return tmp;
   }
-  function sin_0(x) {
-    return Math.sin(x);
+  function ceil_0(x) {
+    return Math.ceil(x);
   }
-  function get_sign_2(_this__u8e3s4) {
-    return sign(_this__u8e3s4);
+  function log2_0(x) {
+    return log2(x);
+  }
+  function exp(x) {
+    return Math.exp(x);
   }
   function tan_0(x) {
     return Math.tan(x);
   }
-  function cos_0(x) {
-    return Math.cos(x);
+  function acos_0(x) {
+    return Math.acos(x);
   }
-  function truncate(x) {
-    return trunc(x);
+  function sin_0(x) {
+    return Math.sin(x);
+  }
+  function abs_2(n) {
+    return n.compareTo_9jj042_k$(new Long(0, 0)) < 0 ? n.unaryMinus_6uz0qp_k$() : n;
   }
   function get_INV_2_26() {
     _init_properties_PlatformRandom_kt__6kjv62();
@@ -14848,7 +14860,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
     // Inline function 'kotlin.arrayOf' call
     // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    var tmp$ret$7 = [resultSeconds, isFinite(resultSeconds) ? nanos + addNanos : 0.0];
+    var tmp$ret$7 = [resultSeconds, isFinite_0(resultSeconds) ? nanos + addNanos : 0.0];
     var this_0 = new Reading(tmp$ret$7);
     // Inline function 'kotlin.contracts.contract' call
     return _ValueTimeMark___init__impl__uyfl2m(this_0);
@@ -20894,7 +20906,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
     checkRangeBounds_1(from, until);
     var size = until - from;
     var tmp;
-    if ((isInfinite(size) ? isFinite(from) : false) ? isFinite(until) : false) {
+    if ((isInfinite(size) ? isFinite_0(from) : false) ? isFinite_0(until) : false) {
       var r1 = this.nextDouble_s2xvfg_k$() * (until / 2 - from / 2);
       tmp = from + r1 + r1;
     } else {
@@ -23682,7 +23694,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
           if (tmp_5) {
             tmp_4 = durationOfMillis(coerceIn(totalMillis, (new Long(1, -1073741824)).rangeTo_dxc9t6_k$(new Long(-1, 1073741823))));
           } else {
-            tmp_4 = imul(get_sign_1(value), get_sign_0(scale)) > 0 ? Companion_getInstance_18().INFINITE_1 : Companion_getInstance_18().NEG_INFINITE_1;
+            tmp_4 = imul(get_sign(value), get_sign_1(scale)) > 0 ? Companion_getInstance_18().INFINITE_1 : Companion_getInstance_18().NEG_INFINITE_1;
           }
           tmp_3 = tmp_4;
         }
@@ -23695,14 +23707,14 @@ if (typeof String.prototype.endsWith === 'undefined') {
       if (result.div_jun7gj_k$(toLong(scale)).equals(value)) {
         tmp_6 = durationOfMillis(coerceIn(result, (new Long(1, -1073741824)).rangeTo_dxc9t6_k$(new Long(-1, 1073741823))));
       } else {
-        tmp_6 = imul(get_sign_1(value), get_sign_0(scale)) > 0 ? Companion_getInstance_18().INFINITE_1 : Companion_getInstance_18().NEG_INFINITE_1;
+        tmp_6 = imul(get_sign(value), get_sign_1(scale)) > 0 ? Companion_getInstance_18().INFINITE_1 : Companion_getInstance_18().NEG_INFINITE_1;
       }
       tmp_0 = tmp_6;
     }
     return tmp_0;
   }
   function Duration__times_impl_sfuzvp_0($this, scale) {
-    var intScale = roundToInt(scale);
+    var intScale = roundToInt_0(scale);
     if (intScale === scale) {
       return Duration__times_impl_sfuzvp($this, intScale);
     }
@@ -23728,7 +23740,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
       return durationOfNanos(tmp$ret$0);
     } else {
       if (Duration__isInfinite_impl_tsn9y3($this))
-        return Duration__times_impl_sfuzvp($this, get_sign_0(scale));
+        return Duration__times_impl_sfuzvp($this, get_sign_1(scale));
       // Inline function 'kotlin.Long.div' call
       var result = _get_value__a43j40_2($this).div_jun7gj_k$(toLong(scale));
       if ((new Long(1108857478, -1074)).compareTo_9jj042_k$(result) <= 0 ? result.compareTo_9jj042_k$(new Long(-1108857478, 1073)) <= 0 : false) {
@@ -23743,7 +23755,7 @@ if (typeof String.prototype.endsWith === 'undefined') {
     }
   }
   function Duration__div_impl_dknbf4_0($this, scale) {
-    var intScale = roundToInt(scale);
+    var intScale = roundToInt_0(scale);
     if (intScale === scale ? !(intScale === 0) : false) {
       return Duration__div_impl_dknbf4($this, intScale);
     }
@@ -28734,11 +28746,11 @@ if (typeof String.prototype.endsWith === 'undefined') {
   _.$_$.eg = toShort;
   _.$_$.fg = toString_1;
   _.$_$.gg = get_PI;
-  _.$_$.hg = abs;
+  _.$_$.hg = abs_1;
   _.$_$.ig = abs_2;
-  _.$_$.jg = roundToInt;
-  _.$_$.kg = round;
-  _.$_$.lg = get_sign_0;
+  _.$_$.jg = roundToInt_0;
+  _.$_$.kg = round_0;
+  _.$_$.lg = get_sign_1;
   _.$_$.mg = ObservableProperty;
   _.$_$.ng = ReadOnlyProperty;
   _.$_$.og = ClosedRange;
@@ -28876,21 +28888,22 @@ if (typeof String.prototype.endsWith === 'undefined') {
   _.$_$.ql = countTrailingZeroBits;
   _.$_$.rl = createFailure;
   _.$_$.sl = ensureNotNull;
-  _.$_$.tl = isInfinite;
-  _.$_$.ul = isNaN_1;
-  _.$_$.vl = isNaN_0;
-  _.$_$.wl = lazy_0;
-  _.$_$.xl = lazy;
-  _.$_$.yl = noWhenBranchMatchedException;
-  _.$_$.zl = printStackTrace;
-  _.$_$.am = stackTraceToString;
-  _.$_$.bm = throwKotlinNothingValueException;
-  _.$_$.cm = throwOnFailure;
-  _.$_$.dm = throwUninitializedPropertyAccessException;
-  _.$_$.em = toRawBits_0;
-  _.$_$.fm = toRawBits;
-  _.$_$.gm = toString_0;
-  _.$_$.hm = to;
+  _.$_$.tl = isFinite;
+  _.$_$.ul = isInfinite;
+  _.$_$.vl = isNaN_1;
+  _.$_$.wl = isNaN_0;
+  _.$_$.xl = lazy_0;
+  _.$_$.yl = lazy;
+  _.$_$.zl = noWhenBranchMatchedException;
+  _.$_$.am = printStackTrace;
+  _.$_$.bm = stackTraceToString;
+  _.$_$.cm = throwKotlinNothingValueException;
+  _.$_$.dm = throwOnFailure;
+  _.$_$.em = throwUninitializedPropertyAccessException;
+  _.$_$.fm = toRawBits_0;
+  _.$_$.gm = toRawBits;
+  _.$_$.hm = toString_0;
+  _.$_$.im = to;
   //endregion
   return _;
 }));

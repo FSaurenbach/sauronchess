@@ -34,7 +34,7 @@
   var Unit_getInstance = kotlin_kotlin.$_$.c6;
   var KProperty0 = kotlin_kotlin.$_$.dh;
   var getPropertyCallableRef = kotlin_kotlin.$_$.ue;
-  var lazy = kotlin_kotlin.$_$.xl;
+  var lazy = kotlin_kotlin.$_$.yl;
   //endregion
   //region block: pre-declaration
   setMetadataFor(Base64, 'Base64', objectMeta);

@@ -6,15 +6,19 @@ import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
+import korlibs.korge.view.filter.*
 import korlibs.math.*
 import korlibs.math.geom.*
 
 val board = Array(8) { Array(8) { SolidRect(512 / 8, 512 / 8) } }
+
+var cells = ArrayList<Cell>()
 var whitePawn: Bitmap? = null
 var blackPawn: Bitmap? = null
 var lastClicked: Point? = null
 var pieces = ArrayList<Piece>()
 var whiteTurn = true
+var markedCells = ArrayList<Cell>()
 suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
     val sceneContainer = sceneContainer()
 
@@ -34,9 +38,14 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             for (cy in 0 until 8) {
 
                 if (d.isEven) {
-                    Cell(Colors.WHITE, cx, cy, cont)
+                    val cl = Cell(Colors.WHITE, cx, cy, cont)
+                    cells.add(cl)
+
+
                 } else {
-                    Cell(Colors.BLACK, cx, cy, cont)
+                    val cl = Cell(Colors.BLACK, cx, cy, cont)
+                    cells.add(cl)
+
                 }
                 d++
             }
@@ -83,7 +92,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             newPosition = decodePosition(this.globalMousePos)
 
         }) { info: DraggableInfo ->
-            info.view.x = info.viewNextXY.x
             if (info.start) {
                 for (piece in pieces) {
 
@@ -95,16 +103,42 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
                     }
                 }
+                // Go through every cell in cells and check with the move checker function on which cell the piece could move and print it out
+                for (cell in cells) {
+                    var clx = cell.cx
+                    var cly = cell.cy
+                    var clxy = Pair(clx, cly)
+                    if (newPosition!! == Pair(clx, cly)) {
+                        println("Found Cell where piece is located: $clx, $cly")
+                    }
+                    // Check where the piece can move to by using the move checker function and print out the location of the cells
+                    if (moveChecker(newPosition!!, clxy, piss!!.pieceKind, false)) {
+                        println("Can move to: $clx, $cly")
+                        changeColor(cly, clx, false)
+                        markedCells.add(cell)
+                    }
+
+
+                }
+
+
+
+
+
+
 
 
             }
             if (info.end) {
 
                 println("End")
-                if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind)) piss!!.moveTo(
+                if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind, true)) piss!!.moveTo(
                     newPosition!!.first, newPosition!!.second
                 )
                 else piss!!.moveTo(currentPos!!.first, currentPos!!.second)
+                for (cell in markedCells) {
+                    changeColor(cell.cy, cell.cx, true)
+                }
 
             }
         }
@@ -114,10 +148,21 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
 
 }
+fun changeColor(cly: Int, clx: Int, back:Boolean) {
+    if (back){
+        for (cell in cells) {
+            if (cell.cx == clx && cell.cy == cly) {
+                board[cly][clx].filter = null
+            }
+        }
+    }
+    else {
+        board[cly][clx].filter = BlurFilter(20.0)
+    }
 
-fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind): Boolean {
-    println("oldPos: $oldPos")
-    println("newPos: $newPos")
+}
+
+fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind, withCheck:Boolean): Boolean {
 
     val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
@@ -126,10 +171,9 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
     if (whiteTurn) {
         when (kind) {
             PieceKind.whitePawn -> {
-                println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
                     if (pieceOnNewPos == null) {
-                        whiteTurn = false
+                        if (withCheck)whiteTurn = false
                         return true
 
                     }
@@ -140,9 +184,13 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
 
                     println("Destiny: $pieceOnNewPos")
                     if (pieceOnNewPos != null) {
-                        pieces.remove(pieceOnNewPos)
-                        pieceOnNewPos.piece.removeFromParent()
-                        whiteTurn = false
+                        if (withCheck){
+                            pieces.remove(pieceOnNewPos)
+                            pieceOnNewPos.piece.removeFromParent()
+                            whiteTurn = false
+                        }
+
+
                         return true
 
                     }
@@ -157,10 +205,9 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
     if (!whiteTurn) {
         when (kind) {
             PieceKind.blackPawn -> {
-                println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
                     if (pieceOnNewPos == null) {
-                        whiteTurn = true
+                        if (withCheck)whiteTurn = true
 
                         return true
                     }
@@ -168,9 +215,12 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
                 // If the pawn is trying to capture a piece
                 else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
                     if (pieceOnNewPos != null) {
-                        pieces.remove(pieceOnNewPos)
-                        pieceOnNewPos.piece.removeFromParent()
-                        whiteTurn = true
+
+                        if (withCheck){
+                            whiteTurn = true
+                            pieces.remove(pieceOnNewPos)
+                            pieceOnNewPos.piece.removeFromParent()
+                        }
                         return true
 
                     }

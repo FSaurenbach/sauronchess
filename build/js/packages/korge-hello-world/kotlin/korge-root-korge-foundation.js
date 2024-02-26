@@ -125,7 +125,7 @@
   var MutableIterator = kotlin_kotlin.$_$.s6;
   var toList_1 = kotlin_kotlin.$_$.ac;
   var until = kotlin_kotlin.$_$.zg;
-  var to = kotlin_kotlin.$_$.hm;
+  var to = kotlin_kotlin.$_$.im;
   var Map_0 = kotlin_kotlin.$_$.q6;
   var MutableCollection = kotlin_kotlin.$_$.r6;
   var charArray = kotlin_kotlin.$_$.ee;
@@ -156,10 +156,10 @@
   var contentEquals_1 = kotlin_kotlin.$_$.n7;
   var contentHashCode_1 = kotlin_kotlin.$_$.u7;
   var firstOrNull = kotlin_kotlin.$_$.a9;
-  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.dm;
+  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.em;
   var lastOrNull = kotlin_kotlin.$_$.z9;
   var AutoCloseable = kotlin_kotlin.$_$.kk;
-  var lazy = kotlin_kotlin.$_$.xl;
+  var lazy = kotlin_kotlin.$_$.yl;
   var getNumberHashCode = kotlin_kotlin.$_$.te;
   var DoubleCompanionObject_getInstance = kotlin_kotlin.$_$.k5;
   var CoroutineImpl = kotlin_kotlin.$_$.od;
@@ -179,7 +179,7 @@
   var Duration__compareTo_impl_pchp0f = kotlin_kotlin.$_$.v2;
   var Duration = kotlin_kotlin.$_$.fk;
   var ValueTimeMark__elapsedNow_impl_eonqvs = kotlin_kotlin.$_$.j3;
-  var printStackTrace = kotlin_kotlin.$_$.zl;
+  var printStackTrace = kotlin_kotlin.$_$.am;
   var Monotonic_getInstance = kotlin_kotlin.$_$.u5;
   var ArrayDeque_init_$Create$ = kotlin_kotlin.$_$.t;
   var maxOf = kotlin_kotlin.$_$.sc;
@@ -192,7 +192,7 @@
   var _Frequency___get_timeSpan__impl__f9mrmt = kotlin_com_soywiz_korge_korlibs_time.$_$.f;
   var KMutableProperty0 = kotlin_kotlin.$_$.bh;
   var KMutableProperty1 = kotlin_kotlin.$_$.ch;
-  var toRawBits = kotlin_kotlin.$_$.em;
+  var toRawBits = kotlin_kotlin.$_$.fm;
   var toMutableList = kotlin_kotlin.$_$.gc;
   var toMutableMap = kotlin_kotlin.$_$.ic;
   var toMap = kotlin_kotlin.$_$.fc;
@@ -214,22 +214,22 @@
   var replace_0 = kotlin_kotlin.$_$.ui;
   var TimedValue = kotlin_kotlin.$_$.gk;
   var round = kotlin_kotlin.$_$.kg;
-  var isInfinite = kotlin_kotlin.$_$.tl;
-  var isNaN_0 = kotlin_kotlin.$_$.vl;
+  var isInfinite = kotlin_kotlin.$_$.ul;
+  var isNaN_0 = kotlin_kotlin.$_$.wl;
   var IntCompanionObject_getInstance = kotlin_kotlin.$_$.m5;
   var ShortCompanionObject_getInstance = kotlin_kotlin.$_$.n5;
   var FloatCompanionObject_getInstance = kotlin_kotlin.$_$.l5;
   var numberToDouble = kotlin_kotlin.$_$.uf;
   var LazyThreadSafetyMode_PUBLICATION_getInstance = kotlin_kotlin.$_$.r;
-  var lazy_0 = kotlin_kotlin.$_$.wl;
+  var lazy_0 = kotlin_kotlin.$_$.xl;
   var get_PI = kotlin_kotlin.$_$.gg;
   var coerceIn = kotlin_kotlin.$_$.tg;
   var abs_0 = kotlin_kotlin.$_$.hg;
-  var noWhenBranchMatchedException = kotlin_kotlin.$_$.yl;
+  var noWhenBranchMatchedException = kotlin_kotlin.$_$.zl;
   var ArithmeticException_init_$Create$ = kotlin_kotlin.$_$.r1;
   var Exception_init_$Create$ = kotlin_kotlin.$_$.x1;
   var roundToInt = kotlin_kotlin.$_$.jg;
-  var isNaN_1 = kotlin_kotlin.$_$.ul;
+  var isNaN_1 = kotlin_kotlin.$_$.vl;
   var addAll_0 = kotlin_kotlin.$_$.z6;
   var checkIndexOverflow = kotlin_kotlin.$_$.f7;
   var binarySearch = kotlin_kotlin.$_$.e7;
@@ -268,7 +268,7 @@
   var doubleFromBits = kotlin_kotlin.$_$.le;
   var numberToChar = kotlin_kotlin.$_$.tf;
   var longArray = kotlin_kotlin.$_$.pf;
-  var toRawBits_0 = kotlin_kotlin.$_$.fm;
+  var toRawBits_0 = kotlin_kotlin.$_$.gm;
   var numberToLong = kotlin_kotlin.$_$.wf;
   var toDouble = kotlin_kotlin.$_$.kj;
   var _UShort___init__impl__jigrne = kotlin_kotlin.$_$.x4;
@@ -285,7 +285,7 @@
   var split = kotlin_kotlin.$_$.yi;
   var contains = kotlin_kotlin.$_$.th;
   var arrayListOf = kotlin_kotlin.$_$.b7;
-  var stackTraceToString = kotlin_kotlin.$_$.am;
+  var stackTraceToString = kotlin_kotlin.$_$.bm;
   var split_0 = kotlin_kotlin.$_$.xi;
   var emptyMap = kotlin_kotlin.$_$.r8;
   //endregion
@@ -773,11 +773,11 @@
   setMetadataFor(IntIntMap, 'IntIntMap', classMeta, VOID, VOID, IntIntMap_init_$Create$);
   setMetadataFor(Iterator$1, VOID, classMeta, VOID, [Iterator]);
   setMetadataFor(ListReader, 'ListReader', classMeta);
-  setMetadataFor(Pool, 'Pool', classMeta);
-  setMetadataFor(ConcurrentPool, 'ConcurrentPool', classMeta, Pool);
+  setMetadataFor(ReturnablePool, 'ReturnablePool', classMeta);
   setMetadataFor(Companion_12, 'Companion', objectMeta);
   setMetadataFor(Poolable, 'Poolable', interfaceMeta);
-  setMetadataFor(ReturnablePool, 'ReturnablePool', classMeta);
+  setMetadataFor(Pool, 'Pool', classMeta);
+  setMetadataFor(ConcurrentPool, 'ConcurrentPool', classMeta, Pool);
   setMetadataFor(sam$kotlin_Comparator$0, 'sam$kotlin_Comparator$0', classMeta, VOID, [Comparator]);
   setMetadataFor(Companion_13, 'Companion', objectMeta);
   setMetadataFor(TGenPriorityQueue$iterator$1, VOID, classMeta, VOID, [MutableIterator]);
@@ -1339,9 +1339,9 @@
   setMetadataFor(MarginInt, 'MarginInt', classMeta);
   setMetadataFor(Companion_37, 'Companion', objectMeta);
   setMetadataFor(Matrix, 'Matrix', classMeta, VOID, [IsAlmostEquals]);
-  setMetadataFor(MatrixType, 'MatrixType', classMeta, Enum);
   setMetadataFor(Companion_38, 'Companion', objectMeta);
   setMetadataFor(MatrixTransform, 'MatrixTransform', classMeta, VOID, [IsAlmostEquals]);
+  setMetadataFor(MatrixType, 'MatrixType', classMeta, Enum);
   setMetadataFor(Companion_39, 'Companion', objectMeta);
   setMetadataFor(Matrix3, 'Matrix3', classMeta, VOID, [IsAlmostEqualsF]);
   setMetadataFor(Companion_40, 'Companion', objectMeta);
@@ -2592,10 +2592,10 @@
   setMetadataFor(Companion_111, 'Companion', objectMeta, VOID, [BigIntConstructor]);
   setMetadataFor(JsBigInt, 'JsBigInt', classMeta, VOID, [BigInt_0, BigIntConstructor]);
   setMetadataFor(BigIntNativeFactory$1, VOID, classMeta, VOID, [BigIntConstructor]);
-  setMetadataFor(FastStringMap, 'FastStringMap', classMeta);
   setMetadataFor(FastArrayList, 'FastArrayList', classMeta, AbstractMutableList, [AbstractMutableList, MutableListEx, RandomAccess], FastArrayList_init_$Create$);
-  setMetadataFor(FastIntMap, 'FastIntMap', classMeta);
-  setMetadataFor(FastIdentityMap, 'FastIdentityMap', classMeta);
+  setMetadataFor(FastStringMap_0, 'FastStringMap', classMeta);
+  setMetadataFor(FastIdentityMap_0, 'FastIdentityMap', classMeta);
+  setMetadataFor(FastIntMap_0, 'FastIntMap', classMeta);
   setMetadataFor(Lock, 'Lock', classMeta, VOID, [BaseLock], Lock);
   setMetadataFor(NonRecursiveLock, 'NonRecursiveLock', classMeta, VOID, [BaseLock], NonRecursiveLock);
   setMetadataFor(Companion_112, 'Companion', objectMeta);
@@ -8983,16 +8983,6 @@
     this_0.addAll_dmwg7m_k$(other);
     return this_0;
   }
-  function fastArrayListOf(values) {
-    // Inline function 'kotlin.also' call
-    var this_0 = FastArrayList_init_$Create$_0(values.length);
-    // Inline function 'kotlin.contracts.contract' call
-    // Inline function 'korlibs.datastructure.fastArrayListOf.<anonymous>' call
-    addAll(this_0, values);
-    return this_0;
-  }
-  function MutableListEx() {
-  }
   function toFastList(_this__u8e3s4) {
     // Inline function 'kotlin.also' call
     var this_0 = FastArrayList_init_$Create$_0(_this__u8e3s4.length);
@@ -9009,11 +8999,21 @@
     }
     return this_0;
   }
+  function fastArrayListOf(values) {
+    // Inline function 'kotlin.also' call
+    var this_0 = FastArrayList_init_$Create$_0(values.length);
+    // Inline function 'kotlin.contracts.contract' call
+    // Inline function 'korlibs.datastructure.fastArrayListOf.<anonymous>' call
+    addAll(this_0, values);
+    return this_0;
+  }
   function toFastList_0(_this__u8e3s4, out) {
     out = out === VOID ? FastArrayList_init_$Create$() : out;
     out.setAddAll$default_tbb3em_k$(0, _this__u8e3s4);
     out.removeToSize_jfdn0o_k$(_this__u8e3s4.get_size_woubt6_k$());
     return out;
+  }
+  function MutableListEx() {
   }
   function get_keys(_this__u8e3s4) {
     return keys(_this__u8e3s4);
@@ -9081,7 +9081,7 @@
     return out;
   }
   function getOrPut_1(_this__u8e3s4, key, callback) {
-    var res = get_5(_this__u8e3s4, key);
+    var res = get_4(_this__u8e3s4, key);
     if (!(res == null))
       return res;
     var out = callback(key);
@@ -9098,7 +9098,7 @@
         break $l$loop;
       // Inline function 'korlibs.datastructure.fastForEach.<anonymous>' call
       var it = v.value;
-      callback(it, ensureNotNull(get_5(_this__u8e3s4, it)));
+      callback(it, ensureNotNull(get_4(_this__u8e3s4, it)));
     }
   }
   function toMap_0(_this__u8e3s4) {
@@ -9110,7 +9110,7 @@
     while (tmp0_iterator.hasNext_bitz1p_k$()) {
       var element = tmp0_iterator.next_20eer_k$();
       // Inline function 'korlibs.datastructure.toMap.<anonymous>' call
-      var tmp = get_5(_this__u8e3s4, element);
+      var tmp = get_4(_this__u8e3s4, element);
       var tmp$ret$0 = (tmp == null ? true : !(tmp == null)) ? tmp : THROW_CCE();
       result.put_4fpzoq_k$(element, tmp$ret$0);
     }
@@ -9118,7 +9118,7 @@
   }
   function getAndRemove(_this__u8e3s4, key) {
     // Inline function 'kotlin.also' call
-    var this_0 = get_5(_this__u8e3s4, key);
+    var this_0 = get_4(_this__u8e3s4, key);
     // Inline function 'kotlin.contracts.contract' call
     // Inline function 'korlibs.datastructure.getAndRemove.<anonymous>' call
     remove_1(_this__u8e3s4, key);
@@ -9137,11 +9137,11 @@
         break $l$loop;
       // Inline function 'korlibs.datastructure.fastValueForEach.<anonymous>' call
       var it = v.value;
-      callback(ensureNotNull(get_5(_this__u8e3s4, it)));
+      callback(ensureNotNull(get_4(_this__u8e3s4, it)));
     }
   }
   function getNull(_this__u8e3s4, key) {
-    return key == null ? null : get_5(_this__u8e3s4, key);
+    return key == null ? null : get_4(_this__u8e3s4, key);
   }
   function _set_fast0__ecfdyp($this, _set____db54di) {
     $this.fast0__1 = _set____db54di;
@@ -11093,53 +11093,87 @@
     }
     return v;
   }
-  function _get_reset__bxyowu($this) {
-    return $this.reset_2;
+  function _get__reset__3w9pvp($this) {
+    return $this._reset_1;
   }
   function _get_gen__e68x1d($this) {
-    return $this.gen_2;
+    return $this.gen_1;
   }
-  function _get_lock__d9xa4g_0($this) {
-    return $this.lock_1;
+  function _get_listToReturn__q8m9y6($this) {
+    return $this.listToReturn_1;
   }
-  function ConcurrentPool$_init_$lambda_gqhtk8(it) {
+  function _get_list__d9tsa5($this) {
+    return $this.list_1;
+  }
+  function _set_current__qj3kk($this, _set____db54di) {
+    $this.current_1 = _set____db54di;
+  }
+  function ReturnablePool$_init_$lambda_rsm60r(it) {
     return Unit_getInstance();
   }
-  function ConcurrentPool(reset, preallocate, gen) {
-    var tmp;
-    if (reset === VOID) {
-      tmp = ConcurrentPool$_init_$lambda_gqhtk8;
-    } else {
-      tmp = reset;
-    }
-    reset = tmp;
-    preallocate = preallocate === VOID ? 0 : preallocate;
-    Pool.call(this, reset, preallocate, gen);
-    this.reset_2 = reset;
-    this.gen_2 = gen;
-    this.lock_1 = new NonRecursiveLock();
+  function ReturnablePool$list$lambda(this$0) {
+    return function (it) {
+      this$0._reset_1(it);
+      return Unit_getInstance();
+    };
   }
-  protoOf(ConcurrentPool).alloc_1jbayd_k$ = function () {
-    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
-    this.lock_1;
-    // Inline function 'korlibs.datastructure.ConcurrentPool.alloc.<anonymous>' call
-    return protoOf(Pool).alloc_1jbayd_k$.call(this);
+  function ReturnablePool$list$lambda_0(this$0) {
+    return function (it) {
+      return this$0.gen_1(it);
+    };
+  }
+  function ReturnablePool(_reset, gen) {
+    var tmp;
+    if (_reset === VOID) {
+      tmp = ReturnablePool$_init_$lambda_rsm60r;
+    } else {
+      tmp = _reset;
+    }
+    _reset = tmp;
+    this._reset_1 = _reset;
+    this.gen_1 = gen;
+    this.listToReturn_1 = fastArrayListOf([]);
+    var tmp_0 = this;
+    var tmp_1 = ReturnablePool$list$lambda(this);
+    tmp_0.list_1 = new Pool(tmp_1, VOID, ReturnablePool$list$lambda_0(this));
+    this.current_1 = this.list_1.alloc_1jbayd_k$();
+  }
+  protoOf(ReturnablePool).get_current_jwi6j4_k$ = function () {
+    return this.current_1;
   };
-  protoOf(ConcurrentPool).clear_j9egeb_k$ = function () {
-    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
-    this.lock_1;
-    protoOf(Pool).clear_j9egeb_k$.call(this);
+  protoOf(ReturnablePool).next_20eer_k$ = function () {
+    // Inline function 'kotlin.collections.plusAssign' call
+    var this_0 = this.listToReturn_1;
+    var element = this.current_1;
+    this_0.add_utx5q5_k$(element);
+    this.current_1 = this.list_1.alloc_1jbayd_k$();
+    return this.current_1;
   };
-  protoOf(ConcurrentPool).free_6u7ei6_k$ = function (element) {
-    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
-    this.lock_1;
-    protoOf(Pool).free_6u7ei6_k$.call(this, element);
+  protoOf(ReturnablePool).reset_5u6xz3_k$ = function () {
+    // Inline function 'korlibs.datastructure.FastArrayList.fastForEach' call
+    // Inline function 'korlibs.datastructure.FastArrayList.jsArray' call
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var array = this.listToReturn_1.get___array_ljp66o_k$();
+    var n = 0;
+    while (n < array.length) {
+      // Inline function 'korlibs.datastructure.ReturnablePool.reset.<anonymous>' call
+      // Inline function 'kotlin.js.unsafeCast' call
+      // Inline function 'korlibs.js.get' call
+      var tmp0 = n;
+      n = tmp0 + 1 | 0;
+      // Inline function 'kotlin.js.asDynamic' call
+      // Inline function 'kotlin.js.asDynamic' call
+      var it = array[tmp0];
+      this.list_1.free_6u7ei6_k$(it);
+    }
+    this.listToReturn_1.clear_j9egeb_k$();
   };
   function Pool$Companion$fromPoolable$lambda(it) {
     it.reset_5u6xz3_k$();
     return Unit_getInstance();
   }
-  function _get_reset__bxyowu_0($this) {
+  function _get_reset__bxyowu($this) {
     return $this.reset_1;
   }
   function _get_gen__e68x1d_0($this) {
@@ -11366,81 +11400,47 @@
     }
     return tmp;
   };
-  function _get__reset__3w9pvp($this) {
-    return $this._reset_1;
+  function _get_reset__bxyowu_0($this) {
+    return $this.reset_2;
   }
   function _get_gen__e68x1d_1($this) {
-    return $this.gen_1;
+    return $this.gen_2;
   }
-  function _get_listToReturn__q8m9y6($this) {
-    return $this.listToReturn_1;
+  function _get_lock__d9xa4g_0($this) {
+    return $this.lock_1;
   }
-  function _get_list__d9tsa5($this) {
-    return $this.list_1;
-  }
-  function _set_current__qj3kk($this, _set____db54di) {
-    $this.current_1 = _set____db54di;
-  }
-  function ReturnablePool$_init_$lambda_rsm60r(it) {
+  function ConcurrentPool$_init_$lambda_gqhtk8(it) {
     return Unit_getInstance();
   }
-  function ReturnablePool$list$lambda(this$0) {
-    return function (it) {
-      this$0._reset_1(it);
-      return Unit_getInstance();
-    };
-  }
-  function ReturnablePool$list$lambda_0(this$0) {
-    return function (it) {
-      return this$0.gen_1(it);
-    };
-  }
-  function ReturnablePool(_reset, gen) {
+  function ConcurrentPool(reset, preallocate, gen) {
     var tmp;
-    if (_reset === VOID) {
-      tmp = ReturnablePool$_init_$lambda_rsm60r;
+    if (reset === VOID) {
+      tmp = ConcurrentPool$_init_$lambda_gqhtk8;
     } else {
-      tmp = _reset;
+      tmp = reset;
     }
-    _reset = tmp;
-    this._reset_1 = _reset;
-    this.gen_1 = gen;
-    this.listToReturn_1 = fastArrayListOf([]);
-    var tmp_0 = this;
-    var tmp_1 = ReturnablePool$list$lambda(this);
-    tmp_0.list_1 = new Pool(tmp_1, VOID, ReturnablePool$list$lambda_0(this));
-    this.current_1 = this.list_1.alloc_1jbayd_k$();
+    reset = tmp;
+    preallocate = preallocate === VOID ? 0 : preallocate;
+    Pool.call(this, reset, preallocate, gen);
+    this.reset_2 = reset;
+    this.gen_2 = gen;
+    this.lock_1 = new NonRecursiveLock();
   }
-  protoOf(ReturnablePool).get_current_jwi6j4_k$ = function () {
-    return this.current_1;
+  protoOf(ConcurrentPool).alloc_1jbayd_k$ = function () {
+    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
+    this.lock_1;
+    // Inline function 'korlibs.datastructure.ConcurrentPool.alloc.<anonymous>' call
+    return protoOf(Pool).alloc_1jbayd_k$.call(this);
   };
-  protoOf(ReturnablePool).next_20eer_k$ = function () {
-    // Inline function 'kotlin.collections.plusAssign' call
-    var this_0 = this.listToReturn_1;
-    var element = this.current_1;
-    this_0.add_utx5q5_k$(element);
-    this.current_1 = this.list_1.alloc_1jbayd_k$();
-    return this.current_1;
+  protoOf(ConcurrentPool).clear_j9egeb_k$ = function () {
+    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
+    this.lock_1;
+    protoOf(Pool).clear_j9egeb_k$.call(this);
   };
-  protoOf(ReturnablePool).reset_5u6xz3_k$ = function () {
-    // Inline function 'korlibs.datastructure.FastArrayList.fastForEach' call
-    // Inline function 'korlibs.datastructure.FastArrayList.jsArray' call
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var array = this.listToReturn_1.get___array_ljp66o_k$();
-    var n = 0;
-    while (n < array.length) {
-      // Inline function 'korlibs.datastructure.ReturnablePool.reset.<anonymous>' call
-      // Inline function 'kotlin.js.unsafeCast' call
-      // Inline function 'korlibs.js.get' call
-      var tmp0 = n;
-      n = tmp0 + 1 | 0;
-      // Inline function 'kotlin.js.asDynamic' call
-      // Inline function 'kotlin.js.asDynamic' call
-      var it = array[tmp0];
-      this.list_1.free_6u7ei6_k$(it);
-    }
-    this.listToReturn_1.clear_j9egeb_k$();
+  protoOf(ConcurrentPool).free_6u7ei6_k$ = function (element) {
+    // Inline function 'korlibs.datastructure.lock.NonRecursiveLock.invoke' call
+    this.lock_1;
+    protoOf(Pool).free_6u7ei6_k$.call(this, element);
   };
   function sam$kotlin_Comparator$0(function_0) {
     this.function_1 = function_0;
@@ -15449,7 +15449,7 @@
   }
   function ExtraObject() {
     this.lock_1 = new Lock();
-    this.data_1 = FastStringMap_0();
+    this.data_1 = FastStringMap();
     var tmp = this;
     var tmp$ret$1;
     $l$block: {
@@ -22506,68 +22506,6 @@
       return false;
     return true;
   };
-  var MatrixType_IDENTITY_instance;
-  var MatrixType_TRANSLATE_instance;
-  var MatrixType_SCALE_instance;
-  var MatrixType_SCALE_TRANSLATE_instance;
-  var MatrixType_COMPLEX_instance;
-  function values_6() {
-    return [MatrixType_IDENTITY_getInstance(), MatrixType_TRANSLATE_getInstance(), MatrixType_SCALE_getInstance(), MatrixType_SCALE_TRANSLATE_getInstance(), MatrixType_COMPLEX_getInstance()];
-  }
-  function valueOf_5(value) {
-    switch (value) {
-      case 'IDENTITY':
-        return MatrixType_IDENTITY_getInstance();
-      case 'TRANSLATE':
-        return MatrixType_TRANSLATE_getInstance();
-      case 'SCALE':
-        return MatrixType_SCALE_getInstance();
-      case 'SCALE_TRANSLATE':
-        return MatrixType_SCALE_TRANSLATE_getInstance();
-      case 'COMPLEX':
-        return MatrixType_COMPLEX_getInstance();
-      default:
-        MatrixType_initEntries();
-        THROW_IAE('No enum constant value.');
-        break;
-    }
-  }
-  function get_entries_5() {
-    if ($ENTRIES_5 == null)
-      $ENTRIES_5 = enumEntries(values_6());
-    return $ENTRIES_5;
-  }
-  var MatrixType_entriesInitialized;
-  function MatrixType_initEntries() {
-    if (MatrixType_entriesInitialized)
-      return Unit_getInstance();
-    MatrixType_entriesInitialized = true;
-    MatrixType_IDENTITY_instance = new MatrixType('IDENTITY', 0, 1, false, false, false);
-    MatrixType_TRANSLATE_instance = new MatrixType('TRANSLATE', 1, 2, false, false, true);
-    MatrixType_SCALE_instance = new MatrixType('SCALE', 2, 3, false, true, false);
-    MatrixType_SCALE_TRANSLATE_instance = new MatrixType('SCALE_TRANSLATE', 3, 4, false, true, true);
-    MatrixType_COMPLEX_instance = new MatrixType('COMPLEX', 4, 5, true, true, true);
-  }
-  var $ENTRIES_5;
-  function MatrixType(name, ordinal, id, hasRotation, hasScale, hasTranslation) {
-    Enum.call(this, name, ordinal);
-    this.id_1 = id;
-    this.hasRotation_1 = hasRotation;
-    this.hasScale_1 = hasScale;
-    this.hasTranslation_1 = hasTranslation;
-  }
-  protoOf(MatrixType).get_id_kntnx8_k$ = function () {
-    return this.id_1;
-  };
-  protoOf(MatrixType).get_hasRotation_a9izw1_k$ = function () {
-    return this.hasRotation_1;
-  };
-  protoOf(MatrixType).get_hasScale_tnzm93_k$ = function () {
-    return this.hasScale_1;
-  };
-  protoOf(MatrixType).get_hasTranslation_18s9mo_k$ = function () {
-    return this.hasTranslation_1;
-  };
   function MatrixTransform_init_$Init$($this) {
     MatrixTransform.call($this, 0.0, 0.0, 1.0, 1.0, Companion_getInstance_31().get_ZERO_b0etdv_k$(), Companion_getInstance_31().get_ZERO_b0etdv_k$(), Companion_getInstance_31().get_ZERO_b0etdv_k$());
     return $this;
@@ -22790,6 +22728,68 @@
     if (!equals(this.rotation_1, tmp0_other_with_cast.rotation_1))
       return false;
     return true;
+  };
+  var MatrixType_IDENTITY_instance;
+  var MatrixType_TRANSLATE_instance;
+  var MatrixType_SCALE_instance;
+  var MatrixType_SCALE_TRANSLATE_instance;
+  var MatrixType_COMPLEX_instance;
+  function values_6() {
+    return [MatrixType_IDENTITY_getInstance(), MatrixType_TRANSLATE_getInstance(), MatrixType_SCALE_getInstance(), MatrixType_SCALE_TRANSLATE_getInstance(), MatrixType_COMPLEX_getInstance()];
+  }
+  function valueOf_5(value) {
+    switch (value) {
+      case 'IDENTITY':
+        return MatrixType_IDENTITY_getInstance();
+      case 'TRANSLATE':
+        return MatrixType_TRANSLATE_getInstance();
+      case 'SCALE':
+        return MatrixType_SCALE_getInstance();
+      case 'SCALE_TRANSLATE':
+        return MatrixType_SCALE_TRANSLATE_getInstance();
+      case 'COMPLEX':
+        return MatrixType_COMPLEX_getInstance();
+      default:
+        MatrixType_initEntries();
+        THROW_IAE('No enum constant value.');
+        break;
+    }
+  }
+  function get_entries_5() {
+    if ($ENTRIES_5 == null)
+      $ENTRIES_5 = enumEntries(values_6());
+    return $ENTRIES_5;
+  }
+  var MatrixType_entriesInitialized;
+  function MatrixType_initEntries() {
+    if (MatrixType_entriesInitialized)
+      return Unit_getInstance();
+    MatrixType_entriesInitialized = true;
+    MatrixType_IDENTITY_instance = new MatrixType('IDENTITY', 0, 1, false, false, false);
+    MatrixType_TRANSLATE_instance = new MatrixType('TRANSLATE', 1, 2, false, false, true);
+    MatrixType_SCALE_instance = new MatrixType('SCALE', 2, 3, false, true, false);
+    MatrixType_SCALE_TRANSLATE_instance = new MatrixType('SCALE_TRANSLATE', 3, 4, false, true, true);
+    MatrixType_COMPLEX_instance = new MatrixType('COMPLEX', 4, 5, true, true, true);
+  }
+  var $ENTRIES_5;
+  function MatrixType(name, ordinal, id, hasRotation, hasScale, hasTranslation) {
+    Enum.call(this, name, ordinal);
+    this.id_1 = id;
+    this.hasRotation_1 = hasRotation;
+    this.hasScale_1 = hasScale;
+    this.hasTranslation_1 = hasTranslation;
+  }
+  protoOf(MatrixType).get_id_kntnx8_k$ = function () {
+    return this.id_1;
+  };
+  protoOf(MatrixType).get_hasRotation_a9izw1_k$ = function () {
+    return this.hasRotation_1;
+  };
+  protoOf(MatrixType).get_hasScale_tnzm93_k$ = function () {
+    return this.hasScale_1;
+  };
+  protoOf(MatrixType).get_hasTranslation_18s9mo_k$ = function () {
+    return this.hasTranslation_1;
   };
   function MatrixType_IDENTITY_getInstance() {
     MatrixType_initEntries();
@@ -39247,7 +39247,7 @@
   function Buckets(pool, ySize) {
     this.pool_1 = pool;
     this.ySize_1 = ySize;
-    this.buckets_1 = FastIntMap_0();
+    this.buckets_1 = FastIntMap();
   }
   protoOf(Buckets).get_ySize_j1fsa9_k$ = function () {
     return this.ySize_1;
@@ -49935,125 +49935,143 @@
     // Inline function 'kotlin.js.asDynamic' call
     arrayCopy(tmp, dst, dstPos, srcPos, endIndex);
   }
-  function hasFlags(_this__u8e3s4, bits) {
-    return (_this__u8e3s4 & bits) === bits;
-  }
-  function extract(_this__u8e3s4, offset, count) {
-    return (_this__u8e3s4 >>> offset | 0) & mask(count);
+  function countLeadingZeros(_this__u8e3s4) {
+    // Inline function 'kotlin.countLeadingZeroBits' call
+    return clz32(_this__u8e3s4);
   }
   function insert(_this__u8e3s4, value, offset, count) {
     var mask_0 = mask(count);
     var clearValue = _this__u8e3s4 & ~(mask_0 << offset);
     return clearValue | (value & mask_0) << offset;
   }
-  function extractScaledFF(_this__u8e3s4, offset, count) {
-    return extractScaled(_this__u8e3s4, offset, count, 255);
-  }
-  function extractScaledFFDefault(_this__u8e3s4, offset, count, default_0) {
-    return count === 0 ? default_0 : extractScaled(_this__u8e3s4, offset, count, 255);
-  }
-  function insertScaledFF(_this__u8e3s4, value, offset, count) {
-    return count === 0 ? _this__u8e3s4 : insertScaled(_this__u8e3s4, value, offset, count, 255);
-  }
-  function extract8(_this__u8e3s4, offset) {
-    return (_this__u8e3s4 >>> offset | 0) & 255;
-  }
-  function extractSigned(_this__u8e3s4, offset, count) {
-    return signExtend((_this__u8e3s4 >>> offset | 0) & mask(count), count);
-  }
-  function extract16Signed(_this__u8e3s4, offset) {
-    return toShort(_this__u8e3s4 >>> offset | 0);
-  }
-  function insert16(_this__u8e3s4, value, offset) {
+  function insert2(_this__u8e3s4, value, offset) {
     // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(65535 << offset) | (value & 65535) << offset;
-  }
-  function extract_0(_this__u8e3s4, offset) {
-    // Inline function 'korlibs.memory.extract1' call
-    return !(((_this__u8e3s4 >>> offset | 0) & 1) === 0);
-  }
-  function signExtend(_this__u8e3s4, bits) {
-    return _this__u8e3s4 << (32 - bits | 0) >> (32 - bits | 0);
-  }
-  function fromLowHigh(_this__u8e3s4, low, high) {
-    return toLong(low).and_4spn93_k$(new Long(-1, 0)).or_v7fvkl_k$(toLong(high).shl_bg8if3_k$(32));
-  }
-  function get__low(_this__u8e3s4) {
-    return _this__u8e3s4.toInt_1tsl84_k$();
-  }
-  function get__high(_this__u8e3s4) {
-    return _this__u8e3s4.ushr_z7nmq8_k$(32).toInt_1tsl84_k$();
-  }
-  function extract2(_this__u8e3s4, offset) {
-    return (_this__u8e3s4 >>> offset | 0) & 3;
-  }
-  function extract4(_this__u8e3s4, offset) {
-    return (_this__u8e3s4 >>> offset | 0) & 15;
-  }
-  function get_low(_this__u8e3s4) {
-    return _this__u8e3s4.toInt_1tsl84_k$();
-  }
-  function get_high(_this__u8e3s4) {
-    return _this__u8e3s4.ushr_z7nmq8_k$(32).toInt_1tsl84_k$();
-  }
-  function insert8(_this__u8e3s4, value, offset) {
-    // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(255 << offset) | (value & 255) << offset;
-  }
-  function insert_0(_this__u8e3s4, value, offset) {
-    var ivalue = value ? 1 : 0;
-    return _this__u8e3s4 & ~(1 << offset) | ivalue << offset;
+    return _this__u8e3s4 & ~(3 << offset) | (value & 3) << offset;
   }
   function extractBool(_this__u8e3s4, offset) {
     // Inline function 'korlibs.memory.extract1' call
     return !(((_this__u8e3s4 >>> offset | 0) & 1) === 0);
   }
-  function setBits(_this__u8e3s4, bits, set) {
-    return set ? setBits_0(_this__u8e3s4, bits) : unsetBits(_this__u8e3s4, bits);
+  function extract(_this__u8e3s4, offset, count) {
+    return (_this__u8e3s4 >>> offset | 0) & mask(count);
   }
-  function insert5(_this__u8e3s4, value, offset) {
+  function get__high(_this__u8e3s4) {
+    return _this__u8e3s4.ushr_z7nmq8_k$(32).toInt_1tsl84_k$();
+  }
+  function extract16(_this__u8e3s4, offset) {
+    return (_this__u8e3s4 >>> offset | 0) & 65535;
+  }
+  function insert8(_this__u8e3s4, value, offset) {
     // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(31 << offset) | (value & 31) << offset;
-  }
-  function insert2(_this__u8e3s4, value, offset) {
-    // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(3 << offset) | (value & 3) << offset;
-  }
-  function insert4(_this__u8e3s4, value, offset) {
-    // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(15 << offset) | (value & 15) << offset;
-  }
-  function extract3(_this__u8e3s4, offset) {
-    return (_this__u8e3s4 >>> offset | 0) & 7;
-  }
-  function insert3(_this__u8e3s4, value, offset) {
-    // Inline function 'korlibs.memory.insertMask' call
-    return _this__u8e3s4 & ~(7 << offset) | (value & 7) << offset;
+    return _this__u8e3s4 & ~(255 << offset) | (value & 255) << offset;
   }
   function extract14(_this__u8e3s4, offset) {
     return (_this__u8e3s4 >>> offset | 0) & 16383;
+  }
+  function hasFlags(_this__u8e3s4, bits) {
+    return (_this__u8e3s4 & bits) === bits;
+  }
+  function get_low(_this__u8e3s4) {
+    return _this__u8e3s4.toInt_1tsl84_k$();
+  }
+  function extractSigned(_this__u8e3s4, offset, count) {
+    return signExtend((_this__u8e3s4 >>> offset | 0) & mask(count), count);
   }
   function insert14(_this__u8e3s4, value, offset) {
     // Inline function 'korlibs.memory.insertMask' call
     return _this__u8e3s4 & ~(16383 << offset) | (value & 16383) << offset;
   }
-  function extractScaledf01(_this__u8e3s4, offset, count) {
-    return extract(_this__u8e3s4, offset, count) / mask(count);
+  function signExtend(_this__u8e3s4, bits) {
+    return _this__u8e3s4 << (32 - bits | 0) >> (32 - bits | 0);
+  }
+  function insert16(_this__u8e3s4, value, offset) {
+    // Inline function 'korlibs.memory.insertMask' call
+    return _this__u8e3s4 & ~(65535 << offset) | (value & 65535) << offset;
+  }
+  function extractScaledFFDefault(_this__u8e3s4, offset, count, default_0) {
+    return count === 0 ? default_0 : extractScaled(_this__u8e3s4, offset, count, 255);
+  }
+  function extract2(_this__u8e3s4, offset) {
+    return (_this__u8e3s4 >>> offset | 0) & 3;
   }
   function insertScaledf01(_this__u8e3s4, value, offset, count) {
     return insert(_this__u8e3s4, numberToInt(clamp01_0(value) * mask(offset)), offset, count);
   }
-  function extract16(_this__u8e3s4, offset) {
-    return (_this__u8e3s4 >>> offset | 0) & 65535;
+  function extractByte(_this__u8e3s4, offset) {
+    return toByte(_this__u8e3s4 >>> offset | 0);
+  }
+  function fastForEachOneBits(_this__u8e3s4, block) {
+    var value = _this__u8e3s4;
+    var index = 0;
+    while (!(value === 0)) {
+      var shift = countTrailingZeroBits(value);
+      index = index + shift | 0;
+      if (index < 32)
+        block(index);
+      value = value >>> (shift + 1 | 0) | 0;
+      index = index + 1 | 0;
+    }
+  }
+  function get__low(_this__u8e3s4) {
+    return _this__u8e3s4.toInt_1tsl84_k$();
+  }
+  function extract8(_this__u8e3s4, offset) {
+    return (_this__u8e3s4 >>> offset | 0) & 255;
+  }
+  function get_high(_this__u8e3s4) {
+    return _this__u8e3s4.ushr_z7nmq8_k$(32).toInt_1tsl84_k$();
+  }
+  function insertScaledFF(_this__u8e3s4, value, offset, count) {
+    return count === 0 ? _this__u8e3s4 : insertScaled(_this__u8e3s4, value, offset, count, 255);
+  }
+  function extract3(_this__u8e3s4, offset) {
+    return (_this__u8e3s4 >>> offset | 0) & 7;
+  }
+  function insert5(_this__u8e3s4, value, offset) {
+    // Inline function 'korlibs.memory.insertMask' call
+    return _this__u8e3s4 & ~(31 << offset) | (value & 31) << offset;
+  }
+  function insert3(_this__u8e3s4, value, offset) {
+    // Inline function 'korlibs.memory.insertMask' call
+    return _this__u8e3s4 & ~(7 << offset) | (value & 7) << offset;
+  }
+  function reinterpretAsFloat(_this__u8e3s4) {
+    // Inline function 'kotlin.fromBits' call
+    FloatCompanionObject_getInstance();
+    return floatFromBits(_this__u8e3s4);
+  }
+  function extractScaledf01(_this__u8e3s4, offset, count) {
+    return extract(_this__u8e3s4, offset, count) / mask(count);
+  }
+  function extract_0(_this__u8e3s4, offset) {
+    // Inline function 'korlibs.memory.extract1' call
+    return !(((_this__u8e3s4 >>> offset | 0) & 1) === 0);
+  }
+  function insert4(_this__u8e3s4, value, offset) {
+    // Inline function 'korlibs.memory.insertMask' call
+    return _this__u8e3s4 & ~(15 << offset) | (value & 15) << offset;
+  }
+  function extract4(_this__u8e3s4, offset) {
+    return (_this__u8e3s4 >>> offset | 0) & 15;
+  }
+  function fromLowHigh(_this__u8e3s4, low, high) {
+    return toLong(low).and_4spn93_k$(new Long(-1, 0)).or_v7fvkl_k$(toLong(high).shl_bg8if3_k$(32));
+  }
+  function extractScaledFF(_this__u8e3s4, offset, count) {
+    return extractScaled(_this__u8e3s4, offset, count, 255);
+  }
+  function insert_0(_this__u8e3s4, value, offset) {
+    var ivalue = value ? 1 : 0;
+    return _this__u8e3s4 & ~(1 << offset) | ivalue << offset;
+  }
+  function extract16Signed(_this__u8e3s4, offset) {
+    return toShort(_this__u8e3s4 >>> offset | 0);
+  }
+  function setBits(_this__u8e3s4, bits, set) {
+    return set ? setBits_0(_this__u8e3s4, bits) : unsetBits(_this__u8e3s4, bits);
   }
   function mask(_this__u8e3s4) {
     return (1 << _this__u8e3s4) - 1 | 0;
-  }
-  function extractScaled(_this__u8e3s4, offset, count, scale) {
-    return imul(extract(_this__u8e3s4, offset, count), scale) / mask(count) | 0;
-  }
-  function insertScaled(_this__u8e3s4, value, offset, count, scale) {
-    return insert(_this__u8e3s4, imul(value, mask(count)) / scale | 0, offset, count);
   }
   function insertMask(_this__u8e3s4, value, offset, mask) {
     return _this__u8e3s4 & ~(mask << offset) | (value & mask) << offset;
@@ -50061,23 +50079,17 @@
   function extract1(_this__u8e3s4, offset) {
     return (_this__u8e3s4 >>> offset | 0) & 1;
   }
+  function extractScaled(_this__u8e3s4, offset, count, scale) {
+    return imul(extract(_this__u8e3s4, offset, count), scale) / mask(count) | 0;
+  }
+  function insertScaled(_this__u8e3s4, value, offset, count, scale) {
+    return insert(_this__u8e3s4, imul(value, mask(count)) / scale | 0, offset, count);
+  }
   function setBits_0(_this__u8e3s4, bits) {
     return _this__u8e3s4 | bits;
   }
   function unsetBits(_this__u8e3s4, bits) {
     return _this__u8e3s4 & ~bits;
-  }
-  function extractByte(_this__u8e3s4, offset) {
-    return toByte(_this__u8e3s4 >>> offset | 0);
-  }
-  function countLeadingZeros(_this__u8e3s4) {
-    // Inline function 'kotlin.countLeadingZeroBits' call
-    return clz32(_this__u8e3s4);
-  }
-  function reinterpretAsFloat(_this__u8e3s4) {
-    // Inline function 'kotlin.fromBits' call
-    FloatCompanionObject_getInstance();
-    return floatFromBits(_this__u8e3s4);
   }
   function getS32(_this__u8e3s4, byteOffset, littleEndian) {
     littleEndian = littleEndian === VOID ? true : littleEndian;
@@ -54408,24 +54420,9 @@
       supportNativeJsBigInt = (typeof globalThis !== 'undefined' && typeof globalThis.BigInt !== 'undefined');
     }
   }
-  function fastCastTo(_this__u8e3s4) {
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4;
-  }
-  function FastStringMap(dummy) {
-  }
-  function FastStringMap_0() {
+  function FastIntMap() {
     // Inline function 'kotlin.js.asDynamic' call
     return new Map();
-  }
-  function get_size_2(_this__u8e3s4) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.size;
-  }
-  function get_3(_this__u8e3s4, key) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.get(key);
   }
   function set_0(_this__u8e3s4, key, value) {
     // Inline function 'kotlin.run' call
@@ -54433,17 +54430,41 @@
     // Inline function 'kotlin.js.asDynamic' call
     return _this__u8e3s4.set(key, value);
   }
+  function get_size_2(_this__u8e3s4) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.size;
+  }
+  function FastIdentityMap() {
+    // Inline function 'kotlin.js.asDynamic' call
+    return new Map();
+  }
   function contains_5(_this__u8e3s4, key) {
     // Inline function 'kotlin.js.asDynamic' call
     return _this__u8e3s4.has(key);
+  }
+  function get_3(_this__u8e3s4, key) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.get(key);
   }
   function clear(_this__u8e3s4) {
     // Inline function 'kotlin.js.asDynamic' call
     _this__u8e3s4.clear();
   }
+  function set_1(_this__u8e3s4, key, value) {
+    // Inline function 'kotlin.js.asDynamic' call
+    _this__u8e3s4.set(key, value);
+  }
   function remove(_this__u8e3s4, key) {
     // Inline function 'kotlin.js.asDynamic' call
     _this__u8e3s4.delete(key);
+  }
+  function remove_0(_this__u8e3s4, key) {
+    // Inline function 'kotlin.js.asDynamic' call
+    _this__u8e3s4.delete(key);
+  }
+  function FastStringMap() {
+    // Inline function 'kotlin.js.asDynamic' call
+    return new Map();
   }
   function FastArrayList_init_$Init$($this) {
     // Inline function 'kotlin.emptyArray' call
@@ -54758,23 +54779,13 @@
       n = n + 1 | 0;
     }
   };
-  function FastIntMap(dummy) {
-  }
-  function FastIntMap_0() {
+  function remove_1(_this__u8e3s4, key) {
     // Inline function 'kotlin.js.asDynamic' call
-    return new Map();
-  }
-  function get_size_3(_this__u8e3s4) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.size;
+    _this__u8e3s4.delete(key);
   }
   function get_4(_this__u8e3s4, key) {
     // Inline function 'kotlin.js.asDynamic' call
     return _this__u8e3s4.get(key);
-  }
-  function clear_0(_this__u8e3s4) {
-    // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.clear();
   }
   function keys(_this__u8e3s4) {
     // Inline function 'kotlin.js.unsafeCast' call
@@ -54783,9 +54794,43 @@
     var tmp$ret$2 = Array_from(_this__u8e3s4.keys());
     return toList_0(tmp$ret$2);
   }
-  function set_1(_this__u8e3s4, key, value) {
+  function fastCastTo(_this__u8e3s4) {
+    // Inline function 'kotlin.js.unsafeCast' call
     // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.set(key, value);
+    return _this__u8e3s4;
+  }
+  function get_5(_this__u8e3s4, key) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.get(key);
+  }
+  function contains_6(_this__u8e3s4, key) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.has(key);
+  }
+  function clear_0(_this__u8e3s4) {
+    // Inline function 'kotlin.js.asDynamic' call
+    _this__u8e3s4.clear();
+  }
+  function FastStringMap_0(dummy) {
+  }
+  function get_size_3(_this__u8e3s4) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.size;
+  }
+  function clear_1(_this__u8e3s4) {
+    // Inline function 'kotlin.js.asDynamic' call
+    _this__u8e3s4.clear();
+  }
+  function keys_0(_this__u8e3s4) {
+    // Inline function 'kotlin.js.unsafeCast' call
+    // Inline function 'kotlin.js.asDynamic' call
+    // Inline function 'kotlin.js.asDynamic' call
+    var tmp$ret$2 = Array_from(_this__u8e3s4.keys());
+    return toList_0(tmp$ret$2);
+  }
+  function get_size_4(_this__u8e3s4) {
+    // Inline function 'kotlin.js.asDynamic' call
+    return _this__u8e3s4.size;
   }
   function fastKeyForEach(_this__u8e3s4, callback) {
     // Inline function 'kotlin.js.asDynamic' call
@@ -54797,36 +54842,6 @@
       callback(v.value);
     }
   }
-  function remove_0(_this__u8e3s4, key) {
-    // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.delete(key);
-  }
-  function FastIdentityMap(dummy) {
-  }
-  function FastIdentityMap_0() {
-    // Inline function 'kotlin.js.asDynamic' call
-    return new Map();
-  }
-  function clear_1(_this__u8e3s4) {
-    // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.clear();
-  }
-  function get_size_4(_this__u8e3s4) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.size;
-  }
-  function contains_6(_this__u8e3s4, key) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.has(key);
-  }
-  function get_5(_this__u8e3s4, key) {
-    // Inline function 'kotlin.js.asDynamic' call
-    return _this__u8e3s4.get(key);
-  }
-  function set_2(_this__u8e3s4, key, value) {
-    // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.set(key, value);
-  }
   function fastKeyForEach_0(_this__u8e3s4, callback) {
     // Inline function 'kotlin.js.asDynamic' call
     var mapIterator = _this__u8e3s4.keys();
@@ -54837,16 +54852,13 @@
       callback(v.value);
     }
   }
-  function remove_1(_this__u8e3s4, key) {
+  function set_2(_this__u8e3s4, key, value) {
     // Inline function 'kotlin.js.asDynamic' call
-    _this__u8e3s4.delete(key);
+    _this__u8e3s4.set(key, value);
   }
-  function keys_0(_this__u8e3s4) {
-    // Inline function 'kotlin.js.unsafeCast' call
-    // Inline function 'kotlin.js.asDynamic' call
-    // Inline function 'kotlin.js.asDynamic' call
-    var tmp$ret$2 = Array_from(_this__u8e3s4.keys());
-    return toList_0(tmp$ret$2);
+  function FastIdentityMap_0(dummy) {
+  }
+  function FastIntMap_0(dummy) {
   }
   function set_lastIdentityHashCodeId(_set____db54di) {
     _init_properties_InternalJs_kt__82xo06();
@@ -56510,531 +56522,536 @@
   _.$_$.l1 = CharDeque_init_$Create$;
   _.$_$.m1 = FastArrayList_init_$Create$_0;
   _.$_$.n1 = FastArrayList_init_$Create$;
-  _.$_$.o1 = IntIntMap_init_$Create$;
-  _.$_$.p1 = IntMap_init_$Create$;
-  _.$_$.q1 = Pool_init_$Create$;
-  _.$_$.r1 = TGenDeque_init_$Create$;
-  _.$_$.s1 = Margin_init_$Create$_0;
-  _.$_$.t1 = MarginInt_init_$Create$_1;
-  _.$_$.u1 = Matrix4_init_$Create$_0;
-  _.$_$.v1 = MatrixTransform_init_$Create$;
-  _.$_$.w1 = RectangleI_init_$Create$;
-  _.$_$.x1 = Scale_init_$Create$_2;
-  _.$_$.y1 = Scale_init_$Create$_4;
-  _.$_$.z1 = Size2D_init_$Create$_1;
-  _.$_$.a2 = Size2D_init_$Create$_0;
-  _.$_$.b2 = SizeInt_init_$Create$;
-  _.$_$.c2 = Vector2D_init_$Create$_5;
-  _.$_$.d2 = Vector2D_init_$Create$_0;
-  _.$_$.e2 = Vector2D_init_$Create$;
-  _.$_$.f2 = Vector2F_init_$Create$;
-  _.$_$.g2 = Buffer_init_$Create$;
-  _.$_$.h2 = ByteArrayBuilder_init_$Create$;
-  _.$_$.i2 = FixedSizeByteArrayBuilder_init_$Create$;
-  _.$_$.j2 = UByteArrayInt__fill$default_impl_mdydxi;
-  _.$_$.k2 = _BSearchResult___get_nearIndex__impl__s8nq43;
-  _.$_$.l2 = _TGenStack___init__impl__yynjgt;
-  _.$_$.m2 = TGenStack__pop_impl_qisxa0;
-  _.$_$.n2 = TGenStack__push_impl_9yh33t;
-  _.$_$.o2 = _SliceOrientation___get_flipX__impl__lgb7bx;
-  _.$_$.p2 = SliceOrientation__hashCode_impl_7mjkdw;
-  _.$_$.q2 = _SliceOrientation___get_isRotatedDeg90CwOrCcw__impl__98v1vq;
-  _.$_$.r2 = _SliceOrientation___get_rotation__impl__m65r0o;
-  _.$_$.s2 = _Angle___get_absoluteValue__impl__4qoakv;
-  _.$_$.t2 = Angle__compareTo_impl_a0hfds;
-  _.$_$.u2 = Angle__cosine_impl_bgvzun;
-  _.$_$.v2 = _Angle___get_degrees__impl__qg56vw;
-  _.$_$.w2 = Angle__div_impl_ut2btd_2;
-  _.$_$.x2 = Angle__hashCode_impl_szcndt;
-  _.$_$.y2 = Angle__minus_impl_xeau7k;
-  _.$_$.z2 = Angle__plus_impl_26v37k;
-  _.$_$.a3 = _Angle___get_radians__impl__n00yt5;
-  _.$_$.b3 = Angle__sine_impl_3l11xv;
-  _.$_$.c3 = Angle__times_impl_v3s9y2_1;
-  _.$_$.d3 = Angle__unaryMinus_impl_7901fr;
-  _.$_$.e3 = _BoundsBuilder___get_bounds__impl__s1l1gx;
-  _.$_$.f3 = BoundsBuilder__boundsOrNull_impl_se9lyg;
-  _.$_$.g3 = BoundsBuilder__hashCode_impl_649zbo;
-  _.$_$.h3 = BoundsBuilder__plus_impl_cz7f7x;
-  _.$_$.i3 = BoundsBuilder__plus_impl_cz7f7x_3;
-  _.$_$.j3 = BoundsBuilder__plus_impl_cz7f7x_0;
-  _.$_$.k3 = BoundsBuilder__plus_impl_cz7f7x_2;
-  _.$_$.l3 = _BoundsBuilder___get_xmax__impl__gsz0km;
-  _.$_$.m3 = _BoundsBuilder___get_xmin__impl__o2sib0;
-  _.$_$.n3 = BoundsBuilder__xminOr_impl_k3l1m2;
-  _.$_$.o3 = _BoundsBuilder___get_ymax__impl__oia4uz;
-  _.$_$.p3 = _BoundsBuilder___get_ymin__impl__5n2e8j;
-  _.$_$.q3 = _Ratio___init__impl__9mwvn2_3;
-  _.$_$.r3 = _Ratio___init__impl__9mwvn2_1;
-  _.$_$.s3 = _Ratio___init__impl__9mwvn2_0;
-  _.$_$.t3 = _Ratio___init__impl__9mwvn2;
-  _.$_$.u3 = _Ratio___get_clamped__impl__cvqpjt;
-  _.$_$.v3 = Ratio__compareTo_impl_z2ienc;
-  _.$_$.w3 = Ratio__hashCode_impl_quhc2v;
-  _.$_$.x3 = Ratio__isNaN_impl_fax2rr;
-  _.$_$.y3 = Ratio__times_impl_ucdh7y_0;
-  _.$_$.z3 = Ratio__toDouble_impl_o7epze;
-  _.$_$.a4 = Ratio__toFloat_impl_1ftup5;
-  _.$_$.b4 = _Ratio___get_value__impl__57cli6;
-  _.$_$.c4 = _Float32Buffer___init__impl__403k2m_1;
-  _.$_$.d4 = _Float32Buffer___get_buffer__impl__x5nu9x;
-  _.$_$.e4 = Float32Buffer__get_impl_659lhu;
-  _.$_$.f4 = Float32Buffer__set_impl_34szne;
-  _.$_$.g4 = _Int16Buffer___init__impl__dw7hol_1;
-  _.$_$.h4 = _Int16Buffer___get_buffer__impl__eo253o;
-  _.$_$.i4 = _Int32Buffer___init__impl__o98lxn_1;
-  _.$_$.j4 = _Int32Buffer___get_buffer__impl__dnrimm;
-  _.$_$.k4 = Int32Buffer__get_impl_48ysyj;
-  _.$_$.l4 = _Int8Buffer___init__impl__e20lvc_1;
-  _.$_$.m4 = _Int8Buffer___get_buffer__impl__q0gulb;
-  _.$_$.n4 = _UByteArrayInt___init__impl__xif7bu;
-  _.$_$.o4 = _UByteArrayInt___init__impl__xif7bu_0;
-  _.$_$.p4 = _UByteArrayInt___init__impl__xif7bu_1;
-  _.$_$.q4 = _UByteArrayInt___get_bytes__impl__pj0ilc;
-  _.$_$.r4 = _UByteArrayInt___get_data__impl__l2b913;
-  _.$_$.s4 = UByteArrayInt__get_impl_px6q8a;
-  _.$_$.t4 = UByteArrayInt__set_impl_gn4532;
-  _.$_$.u4 = UByteArrayInt__set_impl_gn4532_0;
-  _.$_$.v4 = _UByteArrayInt___get_size__impl__bcjnte;
-  _.$_$.w4 = _UShortArrayInt___init__impl__kdofb8_0;
-  _.$_$.x4 = UShortArrayInt__get_impl_ciz20k;
-  _.$_$.y4 = UShortArrayInt__set_impl_38wgvc;
-  _.$_$.z4 = Uint16Buffer__set_impl_g0kliu;
-  _.$_$.a5 = _Uint8Buffer___get_buffer__impl__mscllu;
-  _.$_$.b5 = Companion_getInstance_17;
-  _.$_$.c5 = Companion_getInstance_114;
-  _.$_$.d5 = Companion_getInstance_7;
-  _.$_$.e5 = Companion_getInstance_6;
-  _.$_$.f5 = Companion_getInstance_15;
-  _.$_$.g5 = Companion_getInstance_115;
-  _.$_$.h5 = Console_getInstance;
-  _.$_$.i5 = Companion_getInstance_27;
-  _.$_$.j5 = Companion_getInstance_62;
-  _.$_$.k5 = Companion_getInstance_64;
-  _.$_$.l5 = EmptyShape2D_getInstance;
-  _.$_$.m5 = Companion_getInstance_66;
-  _.$_$.n5 = Companion_getInstance_69;
-  _.$_$.o5 = Companion_getInstance_68;
-  _.$_$.p5 = Companion_getInstance_80;
-  _.$_$.q5 = Companion_getInstance_79;
-  _.$_$.r5 = Companion_getInstance_75;
-  _.$_$.s5 = Command_getInstance;
-  _.$_$.t5 = Companion_getInstance_30;
-  _.$_$.u5 = Companion_getInstance_31;
-  _.$_$.v5 = Companion_getInstance_32;
-  _.$_$.w5 = Companion_getInstance_36;
-  _.$_$.x5 = Companion_getInstance_82;
-  _.$_$.y5 = Companion_getInstance_37;
-  _.$_$.z5 = Companion_getInstance_38;
-  _.$_$.a6 = Companion_getInstance_39;
-  _.$_$.b6 = Companion_getInstance_42;
-  _.$_$.c6 = Companion_getInstance_40;
-  _.$_$.d6 = Companion_getInstance_46;
-  _.$_$.e6 = Companion_getInstance_47;
-  _.$_$.f6 = Companion_getInstance_48;
-  _.$_$.g6 = Companion_getInstance_50;
-  _.$_$.h6 = Companion_getInstance_53;
-  _.$_$.i6 = Companion_getInstance_54;
-  _.$_$.j6 = Companion_getInstance_29;
-  _.$_$.k6 = Companion_getInstance_28;
-  _.$_$.l6 = Companion_getInstance_104;
-  _.$_$.m6 = Companion_getInstance_116;
-  _.$_$.n6 = Companion_getInstance_101;
-  _.$_$.o6 = Companion_getInstance_110;
-  _.$_$.p6 = Companion_getInstance_111;
-  _.$_$.q6 = Closeable;
-  _.$_$.r6 = SyncEventLoop;
-  _.$_$.s6 = Lock;
-  _.$_$.t6 = NonRecursiveLock;
-  _.$_$.u6 = Pauseable;
-  _.$_$.v6 = NativeThread;
-  _.$_$.w6 = ByteArrayDeque;
-  _.$_$.x6 = ChunkedByteDeque;
-  _.$_$.y6 = ConcurrentPool;
-  _.$_$.z6 = DoubleArrayList;
-  _.$_$.a7 = Mixin;
-  _.$_$.b7 = PropertyThis;
-  _.$_$.c7 = Property;
-  _.$_$.d7 = Extra;
-  _.$_$.e7 = FastArrayList;
-  _.$_$.f7 = FastIdentityMap_0;
-  _.$_$.g7 = FastIntMap_0;
-  _.$_$.h7 = FastSmallSet;
-  _.$_$.i7 = FastStringMap_0;
-  _.$_$.j7 = FloatArray2;
-  _.$_$.k7 = FloatArrayList;
-  _.$_$.l7 = GenericListIterator;
-  _.$_$.m7 = GenericSubList;
-  _.$_$.n7 = IntArray2;
-  _.$_$.o7 = IntArrayList;
-  _.$_$.p7 = IntDeque;
-  _.$_$.q7 = ListReader;
-  _.$_$.r7 = Pool;
-  _.$_$.s7 = Ref_1;
-  _.$_$.t7 = Ref_0;
-  _.$_$.u7 = ReturnablePool;
-  _.$_$.v7 = RingBuffer;
-  _.$_$.w7 = ShortArrayDeque;
-  _.$_$.x7 = TGenQueue;
-  _.$_$.y7 = binarySearch_0;
-  _.$_$.z7 = clear_1;
-  _.$_$.a8 = contains_6;
-  _.$_$.b8 = expect;
-  _.$_$.c8 = fastArrayListOf;
-  _.$_$.d8 = flip;
-  _.$_$.e8 = floatArrayListOf;
-  _.$_$.f8 = getAndRemove;
-  _.$_$.g8 = getCyclicOrNull;
-  _.$_$.h8 = getCyclic;
-  _.$_$.i8 = getExtraTyped;
-  _.$_$.j8 = getExtra;
-  _.$_$.k8 = get_5;
-  _.$_$.l8 = hasExtra;
-  _.$_$.m8 = intArrayListOf;
-  _.$_$.n8 = get_keys_0;
-  _.$_$.o8 = linkedHashMapOf;
-  _.$_$.p8 = reader;
-  _.$_$.q8 = reverse_0;
-  _.$_$.r8 = setExtra;
-  _.$_$.s8 = set_2;
-  _.$_$.t8 = get_size_4;
-  _.$_$.u8 = toCaseInsensitiveMap;
-  _.$_$.v8 = toDeque;
-  _.$_$.w8 = toFastList_0;
-  _.$_$.x8 = toFastList;
-  _.$_$.y8 = toIntArrayList;
-  _.$_$.z8 = toIntMap;
-  _.$_$.a9 = toMap_0;
-  _.$_$.b9 = toRef;
-  _.$_$.c9 = InjectorContext;
-  _.$_$.d9 = InjectorDependency;
-  _.$_$.e9 = Injector;
-  _.$_$.f9 = DenoPointer;
-  _.$_$.g9 = get_Symbol_asyncIterator;
-  _.$_$.h9 = toJsBigInt;
-  _.$_$.i9 = toLong_0;
-  _.$_$.j9 = valueOf_1;
-  _.$_$.k9 = ProjectedPoint;
-  _.$_$.l9 = get_isConvex;
-  _.$_$.m9 = toStrokePointsList;
-  _.$_$.n9 = ImageDoNotFitException;
-  _.$_$.o9 = HitTestable;
-  _.$_$.p9 = WithHitShape2D;
-  _.$_$.q9 = get_cachedPoints;
-  _.$_$.r9 = getPoints2List;
-  _.$_$.s9 = toPathPointList;
-  _.$_$.t9 = toShape2d;
-  _.$_$.u9 = toShape2d_0;
-  _.$_$.v9 = RectSlice;
-  _.$_$.w9 = SliceOrientation;
-  _.$_$.x9 = IVectorPath;
-  _.$_$.y9 = PolygonScanline;
-  _.$_$.z9 = RastScale;
-  _.$_$.aa = StrokeInfo;
-  _.$_$.ba = StrokeToFill;
-  _.$_$.ca = arcTo_0;
-  _.$_$.da = arcTo;
-  _.$_$.ea = arc;
-  _.$_$.fa = circleHole_0;
-  _.$_$.ga = circleHole;
-  _.$_$.ha = circle_0;
-  _.$_$.ia = circle;
-  _.$_$.ja = cubicTo_0;
-  _.$_$.ka = cubicTo_1;
-  _.$_$.la = cubicTo;
-  _.$_$.ma = cubic;
-  _.$_$.na = curves;
-  _.$_$.oa = curves_0;
-  _.$_$.pa = curve;
-  _.$_$.qa = ellipse;
-  _.$_$.ra = ellipse_0;
-  _.$_$.sa = ellipse_1;
-  _.$_$.ta = isEmpty_0;
-  _.$_$.ua = isNotEmpty_0;
-  _.$_$.va = lineToH;
-  _.$_$.wa = lineToV;
-  _.$_$.xa = lineTo_0;
-  _.$_$.ya = lineTo;
-  _.$_$.za = lineTo_1;
-  _.$_$.ab = line;
-  _.$_$.bb = moveToH;
-  _.$_$.cb = moveToV;
-  _.$_$.db = moveTo;
-  _.$_$.eb = moveTo_1;
-  _.$_$.fb = moveTo_0;
-  _.$_$.gb = parallelogram;
-  _.$_$.hb = polygon_0;
-  _.$_$.ib = polygon;
-  _.$_$.jb = polygon_1;
-  _.$_$.kb = polyline_1;
-  _.$_$.lb = polyline_0;
-  _.$_$.mb = polyline;
-  _.$_$.nb = quadTo_0;
-  _.$_$.ob = quadTo_1;
-  _.$_$.pb = quadTo_2;
-  _.$_$.qb = quad;
-  _.$_$.rb = rCubicTo_0;
-  _.$_$.sb = rCubicTo;
-  _.$_$.tb = rLineToHV;
-  _.$_$.ub = rLineToH;
-  _.$_$.vb = rLineToH_0;
-  _.$_$.wb = rLineToV;
-  _.$_$.xb = rLineToV_0;
-  _.$_$.yb = rLineTo;
-  _.$_$.zb = rLineTo_0;
-  _.$_$.ac = rMoveToHV;
-  _.$_$.bc = rMoveToH_0;
-  _.$_$.cc = rMoveToH;
-  _.$_$.dc = rMoveToV;
-  _.$_$.ec = rMoveToV_0;
-  _.$_$.fc = rMoveTo_0;
-  _.$_$.gc = rMoveTo;
-  _.$_$.hc = rQuadTo;
-  _.$_$.ic = rQuadTo_0;
-  _.$_$.jc = rectHole;
-  _.$_$.kc = rectHole_0;
-  _.$_$.lc = rectHole_2;
-  _.$_$.mc = rectHole_1;
-  _.$_$.nc = rect_3;
-  _.$_$.oc = rect_1;
-  _.$_$.pc = rect_4;
-  _.$_$.qc = rect_2;
-  _.$_$.rc = rect;
-  _.$_$.sc = rect_0;
-  _.$_$.tc = regularPolygonHole;
-  _.$_$.uc = regularPolygon;
-  _.$_$.vc = roundRect;
-  _.$_$.wc = roundRect_0;
-  _.$_$.xc = roundRect_3;
-  _.$_$.yc = roundRect_2;
-  _.$_$.zc = roundRect_1;
-  _.$_$.ad = starHole;
-  _.$_$.bd = star;
-  _.$_$.cd = transformed_0;
-  _.$_$.dd = transformed_1;
-  _.$_$.ed = write_0;
-  _.$_$.fd = write;
-  _.$_$.gd = VectorBuilder;
-  _.$_$.hd = VectorPath;
-  _.$_$.id = applyTransform;
-  _.$_$.jd = getCurves;
-  _.$_$.kd = plus_4;
-  _.$_$.ld = strokeToFill_0;
-  _.$_$.md = strokeToFill;
-  _.$_$.nd = toCurvesList;
-  _.$_$.od = write_1;
-  _.$_$.pd = Anchor2D;
-  _.$_$.qd = Angle_between;
-  _.$_$.rd = Angle;
-  _.$_$.sd = BoundsBuilder;
-  _.$_$.td = Line2D;
-  _.$_$.ud = MMatrix;
-  _.$_$.vd = Margin;
-  _.$_$.wd = MatrixTransform;
-  _.$_$.xd = Matrix;
-  _.$_$.yd = RectCorners;
-  _.$_$.zd = RectangleD;
-  _.$_$.ae = RectangleI;
-  _.$_$.be = Scale;
-  _.$_$.ce = Size2D;
-  _.$_$.de = SizeInt;
-  _.$_$.ee = SizeableInt;
-  _.$_$.fe = Sizeable;
-  _.$_$.ge = Vector2D;
-  _.$_$.he = Vector2F;
-  _.$_$.ie = Vector2I;
-  _.$_$.je = Vector3F;
-  _.$_$.ke = Vector4F;
-  _.$_$.le = get_degrees;
-  _.$_$.me = get_degrees_0;
-  _.$_$.ne = get_immutable_0;
-  _.$_$.oe = get_mutable;
-  _.$_$.pe = get_mutable_0;
-  _.$_$.qe = place;
-  _.$_$.re = get_radians_0;
-  _.$_$.se = toFloat;
-  _.$_$.te = toInt_1;
-  _.$_$.ue = toMatrix4;
-  _.$_$.ve = invoke_3;
-  _.$_$.we = invoke_4;
-  _.$_$.xe = Easing;
-  _.$_$.ye = Interpolable;
-  _.$_$.ze = MutableInterpolable;
-  _.$_$.af = Ratio;
-  _.$_$.bf = convertRange_2;
-  _.$_$.cf = interpolate_6;
-  _.$_$.df = interpolate_5;
-  _.$_$.ef = interpolate;
-  _.$_$.ff = interpolate_0;
-  _.$_$.gf = interpolate_2;
-  _.$_$.hf = interpolate_1;
-  _.$_$.if = interpolate_4;
-  _.$_$.jf = toRatio_1;
-  _.$_$.kf = toRatio_0;
-  _.$_$.lf = IntSegmentSet;
-  _.$_$.mf = clamp01;
-  _.$_$.nf = clamp01_0;
-  _.$_$.of = clampUByte;
-  _.$_$.pf = clamp_1;
-  _.$_$.qf = clamp;
-  _.$_$.rf = clamp_2;
-  _.$_$.sf = clamp_0;
-  _.$_$.tf = convertRangeClamped;
-  _.$_$.uf = convertRange_0;
-  _.$_$.vf = convertRange;
-  _.$_$.wf = convertRange_1;
-  _.$_$.xf = divCeil;
-  _.$_$.yf = ilog2;
-  _.$_$.zf = get_isEven;
-  _.$_$.ag = isNanOrInfinite;
-  _.$_$.bg = get_isPowerOfTwo;
-  _.$_$.cg = max_0;
-  _.$_$.dg = max_1;
-  _.$_$.eg = min;
-  _.$_$.fg = min_0;
-  _.$_$.gg = nextAlignedTo_0;
-  _.$_$.hg = nextAlignedTo;
-  _.$_$.ig = nextMultipleOf;
-  _.$_$.jg = get_nextPowerOfTwo;
-  _.$_$.kg = roundDecimalPlaces_1;
-  _.$_$.lg = roundDecimalPlaces_0;
-  _.$_$.mg = toIntCeil_0;
-  _.$_$.ng = toIntCeil;
-  _.$_$.og = toIntClamp;
-  _.$_$.pg = toIntFloor;
-  _.$_$.qg = toIntFloor_0;
-  _.$_$.rg = toIntRound;
-  _.$_$.sg = toIntRound_0;
-  _.$_$.tg = toShortClamped;
-  _.$_$.ug = umod;
-  _.$_$.vg = umod_0;
-  _.$_$.wg = ByteUnits;
-  _.$_$.xg = Buffer;
-  _.$_$.yg = ByteArrayBuilder;
-  _.$_$.zg = UByteArrayInt;
-  _.$_$.ah = get__high;
-  _.$_$.bh = get__low;
-  _.$_$.ch = allocDirect;
-  _.$_$.dh = allocNoDirect;
-  _.$_$.eh = get_arrayByte;
-  _.$_$.fh = get_arrayFloat;
-  _.$_$.gh = get_arrayInt;
-  _.$_$.hh = get_arrayUByte;
-  _.$_$.ih = arrayadd;
-  _.$_$.jh = arraycopy_5;
-  _.$_$.kh = arraycopy_0;
-  _.$_$.lh = arraycopy_2;
-  _.$_$.mh = arraycopy_10;
-  _.$_$.nh = arraycopy_8;
-  _.$_$.oh = arraycopy_4;
-  _.$_$.ph = arraycopy_12;
-  _.$_$.qh = arraycopy_3;
-  _.$_$.rh = arraycopy_11;
-  _.$_$.sh = arraycopy_6;
-  _.$_$.th = arraycopy_7;
-  _.$_$.uh = arraycopy_9;
-  _.$_$.vh = arrayequal;
-  _.$_$.wh = arrayfill_0;
-  _.$_$.xh = arrayfill;
-  _.$_$.yh = arrayinterleave;
-  _.$_$.zh = asByteArray;
-  _.$_$.ai = asFloat32;
-  _.$_$.bi = asInt32Array;
-  _.$_$.ci = asUShortArrayInt;
-  _.$_$.di = clone_0;
-  _.$_$.ei = copyOf_5;
-  _.$_$.fi = extract16Signed;
-  _.$_$.gi = extractScaledFFDefault;
-  _.$_$.hi = extractScaledFF;
-  _.$_$.ii = extractScaledf01;
-  _.$_$.ji = extractSigned;
-  _.$_$.ki = extract;
-  _.$_$.li = get_f32;
-  _.$_$.mi = fromLowHigh;
-  _.$_$.ni = getArrayFloat32;
-  _.$_$.oi = getArrayInt32;
-  _.$_$.pi = getArrayInt8;
-  _.$_$.qi = getF32ArrayBE_0;
-  _.$_$.ri = getF32ArrayLE_0;
-  _.$_$.si = getF32BE;
-  _.$_$.ti = getF32LE;
-  _.$_$.ui = getF64ArrayBE;
-  _.$_$.vi = getF64ArrayLE;
-  _.$_$.wi = getF64BE;
-  _.$_$.xi = getF64LE;
-  _.$_$.yi = getFloat32;
-  _.$_$.zi = getInt32;
-  _.$_$.aj = getInt64;
-  _.$_$.bj = getInt8;
-  _.$_$.cj = getS16ArrayBE_0;
-  _.$_$.dj = getS16ArrayLE_0;
-  _.$_$.ej = getS16BE;
-  _.$_$.fj = getS16LE;
-  _.$_$.gj = getS16_0;
-  _.$_$.hj = getS24BE;
-  _.$_$.ij = getS24LE;
-  _.$_$.jj = getS32ArrayBE_0;
-  _.$_$.kj = getS32ArrayLE_0;
-  _.$_$.lj = getS32BE;
-  _.$_$.mj = getS32LE;
-  _.$_$.nj = getS32_0;
-  _.$_$.oj = getS64ArrayBE;
-  _.$_$.pj = getS64ArrayLE;
-  _.$_$.qj = getS64BE;
-  _.$_$.rj = getS64LE;
-  _.$_$.sj = getS8Array_0;
-  _.$_$.tj = getS8;
-  _.$_$.uj = getSampled;
-  _.$_$.vj = getU16ArrayBE;
-  _.$_$.wj = getU16ArrayLE;
-  _.$_$.xj = getU16BE_0;
-  _.$_$.yj = getU16LE_0;
-  _.$_$.zj = getU16_0;
-  _.$_$.ak = getU24BE;
-  _.$_$.bk = getU24LE;
-  _.$_$.ck = getU32BE;
-  _.$_$.dk = getU32LE;
-  _.$_$.ek = getU8_0;
-  _.$_$.fk = hasFlags;
-  _.$_$.gk = get_high;
-  _.$_$.hk = get_i32;
-  _.$_$.ik = get_i8;
-  _.$_$.jk = indexOf_2;
-  _.$_$.kk = insert14;
-  _.$_$.lk = insert16;
-  _.$_$.mk = insert2;
-  _.$_$.nk = insert3;
-  _.$_$.ok = insert4;
-  _.$_$.pk = insert5;
-  _.$_$.qk = insert8;
-  _.$_$.rk = insertScaledFF;
-  _.$_$.sk = insertScaledf01;
-  _.$_$.tk = insert;
-  _.$_$.uk = insert_0;
-  _.$_$.vk = get_low;
-  _.$_$.wk = set16BE;
-  _.$_$.xk = set16LE;
-  _.$_$.yk = set16_0;
-  _.$_$.zk = set24BE;
-  _.$_$.al = set24LE;
-  _.$_$.bl = set32BE;
-  _.$_$.cl = set32LE;
-  _.$_$.dl = set8;
-  _.$_$.el = setArrayLE_2;
-  _.$_$.fl = setBits;
-  _.$_$.gl = setFloat32;
-  _.$_$.hl = setInt32;
-  _.$_$.il = setInt8;
-  _.$_$.jl = signExtend;
-  _.$_$.kl = get_size_1;
-  _.$_$.ll = sliceBuffer;
-  _.$_$.ml = sliceWithSize;
-  _.$_$.nl = get_u16;
-  _.$_$.ol = get_niceStr_0;
-  _.$_$.pl = get_niceStr_1;
-  _.$_$.ql = niceStr;
-  _.$_$.rl = niceStr_0;
-  _.$_$.sl = get_jsGlobalThis;
+  _.$_$.o1 = FastArrayList_init_$Create$_1;
+  _.$_$.p1 = IntIntMap_init_$Create$;
+  _.$_$.q1 = IntMap_init_$Create$;
+  _.$_$.r1 = Pool_init_$Create$;
+  _.$_$.s1 = TGenDeque_init_$Create$;
+  _.$_$.t1 = Margin_init_$Create$_0;
+  _.$_$.u1 = MarginInt_init_$Create$_1;
+  _.$_$.v1 = MarginInt_init_$Create$_0;
+  _.$_$.w1 = Matrix4_init_$Create$_0;
+  _.$_$.x1 = MatrixTransform_init_$Create$;
+  _.$_$.y1 = RectangleI_init_$Create$;
+  _.$_$.z1 = Scale_init_$Create$_2;
+  _.$_$.a2 = Scale_init_$Create$_4;
+  _.$_$.b2 = Size2D_init_$Create$_1;
+  _.$_$.c2 = Size2D_init_$Create$_0;
+  _.$_$.d2 = SizeInt_init_$Create$;
+  _.$_$.e2 = Vector2D_init_$Create$_5;
+  _.$_$.f2 = Vector2D_init_$Create$_0;
+  _.$_$.g2 = Vector2D_init_$Create$;
+  _.$_$.h2 = Vector2F_init_$Create$;
+  _.$_$.i2 = Buffer_init_$Create$;
+  _.$_$.j2 = ByteArrayBuilder_init_$Create$;
+  _.$_$.k2 = FixedSizeByteArrayBuilder_init_$Create$;
+  _.$_$.l2 = UByteArrayInt__fill$default_impl_mdydxi;
+  _.$_$.m2 = _BSearchResult___get_nearIndex__impl__s8nq43;
+  _.$_$.n2 = _TGenStack___init__impl__yynjgt;
+  _.$_$.o2 = TGenStack__pop_impl_qisxa0;
+  _.$_$.p2 = TGenStack__push_impl_9yh33t;
+  _.$_$.q2 = _SliceOrientation___get_flipX__impl__lgb7bx;
+  _.$_$.r2 = SliceOrientation__hashCode_impl_7mjkdw;
+  _.$_$.s2 = _SliceOrientation___get_isRotatedDeg90CwOrCcw__impl__98v1vq;
+  _.$_$.t2 = _SliceOrientation___get_rotation__impl__m65r0o;
+  _.$_$.u2 = _Angle___get_absoluteValue__impl__4qoakv;
+  _.$_$.v2 = Angle__compareTo_impl_a0hfds;
+  _.$_$.w2 = _Angle___get_cosine__impl__vprvmu;
+  _.$_$.x2 = Angle__cosine_impl_bgvzun;
+  _.$_$.y2 = _Angle___get_degrees__impl__qg56vw;
+  _.$_$.z2 = Angle__div_impl_ut2btd_2;
+  _.$_$.a3 = Angle__hashCode_impl_szcndt;
+  _.$_$.b3 = Angle__minus_impl_xeau7k;
+  _.$_$.c3 = Angle__plus_impl_26v37k;
+  _.$_$.d3 = _Angle___get_radians__impl__n00yt5;
+  _.$_$.e3 = _Angle___get_sine__impl__15nmyi;
+  _.$_$.f3 = Angle__sine_impl_3l11xv;
+  _.$_$.g3 = Angle__times_impl_v3s9y2_1;
+  _.$_$.h3 = Angle__unaryMinus_impl_7901fr;
+  _.$_$.i3 = _BoundsBuilder___get_bounds__impl__s1l1gx;
+  _.$_$.j3 = BoundsBuilder__boundsOrNull_impl_se9lyg;
+  _.$_$.k3 = BoundsBuilder__hashCode_impl_649zbo;
+  _.$_$.l3 = BoundsBuilder__plus_impl_cz7f7x;
+  _.$_$.m3 = BoundsBuilder__plus_impl_cz7f7x_3;
+  _.$_$.n3 = BoundsBuilder__plus_impl_cz7f7x_0;
+  _.$_$.o3 = BoundsBuilder__plus_impl_cz7f7x_2;
+  _.$_$.p3 = _BoundsBuilder___get_xmax__impl__gsz0km;
+  _.$_$.q3 = _BoundsBuilder___get_xmin__impl__o2sib0;
+  _.$_$.r3 = BoundsBuilder__xminOr_impl_k3l1m2;
+  _.$_$.s3 = _BoundsBuilder___get_ymax__impl__oia4uz;
+  _.$_$.t3 = _BoundsBuilder___get_ymin__impl__5n2e8j;
+  _.$_$.u3 = _Ratio___init__impl__9mwvn2_3;
+  _.$_$.v3 = _Ratio___init__impl__9mwvn2_1;
+  _.$_$.w3 = _Ratio___init__impl__9mwvn2_0;
+  _.$_$.x3 = _Ratio___init__impl__9mwvn2;
+  _.$_$.y3 = _Ratio___get_clamped__impl__cvqpjt;
+  _.$_$.z3 = Ratio__compareTo_impl_z2ienc;
+  _.$_$.a4 = Ratio__hashCode_impl_quhc2v;
+  _.$_$.b4 = Ratio__isNaN_impl_fax2rr;
+  _.$_$.c4 = Ratio__times_impl_ucdh7y_0;
+  _.$_$.d4 = Ratio__toDouble_impl_o7epze;
+  _.$_$.e4 = Ratio__toFloat_impl_1ftup5;
+  _.$_$.f4 = _Ratio___get_value__impl__57cli6;
+  _.$_$.g4 = _Float32Buffer___init__impl__403k2m_1;
+  _.$_$.h4 = _Float32Buffer___get_buffer__impl__x5nu9x;
+  _.$_$.i4 = Float32Buffer__get_impl_659lhu;
+  _.$_$.j4 = Float32Buffer__set_impl_34szne;
+  _.$_$.k4 = _Int16Buffer___init__impl__dw7hol_1;
+  _.$_$.l4 = _Int16Buffer___get_buffer__impl__eo253o;
+  _.$_$.m4 = _Int32Buffer___init__impl__o98lxn_1;
+  _.$_$.n4 = _Int32Buffer___get_buffer__impl__dnrimm;
+  _.$_$.o4 = Int32Buffer__get_impl_48ysyj;
+  _.$_$.p4 = _Int8Buffer___init__impl__e20lvc_1;
+  _.$_$.q4 = _Int8Buffer___get_buffer__impl__q0gulb;
+  _.$_$.r4 = _UByteArrayInt___init__impl__xif7bu;
+  _.$_$.s4 = _UByteArrayInt___init__impl__xif7bu_0;
+  _.$_$.t4 = _UByteArrayInt___init__impl__xif7bu_1;
+  _.$_$.u4 = _UByteArrayInt___get_bytes__impl__pj0ilc;
+  _.$_$.v4 = _UByteArrayInt___get_data__impl__l2b913;
+  _.$_$.w4 = UByteArrayInt__get_impl_px6q8a;
+  _.$_$.x4 = UByteArrayInt__set_impl_gn4532;
+  _.$_$.y4 = UByteArrayInt__set_impl_gn4532_0;
+  _.$_$.z4 = _UByteArrayInt___get_size__impl__bcjnte;
+  _.$_$.a5 = _UShortArrayInt___init__impl__kdofb8_0;
+  _.$_$.b5 = UShortArrayInt__get_impl_ciz20k;
+  _.$_$.c5 = UShortArrayInt__set_impl_38wgvc;
+  _.$_$.d5 = Uint16Buffer__set_impl_g0kliu;
+  _.$_$.e5 = _Uint8Buffer___get_buffer__impl__mscllu;
+  _.$_$.f5 = Companion_getInstance_17;
+  _.$_$.g5 = Companion_getInstance_114;
+  _.$_$.h5 = Companion_getInstance_7;
+  _.$_$.i5 = Companion_getInstance_6;
+  _.$_$.j5 = Companion_getInstance_15;
+  _.$_$.k5 = Companion_getInstance_115;
+  _.$_$.l5 = Console_getInstance;
+  _.$_$.m5 = Companion_getInstance_27;
+  _.$_$.n5 = Companion_getInstance_62;
+  _.$_$.o5 = Companion_getInstance_64;
+  _.$_$.p5 = EmptyShape2D_getInstance;
+  _.$_$.q5 = Companion_getInstance_66;
+  _.$_$.r5 = Companion_getInstance_69;
+  _.$_$.s5 = Companion_getInstance_68;
+  _.$_$.t5 = Companion_getInstance_80;
+  _.$_$.u5 = Companion_getInstance_79;
+  _.$_$.v5 = Companion_getInstance_75;
+  _.$_$.w5 = Command_getInstance;
+  _.$_$.x5 = Companion_getInstance_30;
+  _.$_$.y5 = Companion_getInstance_31;
+  _.$_$.z5 = Companion_getInstance_32;
+  _.$_$.a6 = Companion_getInstance_36;
+  _.$_$.b6 = Companion_getInstance_82;
+  _.$_$.c6 = Companion_getInstance_37;
+  _.$_$.d6 = Companion_getInstance_38;
+  _.$_$.e6 = Companion_getInstance_39;
+  _.$_$.f6 = Companion_getInstance_42;
+  _.$_$.g6 = Companion_getInstance_40;
+  _.$_$.h6 = Companion_getInstance_46;
+  _.$_$.i6 = Companion_getInstance_47;
+  _.$_$.j6 = Companion_getInstance_48;
+  _.$_$.k6 = Companion_getInstance_50;
+  _.$_$.l6 = Companion_getInstance_53;
+  _.$_$.m6 = Companion_getInstance_54;
+  _.$_$.n6 = Companion_getInstance_29;
+  _.$_$.o6 = Companion_getInstance_28;
+  _.$_$.p6 = Companion_getInstance_104;
+  _.$_$.q6 = Companion_getInstance_116;
+  _.$_$.r6 = Companion_getInstance_101;
+  _.$_$.s6 = Companion_getInstance_110;
+  _.$_$.t6 = Companion_getInstance_111;
+  _.$_$.u6 = Closeable;
+  _.$_$.v6 = SyncEventLoop;
+  _.$_$.w6 = Lock;
+  _.$_$.x6 = NonRecursiveLock;
+  _.$_$.y6 = Pauseable;
+  _.$_$.z6 = NativeThread;
+  _.$_$.a7 = ByteArrayDeque;
+  _.$_$.b7 = ChunkedByteDeque;
+  _.$_$.c7 = ConcurrentPool;
+  _.$_$.d7 = DoubleArrayList;
+  _.$_$.e7 = Mixin;
+  _.$_$.f7 = PropertyThis;
+  _.$_$.g7 = Property;
+  _.$_$.h7 = Extra;
+  _.$_$.i7 = FastArrayList;
+  _.$_$.j7 = FastIdentityMap;
+  _.$_$.k7 = FastIntMap;
+  _.$_$.l7 = FastSmallSet;
+  _.$_$.m7 = FastStringMap;
+  _.$_$.n7 = FloatArray2;
+  _.$_$.o7 = FloatArrayList;
+  _.$_$.p7 = GenericListIterator;
+  _.$_$.q7 = GenericSubList;
+  _.$_$.r7 = IntArray2;
+  _.$_$.s7 = IntArrayList;
+  _.$_$.t7 = IntDeque;
+  _.$_$.u7 = ListReader;
+  _.$_$.v7 = Pool;
+  _.$_$.w7 = Ref_1;
+  _.$_$.x7 = Ref_0;
+  _.$_$.y7 = ReturnablePool;
+  _.$_$.z7 = RingBuffer;
+  _.$_$.a8 = ShortArrayDeque;
+  _.$_$.b8 = TGenQueue;
+  _.$_$.c8 = binarySearch_0;
+  _.$_$.d8 = clear_0;
+  _.$_$.e8 = contains_6;
+  _.$_$.f8 = expect;
+  _.$_$.g8 = fastArrayListOf;
+  _.$_$.h8 = flip;
+  _.$_$.i8 = floatArrayListOf;
+  _.$_$.j8 = getAndRemove;
+  _.$_$.k8 = getCyclicOrNull;
+  _.$_$.l8 = getCyclic;
+  _.$_$.m8 = getExtraTyped;
+  _.$_$.n8 = getExtra;
+  _.$_$.o8 = get_4;
+  _.$_$.p8 = hasExtra;
+  _.$_$.q8 = intArrayListOf;
+  _.$_$.r8 = get_keys_0;
+  _.$_$.s8 = linkedHashMapOf;
+  _.$_$.t8 = reader;
+  _.$_$.u8 = reverse_0;
+  _.$_$.v8 = setExtra;
+  _.$_$.w8 = set_2;
+  _.$_$.x8 = get_size_4;
+  _.$_$.y8 = toCaseInsensitiveMap;
+  _.$_$.z8 = toDeque;
+  _.$_$.a9 = toFastList_0;
+  _.$_$.b9 = toFastList;
+  _.$_$.c9 = toIntArrayList;
+  _.$_$.d9 = toIntMap;
+  _.$_$.e9 = toMap_0;
+  _.$_$.f9 = toRef;
+  _.$_$.g9 = InjectorContext;
+  _.$_$.h9 = InjectorDependency;
+  _.$_$.i9 = Injector;
+  _.$_$.j9 = DenoPointer;
+  _.$_$.k9 = get_Symbol_asyncIterator;
+  _.$_$.l9 = toJsBigInt;
+  _.$_$.m9 = toLong_0;
+  _.$_$.n9 = valueOf_1;
+  _.$_$.o9 = ProjectedPoint;
+  _.$_$.p9 = get_isConvex;
+  _.$_$.q9 = toStrokePointsList;
+  _.$_$.r9 = ImageDoNotFitException;
+  _.$_$.s9 = HitTestable;
+  _.$_$.t9 = WithHitShape2D;
+  _.$_$.u9 = get_cachedPoints;
+  _.$_$.v9 = getPoints2List;
+  _.$_$.w9 = toPathPointList;
+  _.$_$.x9 = toShape2d;
+  _.$_$.y9 = toShape2d_0;
+  _.$_$.z9 = RectSlice;
+  _.$_$.aa = SliceOrientation;
+  _.$_$.ba = IVectorPath;
+  _.$_$.ca = PolygonScanline;
+  _.$_$.da = RastScale;
+  _.$_$.ea = StrokeInfo;
+  _.$_$.fa = StrokeToFill;
+  _.$_$.ga = arcTo_0;
+  _.$_$.ha = arcTo;
+  _.$_$.ia = arc;
+  _.$_$.ja = circleHole_0;
+  _.$_$.ka = circleHole;
+  _.$_$.la = circle_0;
+  _.$_$.ma = circle;
+  _.$_$.na = cubicTo_0;
+  _.$_$.oa = cubicTo_1;
+  _.$_$.pa = cubicTo;
+  _.$_$.qa = cubic;
+  _.$_$.ra = curves;
+  _.$_$.sa = curves_0;
+  _.$_$.ta = curve;
+  _.$_$.ua = ellipse;
+  _.$_$.va = ellipse_0;
+  _.$_$.wa = ellipse_1;
+  _.$_$.xa = isEmpty_0;
+  _.$_$.ya = isNotEmpty_0;
+  _.$_$.za = lineToH;
+  _.$_$.ab = lineToV;
+  _.$_$.bb = lineTo_0;
+  _.$_$.cb = lineTo;
+  _.$_$.db = lineTo_1;
+  _.$_$.eb = line;
+  _.$_$.fb = moveToH;
+  _.$_$.gb = moveToV;
+  _.$_$.hb = moveTo;
+  _.$_$.ib = moveTo_1;
+  _.$_$.jb = moveTo_0;
+  _.$_$.kb = parallelogram;
+  _.$_$.lb = polygon_0;
+  _.$_$.mb = polygon;
+  _.$_$.nb = polygon_1;
+  _.$_$.ob = polyline_1;
+  _.$_$.pb = polyline_0;
+  _.$_$.qb = polyline;
+  _.$_$.rb = quadTo_0;
+  _.$_$.sb = quadTo_1;
+  _.$_$.tb = quadTo_2;
+  _.$_$.ub = quad;
+  _.$_$.vb = rCubicTo_0;
+  _.$_$.wb = rCubicTo;
+  _.$_$.xb = rLineToHV;
+  _.$_$.yb = rLineToH;
+  _.$_$.zb = rLineToH_0;
+  _.$_$.ac = rLineToV;
+  _.$_$.bc = rLineToV_0;
+  _.$_$.cc = rLineTo;
+  _.$_$.dc = rLineTo_0;
+  _.$_$.ec = rMoveToHV;
+  _.$_$.fc = rMoveToH_0;
+  _.$_$.gc = rMoveToH;
+  _.$_$.hc = rMoveToV;
+  _.$_$.ic = rMoveToV_0;
+  _.$_$.jc = rMoveTo_0;
+  _.$_$.kc = rMoveTo;
+  _.$_$.lc = rQuadTo;
+  _.$_$.mc = rQuadTo_0;
+  _.$_$.nc = rectHole;
+  _.$_$.oc = rectHole_0;
+  _.$_$.pc = rectHole_2;
+  _.$_$.qc = rectHole_1;
+  _.$_$.rc = rect_3;
+  _.$_$.sc = rect_1;
+  _.$_$.tc = rect_4;
+  _.$_$.uc = rect_2;
+  _.$_$.vc = rect;
+  _.$_$.wc = rect_0;
+  _.$_$.xc = regularPolygonHole;
+  _.$_$.yc = regularPolygon;
+  _.$_$.zc = roundRect;
+  _.$_$.ad = roundRect_0;
+  _.$_$.bd = roundRect_3;
+  _.$_$.cd = roundRect_2;
+  _.$_$.dd = roundRect_1;
+  _.$_$.ed = starHole;
+  _.$_$.fd = star;
+  _.$_$.gd = transformed_0;
+  _.$_$.hd = transformed_1;
+  _.$_$.id = write_0;
+  _.$_$.jd = write;
+  _.$_$.kd = VectorBuilder;
+  _.$_$.ld = VectorPath;
+  _.$_$.md = applyTransform;
+  _.$_$.nd = getCurves;
+  _.$_$.od = plus_4;
+  _.$_$.pd = strokeToFill_0;
+  _.$_$.qd = strokeToFill;
+  _.$_$.rd = toCurvesList;
+  _.$_$.sd = write_1;
+  _.$_$.td = Anchor2D;
+  _.$_$.ud = Angle_between;
+  _.$_$.vd = Angle;
+  _.$_$.wd = BoundsBuilder;
+  _.$_$.xd = Line2D;
+  _.$_$.yd = MMatrix;
+  _.$_$.zd = MarginInt;
+  _.$_$.ae = Margin;
+  _.$_$.be = MatrixTransform;
+  _.$_$.ce = Matrix;
+  _.$_$.de = RectCorners;
+  _.$_$.ee = RectangleD;
+  _.$_$.fe = RectangleI;
+  _.$_$.ge = Scale;
+  _.$_$.he = Size2D;
+  _.$_$.ie = SizeInt;
+  _.$_$.je = SizeableInt;
+  _.$_$.ke = Sizeable;
+  _.$_$.le = Vector2D;
+  _.$_$.me = Vector2F;
+  _.$_$.ne = Vector2I;
+  _.$_$.oe = Vector3F;
+  _.$_$.pe = Vector4F;
+  _.$_$.qe = get_degrees;
+  _.$_$.re = get_degrees_0;
+  _.$_$.se = get_immutable_0;
+  _.$_$.te = get_mutable;
+  _.$_$.ue = get_mutable_0;
+  _.$_$.ve = place;
+  _.$_$.we = get_radians_0;
+  _.$_$.xe = toFloat;
+  _.$_$.ye = toInt_1;
+  _.$_$.ze = toMatrix4;
+  _.$_$.af = invoke_3;
+  _.$_$.bf = invoke_4;
+  _.$_$.cf = Easing;
+  _.$_$.df = Interpolable;
+  _.$_$.ef = MutableInterpolable;
+  _.$_$.ff = Ratio;
+  _.$_$.gf = convertRange_2;
+  _.$_$.hf = interpolate_6;
+  _.$_$.if = interpolate_5;
+  _.$_$.jf = interpolate;
+  _.$_$.kf = interpolate_0;
+  _.$_$.lf = interpolate_2;
+  _.$_$.mf = interpolate_1;
+  _.$_$.nf = interpolate_4;
+  _.$_$.of = toRatio_1;
+  _.$_$.pf = toRatio_0;
+  _.$_$.qf = IntSegmentSet;
+  _.$_$.rf = clamp01;
+  _.$_$.sf = clamp01_0;
+  _.$_$.tf = clampUByte;
+  _.$_$.uf = clamp_1;
+  _.$_$.vf = clamp;
+  _.$_$.wf = clamp_2;
+  _.$_$.xf = clamp_0;
+  _.$_$.yf = convertRangeClamped;
+  _.$_$.zf = convertRange_0;
+  _.$_$.ag = convertRange;
+  _.$_$.bg = convertRange_1;
+  _.$_$.cg = divCeil;
+  _.$_$.dg = ilog2;
+  _.$_$.eg = get_isEven;
+  _.$_$.fg = isNanOrInfinite;
+  _.$_$.gg = get_isPowerOfTwo;
+  _.$_$.hg = max_0;
+  _.$_$.ig = max_1;
+  _.$_$.jg = min;
+  _.$_$.kg = min_0;
+  _.$_$.lg = nextAlignedTo_0;
+  _.$_$.mg = nextAlignedTo;
+  _.$_$.ng = nextMultipleOf;
+  _.$_$.og = get_nextPowerOfTwo;
+  _.$_$.pg = roundDecimalPlaces_1;
+  _.$_$.qg = roundDecimalPlaces_0;
+  _.$_$.rg = toIntCeil_0;
+  _.$_$.sg = toIntCeil;
+  _.$_$.tg = toIntClamp;
+  _.$_$.ug = toIntFloor;
+  _.$_$.vg = toIntFloor_0;
+  _.$_$.wg = toIntRound;
+  _.$_$.xg = toIntRound_0;
+  _.$_$.yg = toShortClamped;
+  _.$_$.zg = umod;
+  _.$_$.ah = umod_0;
+  _.$_$.bh = ByteUnits;
+  _.$_$.ch = Buffer;
+  _.$_$.dh = ByteArrayBuilder;
+  _.$_$.eh = UByteArrayInt;
+  _.$_$.fh = get__high;
+  _.$_$.gh = get__low;
+  _.$_$.hh = allocDirect;
+  _.$_$.ih = allocNoDirect;
+  _.$_$.jh = get_arrayByte;
+  _.$_$.kh = get_arrayFloat;
+  _.$_$.lh = get_arrayInt;
+  _.$_$.mh = get_arrayUByte;
+  _.$_$.nh = arrayadd;
+  _.$_$.oh = arraycopy_5;
+  _.$_$.ph = arraycopy_0;
+  _.$_$.qh = arraycopy_2;
+  _.$_$.rh = arraycopy_10;
+  _.$_$.sh = arraycopy_8;
+  _.$_$.th = arraycopy_4;
+  _.$_$.uh = arraycopy_12;
+  _.$_$.vh = arraycopy_3;
+  _.$_$.wh = arraycopy_11;
+  _.$_$.xh = arraycopy_6;
+  _.$_$.yh = arraycopy_7;
+  _.$_$.zh = arraycopy_9;
+  _.$_$.ai = arrayequal;
+  _.$_$.bi = arrayfill_0;
+  _.$_$.ci = arrayfill;
+  _.$_$.di = arrayinterleave;
+  _.$_$.ei = asByteArray;
+  _.$_$.fi = asFloat32;
+  _.$_$.gi = asInt32Array;
+  _.$_$.hi = asUShortArrayInt;
+  _.$_$.ii = clone_0;
+  _.$_$.ji = copyOf_5;
+  _.$_$.ki = extract16Signed;
+  _.$_$.li = extractScaledFFDefault;
+  _.$_$.mi = extractScaledFF;
+  _.$_$.ni = extractScaledf01;
+  _.$_$.oi = extractSigned;
+  _.$_$.pi = extract;
+  _.$_$.qi = get_f32;
+  _.$_$.ri = fromLowHigh;
+  _.$_$.si = getArrayFloat32;
+  _.$_$.ti = getArrayInt32;
+  _.$_$.ui = getArrayInt8;
+  _.$_$.vi = getF32ArrayBE_0;
+  _.$_$.wi = getF32ArrayLE_0;
+  _.$_$.xi = getF32BE;
+  _.$_$.yi = getF32LE;
+  _.$_$.zi = getF64ArrayBE;
+  _.$_$.aj = getF64ArrayLE;
+  _.$_$.bj = getF64BE;
+  _.$_$.cj = getF64LE;
+  _.$_$.dj = getFloat32;
+  _.$_$.ej = getInt32;
+  _.$_$.fj = getInt64;
+  _.$_$.gj = getInt8;
+  _.$_$.hj = getS16ArrayBE_0;
+  _.$_$.ij = getS16ArrayLE_0;
+  _.$_$.jj = getS16BE;
+  _.$_$.kj = getS16LE;
+  _.$_$.lj = getS16_0;
+  _.$_$.mj = getS24BE;
+  _.$_$.nj = getS24LE;
+  _.$_$.oj = getS32ArrayBE_0;
+  _.$_$.pj = getS32ArrayLE_0;
+  _.$_$.qj = getS32BE;
+  _.$_$.rj = getS32LE;
+  _.$_$.sj = getS32_0;
+  _.$_$.tj = getS64ArrayBE;
+  _.$_$.uj = getS64ArrayLE;
+  _.$_$.vj = getS64BE;
+  _.$_$.wj = getS64LE;
+  _.$_$.xj = getS8Array_0;
+  _.$_$.yj = getS8;
+  _.$_$.zj = getSampled;
+  _.$_$.ak = getU16ArrayBE;
+  _.$_$.bk = getU16ArrayLE;
+  _.$_$.ck = getU16BE_0;
+  _.$_$.dk = getU16LE_0;
+  _.$_$.ek = getU16_0;
+  _.$_$.fk = getU24BE;
+  _.$_$.gk = getU24LE;
+  _.$_$.hk = getU32BE;
+  _.$_$.ik = getU32LE;
+  _.$_$.jk = getU8_0;
+  _.$_$.kk = hasFlags;
+  _.$_$.lk = get_high;
+  _.$_$.mk = get_i32;
+  _.$_$.nk = get_i8;
+  _.$_$.ok = indexOf_2;
+  _.$_$.pk = insert14;
+  _.$_$.qk = insert16;
+  _.$_$.rk = insert2;
+  _.$_$.sk = insert3;
+  _.$_$.tk = insert4;
+  _.$_$.uk = insert5;
+  _.$_$.vk = insert8;
+  _.$_$.wk = insertScaledFF;
+  _.$_$.xk = insertScaledf01;
+  _.$_$.yk = insert;
+  _.$_$.zk = insert_0;
+  _.$_$.al = get_low;
+  _.$_$.bl = set16BE;
+  _.$_$.cl = set16LE;
+  _.$_$.dl = set16_0;
+  _.$_$.el = set24BE;
+  _.$_$.fl = set24LE;
+  _.$_$.gl = set32BE;
+  _.$_$.hl = set32LE;
+  _.$_$.il = set8;
+  _.$_$.jl = setArrayLE_2;
+  _.$_$.kl = setBits;
+  _.$_$.ll = setFloat32;
+  _.$_$.ml = setInt32;
+  _.$_$.nl = setInt8;
+  _.$_$.ol = signExtend;
+  _.$_$.pl = get_size_1;
+  _.$_$.ql = sliceBuffer;
+  _.$_$.rl = sliceWithSize;
+  _.$_$.sl = get_u16;
+  _.$_$.tl = get_niceStr_0;
+  _.$_$.ul = get_niceStr_1;
+  _.$_$.vl = niceStr;
+  _.$_$.wl = niceStr_0;
+  _.$_$.xl = get_jsGlobalThis;
   //endregion
   return _;
 }));

@@ -36,31 +36,35 @@
   var interfaceMeta = kotlin_kotlin.$_$.ye;
   var objectMeta = kotlin_kotlin.$_$.zf;
   var get_resourcesVfs = kotlin_com_soywiz_korge_korge_core.$_$.a5;
-  var println = kotlin_kotlin.$_$.wd;
-  var Pair = kotlin_kotlin.$_$.wk;
-  var Container = kotlin_com_soywiz_korge_korge.$_$.o;
-  var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.z1;
+  var Container = kotlin_com_soywiz_korge_korge.$_$.q;
+  var Vector2D = kotlin_com_soywiz_korge_korge_foundation.$_$.le;
+  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.em;
+  var Size2D_init_$Create$ = kotlin_com_soywiz_korge_korge_foundation.$_$.b2;
   var Colors_getInstance = kotlin_com_soywiz_korge_korge_core.$_$.z1;
   var Korge = kotlin_com_soywiz_korge_korge.$_$.b;
   var Unit_getInstance = kotlin_kotlin.$_$.c6;
+  var println = kotlin_kotlin.$_$.wd;
   var ensureNotNull = kotlin_kotlin.$_$.sl;
+  var Pair = kotlin_kotlin.$_$.wk;
   var PixelatedScene = kotlin_com_soywiz_korge_korge.$_$.l;
-  var get_isEven = kotlin_com_soywiz_korge_korge_foundation.$_$.zf;
+  var get_isEven = kotlin_com_soywiz_korge_korge_foundation.$_$.eg;
   var onMouseDrag = kotlin_com_soywiz_korge_korge.$_$.j;
   var draggableCloseable = kotlin_com_soywiz_korge_korge.$_$.h;
-  var FixedSizeContainer = kotlin_com_soywiz_korge_korge.$_$.p;
+  var BlurFilter = kotlin_com_soywiz_korge_korge.$_$.o;
+  var set_filter = kotlin_com_soywiz_korge_korge.$_$.p;
+  var FixedSizeContainer = kotlin_com_soywiz_korge_korge.$_$.r;
   var CoroutineImpl = kotlin_kotlin.$_$.od;
-  var Stage = kotlin_com_soywiz_korge_korge.$_$.q;
+  var Stage = kotlin_com_soywiz_korge_korge.$_$.s;
   var get_AlphaTransition = kotlin_com_soywiz_korge_korge.$_$.k;
-  var Companion_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.j6;
+  var Companion_getInstance = kotlin_com_soywiz_korge_korge_foundation.$_$.n6;
   var withEasing = kotlin_com_soywiz_korge_korge.$_$.n;
-  var Companion_getInstance_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.h6;
+  var Companion_getInstance_0 = kotlin_com_soywiz_korge_korge_foundation.$_$.l6;
   var views = kotlin_com_soywiz_korge_korge.$_$.a;
   var get_COROUTINE_SUSPENDED = kotlin_kotlin.$_$.vc;
-  var findFirstAscendant = kotlin_com_soywiz_korge_korge.$_$.t;
-  var Size2D = kotlin_com_soywiz_korge_korge_foundation.$_$.ce;
+  var findFirstAscendant = kotlin_com_soywiz_korge_korge.$_$.v;
+  var Size2D = kotlin_com_soywiz_korge_korge_foundation.$_$.he;
   var SceneContainer = kotlin_com_soywiz_korge_korge.$_$.m;
-  var addTo = kotlin_com_soywiz_korge_korge.$_$.s;
+  var addTo = kotlin_com_soywiz_korge_korge.$_$.u;
   var DurationUnit_SECONDS_getInstance = kotlin_kotlin.$_$.q;
   var toDuration = kotlin_kotlin.$_$.hk;
   var getKClass = kotlin_kotlin.$_$.f;
@@ -79,17 +83,15 @@
   var enumEntries = kotlin_kotlin.$_$.ud;
   var Enum = kotlin_kotlin.$_$.ok;
   var numberToInt = kotlin_kotlin.$_$.vf;
-  var Vector2D = kotlin_com_soywiz_korge_korge_foundation.$_$.ge;
   var get_mouse = kotlin_com_soywiz_korge_korge.$_$.i;
   var MouseEvents = kotlin_com_soywiz_korge_korge.$_$.g;
   var launchImmediately = kotlin_com_soywiz_korge_korge_core.$_$.o4;
-  var View = kotlin_com_soywiz_korge_korge.$_$.r;
+  var View = kotlin_com_soywiz_korge_korge.$_$.t;
   var View_init_$Init$ = kotlin_com_soywiz_korge_korge.$_$.d;
   var Image_init_$Create$ = kotlin_com_soywiz_korge_korge.$_$.c;
-  var size = kotlin_com_soywiz_korge_korge.$_$.u;
-  var throwUninitializedPropertyAccessException = kotlin_kotlin.$_$.dm;
+  var size = kotlin_com_soywiz_korge_korge.$_$.w;
   var numberToDouble = kotlin_kotlin.$_$.uf;
-  var xy = kotlin_com_soywiz_korge_korge.$_$.v;
+  var xy = kotlin_com_soywiz_korge_korge.$_$.x;
   var KProperty1 = kotlin_kotlin.$_$.eh;
   var getPropertyCallableRef = kotlin_kotlin.$_$.ue;
   var SuspendFunction0 = kotlin_kotlin.$_$.pd;
@@ -360,28 +362,15 @@
       new __KR();
     return __KR_instance;
   }
-  function isPiece(i, cy) {
-    var piss = null;
-    var tmp0_iterator = get_pieces().iterator_jk1svi_k$();
-    while (tmp0_iterator.hasNext_bitz1p_k$()) {
-      var element = tmp0_iterator.next_20eer_k$();
-      var pPos = decodePosition(element.get_piece_iwvl51_k$().get_pos_18iyad_k$());
-      println('nigg');
-      println(pPos);
-      if (pPos.equals(new Pair(i, cy))) {
-        println('ndfsaaaaaaaaaaaaaa');
-        piss = element;
-      }
-    }
-    return piss;
-  }
   function Cell(color, cx, cy, cont) {
     Container.call(this);
     this.cx_1 = cx;
     this.cy_1 = cy;
+    this.prevColor_1 = color;
     var cell = get_board()[this.cx_1][this.cy_1];
     cell.set_x_scd9vp_k$(imul(this.cy_1, 64));
     cell.set_y_lelkme_k$(imul(this.cx_1, 64));
+    this.position_1 = new Vector2D(cell.get_x_1mhr67_k$(), cell.get_y_1mhr68_k$());
     cell.set_color_ltfudu_k$(color);
     cont.addChild_4pft8c_k$(cell);
   }
@@ -397,11 +386,34 @@
   protoOf(Cell).get_cy_knto1t_k$ = function () {
     return this.cy_1;
   };
+  protoOf(Cell).set_position_ayerke_k$ = function (_set____db54di) {
+    this.position_1 = _set____db54di;
+  };
+  protoOf(Cell).get_position_jfponi_k$ = function () {
+    var tmp = this.position_1;
+    if (!(tmp == null))
+      return tmp;
+    else {
+      throwUninitializedPropertyAccessException('position');
+    }
+  };
+  protoOf(Cell).get_prevColor_nh61q6_k$ = function () {
+    return this.prevColor_1;
+  };
   function get_board() {
     _init_properties_Main_kt__xi25uv();
     return board;
   }
   var board;
+  function set_cells(_set____db54di) {
+    _init_properties_Main_kt__xi25uv();
+    cells = _set____db54di;
+  }
+  function get_cells() {
+    _init_properties_Main_kt__xi25uv();
+    return cells;
+  }
+  var cells;
   function set_whitePawn(_set____db54di) {
     _init_properties_Main_kt__xi25uv();
     whitePawn = _set____db54di;
@@ -447,6 +459,15 @@
     return whiteTurn;
   }
   var whiteTurn;
+  function set_markedCells(_set____db54di) {
+    _init_properties_Main_kt__xi25uv();
+    markedCells = _set____db54di;
+  }
+  function get_markedCells() {
+    _init_properties_Main_kt__xi25uv();
+    return markedCells;
+  }
+  var markedCells;
   function main($completion) {
     var tmp = Size2D_init_$Create$(512, 512);
     var tmp_0 = Colors_getInstance().get_4ig539_k$('#2b2b2b');
@@ -463,7 +484,6 @@
   }
   function GameScene$sceneMain$lambda_0($newPosition, $currentPos, $piss) {
     return function (info) {
-      info.get_view_wow8a6_k$().set_x_scd9vp_k$(info.get_viewNextXY_hgu6ki_k$().get_x_1mhr67_k$());
       var tmp;
       if (info.get_start_iypx6h_k$()) {
         var tmp0_iterator = get_pieces().iterator_jk1svi_k$();
@@ -475,20 +495,37 @@
             $piss._v = piece;
           }
         }
+        var tmp1_iterator = get_cells().iterator_jk1svi_k$();
+        while (tmp1_iterator.hasNext_bitz1p_k$()) {
+          var cell = tmp1_iterator.next_20eer_k$();
+          var clx = cell.get_cx_knto1u_k$();
+          var cly = cell.get_cy_knto1t_k$();
+          var clxy = new Pair(clx, cly);
+          if (ensureNotNull($newPosition._v).equals(new Pair(clx, cly))) {
+            println('Found Cell where piece is located: ' + clx + ', ' + cly);
+          }
+          if (moveChecker(ensureNotNull($newPosition._v), clxy, ensureNotNull($piss._v).get_pieceKind_ae3sop_k$(), false)) {
+            println('Can move to: ' + clx + ', ' + cly);
+            changeColor(cly, clx, false);
+            get_markedCells().add_utx5q5_k$(cell);
+          }
+        }
         tmp = Unit_getInstance();
       }
       var tmp_0;
       if (info.get_end_18j6ha_k$()) {
         println('End');
-        var tmp_1;
-        if (moveChecker(ensureNotNull($currentPos._v), ensureNotNull($newPosition._v), ensureNotNull($piss._v).get_pieceKind_ae3sop_k$())) {
+        if (moveChecker(ensureNotNull($currentPos._v), ensureNotNull($newPosition._v), ensureNotNull($piss._v).get_pieceKind_ae3sop_k$(), true)) {
           ensureNotNull($piss._v).moveTo_tor82s_k$(ensureNotNull($newPosition._v).get_first_irdx8n_k$(), ensureNotNull($newPosition._v).get_second_jf7fjx_k$());
-          tmp_1 = Unit_getInstance();
         } else {
           ensureNotNull($piss._v).moveTo_tor82s_k$(ensureNotNull($currentPos._v).get_first_irdx8n_k$(), ensureNotNull($currentPos._v).get_second_jf7fjx_k$());
-          tmp_1 = Unit_getInstance();
         }
-        tmp_0 = tmp_1;
+        var tmp2_iterator = get_markedCells().iterator_jk1svi_k$();
+        while (tmp2_iterator.hasNext_bitz1p_k$()) {
+          var cell_0 = tmp2_iterator.next_20eer_k$();
+          changeColor(cell_0.get_cy_knto1t_k$(), cell_0.get_cx_knto1u_k$(), true);
+        }
+        tmp_0 = Unit_getInstance();
       }
       return Unit_getInstance();
     };
@@ -510,9 +547,11 @@
             var cy = inductionVariable_0;
             inductionVariable_0 = inductionVariable_0 + 1 | 0;
             if (get_isEven(d)) {
-              new Cell(Colors_getInstance().get_WHITE_2x68tz_k$(), cx, cy, this.cont_1);
+              var cl = new Cell(Colors_getInstance().get_WHITE_2x68tz_k$(), cx, cy, this.cont_1);
+              get_cells().add_utx5q5_k$(cl);
             } else {
-              new Cell(Colors_getInstance().get_BLACK_k2cofn_k$(), cx, cy, this.cont_1);
+              var cl_0 = new Cell(Colors_getInstance().get_BLACK_k2cofn_k$(), cx, cy, this.cont_1);
+              get_cells().add_utx5q5_k$(cl_0);
             }
             d = d + 1 | 0;
           }
@@ -559,38 +598,56 @@
     draggableCloseable(_this__u8e3s4, tmp, VOID, GameScene$sceneMain$lambda_0(newPosition, currentPos, piss));
     return Unit_getInstance();
   };
-  function moveChecker(oldPos, newPos, kind) {
+  function changeColor(cly, clx, back) {
     _init_properties_Main_kt__xi25uv();
-    println('oldPos: ' + oldPos);
-    println('newPos: ' + newPos);
+    if (back) {
+      var tmp0_iterator = get_cells().iterator_jk1svi_k$();
+      while (tmp0_iterator.hasNext_bitz1p_k$()) {
+        var cell = tmp0_iterator.next_20eer_k$();
+        if (cell.get_cx_knto1u_k$() === clx ? cell.get_cy_knto1t_k$() === cly : false) {
+          set_filter(get_board()[cly][clx], null);
+        }
+      }
+    } else {
+      set_filter(get_board()[cly][clx], new BlurFilter(20.0));
+    }
+  }
+  function moveChecker(oldPos, newPos, kind, withCheck) {
+    _init_properties_Main_kt__xi25uv();
+    // Inline function 'kotlin.collections.find' call
+    var this_0 = get_pieces();
+    var tmp$ret$1;
+    $l$block: {
+      // Inline function 'kotlin.collections.firstOrNull' call
+      var tmp0_iterator = this_0.iterator_jk1svi_k$();
+      while (tmp0_iterator.hasNext_bitz1p_k$()) {
+        var element = tmp0_iterator.next_20eer_k$();
+        // Inline function 'moveChecker.<anonymous>' call
+        if (element.get_position_jfponi_k$().equals(get_board()[newPos.get_second_jf7fjx_k$()][newPos.get_first_irdx8n_k$()].get_pos_18iyad_k$())) {
+          tmp$ret$1 = element;
+          break $l$block;
+        }
+      }
+      tmp$ret$1 = null;
+    }
+    var pieceOnNewPos = tmp$ret$1;
     if (get_whiteTurn()) {
       if (kind.get_ordinal_ip24qg_k$() === 0) {
-        println('White Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
         if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 1 ? newPos.get_second_jf7fjx_k$() === 3 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
-          set_whiteTurn(false);
-          return true;
-        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === 1 ? true : (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === -1 : false) {
-          // Inline function 'kotlin.collections.find' call
-          var this_0 = get_pieces();
-          var tmp$ret$1;
-          $l$block: {
-            // Inline function 'kotlin.collections.firstOrNull' call
-            var tmp0_iterator = this_0.iterator_jk1svi_k$();
-            while (tmp0_iterator.hasNext_bitz1p_k$()) {
-              var element = tmp0_iterator.next_20eer_k$();
-              // Inline function 'moveChecker.<anonymous>' call
-              if (element.get_position_jfponi_k$().equals(get_board()[newPos.get_second_jf7fjx_k$()][newPos.get_first_irdx8n_k$()].get_pos_18iyad_k$())) {
-                tmp$ret$1 = element;
-                break $l$block;
-              }
+          if (pieceOnNewPos == null) {
+            if (withCheck) {
+              set_whiteTurn(false);
             }
-            tmp$ret$1 = null;
+            return true;
           }
-          var destiny = tmp$ret$1;
-          println('Destiny: ' + destiny);
-          if (!(destiny == null)) {
-            get_pieces().remove_cedx0m_k$(destiny);
-            destiny.get_piece_iwvl51_k$().removeFromParent_owh2k8_k$();
+        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === 1 ? (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === 1 ? true : (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === -1 : false) {
+          println('Destiny: ' + pieceOnNewPos);
+          if (!(pieceOnNewPos == null)) {
+            if (withCheck) {
+              get_pieces().remove_cedx0m_k$(pieceOnNewPos);
+              pieceOnNewPos.get_piece_iwvl51_k$().removeFromParent_owh2k8_k$();
+              set_whiteTurn(false);
+            }
             return true;
           }
         }
@@ -600,10 +657,22 @@
     }
     if (!get_whiteTurn()) {
       if (kind.get_ordinal_ip24qg_k$() === 1) {
-        println('Black Pawn: OldPosSecond: ' + oldPos.get_second_jf7fjx_k$() + ' NewPosSecond: ' + newPos.get_second_jf7fjx_k$() + ' OldPosFirst: ' + oldPos.get_first_irdx8n_k$() + ' NewPosFirst: ' + newPos.get_first_irdx8n_k$());
         if (((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === -1 ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) ? true : (oldPos.get_second_jf7fjx_k$() === 6 ? newPos.get_second_jf7fjx_k$() === 4 : false) ? oldPos.get_first_irdx8n_k$() === newPos.get_first_irdx8n_k$() : false) {
-          set_whiteTurn(true);
-          return true;
+          if (pieceOnNewPos == null) {
+            if (withCheck) {
+              set_whiteTurn(true);
+            }
+            return true;
+          }
+        } else if ((newPos.get_second_jf7fjx_k$() - oldPos.get_second_jf7fjx_k$() | 0) === -1 ? (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === 1 ? true : (newPos.get_first_irdx8n_k$() - oldPos.get_first_irdx8n_k$() | 0) === -1 : false) {
+          if (!(pieceOnNewPos == null)) {
+            if (withCheck) {
+              set_whiteTurn(true);
+              get_pieces().remove_cedx0m_k$(pieceOnNewPos);
+              pieceOnNewPos.get_piece_iwvl51_k$().removeFromParent_owh2k8_k$();
+            }
+            return true;
+          }
         }
       } else {
         return false;
@@ -812,11 +881,13 @@
         tmp = tmp + 1 | 0;
       }
       board = tmp_0;
+      cells = ArrayList_init_$Create$();
       whitePawn = null;
       blackPawn = null;
       lastClicked = null;
       pieces = ArrayList_init_$Create$();
       whiteTurn = true;
+      markedCells = ArrayList_init_$Create$();
     }
   }
   var PieceKind_whitePawn_instance;
