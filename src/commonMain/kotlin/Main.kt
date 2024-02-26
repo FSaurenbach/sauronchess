@@ -42,22 +42,22 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
             d++
         }
-        var pw1 = Piece(PieceKind.whitePawn, Colors.WHITE, 0, 1, cont = cont)
-        var pb1 = Piece(PieceKind.blackPawn, Colors.BLACK, 0, 6, cont = cont)
-        var pw2 = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
-        var pb2 = Piece(PieceKind.blackPawn, Colors.BLACK, 1, 6, cont = cont)
-        var pw3 = Piece(PieceKind.whitePawn, Colors.WHITE, 2, 1, cont = cont)
-        var pb3 = Piece(PieceKind.blackPawn, Colors.BLACK, 2, 6, cont = cont)
-        var pw4 = Piece(PieceKind.whitePawn, Colors.WHITE, 3, 1, cont = cont)
-        var pb4 = Piece(PieceKind.blackPawn, Colors.BLACK, 3, 6, cont = cont)
-        var pw5 = Piece(PieceKind.whitePawn, Colors.WHITE, 4, 1, cont = cont)
-        var pb5 = Piece(PieceKind.blackPawn, Colors.BLACK, 4, 6, cont = cont)
-        var pw6 = Piece(PieceKind.whitePawn, Colors.WHITE, 5, 1, cont = cont)
-        var pb6 = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
-        var pw7 = Piece(PieceKind.whitePawn, Colors.WHITE, 6, 1, cont = cont)
-        var pb7 = Piece(PieceKind.blackPawn, Colors.BLACK, 6, 6, cont = cont)
-        var pw8 = Piece(PieceKind.whitePawn, Colors.WHITE, 7, 1, cont = cont)
-        var pb8 = Piece(PieceKind.blackPawn, Colors.BLACK, 7, 6, cont = cont)
+        val pw1 = Piece(PieceKind.whitePawn, Colors.WHITE, 0, 1, cont = cont)
+        val pb1 = Piece(PieceKind.blackPawn, Colors.BLACK, 0, 6, cont = cont)
+        val pw2 = Piece(PieceKind.whitePawn, Colors.WHITE, 1, 1, cont = cont)
+        val pb2 = Piece(PieceKind.blackPawn, Colors.BLACK, 1, 6, cont = cont)
+        val pw3 = Piece(PieceKind.whitePawn, Colors.WHITE, 2, 1, cont = cont)
+        val pb3 = Piece(PieceKind.blackPawn, Colors.BLACK, 2, 6, cont = cont)
+        val pw4 = Piece(PieceKind.whitePawn, Colors.WHITE, 3, 1, cont = cont)
+        val pb4 = Piece(PieceKind.blackPawn, Colors.BLACK, 3, 6, cont = cont)
+        val pw5 = Piece(PieceKind.whitePawn, Colors.WHITE, 4, 1, cont = cont)
+        val pb5 = Piece(PieceKind.blackPawn, Colors.BLACK, 4, 6, cont = cont)
+        val pw6 = Piece(PieceKind.whitePawn, Colors.WHITE, 5, 1, cont = cont)
+        val pb6 = Piece(PieceKind.blackPawn, Colors.BLACK, 5, 6, cont = cont)
+        val pw7 = Piece(PieceKind.whitePawn, Colors.WHITE, 6, 1, cont = cont)
+        val pb7 = Piece(PieceKind.blackPawn, Colors.BLACK, 6, 6, cont = cont)
+        val pw8 = Piece(PieceKind.whitePawn, Colors.WHITE, 7, 1, cont = cont)
+        val pb8 = Piece(PieceKind.blackPawn, Colors.BLACK, 7, 6, cont = cont)
         pieces.add(pw1)
         pieces.add(pb1)
         pieces.add(pw2)
@@ -119,7 +119,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
     println("oldPos: $oldPos")
     println("newPos: $newPos")
 
-    var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
+    val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
 
 
@@ -128,7 +128,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
             PieceKind.whitePawn -> {
                 println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
-                    if (destiny == null) {
+                    if (pieceOnNewPos == null) {
                         whiteTurn = false
                         return true
 
@@ -138,10 +138,10 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
                 // If the pawn is trying to capture a piece
                 else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
 
-                    println("Destiny: $destiny")
-                    if (destiny != null) {
-                        pieces.remove(destiny)
-                        destiny.piece.removeFromParent()
+                    println("Destiny: $pieceOnNewPos")
+                    if (pieceOnNewPos != null) {
+                        pieces.remove(pieceOnNewPos)
+                        pieceOnNewPos.piece.removeFromParent()
                         whiteTurn = false
                         return true
 
@@ -159,7 +159,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
             PieceKind.blackPawn -> {
                 println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
-                    if (destiny == null) {
+                    if (pieceOnNewPos == null) {
                         whiteTurn = true
 
                         return true
@@ -167,11 +167,9 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
                 }
                 // If the pawn is trying to capture a piece
                 else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-                    var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
-                    println("Destiny: $destiny")
-                    if (destiny != null) {
-                        pieces.remove(destiny)
-                        destiny.piece.removeFromParent()
+                    if (pieceOnNewPos != null) {
+                        pieces.remove(pieceOnNewPos)
+                        pieceOnNewPos.piece.removeFromParent()
                         whiteTurn = true
                         return true
 
