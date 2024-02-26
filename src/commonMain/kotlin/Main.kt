@@ -119,7 +119,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
     println("oldPos: $oldPos")
     println("newPos: $newPos")
 
-
+    var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
 
 
@@ -128,12 +128,16 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
             PieceKind.whitePawn -> {
                 println("White Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
-                    whiteTurn = false
-                    return true
+                    if (destiny == null) {
+                        whiteTurn = false
+                        return true
+
+                    }
+
                 }
                 // If the pawn is trying to capture a piece
-                else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first -oldPos.first == -1)) ) {
-                    var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
+                else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
+
                     println("Destiny: $destiny")
                     if (destiny != null) {
                         pieces.remove(destiny)
@@ -155,11 +159,14 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind)
             PieceKind.blackPawn -> {
                 println("Black Pawn: OldPosSecond: ${oldPos.second} NewPosSecond: ${newPos.second} OldPosFirst: ${oldPos.first} NewPosFirst: ${newPos.first}")
                 if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
-                    whiteTurn = true
-                    return true
+                    if (destiny == null) {
+                        whiteTurn = true
+
+                        return true
+                    }
                 }
                 // If the pawn is trying to capture a piece
-                else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first -oldPos.first == -1)) ) {
+                else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
                     var destiny = pieces.find { it.position == board[newPos.second][newPos.first].pos }
                     println("Destiny: $destiny")
                     if (destiny != null) {
