@@ -8,7 +8,9 @@ import korlibs.math.geom.*
 
 enum class PieceKind(kind: String) {
     whitePawn("wP"),
-    blackPawn("bP")
+    blackPawn("bP"),
+    whiteRook("wR"),
+    blackRook("bR"),
 
 }
 
@@ -39,10 +41,22 @@ class Piece(kind: PieceKind, color: RGBA, cx: Int, cy: Int, cont: SceneContainer
                 piece.addTo(cont) // Add the piece to the scene first
                 moveTo(cx, cy) // Then update its position
             }
+            if (kind == PieceKind.whiteRook) {
+                piece = Image(whiteRook!!)
+                piece.size(Size(64, 64))
+                piece.addTo(cont) // Add the piece to the scene first
+                moveTo(cx, cy) // Then update its position
+            }
         }
         if (color == Colors.BLACK) {
             if (kind == PieceKind.blackPawn) {
                 piece = Image(blackPawn!!)
+                piece.size(Size(64, 64))
+                piece.addTo(cont) // Add the piece to the scene first
+                moveTo(cx, cy) // Then update its position
+            }
+            if (kind == PieceKind.blackRook) {
+                piece = Image(blackRook!!)
                 piece.size(Size(64, 64))
                 piece.addTo(cont) // Add the piece to the scene first
                 moveTo(cx, cy) // Then update its position

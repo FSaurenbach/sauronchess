@@ -15,6 +15,8 @@ val board = Array(8) { Array(8) { SolidRect(512 / 8, 512 / 8) } }
 var cells = ArrayList<Cell>()
 var whitePawn: Bitmap? = null
 var blackPawn: Bitmap? = null
+var whiteRook: Bitmap? = null
+var blackRook: Bitmap? = null
 var lastClicked: Point? = null
 var pieces = ArrayList<Piece>()
 var whiteTurn = true
@@ -24,6 +26,8 @@ suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors
 
     whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
     blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
+    whiteRook = resourcesVfs["w_rook.png"].readBitmap()
+    blackRook = resourcesVfs["b_rook.png"].readBitmap()
     sceneContainer.changeTo { GameScene(sceneContainer) }
 }
 
@@ -67,6 +71,9 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         val pb7 = Piece(PieceKind.blackPawn, Colors.BLACK, 6, 6, cont = cont)
         val pw8 = Piece(PieceKind.whitePawn, Colors.WHITE, 7, 1, cont = cont)
         val pb8 = Piece(PieceKind.blackPawn, Colors.BLACK, 7, 6, cont = cont)
+        // Rooks
+        val rw1 = Piece(PieceKind.whiteRook, Colors.WHITE, 0, 0, cont = cont)
+        val rb1 = Piece(PieceKind.blackRook, Colors.BLACK, 0, 7, cont = cont)
         pieces.add(pw1)
         pieces.add(pb1)
         pieces.add(pw2)
@@ -83,6 +90,8 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         pieces.add(pb7)
         pieces.add(pw8)
         pieces.add(pb8)
+        pieces.add(rw1)
+        pieces.add(rb1)
 
 
         var newPosition: Pair<Int, Int>? = null
@@ -122,12 +131,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 }
 
 
-
-
-
-
-
-
             }
             if (info.end) {
 
@@ -148,21 +151,25 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
 
 }
-fun changeColor(cly: Int, clx: Int, back:Boolean) {
-    if (back){
+
+fun changeColor(cly: Int, clx: Int, back: Boolean) {
+    if (back) {
         for (cell in cells) {
             if (cell.cx == clx && cell.cy == cly) {
                 board[cly][clx].filter = null
             }
         }
-    }
-    else {
+    } else {
         board[cly][clx].filter = BlurFilter(20.0)
     }
 
 }
 
-fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind, withCheck:Boolean): Boolean {
+// Check if a piece is in the way of a rook
+
+
+
+fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind, withCheck: Boolean): Boolean {
 
     val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
@@ -173,7 +180,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
             PieceKind.whitePawn -> {
                 if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
                     if (pieceOnNewPos == null) {
-                        if (withCheck)whiteTurn = false
+                        if (withCheck) whiteTurn = false
                         return true
 
                     }
@@ -184,7 +191,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
 
                     println("Destiny: $pieceOnNewPos")
                     if (pieceOnNewPos != null) {
-                        if (withCheck){
+                        if (withCheck) {
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
                             whiteTurn = false
@@ -193,6 +200,16 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
 
                         return true
 
+                    }
+                }
+            }
+            PieceKind.whiteRook -> {
+                if (oldPos.first == newPos.first || oldPos.second == newPos.second) {
+                    if (pieceOnNewPos == null) {
+                        if (withCheck) {
+                            whiteTurn = false
+                        }
+                        return true
                     }
                 }
             }
@@ -207,7 +224,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
             PieceKind.blackPawn -> {
                 if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
                     if (pieceOnNewPos == null) {
-                        if (withCheck)whiteTurn = true
+                        if (withCheck) whiteTurn = true
 
                         return true
                     }
@@ -216,7 +233,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                 else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
                     if (pieceOnNewPos != null) {
 
-                        if (withCheck){
+                        if (withCheck) {
                             whiteTurn = true
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
@@ -226,7 +243,16 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                     }
                 }
             }
-
+            PieceKind.blackRook -> {
+                if (oldPos.first == newPos.first || oldPos.second == newPos.second) {
+                    if (pieceOnNewPos == null) {
+                        if (withCheck) {
+                            whiteTurn = true
+                        }
+                        return true
+                    }
+                }
+            }
             else -> {
                 return false
             }
