@@ -177,6 +177,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
 
     if (whiteTurn) {
         when (kind) {
+
             PieceKind.whitePawn -> {
                 if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
                     if (pieceOnNewPos == null) {
@@ -186,19 +187,18 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                     }
 
                 }
-                // If the pawn is trying to capture a piece
+                // Capture a piece
                 else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
 
                     println("Destiny: $pieceOnNewPos")
-                    if (pieceOnNewPos != null) {
+                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.blackPawn) {
                         if (withCheck) {
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
                             whiteTurn = false
+                            return true
                         }
 
-
-                        return true
 
                     }
                 }
@@ -231,14 +231,14 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                 }
                 // If the pawn is trying to capture a piece
                 else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-                    if (pieceOnNewPos != null) {
+                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.whitePawn) {
 
-                        if (withCheck) {
+                        if (withCheck ) {
                             whiteTurn = true
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
+                            return true
                         }
-                        return true
 
                     }
                 }
