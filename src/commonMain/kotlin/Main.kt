@@ -108,33 +108,35 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         println("${piece.pieceKind}")
                         currentPos = newPosition
                         piss = piece
+                        for (cell in cells) {
+                            var clx = cell.cx
+                            var cly = cell.cy
+                            var clxy = Pair(clx, cly)
+                            if (newPosition!! == Pair(clx, cly)) {
+                                println("Found Cell where piece is located: $clx, $cly")
+                            }
+                            // Check where the piece can move to by using the move checker function and print out the location of the cells
+                            if (moveChecker(newPosition!!, clxy, piss!!.pieceKind, false)) {
+                                println("Can move to: $clx, $cly")
+                                changeColor(cly, clx, false)
+                                markedCells.add(cell)
+                            }
+
+
+                        }
+
 
 
                     }
                 }
                 // Go through every cell in cells and check with the move checker function on which cell the piece could move and print it out
-                for (cell in cells) {
-                    var clx = cell.cx
-                    var cly = cell.cy
-                    var clxy = Pair(clx, cly)
-                    if (newPosition!! == Pair(clx, cly)) {
-                        println("Found Cell where piece is located: $clx, $cly")
-                    }
-                    // Check where the piece can move to by using the move checker function and print out the location of the cells
-                    if (moveChecker(newPosition!!, clxy, piss!!.pieceKind, false)) {
-                        println("Can move to: $clx, $cly")
-                        changeColor(cly, clx, false)
-                        markedCells.add(cell)
-                    }
 
-
-                }
 
 
             }
-            if (info.end) {
-
-                println("End")
+            if (info.end && piss !=null) {
+                println("pieceKind: ${piss!!.pieceKind} location: ${decodePosition(piss!!.position)}")
+                println("End \n \n \n \n \n")
                 if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind, true)) piss!!.moveTo(
                     newPosition!!.first, newPosition!!.second
                 )
@@ -142,6 +144,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 for (cell in markedCells) {
                     changeColor(cell.cy, cell.cx, true)
                 }
+                piss = null
 
             }
         }
@@ -231,7 +234,7 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                 }
                 // If the pawn is trying to capture a piece
                 else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.whitePawn) {
+                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.whitePawn ) {
 
                         if (withCheck ) {
                             whiteTurn = true
