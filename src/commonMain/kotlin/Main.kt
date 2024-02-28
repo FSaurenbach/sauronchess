@@ -199,21 +199,56 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
                             whiteTurn = false
-                            return true
+
                         }
+                        return true
 
 
                     }
                 }
             }
             PieceKind.whiteRook -> {
-                if (oldPos.first == newPos.first || oldPos.second == newPos.second) {
+                if (oldPos.first == newPos.first) {
+                    if (pieceOnNewPos == null) {
+                        if (withCheck) {
+                            whiteTurn = !whiteTurn
+                        }
+
+                    }
+                    for (piece in pieces){
+                        for (i in oldPos.second..newPos.second){
+                            println("oldPosFirst: ${oldPos.first} i: $i")
+                            println("Piece position: ${decodePosition(piece.position)}")
+                            if (piece.position == board[i][oldPos.first].pos) {
+                                println("Piece in the way of rook at position: ${decodePosition(piece.position)}")
+                                if (piece != pieces.find { it.position == board[oldPos.first][oldPos.second].pos }) {
+                                    return false
+                                }
+                            }
+                        }
+                    }
+                    return true
+                }
+                else if (oldPos.second == newPos.second) {
                     if (pieceOnNewPos == null) {
                         if (withCheck) {
                             whiteTurn = false
                         }
-                        return true
+
                     }
+                    for (piece in pieces){
+                        for (i in oldPos.first..newPos.first){
+                            println("oldPosSecond: ${oldPos.second} i: $i")
+                            println("Piece position: ${decodePosition(piece.position)}")
+                            if (piece.position == board[i][oldPos.second].pos) {
+                                println("Piece in the way of rook at position: ${decodePosition(piece.position)}")
+                                if (piece != pieces.find { it.position == board[oldPos.first][oldPos.second].pos }) {
+                                    return false
+                                }
+                            }
+                        }
+                    }
+                    return true
                 }
             }
 
@@ -240,22 +275,14 @@ fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind,
                             whiteTurn = true
                             pieces.remove(pieceOnNewPos)
                             pieceOnNewPos.piece.removeFromParent()
-                            return true
+
                         }
+                        return true
 
                     }
                 }
             }
-            PieceKind.blackRook -> {
-                if (oldPos.first == newPos.first || oldPos.second == newPos.second) {
-                    if (pieceOnNewPos == null) {
-                        if (withCheck) {
-                            whiteTurn = true
-                        }
-                        return true
-                    }
-                }
-            }
+
             else -> {
                 return false
             }
