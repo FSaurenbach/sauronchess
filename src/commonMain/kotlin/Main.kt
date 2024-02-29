@@ -72,8 +72,8 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         val pw8 = Piece(PieceKind.whitePawn, Colors.WHITE, 7, 1, cont = cont)
         val pb8 = Piece(PieceKind.blackPawn, Colors.BLACK, 7, 6, cont = cont)
         // Rooks
-        val rw1 = Piece(PieceKind.whiteRook, Colors.WHITE, 0, 0, cont = cont)
-        val rb1 = Piece(PieceKind.blackRook, Colors.BLACK, 0, 7, cont = cont)
+        val rw1 = Piece(PieceKind.whiteRook, Colors.WHITE, 5, 5, cont = cont)
+        val rb1 = Piece(PieceKind.blackRook, Colors.BLACK, 3, 3, cont = cont)
         pieces.add(pw1)
         pieces.add(pb1)
         pieces.add(pw2)
@@ -116,7 +116,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                                 println("Found Cell where piece is located: $clx, $cly")
                             }
                             // Check where the piece can move to by using the move checker function and print out the location of the cells
-                            if (moveChecker(newPosition!!, clxy, piss!!.pieceKind, false)) {
+                            if (piss!!.moveChecker(newPosition!!, clxy, false)) {
                                 println("Can move to: $clx, $cly")
                                 changeColor(cly, clx, false)
                                 markedCells.add(cell)
@@ -126,18 +126,16 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         }
 
 
-
                     }
                 }
                 // Go through every cell in cells and check with the move checker function on which cell the piece could move and print it out
 
 
-
             }
-            if (info.end && piss !=null) {
+            if (info.end && piss != null) {
                 println("pieceKind: ${piss!!.pieceKind} location: ${decodePosition(piss!!.position)}")
                 println("End \n \n \n \n \n")
-                if (moveChecker(currentPos!!, newPosition!!, piss!!.pieceKind, true)) piss!!.moveTo(
+                if (piss!!.moveChecker(currentPos!!, newPosition!!, true)) piss!!.moveTo(
                     newPosition!!.first, newPosition!!.second
                 )
                 else piss!!.moveTo(currentPos!!.first, currentPos!!.second)
@@ -171,123 +169,4 @@ fun changeColor(cly: Int, clx: Int, back: Boolean) {
 // Check if a piece is in the way of a rook
 
 
-
-fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, kind: PieceKind, withCheck: Boolean): Boolean {
-
-    val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
-
-
-
-    if (whiteTurn) {
-        when (kind) {
-
-            PieceKind.whitePawn -> {
-                if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) || (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)) {
-                    if (pieceOnNewPos == null) {
-                        if (withCheck) whiteTurn = false
-                        return true
-
-                    }
-
-                }
-                // Capture a piece
-                else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-
-                    println("Destiny: $pieceOnNewPos")
-                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.blackPawn) {
-                        if (withCheck) {
-                            pieces.remove(pieceOnNewPos)
-                            pieceOnNewPos.piece.removeFromParent()
-                            whiteTurn = false
-
-                        }
-                        return true
-
-
-                    }
-                }
-            }
-            PieceKind.whiteRook -> {
-                if (oldPos.first == newPos.first) {
-                    if (pieceOnNewPos == null) {
-                        if (withCheck) {
-                            whiteTurn = !whiteTurn
-                        }
-
-                    }
-                    for (piece in pieces){
-                        for (i in oldPos.second..newPos.second){
-                            println("oldPosFirst: ${oldPos.first} i: $i")
-                            println("Piece position: ${decodePosition(piece.position)}")
-                            if (piece.position == board[i][oldPos.first].pos) {
-                                println("Piece in the way of rook at position: ${decodePosition(piece.position)}")
-                                if (piece != pieces.find { it.position == board[oldPos.first][oldPos.second].pos }) {
-                                    return false
-                                }
-                            }
-                        }
-                    }
-                    return true
-                }
-                else if (oldPos.second == newPos.second) {
-                    if (pieceOnNewPos == null) {
-                        if (withCheck) {
-                            whiteTurn = false
-                        }
-
-                    }
-                    for (piece in pieces){
-                        for (i in oldPos.first..newPos.first){
-                            println("oldPosSecond: ${oldPos.second} i: $i")
-                            println("Piece position: ${decodePosition(piece.position)}")
-                            if (piece.position == board[i][oldPos.second].pos) {
-                                println("Piece in the way of rook at position: ${decodePosition(piece.position)}")
-                                if (piece != pieces.find { it.position == board[oldPos.first][oldPos.second].pos }) {
-                                    return false
-                                }
-                            }
-                        }
-                    }
-                    return true
-                }
-            }
-
-            else -> {
-                return false
-            }
-        }
-    }
-    if (!whiteTurn) {
-        when (kind) {
-            PieceKind.blackPawn -> {
-                if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) || (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)) {
-                    if (pieceOnNewPos == null) {
-                        if (withCheck) whiteTurn = true
-
-                        return true
-                    }
-                }
-                // If the pawn is trying to capture a piece
-                else if (newPos.second - oldPos.second == -1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-                    if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.whitePawn ) {
-
-                        if (withCheck ) {
-                            whiteTurn = true
-                            pieces.remove(pieceOnNewPos)
-                            pieceOnNewPos.piece.removeFromParent()
-
-                        }
-                        return true
-
-                    }
-                }
-            }
-
-            else -> {
-                return false
-            }
-        }
-    }
-    return false
-}
 
