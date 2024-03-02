@@ -85,19 +85,19 @@ class Piece(
   fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
     val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
-      return if (whiteTurn) {
-          when (pieceKind) {
-              PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
-              PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
-              else -> false
-          }
-      } else {
-          when (pieceKind) {
-              PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
-              PieceKind.BlackRook -> moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
-              else -> false
-          }
+    return if (whiteTurn) {
+      when (pieceKind) {
+        PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
+        PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
+        else -> false
       }
+    } else {
+      when (pieceKind) {
+        PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
+        PieceKind.BlackRook -> moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
+        else -> false
+      }
+    }
   }
 
   private fun moveWhitePawn(
@@ -236,11 +236,6 @@ class Piece(
     return false
   }
 
-  /**
-   * Removes a piece from the board.
-   *
-   * @param piece The piece to be removed.
-   */
   private fun removePiece(piece: Piece) {
     pieces.remove(piece)
   }
