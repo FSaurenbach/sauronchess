@@ -28,7 +28,6 @@ fun decodePosition(cxy: Point): Pair<Int, Int> {
  * Represents a chess piece.
  *
  * @constructor Creates a Piece with the specified parameters.
- * @property kind The kind of piece.
  * @property color The color of the piece.
  * @property cx The x-coordinate of the piece.
  * @property cy The y-coordinate of the piece.
@@ -86,30 +85,21 @@ class Piece(
   fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
     val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
-    if (whiteTurn) {
-      when (pieceKind) {
-        PieceKind.WhitePawn -> return moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
-        PieceKind.WhiteRook -> return moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
-        else -> return false
+      return if (whiteTurn) {
+          when (pieceKind) {
+              PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
+              PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
+              else -> false
+          }
+      } else {
+          when (pieceKind) {
+              PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
+              PieceKind.BlackRook -> moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
+              else -> false
+          }
       }
-    } else {
-      when (pieceKind) {
-        PieceKind.BlackPawn -> return moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
-        PieceKind.BlackRook -> return moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
-        else -> return false
-      }
-    }
   }
 
-  /**
-   * Moves a white pawn on the board.
-   *
-   * @param oldPos The old position of the pawn.
-   * @param newPos The new position of the pawn.
-   * @param pieceOnNewPos The piece occupying the new position, if any.
-   * @param withCheck Indicates whether to perform the move or just check its validity.
-   * @return true if the move is valid, false otherwise.
-   */
   private fun moveWhitePawn(
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -139,15 +129,6 @@ class Piece(
     return false
   }
 
-  /**
-   * Moves a black pawn on the board.
-   *
-   * @param oldPos The old position of the pawn.
-   * @param newPos The new position of the pawn.
-   * @param pieceOnNewPos The piece occupying the new position, if any.
-   * @param withCheck Indicates whether to perform the move or just check its validity.
-   * @return true if the move is valid, false otherwise.
-   */
   private fun moveBlackPawn(
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -177,15 +158,6 @@ class Piece(
     return false
   }
 
-  /**
-   * Moves a white rook on the board.
-   *
-   * @param oldPos The old position of the rook.
-   * @param newPos The new position of the rook.
-   * @param pieceOnNewPos The piece occupying the new position, if any.
-   * @param withCheck Indicates whether to perform the move or just check its validity.
-   * @return true if the move is valid, false otherwise.
-   */
   private fun moveWhiteRook(
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -225,15 +197,6 @@ class Piece(
     return false
   }
 
-  /**
-   * Moves a black rook on the board.
-   *
-   * @param oldPos The old position of the rook.
-   * @param newPos The new position of the rook.
-   * @param pieceOnNewPos The piece occupying the new position, if any.
-   * @param withCheck Indicates whether to perform the move or just check its validity.
-   * @return true if the move is valid, false otherwise.
-   */
   private fun moveBlackRook(
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -278,7 +241,7 @@ class Piece(
    *
    * @param piece The piece to be removed.
    */
-  fun removePiece(piece: Piece) {
+  private fun removePiece(piece: Piece) {
     pieces.remove(piece)
   }
 
