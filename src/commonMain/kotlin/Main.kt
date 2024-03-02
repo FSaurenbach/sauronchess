@@ -142,6 +142,8 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 for (cell in markedCells) {
                     changeColor(cell.cy, cell.cx, true)
                 }
+                markedCells.clear()
+
                 piss = null
 
             }
