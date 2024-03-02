@@ -10,6 +10,49 @@
     "a66860f155cb10a237acb5f7d0f6d0e3": {
       "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-test-js-runner\\1.9.22\\e9b1fc55af69eb09d63b271d17c217d9483241cc\\kotlin-test-js-runner-1.9.22.jar",
       "target": "kotlin-test-js-runner\\0.0.1"
+    },
+    "a17fdb4fafc8e13123c5926fe34c400e": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-stdlib-wasm-js\\1.9.22\\184ac1ecda4780e160cb3a52bd47ac922fcdd2c\\kotlin-stdlib-wasm-js-1.9.22.klib"
+    },
+    "89c577314a8473fed788d93dee0bca7d": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-test-js\\1.9.22\\70518df0fd4efa6ac1b25276580242d673381fb4\\kotlin-test-js-1.9.22.jar",
+      "target": "kotlin-test\\1.9.22"
+    },
+    "b975e3c90d2dd3d9ee4542f1a20c5559": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlin-test-wasm-js\\1.9.22\\687780d050ab01c34257805b791a60465d019e49\\kotlin-test-wasm-js-1.9.22.klib"
+    },
+    "5f1dda5ef43cd29179d0b513345005cf": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlinx\\kotlinx-serialization-json-js\\1.6.2\\c0f0707839e391ab39f021fea5a2af045c29f147\\kotlinx-serialization-json-js-1.6.2.klib"
+    },
+    "aabd2f46fead63ab3b52bd090077097e": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlinx\\kotlinx-serialization-core-js\\1.6.2\\27bceec3b89d0eec8f951f8b25f16fffa0df214e\\kotlinx-serialization-core-js-1.6.2.klib"
+    },
+    "7c9e65e691fa70cffba20e1e5c5266e6": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlinx\\kotlinx-coroutines-core-js\\1.8.0-RC\\823efcf6f4a82e213ae9c5c269e516b2f1972051\\kotlinx-coroutines-core-js-1.8.0-RC.klib"
+    },
+    "ba8177ecda3981427862b37308d71b44": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlinx\\atomicfu-js\\0.23.1\\e19f377f0dc24137414f5f3e1be730f60aeb9539\\atomicfu-js-0.23.1.klib"
+    },
+    "e9306c2451bbe8784372b11cb78554d0": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\org.jetbrains.kotlin\\kotlinx-atomicfu-runtime\\1.9.21\\373f8846d435f6e7f77453cefbb97c548ae4781e\\kotlinx-atomicfu-runtime-1.9.21.klib"
+    },
+    "509359632d9f9a8f284db8ce0f1efe77": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korge-js\\5.3.0\\fe05d32176cb0855af3af410fc6348c5c931a6e7\\korge-js-5.3.0.klib"
+    },
+    "444ab9e55be84b5c88276aa01278b257": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korge-core-js\\5.3.0\\b107d4f5e2faa9a125cf017c2bd587ab0b51e5ae\\korge-core-js-5.3.0.klib"
+    },
+    "cdf8209cbb92ada599b22e00b8495436": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korge-foundation-js\\5.3.0\\4510ccb36788087944ddc4b712be7b7bcd5bb6c0\\korge-foundation-js-5.3.0.klib"
+    },
+    "69ae9a663e45aba3107d460bf94cde05": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korlibs-crypto-js\\5.3.0\\e3c1ee1f659603f9bf0d3c7b54151d569b6d778\\korlibs-crypto-js-5.3.0.klib"
+    },
+    "88ad7b446d7ca7ee1f8f197aaa37e1c4": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korlibs-time-js\\5.3.0\\d34fb1d57f5105bc920107cf37d97c60a1ef8b3d\\korlibs-time-js-5.3.0.klib"
+    },
+    "1b472c1b57c4fcbb501bf353a715c63a": {
+      "src": "C:\\Users\\ferdi\\.gradle\\caches\\modules-2\\files-2.1\\com.soywiz.korge\\korlibs-template-js\\5.3.0\\23fbad2d86ea77f3b3c95f20faf80bfc6cc5b424\\korlibs-template-js-5.3.0.klib"
     }
   }
 }

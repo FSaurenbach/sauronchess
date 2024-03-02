@@ -12,3 +12,4 @@ src/main/*
 .DS_Store
 
 /kotlin-js-store/
+/build/
