@@ -15,23 +15,23 @@ import korlibs.math.geom.*
  */
 class Cell(color: RGBA, var cx: Int, var cy: Int, cont: SceneContainer) : Container() {
 
-  private var position: Point
+    private var position: Point
 
-  init {
-    // Retrieve the cell from the board based on the coordinates
-    val cell = board[cx][cy]
+    init {
+        // Retrieve the cell from the board based on the coordinates
+        val cell = board[cx][cy]
 
-    // Calculate the x and y coordinates of the cell within the scene
-    cell.x = (cy * (512 / 8)).toDouble()
-    cell.y = (cx * (512 / 8)).toDouble()
+        // Calculate the x and y coordinates of the cell within the scene
+        cell.x = (cy * (512 / 8)).toDouble()
+        cell.y = (cx * (512 / 8)).toDouble()
 
-    // Set the position of the cell
-    position = Point(cell.x, cell.y)
+        // Set the position of the cell
+        position = Point(cell.x, cell.y)
 
-    // Set the color of the cell
-    cell.color = color
+        // Set the color of the cell
+        cell.color = color
 
-    // Add the cell to the specified scene container
-    cont.addChild(cell)
-  }
+        // Add the cell to the specified scene container
+        cont.addChild(cell)
+    }
 }
