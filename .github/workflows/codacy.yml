@@ -61,6 +61,3 @@ jobs:
         with:
           sarif_file: results.sarif
 
-      # Add Codacy Coverage Reporter
-      - name: Codacy Coverage Reporter
-        uses: codacy/codacy-coverage-reporter-action@v1.3.0
