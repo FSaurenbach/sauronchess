@@ -84,138 +84,137 @@ class Piece(
    * @return true if the move is valid, false otherwise.
    */
   fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
-    val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
+      val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
-    if (whiteTurn) {
-      when (pieceKind) {
-        PieceKind.WhitePawn -> {
-          if (
-            (newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) ||
-              (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)
-          ) {
-            if (pieceOnNewPos == null) {
-              if (withCheck) whiteTurn = false
-              return true
-            }
-          } else if (
-            newPos.second - oldPos.second == 1 &&
-              ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
-          ) {
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.BlackPawn) {
-              if (withCheck) {
-                pieces.remove(pieceOnNewPos)
-                pieceOnNewPos.piece.removeFromParent()
-                whiteTurn = false
-              }
-              return true
-            }
+      if (whiteTurn) {
+          when (pieceKind) {
+              PieceKind.WhitePawn -> return moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
+              PieceKind.WhiteRook -> return moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
+              else -> return false
           }
-        }
-        PieceKind.WhiteRook -> {
-          if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
-            return false
+      } else {
+          when (pieceKind) {
+              PieceKind.BlackPawn -> return moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
+              PieceKind.BlackRook -> return moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
+              else -> return false
           }
-
-          val minRow = minOf(oldPos.first, newPos.first)
-          val maxRow = maxOf(oldPos.first, newPos.first)
-          val minCol = minOf(oldPos.second, newPos.second)
-          val maxCol = maxOf(oldPos.second, newPos.second)
-
-          for (piece in pieces) {
-            val row = decodePosition(piece.position).first
-            val col = decodePosition(piece.position).second
-            if (row == oldPos.first && col == oldPos.second) continue
-            if (row == newPos.first && col == newPos.second) continue
-            if (
-              (row == oldPos.first || col == oldPos.second) &&
-                row in minRow..maxRow &&
-                col in minCol..maxCol
-            ) {
-              return false
-            }
-          }
-
-          if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
-            whiteTurn = false
-            pieces.remove(pieceOnNewPos)
-            pieceOnNewPos.piece.removeFromParent()
-            return true
-          }
-          if (pieceOnNewPos == null) {
-            return true
-          }
-        }
-        else -> {
-          return false
-        }
       }
-    } else {
-      when (pieceKind) {
-        PieceKind.BlackPawn -> {
-          if (
-            (newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) ||
-              (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)
-          ) {
-            if (pieceOnNewPos == null) {
-              if (withCheck) whiteTurn = true
-
-              return true
-            }
-          } else if (
-            newPos.second - oldPos.second == -1 &&
-              ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
-          ) {
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.WhitePawn) {
-
-              if (withCheck) {
-                whiteTurn = true
-                pieces.remove(pieceOnNewPos)
-                pieceOnNewPos.piece.removeFromParent()
-              }
-              return true
-            }
-          }
-        }
-        PieceKind.BlackRook -> {
-          if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
-            return false
-          }
-
-          val minRow = minOf(oldPos.first, newPos.first)
-          val maxRow = maxOf(oldPos.first, newPos.first)
-          val minCol = minOf(oldPos.second, newPos.second)
-          val maxCol = maxOf(oldPos.second, newPos.second)
-
-          for (piece in pieces) {
-            val row = decodePosition(piece.position).first
-            val col = decodePosition(piece.position).second
-            if (row == oldPos.first && col == oldPos.second) continue
-            if (row == newPos.first && col == newPos.second) continue
-            if (
-              (row == oldPos.first || col == oldPos.second) &&
-                row in minRow..maxRow &&
-                col in minCol..maxCol
-            ) {
-              return false
-            }
-          }
-          if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-            whiteTurn = true
-            pieces.remove(pieceOnNewPos)
-            pieceOnNewPos.piece.removeFromParent()
-            return true
-          }
-          if (pieceOnNewPos == null) {
-            return true
-          }
-        }
-        else -> {
-          return false
-        }
-      }
-    }
-    return false
   }
+
+    fun moveWhitePawn(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, withCheck: Boolean): Boolean {
+        if ((newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) ||
+            (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)
+        ) {
+            if (pieceOnNewPos == null) {
+                if (withCheck) whiteTurn = false
+                return true
+            }
+        } else if (newPos.second - oldPos.second == 1 &&
+            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
+        ) {
+            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.BlackPawn) {
+                if (withCheck) {
+                    removePiece(pieceOnNewPos)
+                    whiteTurn = false
+                }
+                return true
+            }
+        }
+        return false
+    }
+
+    fun moveBlackPawn(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, withCheck: Boolean): Boolean {
+        if ((newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) ||
+            (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)
+        ) {
+            if (pieceOnNewPos == null) {
+                if (withCheck) whiteTurn = true
+                return true
+            }
+        } else if (newPos.second - oldPos.second == -1 &&
+            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
+        ) {
+            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.WhitePawn) {
+                if (withCheck) {
+                    removePiece(pieceOnNewPos)
+                    whiteTurn = true
+                }
+                return true
+            }
+        }
+        return false
+    }
+
+    fun moveWhiteRook(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, withCheck: Boolean): Boolean {
+        if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
+            return false
+        }
+
+        val minRow = minOf(oldPos.first, newPos.first)
+        val maxRow = maxOf(oldPos.first, newPos.first)
+        val minCol = minOf(oldPos.second, newPos.second)
+        val maxCol = maxOf(oldPos.second, newPos.second)
+
+        for (piece in pieces) {
+            val row = decodePosition(piece.position).first
+            val col = decodePosition(piece.position).second
+            if (row == oldPos.first && col == oldPos.second) continue
+            if (row == newPos.first && col == newPos.second) continue
+            if ((row == oldPos.first || col == oldPos.second) &&
+                row in minRow..maxRow &&
+                col in minCol..maxCol
+            ) {
+                return false
+            }
+        }
+        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
+            whiteTurn = false
+            removePiece(pieceOnNewPos)
+            return true
+        }
+        if (pieceOnNewPos == null) {
+            return true
+        }
+        return false
+    }
+
+    fun moveBlackRook(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, withCheck: Boolean): Boolean {
+        if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
+            return false
+        }
+
+        val minRow = minOf(oldPos.first, newPos.first)
+        val maxRow = maxOf(oldPos.first, newPos.first)
+        val minCol = minOf(oldPos.second, newPos.second)
+        val maxCol = maxOf(oldPos.second, newPos.second)
+
+        for (piece in pieces) {
+            val row = decodePosition(piece.position).first
+            val col = decodePosition(piece.position).second
+            if (row == oldPos.first && col == oldPos.second) continue
+            if (row == newPos.first && col == newPos.second) continue
+            if ((row == oldPos.first || col == oldPos.second) &&
+                row in minRow..maxRow &&
+                col in minCol..maxCol
+            ) {
+                return false
+            }
+        }
+        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
+            whiteTurn = true
+            removePiece(pieceOnNewPos)
+            return true
+        }
+        if (pieceOnNewPos == null) {
+            return true
+        }
+        return false
+    }
+
+    fun removePiece(piece: Piece) {
+        pieces.remove(piece)
+        piece.removeFromParent()
+    }
 
   override fun renderInternal(ctx: RenderContext) {
     // Implement your rendering logic here
