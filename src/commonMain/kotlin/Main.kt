@@ -47,12 +47,11 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
   /** This method is called to render the main content of the game scene. */
   /** Main function to set up the chessboard, pieces, and handle piece movement. */
   override suspend fun SContainer.sceneMain() {
-      initializeBoard()
-      initializePieces()
+    initializeBoard()
+    initializePieces()
     handlePieceMovement()
   }
 
-  /** Initializes the chessboard with cells of alternating colors. */
   private fun initializeBoard() {
     var d = 0
     for (cx in 0 until 8) {
@@ -66,7 +65,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
     }
   }
 
-  /** Initializes the chess pieces on the board. */
   private fun initializePieces() {
     val whitePawns =
       (0 until 8).map { Piece(PieceKind.WhitePawn, Colors.WHITE, it, 1, cont = cont) }
@@ -79,7 +77,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
     pieces.addAll(whitePawns + blackPawns + listOf(whiteRook, blackRook))
   }
 
-  /** Handles piece movement on the chessboard. */
   private fun SContainer.handlePieceMovement() {
     var newPosition: Pair<Int, Int>? = null
     var currentPos: Pair<Int, Int>? = null
