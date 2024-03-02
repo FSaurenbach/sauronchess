@@ -106,10 +106,10 @@ class Piece(
     pieceOnNewPos: Piece?,
     withCheck: Boolean,
   ): Boolean {
-    if (
-      (newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) ||
-        (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)
-    ) {
+    val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
+    val isInitialPawnMove = oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+
+    if (isPawnMoveForward || isInitialPawnMove) {
       if (pieceOnNewPos == null) {
         if (withCheck) whiteTurn = false
         return true
@@ -135,10 +135,10 @@ class Piece(
     pieceOnNewPos: Piece?,
     withCheck: Boolean,
   ): Boolean {
-    if (
-      (newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) ||
-        (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)
-    ) {
+    val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
+    val isInitialPawnMove = oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+
+    if (isPawnMoveForward || isInitialPawnMove) {
       if (pieceOnNewPos == null) {
         if (withCheck) whiteTurn = true
         return true
