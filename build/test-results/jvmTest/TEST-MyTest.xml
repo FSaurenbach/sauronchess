@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="MyTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-03-02T09:28:20" hostname="SAURON" time="3.78">
-  <properties/>
-  <testcase name="test[jvm]" classname="MyTest" time="3.78"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
