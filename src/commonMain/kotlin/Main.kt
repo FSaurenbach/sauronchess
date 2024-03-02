@@ -17,7 +17,6 @@ var whitePawn: Bitmap? = null
 var blackPawn: Bitmap? = null
 var whiteRook: Bitmap? = null
 var blackRook: Bitmap? = null
-var lastClicked: Point? = null
 var pieces = ArrayList<Piece>()
 var whiteTurn = true
 var markedCells = ArrayList<Cell>()
@@ -46,8 +45,15 @@ suspend fun main() =
 class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
   /** This method is called to render the main content of the game scene. */
+  /** Main function to set up the chessboard, pieces, and handle piece movement. */
   override suspend fun SContainer.sceneMain() {
+      initializeBoard()
+      initializePieces()
+    handlePieceMovement()
+  }
 
+  /** Initializes the chessboard with cells of alternating colors. */
+  private fun initializeBoard() {
     var d = 0
     for (cx in 0 until 8) {
       for (cy in 0 until 8) {
@@ -58,71 +64,41 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
       }
       d++
     }
+  }
 
-    val pw1 = Piece(PieceKind.WhitePawn, Colors.WHITE, 0, 1, cont = cont)
-    val pb1 = Piece(PieceKind.BlackPawn, Colors.BLACK, 0, 6, cont = cont)
-    val pw2 = Piece(PieceKind.WhitePawn, Colors.WHITE, 1, 1, cont = cont)
-    val pb2 = Piece(PieceKind.BlackPawn, Colors.BLACK, 1, 6, cont = cont)
-    val pw3 = Piece(PieceKind.WhitePawn, Colors.WHITE, 2, 1, cont = cont)
-    val pb3 = Piece(PieceKind.BlackPawn, Colors.BLACK, 2, 6, cont = cont)
-    val pw4 = Piece(PieceKind.WhitePawn, Colors.WHITE, 3, 1, cont = cont)
-    val pb4 = Piece(PieceKind.BlackPawn, Colors.BLACK, 3, 6, cont = cont)
-    val pw5 = Piece(PieceKind.WhitePawn, Colors.WHITE, 4, 1, cont = cont)
-    val pb5 = Piece(PieceKind.BlackPawn, Colors.BLACK, 4, 6, cont = cont)
-    val pw6 = Piece(PieceKind.WhitePawn, Colors.WHITE, 5, 1, cont = cont)
-    val pb6 = Piece(PieceKind.BlackPawn, Colors.BLACK, 5, 6, cont = cont)
-    val pw7 = Piece(PieceKind.WhitePawn, Colors.WHITE, 6, 1, cont = cont)
-    val pb7 = Piece(PieceKind.BlackPawn, Colors.BLACK, 6, 6, cont = cont)
-    val pw8 = Piece(PieceKind.WhitePawn, Colors.WHITE, 7, 1, cont = cont)
-    val pb8 = Piece(PieceKind.BlackPawn, Colors.BLACK, 7, 6, cont = cont)
+  /** Initializes the chess pieces on the board. */
+  private fun initializePieces() {
+    val whitePawns =
+      (0 until 8).map { Piece(PieceKind.WhitePawn, Colors.WHITE, it, 1, cont = cont) }
+    val blackPawns =
+      (0 until 8).map { Piece(PieceKind.BlackPawn, Colors.BLACK, it, 6, cont = cont) }
 
-    val rw1 = Piece(PieceKind.WhiteRook, Colors.WHITE, 5, 5, cont = cont)
-    val rb1 = Piece(PieceKind.BlackRook, Colors.BLACK, 3, 3, cont = cont)
+    val whiteRook = Piece(PieceKind.WhiteRook, Colors.WHITE, 5, 5, cont = cont)
+    val blackRook = Piece(PieceKind.BlackRook, Colors.BLACK, 3, 3, cont = cont)
 
-    pieces.addAll(
-      listOf(
-        pw1,
-        pb1,
-        pw2,
-        pb2,
-        pw3,
-        pb3,
-        pw4,
-        pb4,
-        pw5,
-        pb5,
-        pw6,
-        pb6,
-        pw7,
-        pb7,
-        pw8,
-        pb8,
-        rw1,
-        rb1,
-      )
-    )
+    pieces.addAll(whitePawns + blackPawns + listOf(whiteRook, blackRook))
+  }
 
+  /** Handles piece movement on the chessboard. */
+  private fun SContainer.handlePieceMovement() {
     var newPosition: Pair<Int, Int>? = null
     var currentPos: Pair<Int, Int>? = null
     var selectedPiece: Piece? = null
 
-    draggableCloseable(onMouseDrag { newPosition = decodePosition(this.globalMousePos) }) {
-      info: DraggableInfo ->
+    draggableCloseable(onMouseDrag { newPosition = decodePosition(this.globalMousePos) }) { info ->
       if (info.start) {
         for (piece in pieces) {
           if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
             currentPos = newPosition
             selectedPiece = piece
             for (cell in cells) {
-              val clx = cell.cx
-              val cly = cell.cy
-              val clxy = Pair(clx, cly)
-              if (newPosition!! == Pair(clx, cly)) {
-                println("Found Cell where piece is located: $clx, $cly")
+              val clxy = Pair(cell.cx, cell.cy)
+              if (newPosition!! == clxy) {
+                println("Found Cell where piece is located: ${cell.cx}, ${cell.cy}")
               }
               if (selectedPiece!!.moveChecker(newPosition!!, clxy, false)) {
-                println("Can move to: $clx, $cly")
-                changeColor(cly, clx, false)
+                println("Can move to: ${cell.cx}, ${cell.cy}")
+                changeColor(cell.cy, cell.cx, false)
                 markedCells.add(cell)
               }
             }
@@ -134,9 +110,11 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
           "pieceKind: ${selectedPiece!!.pieceKind} location: ${decodePosition(selectedPiece!!.position)}"
         )
         println("End \n \n \n \n \n")
-        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true))
+        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
           selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
-        else selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+        } else {
+          selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+        }
         for (cell in markedCells) {
           changeColor(cell.cy, cell.cx, true)
         }
