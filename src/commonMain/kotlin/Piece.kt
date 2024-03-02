@@ -4,6 +4,7 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
 
+/** Enum class representing the kinds of chess pieces. */
 enum class PieceKind {
   WhitePawn,
   BlackPawn,
@@ -11,6 +12,12 @@ enum class PieceKind {
   BlackRook
 }
 
+/**
+ * Decodes the position of a cell represented by a Point into x and y coordinates.
+ *
+ * @param cxy The Point representing the position of the cell.
+ * @return A Pair containing the x and y coordinates of the cell.
+ */
 fun decodePosition(cxy: Point): Pair<Int, Int> {
   val x = cxy.x / 64
   val y = cxy.y / 64
