@@ -37,25 +37,28 @@ suspend fun main() =
     sceneContainer.changeTo { GameScene(sceneContainer) }
   }
 
+/**
+ * Represents the main game scene.
+ *
+ * @constructor Creates a GameScene with the specified scene container.
+ * @property cont The scene container for this game scene.
+ */
 class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
+  /** This method is called to render the main content of the game scene. */
   override suspend fun SContainer.sceneMain() {
 
     var d = 0
     for (cx in 0 until 8) {
       for (cy in 0 until 8) {
-
-        if (d.isEven) {
-          val cl = Cell(Colors.WHITE, cx, cy, cont)
-          cells.add(cl)
-        } else {
-          val cl = Cell(Colors.BLACK, cx, cy, cont)
-          cells.add(cl)
-        }
+        val cellColor = if (d.isEven) Colors.WHITE else Colors.BLACK
+        val cl = Cell(cellColor, cx, cy, cont)
+        cells.add(cl)
         d++
       }
       d++
     }
+
     val pw1 = Piece(PieceKind.WhitePawn, Colors.WHITE, 0, 1, cont = cont)
     val pb1 = Piece(PieceKind.BlackPawn, Colors.BLACK, 0, 6, cont = cont)
     val pw2 = Piece(PieceKind.WhitePawn, Colors.WHITE, 1, 1, cont = cont)
@@ -72,50 +75,52 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
     val pb7 = Piece(PieceKind.BlackPawn, Colors.BLACK, 6, 6, cont = cont)
     val pw8 = Piece(PieceKind.WhitePawn, Colors.WHITE, 7, 1, cont = cont)
     val pb8 = Piece(PieceKind.BlackPawn, Colors.BLACK, 7, 6, cont = cont)
-    // Rooks
+
     val rw1 = Piece(PieceKind.WhiteRook, Colors.WHITE, 5, 5, cont = cont)
     val rb1 = Piece(PieceKind.BlackRook, Colors.BLACK, 3, 3, cont = cont)
-    pieces.add(pw1)
-    pieces.add(pb1)
-    pieces.add(pw2)
-    pieces.add(pb2)
-    pieces.add(pw3)
-    pieces.add(pb3)
-    pieces.add(pw4)
-    pieces.add(pb4)
-    pieces.add(pw5)
-    pieces.add(pb5)
-    pieces.add(pw6)
-    pieces.add(pb6)
-    pieces.add(pw7)
-    pieces.add(pb7)
-    pieces.add(pw8)
-    pieces.add(pb8)
-    pieces.add(rw1)
-    pieces.add(rb1)
+
+    pieces.addAll(
+      listOf(
+        pw1,
+        pb1,
+        pw2,
+        pb2,
+        pw3,
+        pb3,
+        pw4,
+        pb4,
+        pw5,
+        pb5,
+        pw6,
+        pb6,
+        pw7,
+        pb7,
+        pw8,
+        pb8,
+        rw1,
+        rb1,
+      )
+    )
 
     var newPosition: Pair<Int, Int>? = null
     var currentPos: Pair<Int, Int>? = null
-    var piss: Piece? = null
+    var selectedPiece: Piece? = null
+
     draggableCloseable(onMouseDrag { newPosition = decodePosition(this.globalMousePos) }) {
       info: DraggableInfo ->
       if (info.start) {
         for (piece in pieces) {
-
           if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
-            println("${piece.pieceKind}")
             currentPos = newPosition
-            piss = piece
+            selectedPiece = piece
             for (cell in cells) {
-              var clx = cell.cx
-              var cly = cell.cy
-              var clxy = Pair(clx, cly)
+              val clx = cell.cx
+              val cly = cell.cy
+              val clxy = Pair(clx, cly)
               if (newPosition!! == Pair(clx, cly)) {
                 println("Found Cell where piece is located: $clx, $cly")
               }
-              // Check where the piece can move to by using the move checker function and print out
-              // the location of the cells
-              if (piss!!.moveChecker(newPosition!!, clxy, false)) {
+              if (selectedPiece!!.moveChecker(newPosition!!, clxy, false)) {
                 println("Can move to: $clx, $cly")
                 changeColor(cly, clx, false)
                 markedCells.add(cell)
@@ -123,22 +128,21 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             }
           }
         }
-        // Go through every cell in cells and check with the move checker function on which cell the
-        // piece could move and print it out
-
       }
-      if (info.end && piss != null) {
-        println("pieceKind: ${piss!!.pieceKind} location: ${decodePosition(piss!!.position)}")
+      if (info.end && selectedPiece != null) {
+        println(
+          "pieceKind: ${selectedPiece!!.pieceKind} location: ${decodePosition(selectedPiece!!.position)}"
+        )
         println("End \n \n \n \n \n")
-        if (piss!!.moveChecker(currentPos!!, newPosition!!, true))
-          piss!!.moveTo(newPosition!!.first, newPosition!!.second)
-        else piss!!.moveTo(currentPos!!.first, currentPos!!.second)
+        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true))
+          selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
+        else selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
         for (cell in markedCells) {
           changeColor(cell.cy, cell.cx, true)
         }
         markedCells.clear()
 
-        piss = null
+        selectedPiece = null
       }
     }
   }
