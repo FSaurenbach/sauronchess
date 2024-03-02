@@ -158,6 +158,38 @@ class Piece(
     return false
   }
 
+  private fun isPieceBlockingRookPath(
+    oldPos: Pair<Int, Int>,
+    newPos: Pair<Int, Int>,
+    minRow: Int,
+    maxRow: Int,
+    minCol: Int,
+    maxCol: Int,
+  ): Boolean {
+    for (piece in pieces) {
+      val row = decodePosition(piece.position).first
+      val col = decodePosition(piece.position).second
+
+      // Skip the current piece if it's at the old or new position
+      if (
+        (row == oldPos.first && col == oldPos.second) ||
+          (row == newPos.first && col == newPos.second)
+      ) {
+        continue
+      }
+
+      // If the piece is blocking the rook's path, return true
+      if (
+        (row == oldPos.first || col == oldPos.second) &&
+          row in minRow..maxRow &&
+          col in minCol..maxCol
+      ) {
+        return true
+      }
+    }
+    return false
+  }
+
   private fun moveWhiteRook(
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -193,38 +225,6 @@ class Piece(
     }
 
     // Otherwise, return false
-    return false
-  }
-
-  private fun isPieceBlockingRookPath(
-    oldPos: Pair<Int, Int>,
-    newPos: Pair<Int, Int>,
-    minRow: Int,
-    maxRow: Int,
-    minCol: Int,
-    maxCol: Int,
-  ): Boolean {
-    for (piece in pieces) {
-      val row = decodePosition(piece.position).first
-      val col = decodePosition(piece.position).second
-
-      // Skip the current piece if it's at the old or new position
-      if (
-        (row == oldPos.first && col == oldPos.second) ||
-          (row == newPos.first && col == newPos.second)
-      ) {
-        continue
-      }
-
-      // If the piece is blocking the rook's path, return true
-      if (
-        (row == oldPos.first || col == oldPos.second) &&
-          row in minRow..maxRow &&
-          col in minCol..maxCol
-      ) {
-        return true
-      }
-    }
     return false
   }
 
