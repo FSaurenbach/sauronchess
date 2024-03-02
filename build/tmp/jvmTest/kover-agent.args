@@ -1,0 +1,8 @@
+C:\Users\ferdi\Pictures\Chess\build\kover\bin-reports\jvmTest.ic
+false
+false
+true
+false
+-exclude
+android\..*
+com\.android\..*

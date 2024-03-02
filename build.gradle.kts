@@ -2,6 +2,8 @@ import korlibs.korge.gradle.*
 
 plugins {
     alias(libs.plugins.korge)
+    id("org.jetbrains.kotlinx.kover") version "0.7.5"
+
 }
 
 korge {
@@ -22,6 +24,21 @@ korge {
     serializationJson()
     jvmMainClassName = "MainKt"
 
+}
+koverReport {
+    filters {
+        excludes {
+            classes("com.baeldung.code.not.covered")
+        }
+    }
+    verify {
+        rule {
+            isEnabled = true
+            bound {
+                minValue = 80 // Minimum coverage percentage
+            }
+        }
+    }
 }
 
 

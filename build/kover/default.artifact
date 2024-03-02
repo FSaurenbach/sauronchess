@@ -1,0 +1,7 @@
+src\jvmMain\kotlin
+src\commonMain\kotlin
+build\KR
+
+build\classes\kotlin\jvm\main
+
+build\kover\bin-reports\jvmTest.ic

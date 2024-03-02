@@ -1,0 +1,218 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>korge-hello-world Coverage Report > __KR</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope: korge-hello-world<span class="separator">|</span>    <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: __KR (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">__KR</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">__KR$KR</td>
+    <td class="coverageStat"/>
+  </tr>
+  <tr>
+    <td class="name">__KR$KR$DefaultImpls</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/71)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/73)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;import korlibs.audio.sound.*
+&nbsp;import korlibs.io.file.*
+&nbsp;import korlibs.io.file.std.*
+&nbsp;import korlibs.image.bitmap.*
+&nbsp;import korlibs.image.atlas.*
+&nbsp;import korlibs.image.font.*
+&nbsp;import korlibs.image.format.*
+&nbsp;
+&nbsp;// AUTO-GENERATED FILE! DO NOT MODIFY!
+&nbsp;
+&nbsp;@Retention(AnnotationRetention.BINARY) annotation class ResourceVfsPath(val path: String)
+&nbsp;inline class TypedVfsFile(val __file: VfsFile)
+&nbsp;inline class TypedVfsFileTTF(val __file: VfsFile) {
+&nbsp;  suspend fun read(): korlibs.image.font.TtfFont = this.__file.readTtfFont()
+&nbsp;}
+&nbsp;inline class TypedVfsFileBitmap(val __file: VfsFile) {
+&nbsp;  suspend fun read(): korlibs.image.bitmap.Bitmap = this.__file.readBitmap()
+&nbsp;  suspend fun readSlice(atlas: MutableAtlasUnit? = null, name: String? = null): BmpSlice = this.__file.readBitmapSlice(name, atlas)
+&nbsp;}
+&nbsp;inline class TypedVfsFileSound(val __file: VfsFile) {
+&nbsp;  suspend fun read(): korlibs.audio.sound.Sound = this.__file.readSound()
+&nbsp;}
+&nbsp;interface TypedAtlas&lt;T&gt;
+&nbsp;
+&nbsp;object KR : __KR.KR
+&nbsp;
+<b class="nc">&nbsp;object __KR {</b>
+&nbsp;	
+&nbsp;	interface KR {
+<b class="nc">&nbsp;		val __file get() = resourcesVfs[&quot;&quot;]</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_bishop.png&quot;) val `bBishop` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_bishop.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_king.png&quot;) val `bKing` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_king.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_knight.png&quot;) val `bKnight` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_knight.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_pawn.png&quot;) val `bPawn` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_pawn.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_queen.png&quot;) val `bQueen` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_queen.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;b_rook.png&quot;) val `bRook` get() = TypedVfsFileBitmap(resourcesVfs[&quot;b_rook.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;korge.png&quot;) val `korge` get() = TypedVfsFileBitmap(resourcesVfs[&quot;korge.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;square_brown_dark.png&quot;) val `squareBrownDark` get() = TypedVfsFileBitmap(resourcesVfs[&quot;square_brown_dark.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;square_brown_light.png&quot;) val `squareBrownLight` get() = TypedVfsFileBitmap(resourcesVfs[&quot;square_brown_light.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;square_gray_dark.png&quot;) val `squareGrayDark` get() = TypedVfsFileBitmap(resourcesVfs[&quot;square_gray_dark.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;square_gray_light.png&quot;) val `squareGrayLight` get() = TypedVfsFileBitmap(resourcesVfs[&quot;square_gray_light.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_bishop.png&quot;) val `wBishop` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_bishop.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_king.png&quot;) val `wKing` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_king.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_knight.png&quot;) val `wKnight` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_knight.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_pawn.png&quot;) val `wPawn` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_pawn.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_queen.png&quot;) val `wQueen` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_queen.png&quot;])</b>
+<b class="nc">&nbsp;		@ResourceVfsPath(&quot;w_rook.png&quot;) val `wRook` get() = TypedVfsFileBitmap(resourcesVfs[&quot;w_rook.png&quot;])</b>
+&nbsp;	}
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-02 10:19</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>korge-hello-world Coverage Report > Cell</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope: korge-hello-world<span class="separator">|</span>    <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: Cell (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+<th class="coverageStat 
+">
+  Instruction, %
+</th>
+</tr>
+<tr>
+  <td class="name">Cell</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+    <td class="coverageStat"/>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/61)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;import korlibs.image.color.*
+&nbsp;import korlibs.korge.scene.*
+&nbsp;import korlibs.korge.view.*
+&nbsp;import korlibs.math.geom.*
+&nbsp;
+&nbsp;
+&nbsp;/**
+&nbsp; * Represents a cell in a grid with a specified color and position.
+&nbsp; * @property color The color of the cell represented as RGBA.
+&nbsp; * @property cx The x-coordinate of the cell in the grid.
+&nbsp; * @property cy The y-coordinate of the cell in the grid.
+&nbsp; * @property cont The scene container to which the cell belongs.
+&nbsp; * @constructor Creates a cell with the specified color, x-coordinate, y-coordinate, and scene container.
+&nbsp; */
+&nbsp;class Cell(
+&nbsp;    color: RGBA,
+<b class="nc">&nbsp;    var cx: Int,</b>
+<b class="nc">&nbsp;    var cy: Int,</b>
+&nbsp;    cont: SceneContainer
+<b class="nc">&nbsp;) : Container() {</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * The position of the cell represented as a Point.
+&nbsp;     */
+&nbsp;    private var position: Point
+&nbsp;
+<b class="nc">&nbsp;    init {</b>
+&nbsp;        // Retrieve the cell from the board based on the coordinates
+<b class="nc">&nbsp;        val cell = board[cx][cy]</b>
+&nbsp;
+&nbsp;        // Calculate the x and y coordinates of the cell within the scene
+<b class="nc">&nbsp;        cell.x = (cy * (512 / 8)).toDouble()</b>
+<b class="nc">&nbsp;        cell.y = (cx * (512 / 8)).toDouble()</b>
+&nbsp;
+&nbsp;        // Set the position of the cell
+<b class="nc">&nbsp;        position = Point(cell.x, cell.y)</b>
+&nbsp;
+&nbsp;        // Set the color of the cell
+<b class="nc">&nbsp;        cell.color = color</b>
+&nbsp;
+&nbsp;        // Add the cell to the specified scene container
+<b class="nc">&nbsp;        cont.addChild(cell)</b>
+<b class="nc">&nbsp;    }</b>
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2024-03-02 10:19</div>
+</div>
+</body>
+</html>
