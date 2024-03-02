@@ -148,16 +148,23 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
   }
 }
 
+/**
+ * Changes the color of a cell on the game board.
+ *
+ * @param cly The y-coordinate of the cell.
+ * @param clx The x-coordinate of the cell.
+ * @param back Indicates whether to revert the color change.
+ */
 fun changeColor(cly: Int, clx: Int, back: Boolean) {
   if (back) {
+    // Revert the color change by removing the filter
     for (cell in cells) {
       if (cell.cx == clx && cell.cy == cly) {
         board[cly][clx].filter = null
       }
     }
   } else {
+    // Apply a blur filter to the cell to indicate selection
     board[cly][clx].filter = BlurFilter(20.0)
   }
 }
-
-// Check if a piece is in the way of a rook
