@@ -4,15 +4,11 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
 
-enum class PieceKind(kind: String) {
-  whitePawn("wP"),
-  blackPawn("bP"),
-  whiteRook("wR"),
-  blackRook("bR");
-
-  fun ifWhite(): Boolean {
-    return this == whitePawn || this == whiteRook
-  }
+enum class PieceKind {
+  WhitePawn,
+  BlackPawn,
+  WhiteRook,
+  BlackRook
 }
 
 fun decodePosition(cxy: Point): Pair<Int, Int> {
@@ -21,27 +17,22 @@ fun decodePosition(cxy: Point): Pair<Int, Int> {
   return Pair(x.toInt(), y.toInt())
 }
 
-fun decode2(cx: Double, cy: Double): Point {
-  val x = cx / 64
-  val y = cy / 64
-  return Point(x, y)
-}
-
-class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneContainer) : View() {
+class Piece(kind: PieceKind, private val color: RGBA, cx: Int, cy: Int, cont: SceneContainer) :
+  View() {
 
   var pieceKind: PieceKind = kind
-  lateinit var piece: Image
+  private lateinit var piece: Image
   var position = board[cx][cy].pos
 
   init {
     if (color == Colors.WHITE) {
-      if (kind == PieceKind.whitePawn) {
+      if (kind == PieceKind.WhitePawn) {
         piece = Image(whitePawn!!)
         piece.size(Size(64, 64))
         piece.addTo(cont) // Add the piece to the scene first
         moveTo(cx, cy) // Then update its position
       }
-      if (kind == PieceKind.whiteRook) {
+      if (kind == PieceKind.WhiteRook) {
         piece = Image(whiteRook!!)
         piece.size(Size(64, 64))
         piece.addTo(cont) // Add the piece to the scene first
@@ -49,13 +40,13 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
       }
     }
     if (color == Colors.BLACK) {
-      if (kind == PieceKind.blackPawn) {
+      if (kind == PieceKind.BlackPawn) {
         piece = Image(blackPawn!!)
         piece.size(Size(64, 64))
         piece.addTo(cont) // Add the piece to the scene first
         moveTo(cx, cy) // Then update its position
       }
-      if (kind == PieceKind.blackRook) {
+      if (kind == PieceKind.BlackRook) {
         piece = Image(blackRook!!)
         piece.size(Size(64, 64))
         piece.addTo(cont) // Add the piece to the scene first
@@ -74,13 +65,13 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
   }
 
   fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
-    var kind = this.pieceKind
+    val kind = this.pieceKind
 
-    var pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
+    val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
 
     if (whiteTurn) {
       when (kind) {
-        PieceKind.whitePawn -> {
+        PieceKind.WhitePawn -> {
           if (
             (newPos.second - oldPos.second == 1 && oldPos.first == newPos.first) ||
               (oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first)
@@ -97,7 +88,7 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
           ) {
 
             println("Destiny: $pieceOnNewPos")
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.blackPawn) {
+            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.BlackPawn) {
               if (withCheck) {
                 pieces.remove(pieceOnNewPos)
                 pieceOnNewPos.piece.removeFromParent()
@@ -107,7 +98,7 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
             }
           }
         }
-        PieceKind.whiteRook -> {
+        PieceKind.WhiteRook -> {
           if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
             return false // Rook can only move along rows or columns
           }
@@ -137,7 +128,6 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
             whiteTurn = false
             pieces.remove(pieceOnNewPos)
             pieceOnNewPos.piece.removeFromParent()
-            pieceOnNewPos = null
             return true
           }
           if (pieceOnNewPos == null) {
@@ -152,7 +142,7 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
     }
     if (!whiteTurn) {
       when (kind) {
-        PieceKind.blackPawn -> {
+        PieceKind.BlackPawn -> {
           if (
             (newPos.second - oldPos.second == -1 && oldPos.first == newPos.first) ||
               (oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first)
@@ -168,19 +158,18 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
             newPos.second - oldPos.second == -1 &&
               ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
           ) {
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.whitePawn) {
+            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.WhitePawn) {
 
               if (withCheck) {
                 whiteTurn = true
                 pieces.remove(pieceOnNewPos)
                 pieceOnNewPos.piece.removeFromParent()
-                pieceOnNewPos = null
               }
               return true
             }
           }
         }
-        PieceKind.blackRook -> {
+        PieceKind.BlackRook -> {
           if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
             return false // Rook can only move along rows or columns
           }
@@ -209,7 +198,6 @@ class Piece(kind: PieceKind, val color: RGBA, cx: Int, cy: Int, cont: SceneConta
             whiteTurn = true
             pieces.remove(pieceOnNewPos)
             pieceOnNewPos.piece.removeFromParent()
-            pieceOnNewPos = null
             return true
           }
           if (pieceOnNewPos == null) {
