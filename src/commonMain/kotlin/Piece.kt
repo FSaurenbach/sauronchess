@@ -164,35 +164,66 @@ class Piece(
     pieceOnNewPos: Piece?,
     withCheck: Boolean,
   ): Boolean {
+    // If the new position is not in the same row or column as the old position, return false
     if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
       return false
     }
 
+    // Determine the minimum and maximum row and column values
     val minRow = minOf(oldPos.first, newPos.first)
     val maxRow = maxOf(oldPos.first, newPos.first)
     val minCol = minOf(oldPos.second, newPos.second)
     val maxCol = maxOf(oldPos.second, newPos.second)
 
-    for (piece in pieces) {
-      val row = decodePosition(piece.position).first
-      val col = decodePosition(piece.position).second
-      if (row == oldPos.first && col == oldPos.second) continue
-      if (row == newPos.first && col == newPos.second) continue
-      if (
-        (row == oldPos.first || col == oldPos.second) &&
-          row in minRow..maxRow &&
-          col in minCol..maxCol
-      ) {
-        return false
-      }
+    // Check if there is a piece blocking the rook's path
+    if (isPieceBlockingRookPath(oldPos, newPos, minRow, maxRow, minCol, maxCol)) {
+      return false
     }
+
+    // If the move is with check and the new position contains a black piece, capture it
     if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
       whiteTurn = false
       removePiece(pieceOnNewPos)
       return true
     }
+
+    // If the new position is empty, return true
     if (pieceOnNewPos == null) {
       return true
+    }
+
+    // Otherwise, return false
+    return false
+  }
+
+  private fun isPieceBlockingRookPath(
+    oldPos: Pair<Int, Int>,
+    newPos: Pair<Int, Int>,
+    minRow: Int,
+    maxRow: Int,
+    minCol: Int,
+    maxCol: Int,
+  ): Boolean {
+    for (piece in pieces) {
+      val row = decodePosition(piece.position).first
+      val col = decodePosition(piece.position).second
+
+      // Skip the current piece if it's at the old or new position
+      if (
+        (row == oldPos.first && col == oldPos.second) ||
+          (row == newPos.first && col == newPos.second)
+      ) {
+        continue
+      }
+
+      // If the piece is blocking the rook's path, return true
+      if (
+        (row == oldPos.first || col == oldPos.second) &&
+          row in minRow..maxRow &&
+          col in minCol..maxCol
+      ) {
+        return true
+      }
     }
     return false
   }
@@ -203,36 +234,35 @@ class Piece(
     pieceOnNewPos: Piece?,
     withCheck: Boolean,
   ): Boolean {
+    // If the new position is not in the same row or column as the old position, return false
     if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
       return false
     }
 
+    // Determine the minimum and maximum row and column values
     val minRow = minOf(oldPos.first, newPos.first)
     val maxRow = maxOf(oldPos.first, newPos.first)
     val minCol = minOf(oldPos.second, newPos.second)
     val maxCol = maxOf(oldPos.second, newPos.second)
 
-    for (piece in pieces) {
-      val row = decodePosition(piece.position).first
-      val col = decodePosition(piece.position).second
-      if (row == oldPos.first && col == oldPos.second) continue
-      if (row == newPos.first && col == newPos.second) continue
-      if (
-        (row == oldPos.first || col == oldPos.second) &&
-          row in minRow..maxRow &&
-          col in minCol..maxCol
-      ) {
-        return false
-      }
+    // Check if there is a piece blocking the rook's path
+    if (isPieceBlockingRookPath(oldPos, newPos, minRow, maxRow, minCol, maxCol)) {
+      return false
     }
+
+    // If the move is with check and the new position contains a white piece, capture it
     if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
       whiteTurn = true
       removePiece(pieceOnNewPos)
       return true
     }
+
+    // If the new position is empty, return true
     if (pieceOnNewPos == null) {
       return true
     }
+
+    // Otherwise, return false
     return false
   }
 
