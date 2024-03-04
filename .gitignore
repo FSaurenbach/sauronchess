@@ -13,6 +13,8 @@ src/main/*
 
 /kotlin-js-store/
 /build/
+build
+
 build/classes/kotlin/js/main/default/ir/bodies.knb
 build/www/korge-hello-world.js
 build/kotlin/compileKotlinJs/local-state/build-history.bin

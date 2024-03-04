@@ -270,6 +270,7 @@ class Piece(
 
     private fun removePiece(piece: Piece) {
         pieces.remove(piece)
+        piece.piece.removeFromParent()
     }
 
     override fun renderInternal(ctx: RenderContext) {
