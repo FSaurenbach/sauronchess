@@ -17,6 +17,9 @@ var whitePawn: Bitmap? = null
 var blackPawn: Bitmap? = null
 var whiteRook: Bitmap? = null
 var blackRook: Bitmap? = null
+var whiteKnight: Bitmap? = null
+var blackKnight: Bitmap? = null
+
 var pieces = ArrayList<Piece>()
 var whiteTurn = true
 var markedCells = ArrayList<Cell>()
@@ -31,6 +34,8 @@ suspend fun main() =
         blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
         blackRook = resourcesVfs["b_rook.png"].readBitmap()
+        whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
+        blackKnight = resourcesVfs["b_knight.png"].readBitmap()
 
         // Change the scene to the game scene
         sceneContainer.changeTo { GameScene(sceneContainer) }
@@ -70,11 +75,22 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             (0 until 8).map { Piece(PieceKind.WhitePawn, Colors.WHITE, it, 1, cont = cont) }
         val blackPawns =
             (0 until 8).map { Piece(PieceKind.BlackPawn, Colors.BLACK, it, 6, cont = cont) }
+        // Set up all the rooks
+        val whiteRook1 = Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 0, cont = cont)
+        val whiteRook2 = Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 0, cont = cont)
+        val blackRook1 = Piece(PieceKind.BlackRook, Colors.BLACK, 0, 7, cont = cont)
+        val blackRook2 = Piece(PieceKind.BlackRook, Colors.BLACK, 7, 7, cont = cont)
+        // Set up all the knights
+        val whiteKnight1 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 0, cont = cont)
+        val whiteKnight2 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 0, cont = cont)
+        val blackKnight1 = Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 7, cont = cont)
+        val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont = cont)
 
-        val whiteRook = Piece(PieceKind.WhiteRook, Colors.WHITE, 5, 5, cont = cont)
-        val blackRook = Piece(PieceKind.BlackRook, Colors.BLACK, 3, 3, cont = cont)
 
-        pieces.addAll(whitePawns + blackPawns + listOf(whiteRook, blackRook))
+
+
+        pieces.addAll(whitePawns + blackPawns + listOf(whiteRook1, whiteRook2, blackRook1, blackRook2,
+            whiteKnight1, whiteKnight2, blackKnight1, blackKnight2))
     }
 
     private fun SContainer.handlePieceMovement() {
