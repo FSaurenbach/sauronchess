@@ -78,12 +78,15 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
     }
 
     private fun SContainer.handlePieceMovement() {
+
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var selectedPiece: Piece? = null
+        var error = false
 
         draggableCloseable(onMouseDrag { newPosition = decodePosition(this.globalMousePos) }) { info
             ->
+            error = false
             if (info.start) {
                 for (piece in pieces) {
                     if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
@@ -104,23 +107,38 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 }
             }
             if (info.end && selectedPiece != null) {
-                println(
-                    "pieceKind: ${selectedPiece!!.pieceKind} location: ${decodePosition(selectedPiece!!.position)}"
-                )
+                // Check if the mouse position is within the game window decode the position and check if its smaller that 8, 8
+
+                if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
+                    error = true
+                    println("Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})")
+                }
+                println("ALL STATES: newPosition: $newPosition currentPos: $currentPos selectedPiece: $selectedPiece error: $error \n \n \n \n \n")
                 println("End \n \n \n \n \n")
-                if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
-                    selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
-                } else {
-                    selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+                if (!error){
+                    if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                        selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
+                    } else {
+                        selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+                    }
+
+
+
                 }
                 for (cell in markedCells) {
                     changeColor(cell.cy, cell.cx, true)
                 }
-                markedCells.clear()
-
                 selectedPiece = null
+                markedCells.clear()
+                error = false
+                newPosition = null
+                currentPos = null
+                println("Stufe 1")
+
             }
+            println("Stufe 2")
         }
+        println("Stufe 3")
     }
 }
 
