@@ -112,7 +112,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 // check if it's smaller than 8, 8
 
                 if (
-                    val isOutOfBounds = newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8
+                    newPosition!!.first < 0 ||
                         newPosition!!.first >= 8 ||
                         newPosition!!.second < 0 ||
                         newPosition!!.second >= 8
