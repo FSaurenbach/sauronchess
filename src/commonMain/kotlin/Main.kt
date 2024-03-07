@@ -86,11 +86,20 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         val blackKnight1 = Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 7, cont = cont)
         val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont = cont)
 
-
-
-
-        pieces.addAll(whitePawns + blackPawns + listOf(whiteRook1, whiteRook2, blackRook1, blackRook2,
-            whiteKnight1, whiteKnight2, blackKnight1, blackKnight2))
+        pieces.addAll(
+            whitePawns +
+                blackPawns +
+                listOf(
+                    whiteRook1,
+                    whiteRook2,
+                    blackRook1,
+                    blackRook2,
+                    whiteKnight1,
+                    whiteKnight2,
+                    blackKnight1,
+                    blackKnight2
+                )
+        )
     }
 
     private fun SContainer.handlePieceMovement() {
