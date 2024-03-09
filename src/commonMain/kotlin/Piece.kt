@@ -52,36 +52,43 @@ class Piece(
 
     init {
         if (color == Colors.WHITE) {
-            // If the piece is white, set the piece image to the white pawn, rook, knight, or bishop
-            if (kind == PieceKind.WhitePawn || kind == PieceKind.WhiteRook ||
-                kind == PieceKind.WhiteKnight || kind == PieceKind.WhiteBishop) {
-                piece = Image(
-                    if (kind == PieceKind.WhitePawn) whitePawn!!
-                    else if (kind == PieceKind.WhiteRook) whiteRook!!
-                    else if (kind == PieceKind.WhiteKnight) whiteKnight!!
-                    else whiteBishop!!
-                )
+            // If the piece is white, set the piece image to the white pawn or rook or knight
+            if (
+                kind == PieceKind.WhitePawn ||
+                    kind == PieceKind.WhiteRook ||
+                    kind == PieceKind.WhiteKnight ||
+                    kind == PieceKind.WhiteBishop
+            ) {
+                piece =
+                    Image(
+                        if (kind == PieceKind.WhitePawn) whitePawn!!
+                        else if (kind == PieceKind.WhiteRook) whiteRook!!
+                        else if (kind == PieceKind.WhiteKnight) whiteKnight!! else whiteBishop!!
+                    )
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)
             }
         } else {
-            // If the piece is black, set the piece image to the black pawn, rook, knight, or bishop
-            if (kind == PieceKind.BlackPawn || kind == PieceKind.BlackRook ||
-                kind == PieceKind.BlackKnight || kind == PieceKind.BlackBishop) {
-                piece = Image(
-                    if (kind == PieceKind.BlackPawn) blackPawn!!
-                    else if (kind == PieceKind.BlackRook) blackRook!!
-                    else if (kind == PieceKind.BlackKnight) blackKnight!!
-                    else blackBishop!!
-                )
+            // If the piece is black, set the piece image to the black pawn or rook or knight
+            if (
+                kind == PieceKind.BlackPawn ||
+                    kind == PieceKind.BlackRook ||
+                    kind == PieceKind.BlackKnight ||
+                    kind == PieceKind.BlackBishop
+            ) {
+                piece =
+                    Image(
+                        if (kind == PieceKind.BlackPawn) blackPawn!!
+                        else if (kind == PieceKind.BlackRook) blackRook!!
+                        else if (kind == PieceKind.BlackKnight) blackKnight!! else blackBishop!!
+                    )
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)
             }
         }
     }
-
 
     /**
      * Moves the piece to a new position on the board.
