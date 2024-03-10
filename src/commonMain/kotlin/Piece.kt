@@ -3,7 +3,6 @@ import korlibs.korge.render.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
-import korlibs.math.geom.abs
 import kotlin.math.*
 
 /** Enum class representing the kinds of chess pieces. */
@@ -14,6 +13,7 @@ enum class PieceKind {
     BlackRook,
     WhiteKnight,
     BlackKnight,
+    WhiteKing,
 }
 
 /**
@@ -52,16 +52,28 @@ class Piece(
     init {
         if (color == Colors.WHITE) {
             // If the piece is white, set the piece image to the white pawn or rook or knight
-            if (kind == PieceKind.WhitePawn || kind == PieceKind.WhiteRook || kind == PieceKind.WhiteKnight) {
-                piece = Image(if (kind == PieceKind.WhitePawn) whitePawn!! else if (kind == PieceKind.WhiteRook) whiteRook!! else whiteKnight!!)
-                piece.size(Size(64, 64))
-                piece.addTo(cont)
-                moveTo(cx, cy)
-            }
+            piece =
+                Image(
+                    if (kind == PieceKind.WhitePawn) whitePawn!!
+                    else if (kind == PieceKind.WhiteRook) whiteRook!!
+                    else if (kind == PieceKind.WhiteKnight) whiteKnight!!
+                    else if (kind == PieceKind.WhiteKing) whiteKing!! else whiteKing!!
+                )
+            piece.size(Size(64, 64))
+            piece.addTo(cont)
+            moveTo(cx, cy)
         } else {
             // If the piece is black, set the piece image to the black pawn or rook or knight
-            if (kind == PieceKind.BlackPawn || kind == PieceKind.BlackRook || kind == PieceKind.BlackKnight) {
-                piece = Image(if (kind == PieceKind.BlackPawn) blackPawn!! else if (kind == PieceKind.BlackRook) blackRook!! else blackKnight!!)
+            if (
+                kind == PieceKind.BlackPawn ||
+                    kind == PieceKind.BlackRook ||
+                    kind == PieceKind.BlackKnight
+            ) {
+                piece =
+                    Image(
+                        if (kind == PieceKind.BlackPawn) blackPawn!!
+                        else if (kind == PieceKind.BlackRook) blackRook!! else blackKnight!!
+                    )
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)
@@ -96,6 +108,7 @@ class Piece(
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.WhiteKing -> moveWhiteKing(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
         } else {
@@ -106,6 +119,17 @@ class Piece(
                 else -> false
             }
         }
+    }
+
+    private fun moveWhiteKing(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        withCheck: Boolean
+    ): Boolean {
+
+        return moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
+
     }
 
     private fun moveWhitePawn(
@@ -127,7 +151,7 @@ class Piece(
             newPos.second - oldPos.second == 1 &&
                 ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
         ) {
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.BlackPawn) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = false
@@ -157,7 +181,7 @@ class Piece(
             newPos.second - oldPos.second == -1 &&
                 ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
         ) {
-            if (pieceOnNewPos != null && pieceOnNewPos.pieceKind == PieceKind.WhitePawn) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = true
@@ -276,7 +300,12 @@ class Piece(
         return false
     }
 
-    private fun moveKnight(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, withCheck: Boolean): Boolean {
+    private fun moveKnight(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        withCheck: Boolean
+    ): Boolean {
         val rowDiff = abs(newPos.first - oldPos.first)
         val colDiff = abs(newPos.second - oldPos.second)
 
@@ -300,6 +329,7 @@ class Piece(
         }
         return false
     }
+
     private fun removePiece(piece: Piece) {
         pieces.remove(piece)
         piece.piece.removeFromParent()

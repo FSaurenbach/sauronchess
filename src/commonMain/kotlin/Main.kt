@@ -19,7 +19,8 @@ var whiteRook: Bitmap? = null
 var blackRook: Bitmap? = null
 var whiteKnight: Bitmap? = null
 var blackKnight: Bitmap? = null
-
+var whiteKing: Bitmap? = null
+var blackKing: Bitmap? = null
 var pieces = ArrayList<Piece>()
 var whiteTurn = true
 var markedCells = ArrayList<Cell>()
@@ -36,6 +37,8 @@ suspend fun main() =
         blackRook = resourcesVfs["b_rook.png"].readBitmap()
         whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
         blackKnight = resourcesVfs["b_knight.png"].readBitmap()
+        whiteKing = resourcesVfs["w_king.png"].readBitmap()
+        blackKing = resourcesVfs["b_king.png"].readBitmap()
 
         // Change the scene to the game scene
         sceneContainer.changeTo { GameScene(sceneContainer) }
@@ -85,12 +88,22 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         val whiteKnight2 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 0, cont = cont)
         val blackKnight1 = Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 7, cont = cont)
         val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont = cont)
+        val whiteKing = Piece(PieceKind.WhiteKing, Colors.WHITE, 3, 0, cont = cont)
 
-
-
-
-        pieces.addAll(whitePawns + blackPawns + listOf(whiteRook1, whiteRook2, blackRook1, blackRook2,
-            whiteKnight1, whiteKnight2, blackKnight1, blackKnight2))
+        pieces.addAll(
+            whitePawns +
+                blackPawns +
+                listOf(
+                    whiteRook1,
+                    whiteRook2,
+                    blackRook1,
+                    blackRook2,
+                    whiteKnight1,
+                    whiteKnight2,
+                    blackKnight1,
+                    blackKnight2
+                )
+        )
     }
 
     private fun SContainer.handlePieceMovement() {
