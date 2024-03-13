@@ -88,7 +88,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         val whiteKnight2 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 0, cont = cont)
         val blackKnight1 = Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 7, cont = cont)
         val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont = cont)
-        val whiteKing = Piece(PieceKind.WhiteKing, Colors.WHITE, 3, 0, cont = cont)
 
         pieces.addAll(
             whitePawns +
@@ -101,91 +100,88 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     whiteKnight1,
                     whiteKnight2,
                     blackKnight1,
-                    blackKnight2
-                )
-        )
+                    blackKnight2))
     }
 
-    private fun SContainer.handlePieceMovement() {
-
+    fun SContainer.handlePieceMovement() {
+        // Variables initialization
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var selectedPiece: Piece? = null
         var error = false
-        println("Stufe -1")
-        draggableCloseable(onMouseDrag { newPosition = decodePosition(this.globalMousePos) }) { info
-            ->
-            error = false
-            if (info.start) {
-                println("Stufe 0")
-                for (piece in pieces) {
-                    if (piece.position == board[newPosition!!.second][newPosition!!.first].pos) {
-                        currentPos = newPosition
-                        selectedPiece = piece
-                        for (cell in cells) {
-                            val clxy = Pair(cell.cx, cell.cy)
-                            if (newPosition!! == clxy) {
-                                println("Found Cell where piece is located: ${cell.cx}, ${cell.cy}")
-                            }
-                            if (selectedPiece!!.moveChecker(newPosition!!, clxy, false)) {
-                                println("Can move to: ${cell.cx}, ${cell.cy}")
-                                changeColor(cell.cy, cell.cx, false)
-                                markedCells.add(cell)
+
+        // Function to handle piece movement
+        draggableCloseable(
+            onMouseDrag {
+                // When dragging starts, update newPosition and newPositionEncoded
+                newPosition = decodePosition(this.globalMousePos)
+            }) { info ->
+                error = false
+
+                // When dragging starts
+                if (info.start) {
+                    // Iterate through pieces to find the selected piece
+                    println("Start dragging...")
+                    for (piece in pieces) {
+                        if (piece.position ==
+                            board[newPosition!!.second][newPosition!!.first].pos) {
+                            currentPos = newPosition
+                            selectedPiece = piece
+
+                            // Iterate through cells to mark available moves
+                            for (cell in cells) {
+                                if (newPosition == Pair(cell.cx, cell.cy)) {
+                                    println(
+                                        "Found Cell where piece is located: ${cell.cx}, ${cell.cy}")
+                                }
+                                if (selectedPiece!!.moveChecker(
+                                    newPosition!!, Pair(cell.cx, cell.cy), false)) {
+                                    println("Can move to: ${cell.cx}, ${cell.cy}")
+                                    changeColor(cell.cy, cell.cx, false)
+                                    markedCells.add(cell)
+                                }
                             }
                         }
                     }
                 }
-            }
-            if (info.end && selectedPiece != null) {
-                // Check if the mouse position is within the game window decode the position and
-                // check if it's smaller than 8, 8
 
-                if (
-                    newPosition!!.first < 0 ||
+                // When dragging ends
+                if (info.end && selectedPiece != null) {
+                    println("End dragging...")
+                    // Check if newPosition is within the game board
+                    if (newPosition!!.first < 0 ||
                         newPosition!!.first >= 8 ||
                         newPosition!!.second < 0 ||
-                        newPosition!!.second >= 8
-                ) {
-                    error = true
-                    println(
-                        "Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})"
-                    )
+                        newPosition!!.second >= 8) {
+                        error = true
+                        println(
+                            "Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})")
+                        // Reset variables
+                        selectedPiece = null
+                        newPosition = null
+                        currentPos = null
+                    }
 
-                    // Resetting variables
-                    selectedPiece = null
+                    // Perform the move if no error
+                    if (!error) {
+                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                            selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
+                        } else {
+                            selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+                        }
+                        selectedPiece = null
+                        newPosition = null
+                        currentPos = null
+                    }
+
+                    // Reset colors and variables
+                    for (cell in markedCells) {
+                        changeColor(cell.cy, cell.cx, true)
+                    }
                     markedCells.clear()
                     error = false
-                    newPosition = null
-                    currentPos = null
-                    println(
-                        "Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})"
-                    )
                 }
-                println(
-                    "ALL STATES: newPosition: $newPosition currentPos: $currentPos selectedPiece: $selectedPiece error: $error \n \n \n \n \n"
-                )
-                println("End \n \n \n \n \n")
-                if (!error) {
-                    if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
-                        selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
-                    } else {
-                        selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
-                    }
-                }
-                for (cell in markedCells) {
-                    changeColor(cell.cy, cell.cx, true)
-                }
-                selectedPiece = null
-                markedCells.clear()
-                error = false
-                newPosition = null
-                currentPos = null
-                println("Stufe 1")
             }
-            println("Stufe 2")
-        }
-
-        println("Stufe 3")
     }
 }
 

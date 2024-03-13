@@ -13,7 +13,6 @@ enum class PieceKind {
     BlackRook,
     WhiteKnight,
     BlackKnight,
-    WhiteKing,
 }
 
 /**
@@ -25,6 +24,7 @@ enum class PieceKind {
 fun decodePosition(cxy: Point): Pair<Int, Int> {
     val x = cxy.x / 64
     val y = cxy.y / 64
+    println("Encoded: $cxy, Decoded: $x, $y")
     return Pair(x.toInt(), y.toInt())
 }
 
@@ -56,24 +56,19 @@ class Piece(
                 Image(
                     if (kind == PieceKind.WhitePawn) whitePawn!!
                     else if (kind == PieceKind.WhiteRook) whiteRook!!
-                    else if (kind == PieceKind.WhiteKnight) whiteKnight!!
-                    else if (kind == PieceKind.WhiteKing) whiteKing!! else whiteKing!!
-                )
+                    else if (kind == PieceKind.WhiteKnight) whiteKnight!! else throw Error("bruh"))
             piece.size(Size(64, 64))
             piece.addTo(cont)
             moveTo(cx, cy)
         } else {
             // If the piece is black, set the piece image to the black pawn or rook or knight
-            if (
-                kind == PieceKind.BlackPawn ||
-                    kind == PieceKind.BlackRook ||
-                    kind == PieceKind.BlackKnight
-            ) {
+            if (kind == PieceKind.BlackPawn ||
+                kind == PieceKind.BlackRook ||
+                kind == PieceKind.BlackKnight) {
                 piece =
                     Image(
                         if (kind == PieceKind.BlackPawn) blackPawn!!
-                        else if (kind == PieceKind.BlackRook) blackRook!! else blackKnight!!
-                    )
+                        else if (kind == PieceKind.BlackRook) blackRook!! else blackKnight!!)
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)
@@ -108,7 +103,6 @@ class Piece(
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.WhiteKing -> moveWhiteKing(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
         } else {
@@ -119,17 +113,6 @@ class Piece(
                 else -> false
             }
         }
-    }
-
-    private fun moveWhiteKing(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        withCheck: Boolean
-    ): Boolean {
-
-        return moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
-
     }
 
     private fun moveWhitePawn(
@@ -147,10 +130,8 @@ class Piece(
                 if (withCheck) whiteTurn = false
                 return true
             }
-        } else if (
-            newPos.second - oldPos.second == 1 &&
-                ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
-        ) {
+        } else if (newPos.second - oldPos.second == 1 &&
+            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
@@ -177,10 +158,8 @@ class Piece(
                 if (withCheck) whiteTurn = true
                 return true
             }
-        } else if (
-            newPos.second - oldPos.second == -1 &&
-                ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))
-        ) {
+        } else if (newPos.second - oldPos.second == -1 &&
+            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
@@ -205,19 +184,15 @@ class Piece(
             val col = decodePosition(piece.position).second
 
             // Skip the current piece if it's at the old or new position
-            if (
-                (row == oldPos.first && col == oldPos.second) ||
-                    (row == newPos.first && col == newPos.second)
-            ) {
+            if ((row == oldPos.first && col == oldPos.second) ||
+                (row == newPos.first && col == newPos.second)) {
                 continue
             }
 
             // If the piece is blocking the rook's path, return true
-            if (
-                (row == oldPos.first || col == oldPos.second) &&
-                    row in minRow..maxRow &&
-                    col in minCol..maxCol
-            ) {
+            if ((row == oldPos.first || col == oldPos.second) &&
+                row in minRow..maxRow &&
+                col in minCol..maxCol) {
                 return true
             }
         }
@@ -246,12 +221,11 @@ class Piece(
             return false
         }
 
-        // If the move is with check and the new position contains a black piece, capture it
+        // If the move is with check and the new position contains a white piece, capture it
         if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
-            whiteTurn = false
             removePiece(pieceOnNewPos)
             return true
-        }
+        } else if (withCheck) whiteTurn = false
 
         // If the new position is empty, return true
         if (pieceOnNewPos == null) {
@@ -286,10 +260,10 @@ class Piece(
 
         // If the move is with check and the new position contains a white piece, capture it
         if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-            whiteTurn = true
+
             removePiece(pieceOnNewPos)
             return true
-        }
+        } else if (withCheck) whiteTurn = true
 
         // If the new position is empty, return true
         if (pieceOnNewPos == null) {
