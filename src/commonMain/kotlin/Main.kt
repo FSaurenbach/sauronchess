@@ -117,7 +117,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     // When dragging starts, update newPosition and newPositionEncoded
                     newPosition = decodePosition(this.globalMousePos)
                 }) { info ->
-                    println("fadddd")
                     error = false
 
                     // When dragging starts
@@ -167,13 +166,10 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                             if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
                                 selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
                                 selectedPiece = null
-                                println("yay!")
                             } else {
-                                println("nah bruh")
                                 selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
                                 selectedPiece = null
                             }
-                            println("wee")
                             selectedPiece = null
                             newPosition = null
                             currentPos = null
@@ -186,7 +182,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         markedCells.clear()
                         error = false
                     }
-                    println("fasdf")
                 }
         }
     }
