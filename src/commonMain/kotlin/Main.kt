@@ -47,12 +47,16 @@ suspend fun main() =
  * Represents the main game scene.
  *
  * @constructor Creates a GameScene with the specified scene container.
- * @property cont The scene container for this game scene.
+ * @property cont The scene container for the main scene.
+ * @param cont The scene container for the main scene.
  */
 class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
-    /** This method is called to render the main content of the game scene. */
-    /** Main function to set up the chessboard, pieces, and handle piece movement. */
+
+    /**
+     * This method is called to render the main content of the game scene. Main function to set up
+     * the chessboard, pieces, and handle piece movement.
+     */
     override suspend fun SContainer.sceneMain() {
         initializeBoard()
         initializePieces()

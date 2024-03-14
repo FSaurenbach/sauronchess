@@ -31,6 +31,7 @@ fun decodePosition(cxy: Point): Pair<Int, Int> {
 /**
  * Represents a chess piece.
  *
+ * @param kind The kind of the piece.
  * @constructor Creates a Piece with the specified parameters.
  * @property color The color of the piece.
  * @property cx The x-coordinate of the piece.
@@ -49,9 +50,6 @@ class Piece(
     private lateinit var piece: Image
     var position = board[cx][cy].pos
 
-
-
-
     init {
         if (color == Colors.WHITE) {
             // If the piece is white, set the piece image to the white pawn or rook or knight
@@ -62,8 +60,7 @@ class Piece(
                         PieceKind.WhiteRook -> whiteRook!!
                         PieceKind.WhiteKnight -> whiteKnight!!
                         else -> throw Error("Invalid Piece !?")
-                    }
-                )
+                    })
 
             piece.size(Size(64, 64))
             piece.addTo(cont)
@@ -79,8 +76,7 @@ class Piece(
                             PieceKind.BlackPawn -> blackPawn!!
                             PieceKind.BlackRook -> blackRook!!
                             else -> blackKnight!!
-                        }
-                    )
+                        })
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)
@@ -289,8 +285,6 @@ class Piece(
         return false
     }
 
-
-
     private fun moveWhiteKnight(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
@@ -320,6 +314,7 @@ class Piece(
         }
         return false
     }
+
     private fun moveBlackKnight(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
@@ -341,7 +336,7 @@ class Piece(
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
                     println(whiteTurn)
-                    whiteTurn  = true
+                    whiteTurn = true
                     println(whiteTurn)
                 }
                 return true
