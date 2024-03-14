@@ -8,10 +8,11 @@ import korlibs.math.geom.*
  *
  * @constructor Creates a cell with the specified color, x-coordinate, y-coordinate, and scene
  *   container.
- * @property color The color of the cell represented as RGBA.
+ * @param color The color of the cell represented as RGBA.
  * @property cx The x-coordinate of the cell in the grid.
  * @property cy The y-coordinate of the cell in the grid.
- * @property cont The scene container to which the cell belongs.
+ * @param cont The scene container to which the cell belongs.
+
  */
 class Cell(color: RGBA, var cx: Int, var cy: Int, cont: SceneContainer) : Container() {
 
