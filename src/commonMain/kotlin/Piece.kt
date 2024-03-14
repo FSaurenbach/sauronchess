@@ -45,18 +45,26 @@ class Piece(
     private val cont: SceneContainer,
 ) : View() {
 
-    var pieceKind: PieceKind = kind
+    private var pieceKind: PieceKind = kind
     private lateinit var piece: Image
     var position = board[cx][cy].pos
+
+
+
 
     init {
         if (color == Colors.WHITE) {
             // If the piece is white, set the piece image to the white pawn or rook or knight
             piece =
                 Image(
-                    if (kind == PieceKind.WhitePawn) whitePawn!!
-                    else if (kind == PieceKind.WhiteRook) whiteRook!!
-                    else if (kind == PieceKind.WhiteKnight) whiteKnight!! else throw Error("bruh"))
+                    when (kind) {
+                        PieceKind.WhitePawn -> whitePawn!!
+                        PieceKind.WhiteRook -> whiteRook!!
+                        PieceKind.WhiteKnight -> whiteKnight!!
+                        else -> throw Error("Invalid Piece !?")
+                    }
+                )
+
             piece.size(Size(64, 64))
             piece.addTo(cont)
             moveTo(cx, cy)
@@ -67,8 +75,12 @@ class Piece(
                 kind == PieceKind.BlackKnight) {
                 piece =
                     Image(
-                        if (kind == PieceKind.BlackPawn) blackPawn!!
-                        else if (kind == PieceKind.BlackRook) blackRook!! else blackKnight!!)
+                        when (kind) {
+                            PieceKind.BlackPawn -> blackPawn!!
+                            PieceKind.BlackRook -> blackRook!!
+                            else -> blackKnight!!
+                        }
+                    )
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 moveTo(cx, cy)

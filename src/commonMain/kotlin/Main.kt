@@ -39,7 +39,6 @@ suspend fun main() =
         blackKnight = resourcesVfs["b_knight.png"].readBitmap()
         whiteKing = resourcesVfs["w_king.png"].readBitmap()
         blackKing = resourcesVfs["b_king.png"].readBitmap()
-
         // Change the scene to the game scene
         sceneContainer.changeTo { GameScene(sceneContainer) }
     }
@@ -108,7 +107,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var selectedPiece: Piece? = null
-        var error = false
+        var error: Boolean
 
         // Function to handle piece movement
         for (piece in pieces) {
