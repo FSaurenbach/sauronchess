@@ -103,7 +103,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     blackKnight2))
     }
 
-    fun SContainer.handlePieceMovement() {
+    private fun SContainer.handlePieceMovement() {
         // Variables initialization
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
@@ -111,18 +111,19 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         var error = false
 
         // Function to handle piece movement
-        draggableCloseable(
-            onMouseDrag {
-                // When dragging starts, update newPosition and newPositionEncoded
-                newPosition = decodePosition(this.globalMousePos)
-            }) { info ->
-                error = false
+        for (piece in pieces) {
+            piece.draggableCloseable(
+                onMouseDrag {
+                    // When dragging starts, update newPosition and newPositionEncoded
+                    newPosition = decodePosition(this.globalMousePos)
+                }) { info ->
+                    println("fadddd")
+                    error = false
 
-                // When dragging starts
-                if (info.start) {
-                    // Iterate through pieces to find the selected piece
-                    println("Start dragging...")
-                    for (piece in pieces) {
+                    // When dragging starts
+                    if (info.start) {
+                        // Iterate through pieces to find the selected piece
+                        println("Start dragging...")
                         if (piece.position ==
                             board[newPosition!!.second][newPosition!!.first].pos) {
                             currentPos = newPosition
@@ -143,45 +144,51 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                             }
                         }
                     }
-                }
 
-                // When dragging ends
-                if (info.end && selectedPiece != null) {
-                    println("End dragging...")
-                    // Check if newPosition is within the game board
-                    if (newPosition!!.first < 0 ||
-                        newPosition!!.first >= 8 ||
-                        newPosition!!.second < 0 ||
-                        newPosition!!.second >= 8) {
-                        error = true
-                        println(
-                            "Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})")
-                        // Reset variables
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
-
-                    // Perform the move if no error
-                    if (!error) {
-                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
-                            selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
-                        } else {
-                            selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+                    // When dragging ends
+                    if (info.end && selectedPiece != null) {
+                        println("End dragging...")
+                        // Check if newPosition is within the game board
+                        if (newPosition!!.first < 0 ||
+                            newPosition!!.first >= 8 ||
+                            newPosition!!.second < 0 ||
+                            newPosition!!.second >= 8) {
+                            error = true
+                            println(
+                                "Invalid move: Position out of bounds. newPosition: (${newPosition!!.first}, ${newPosition!!.second})")
+                            // Reset variables
+                            selectedPiece = null
+                            newPosition = null
+                            currentPos = null
                         }
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
 
-                    // Reset colors and variables
-                    for (cell in markedCells) {
-                        changeColor(cell.cy, cell.cx, true)
+                        // Perform the move if no error
+                        if (!error) {
+                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                                selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
+                                selectedPiece = null
+                                println("yay!")
+                            } else {
+                                println("nah bruh")
+                                selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
+                                selectedPiece = null
+                            }
+                            println("wee")
+                            selectedPiece = null
+                            newPosition = null
+                            currentPos = null
+                        }
+
+                        // Reset colors and variables
+                        for (cell in markedCells) {
+                            changeColor(cell.cy, cell.cx, true)
+                        }
+                        markedCells.clear()
+                        error = false
                     }
-                    markedCells.clear()
-                    error = false
+                    println("fasdf")
                 }
-            }
+        }
     }
 }
 

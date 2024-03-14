@@ -102,14 +102,14 @@ class Piece(
             when (pieceKind) {
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.WhiteKnight -> moveWhiteKnight(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
         } else {
             when (pieceKind) {
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.BlackRook -> moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
         }
@@ -128,6 +128,7 @@ class Piece(
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 if (withCheck) whiteTurn = false
+                println("legal")
                 return true
             }
         } else if (newPos.second - oldPos.second == 1 &&
@@ -137,9 +138,11 @@ class Piece(
                     removePiece(pieceOnNewPos)
                     whiteTurn = false
                 }
+                println("legal")
                 return true
             }
         }
+        println("illegal")
         return false
     }
 
@@ -274,7 +277,9 @@ class Piece(
         return false
     }
 
-    private fun moveKnight(
+
+
+    private fun moveWhiteKnight(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
@@ -287,7 +292,7 @@ class Piece(
             if (pieceOnNewPos == null) {
                 if (withCheck) {
                     println(whiteTurn)
-                    whiteTurn = !whiteTurn
+                    whiteTurn = false
                     println(whiteTurn)
                 }
                 return true
@@ -295,7 +300,36 @@ class Piece(
                 if (withCheck) {
                     removePiece(pieceOnNewPos)
                     println(whiteTurn)
-                    whiteTurn = !whiteTurn
+                    whiteTurn = false
+                    println(whiteTurn)
+                }
+                return true
+            }
+        }
+        return false
+    }
+    private fun moveBlackKnight(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        withCheck: Boolean
+    ): Boolean {
+        val rowDiff = abs(newPos.first - oldPos.first)
+        val colDiff = abs(newPos.second - oldPos.second)
+
+        if ((rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2)) {
+            if (pieceOnNewPos == null) {
+                if (withCheck) {
+                    println(whiteTurn)
+                    whiteTurn = true
+                    println(whiteTurn)
+                }
+                return true
+            } else if (pieceOnNewPos.color != color) {
+                if (withCheck) {
+                    removePiece(pieceOnNewPos)
+                    println(whiteTurn)
+                    whiteTurn  = true
                     println(whiteTurn)
                 }
                 return true
