@@ -45,11 +45,11 @@ suspend fun main() =
 
 /**
  * Represents the main game scene.
- * @property cont The scene container.
+ *
  * @constructor Creates a GameScene with the provided scene container.
+ * @property cont The scene container.
  */
 class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
-
 
     /**
      * This method is called to render the main content of the game scene. Main function to set up

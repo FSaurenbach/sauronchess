@@ -31,11 +31,11 @@ fun decodePosition(cxy: Point): Pair<Int, Int> {
 /**
  * Represents a chess piece.
  *
- * @param kind The kind of the piece.
- * @constructor Creates a Piece with the specified parameters.
- * @property color The color of the piece.
- * @property cx The x-coordinate of the piece.
- * @property cy The y-coordinate of the piece.
+ * @constructor Creates a Piece with the provided properties.
+ * @property kind The kind of chess piece.
+ * @property color The color of the chess piece.
+ * @property cx The x-coordinate of the chess piece on the board.
+ * @property cy The y-coordinate of the chess piece on the board.
  * @property cont The scene container.
  */
 class Piece(
