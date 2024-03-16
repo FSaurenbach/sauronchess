@@ -109,14 +109,14 @@ class Piece(
         return if (whiteTurn) {
             when (pieceKind) {
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.WhiteRook -> moveWhiteRook(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, true)
                 PieceKind.WhiteKnight -> moveWhiteKnight(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
         } else {
             when (pieceKind) {
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.BlackRook -> moveBlackRook(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, false)
                 PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, withCheck)
                 else -> false
             }
@@ -210,79 +210,32 @@ class Piece(
         return false
     }
 
-    private fun moveWhiteRook(
+    private fun moveRook(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
         withCheck: Boolean,
+        isWhite: Boolean
     ): Boolean {
-        // If the new position is not in the same row or column as the old position, return false
         if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
             return false
         }
 
-        // Determine the minimum and maximum row and column values
         val minRow = minOf(oldPos.first, newPos.first)
         val maxRow = maxOf(oldPos.first, newPos.first)
         val minCol = minOf(oldPos.second, newPos.second)
         val maxCol = maxOf(oldPos.second, newPos.second)
 
-        // Check if there is a piece blocking the rook's path
         if (isPieceBlockingRookPath(oldPos, newPos, minRow, maxRow, minCol, maxCol)) {
             return false
         }
 
-        // If the move is with check and the new position contains a white piece, capture it
-        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
+        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == if (isWhite) Colors.BLACK else Colors.WHITE) {
             removePiece(pieceOnNewPos)
             return true
-        } else if (withCheck) whiteTurn = false
+        } else if (withCheck) whiteTurn = !isWhite
 
-        // If the new position is empty, return true
-        if (pieceOnNewPos == null) {
-            return true
-        }
-
-        // Otherwise, return false
-        return false
-    }
-
-    private fun moveBlackRook(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        withCheck: Boolean,
-    ): Boolean {
-        // If the new position is not in the same row or column as the old position, return false
-        if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
-            return false
-        }
-
-        // Determine the minimum and maximum row and column values
-        val minRow = minOf(oldPos.first, newPos.first)
-        val maxRow = maxOf(oldPos.first, newPos.first)
-        val minCol = minOf(oldPos.second, newPos.second)
-        val maxCol = maxOf(oldPos.second, newPos.second)
-
-        // Check if there is a piece blocking the rook's path
-        if (isPieceBlockingRookPath(oldPos, newPos, minRow, maxRow, minCol, maxCol)) {
-            return false
-        }
-
-        // If the move is with check and the new position contains a white piece, capture it
-        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-
-            removePiece(pieceOnNewPos)
-            return true
-        } else if (withCheck) whiteTurn = true
-
-        // If the new position is empty, return true
-        if (pieceOnNewPos == null) {
-            return true
-        }
-
-        // Otherwise, return false
-        return false
+        return pieceOnNewPos == null
     }
 
     private fun moveWhiteKnight(
