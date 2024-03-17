@@ -13,6 +13,12 @@ enum class PieceKind {
     BlackRook,
     WhiteKnight,
     BlackKnight,
+    WhiteBishop,
+    BlackBishop,
+    WhiteQueen,
+    BlackQueen,
+    WhiteKing,
+    BlackKing
 }
 
 /**
@@ -24,15 +30,14 @@ enum class PieceKind {
 fun decodePosition(cxy: Point): Pair<Int, Int> {
     val x = cxy.x / 64
     val y = cxy.y / 64
-    println("Encoded: $cxy, Decoded: $x, $y")
     return Pair(x.toInt(), y.toInt())
 }
 
 /**
  * Represents a chess piece.
  *
+ * @param kind The kind of chess piece.
  * @constructor Creates a Piece with the provided properties.
- * @property kind The kind of chess piece.
  * @property color The color of the chess piece.
  * @property cx The x-coordinate of the chess piece on the board.
  * @property cy The y-coordinate of the chess piece on the board.
@@ -59,6 +64,9 @@ class Piece(
                         PieceKind.WhitePawn -> whitePawn!!
                         PieceKind.WhiteRook -> whiteRook!!
                         PieceKind.WhiteKnight -> whiteKnight!!
+                        PieceKind.WhiteBishop -> whiteBishop!!
+                        PieceKind.WhiteQueen -> whiteQueen!!
+                        PieceKind.WhiteKing -> whiteKing!!
                         else -> throw Error("Invalid Piece !?")
                     })
 
@@ -67,15 +75,17 @@ class Piece(
             moveTo(cx, cy)
         } else {
             // If the piece is black, set the piece image to the black pawn or rook or knight
-            if (kind == PieceKind.BlackPawn ||
-                kind == PieceKind.BlackRook ||
-                kind == PieceKind.BlackKnight) {
+            if (color == Colors.BLACK) {
                 piece =
                     Image(
                         when (kind) {
                             PieceKind.BlackPawn -> blackPawn!!
                             PieceKind.BlackRook -> blackRook!!
-                            else -> blackKnight!!
+                            PieceKind.BlackKnight -> blackKnight!!
+                            PieceKind.BlackBishop -> blackBishop!!
+                            PieceKind.BlackQueen -> blackQueen!!
+                            PieceKind.BlackKing -> blackKing!!
+                            else -> throw Error("Invalid Piece !?")
                         })
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
@@ -111,6 +121,9 @@ class Piece(
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, true)
                 PieceKind.WhiteKnight -> moveWhiteKnight(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, withCheck, true)
+                PieceKind.WhiteQueen -> TODO()
+                PieceKind.WhiteKing -> TODO()
                 else -> false
             }
         } else {
@@ -118,6 +131,9 @@ class Piece(
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, false)
                 PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, withCheck)
+                PieceKind.BlackBishop -> TODO()
+                PieceKind.BlackQueen -> TODO()
+                PieceKind.BlackKing -> TODO()
                 else -> false
             }
         }
@@ -230,7 +246,9 @@ class Piece(
             return false
         }
 
-        if (withCheck && pieceOnNewPos != null && pieceOnNewPos.color == if (isWhite) Colors.BLACK else Colors.WHITE) {
+        if (withCheck &&
+            pieceOnNewPos != null &&
+            pieceOnNewPos.color == if (isWhite) Colors.BLACK else Colors.WHITE) {
             removePiece(pieceOnNewPos)
             return true
         } else if (withCheck) whiteTurn = !isWhite
@@ -298,12 +316,54 @@ class Piece(
         return false
     }
 
+    private fun moveBishop(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        withCheck: Boolean,
+        isWhite: Boolean
+    ): Boolean {
+        val p1 = abs(oldPos.first - newPos.first)
+        val p2 = abs(oldPos.second - newPos.second)
+        val p = if (p1 == p2) p1 else null
+
+        // Check if piece is moving right or left, up or down
+        val right = oldPos.first < newPos.first
+        val left = oldPos.first > newPos.first
+        val down = oldPos.second > newPos.second
+        val up = oldPos.second < newPos.second
+
+        if (p != null) {
+            // Check for obstacles in the bishop's path
+            for (i in 1 until p) {
+                val x = if (right) oldPos.first + i else oldPos.first - i
+                val y = if (down) oldPos.second - i else oldPos.second + i
+
+                for (piece in pieces) {
+                    val piecePos = decodePosition(piece.position)
+                    if (piecePos.first == x && piecePos.second == y) {
+                        // Obstacle found
+                        return false
+                    }
+                }
+            }
+            // If there are no obstacles, perform the move
+            if (withCheck) {
+                if (pieceOnNewPos != null) {
+                    removePiece(pieceOnNewPos)
+                }
+                whiteTurn = !isWhite
+            }
+            return true
+        }
+        return false
+    }
+
+
     private fun removePiece(piece: Piece) {
         pieces.remove(piece)
         piece.piece.removeFromParent()
     }
 
-    override fun renderInternal(ctx: RenderContext) {
-        // Implement your rendering logic here
-    }
+    override fun renderInternal(ctx: RenderContext) {}
 }

@@ -7,6 +7,7 @@ korge {
 
     targetJvm()
     targetJs()
+    targetAndroid()
 
     serializationJson()
     jvmMainClassName = "MainKt"
