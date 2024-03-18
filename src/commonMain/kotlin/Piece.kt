@@ -44,14 +44,14 @@ fun decodePosition(cxy: Point): Pair<Int, Int> {
  * @property cont The scene container.
  */
 class Piece(
-    kind: PieceKind,
-    private val color: RGBA,
+    var kind: PieceKind,
+    val color: RGBA,
     private val cx: Int,
     private val cy: Int,
     private val cont: SceneContainer,
 ) : View() {
 
-    private var pieceKind: PieceKind = kind
+    var pieceKind: PieceKind = kind
     private lateinit var piece: Image
     var position = board[cx][cy].pos
 
@@ -110,10 +110,10 @@ class Piece(
      *
      * @param oldPos The old position of the piece.
      * @param newPos The new position of the piece.
-     * @param withCheck Indicates whether to perform the move or just check its validity.
+     * @param performMove Indicates whether to perform the move or just check its validity.
      * @return true if the move is valid, false otherwise.
      */
-    fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
+    fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove: Boolean): Boolean {
         val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
         if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
             // Prevent moving to a cell occupied by a piece of the same color during the check for
@@ -122,20 +122,22 @@ class Piece(
         }
         return if (whiteTurn) {
             when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, true)
-                PieceKind.WhiteKnight -> moveWhiteKnight(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, withCheck, true)
+                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, performMove, true)
+                PieceKind.WhiteKnight -> moveWhiteKnight(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.WhiteBishop ->
+                    moveBishop(oldPos, newPos, pieceOnNewPos, performMove, true)
                 PieceKind.WhiteQueen -> TODO()
-                PieceKind.WhiteKing -> TODO()
+                PieceKind.WhiteKing -> moveWhiteKing(oldPos, newPos, pieceOnNewPos, performMove)
                 else -> false
             }
         } else {
             when (pieceKind) {
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, false)
-                PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, withCheck, false)
+                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, performMove, false)
+                PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.BlackBishop ->
+                    moveBishop(oldPos, newPos, pieceOnNewPos, performMove, false)
                 PieceKind.BlackQueen -> TODO()
                 PieceKind.BlackKing -> TODO()
                 else -> false
@@ -143,11 +145,41 @@ class Piece(
         }
     }
 
+    private fun moveWhiteKing(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        performMove: Boolean,
+    ): Boolean {
+        val rowDiff = abs(newPos.first - oldPos.first)
+        val colDiff = abs(newPos.second - oldPos.second)
+
+
+        // Check if the king is in check by iterating through all the pieces and checking if any of them can move to the kings position
+
+
+
+
+        if (rowDiff <= 1 && colDiff <= 1) {
+            if (pieceOnNewPos == null) {
+                if (performMove) whiteTurn = false
+                return true
+            } else if (pieceOnNewPos.color == Colors.BLACK) {
+                if (performMove) {
+                    removePiece(pieceOnNewPos)
+                    whiteTurn = false
+                }
+                return true
+            }
+        }
+        return false
+    }
+
     private fun moveWhitePawn(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean,
+        performMove: Boolean,
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
         val isInitialPawnMove =
@@ -155,22 +187,22 @@ class Piece(
 
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (withCheck) whiteTurn = false
-                println("legal")
+                if (performMove) whiteTurn = false
+                //println("legal")
                 return true
             }
         } else if (newPos.second - oldPos.second == 1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
-                if (withCheck) {
+                if (performMove) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = false
                 }
-                println("legal")
+                //println("legal")
                 return true
             }
         }
-        println("illegal")
+        //println("illegal")
         return false
     }
 
@@ -178,7 +210,7 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean,
+        performMove: Boolean,
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
         val isInitialPawnMove =
@@ -186,13 +218,13 @@ class Piece(
 
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (withCheck) whiteTurn = true
+                if (performMove) whiteTurn = true
                 return true
             }
         } else if (newPos.second - oldPos.second == -1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-                if (withCheck) {
+                if (performMove) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = true
                 }
@@ -234,7 +266,7 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean,
+        performMove: Boolean,
         isWhite: Boolean
     ): Boolean {
         if (oldPos.first != newPos.first && oldPos.second != newPos.second) {
@@ -250,12 +282,12 @@ class Piece(
             return false
         }
 
-        if (withCheck &&
+        if (performMove &&
             pieceOnNewPos != null &&
             pieceOnNewPos.color == if (isWhite) Colors.BLACK else Colors.WHITE) {
             removePiece(pieceOnNewPos)
             return true
-        } else if (withCheck) whiteTurn = !isWhite
+        } else if (performMove) whiteTurn = !isWhite
 
         return pieceOnNewPos == null
     }
@@ -264,21 +296,21 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean
+        performMove: Boolean
     ): Boolean {
         val rowDiff = abs(newPos.first - oldPos.first)
         val colDiff = abs(newPos.second - oldPos.second)
 
         if ((rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2)) {
             if (pieceOnNewPos == null) {
-                if (withCheck) {
+                if (performMove) {
                     println(whiteTurn)
                     whiteTurn = false
                     println(whiteTurn)
                 }
                 return true
             } else if (pieceOnNewPos.color != color) {
-                if (withCheck) {
+                if (performMove) {
                     removePiece(pieceOnNewPos)
                     println(whiteTurn)
                     whiteTurn = false
@@ -294,21 +326,21 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean
+        performMove: Boolean
     ): Boolean {
         val rowDiff = abs(newPos.first - oldPos.first)
         val colDiff = abs(newPos.second - oldPos.second)
 
         if ((rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2)) {
             if (pieceOnNewPos == null) {
-                if (withCheck) {
+                if (performMove) {
                     println(whiteTurn)
                     whiteTurn = true
                     println(whiteTurn)
                 }
                 return true
             } else if (pieceOnNewPos.color != color) {
-                if (withCheck) {
+                if (performMove) {
                     removePiece(pieceOnNewPos)
                     println(whiteTurn)
                     whiteTurn = true
@@ -324,7 +356,7 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        withCheck: Boolean,
+        performMove: Boolean,
         isWhite: Boolean
     ): Boolean {
         val p1 = abs(oldPos.first - newPos.first)
@@ -354,7 +386,7 @@ class Piece(
                 }
             }
             // If there are no obstacles, perform the move
-            if (withCheck) {
+            if (performMove) {
                 if (pieceOnNewPos != null) {
                     if (pieceOnNewPos.color == color) {
                         return false
