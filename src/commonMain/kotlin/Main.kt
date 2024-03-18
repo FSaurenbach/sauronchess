@@ -150,7 +150,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     // When dragging starts
                     if (info.start) {
                         // Iterate through pieces to find the selected piece
-                        //println("Start dragging...")
+                        // println("Start dragging...")
                         if (piece.position ==
                             board[newPosition!!.second][newPosition!!.first].pos) {
                             currentPos = newPosition
@@ -174,7 +174,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
                     // When dragging ends
                     if (info.end && selectedPiece != null) {
-                        //println("End dragging...")
+                        // println("End dragging...")
                         // Check if newPosition is within the game board
                         if (newPosition!!.first < 0 ||
                             newPosition!!.first >= 8 ||

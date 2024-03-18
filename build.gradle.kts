@@ -4,7 +4,8 @@ plugins { alias(libs.plugins.korge) }
 
 korge {
     id = "de.fsaurenbach.sauronchess"
-
+    name = "Sauronchess"
+    fullscreen = false
     targetJvm()
     targetJs()
     targetAndroid()

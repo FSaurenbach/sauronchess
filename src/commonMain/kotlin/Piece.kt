@@ -115,7 +115,11 @@ class Piece(
      */
     fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, withCheck: Boolean): Boolean {
         val pieceOnNewPos = pieces.find { it.position == board[newPos.second][newPos.first].pos }
-
+        if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+            // Prevent moving to a cell occupied by a piece of the same color during the check for
+            // valid moves
+            return false
+        }
         return if (whiteTurn) {
             when (pieceKind) {
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, withCheck)
@@ -131,7 +135,7 @@ class Piece(
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, withCheck)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, withCheck, false)
                 PieceKind.BlackKnight -> moveBlackKnight(oldPos, newPos, pieceOnNewPos, withCheck)
-                PieceKind.BlackBishop -> TODO()
+                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, withCheck, false)
                 PieceKind.BlackQueen -> TODO()
                 PieceKind.BlackKing -> TODO()
                 else -> false
@@ -326,19 +330,21 @@ class Piece(
         val p1 = abs(oldPos.first - newPos.first)
         val p2 = abs(oldPos.second - newPos.second)
         val p = if (p1 == p2) p1 else null
+        val color = if (isWhite) Colors.WHITE else Colors.BLACK
 
-        // Check if piece is moving right or left, up or down
-        val right = oldPos.first < newPos.first
-        val left = oldPos.first > newPos.first
-        val down = oldPos.second > newPos.second
-        val up = oldPos.second < newPos.second
+        println("Old position: $oldPos")
+        println("New position: $newPos")
+        println("All pieces:")
+        for (piece in pieces) {
+            val piecePos = decodePosition(piece.position)
+            println("Piece at position: $piecePos")
+        }
 
         if (p != null) {
             // Check for obstacles in the bishop's path
             for (i in 1 until p) {
-                val x = if (right) oldPos.first + i else oldPos.first - i
-                val y = if (down) oldPos.second - i else oldPos.second + i
-
+                val x = if (oldPos.first < newPos.first) oldPos.first + i else oldPos.first - i
+                val y = if (oldPos.second < newPos.second) oldPos.second + i else oldPos.second - i
                 for (piece in pieces) {
                     val piecePos = decodePosition(piece.position)
                     if (piecePos.first == x && piecePos.second == y) {
@@ -350,7 +356,11 @@ class Piece(
             // If there are no obstacles, perform the move
             if (withCheck) {
                 if (pieceOnNewPos != null) {
-                    removePiece(pieceOnNewPos)
+                    if (pieceOnNewPos.color == color) {
+                        return false
+                    } else {
+                        removePiece(pieceOnNewPos)
+                    }
                 }
                 whiteTurn = !isWhite
             }
@@ -358,7 +368,6 @@ class Piece(
         }
         return false
     }
-
 
     private fun removePiece(piece: Piece) {
         pieces.remove(piece)
