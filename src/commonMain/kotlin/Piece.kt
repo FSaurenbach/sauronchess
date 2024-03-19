@@ -54,6 +54,7 @@ class Piece(
     private var pieceKind: PieceKind = kind
     private lateinit var piece: Image
     var position = board[cx][cy].pos
+    var newPosi: Point? = null
 
     init {
         if (color == Colors.WHITE) {
@@ -125,6 +126,7 @@ class Piece(
             // valid moves
             return false
         }
+        val newPosi: Point? = null
         if (!king) {
             return if (whiteTurn) {
                 when (pieceKind) {
@@ -222,12 +224,14 @@ class Piece(
         if (rowDiff <= 1 && colDiff <= 1) {
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = false
+                kingPosition = decodePosition(board[newPos.first][newPos.second].pos)
                 return true
             } else if (pieceOnNewPos.color == Colors.BLACK) {
                 if (performMove) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = false
                 }
+                kingPosition = decodePosition(board[newPos.first][newPos.second].pos)
                 return true
             }
         }
@@ -275,9 +279,16 @@ class Piece(
         val isInitialPawnMove =
             oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
 
+
+
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = true
+                newPosi = board[newPos.second][newPos.first].pos
+                if (kingInCheck(this)){
+                    println("nah")
+                    return false
+                }
                 return true
             }
         } else if (newPos.second - oldPos.second == -1 &&

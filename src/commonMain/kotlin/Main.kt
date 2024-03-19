@@ -229,7 +229,7 @@ var checkedCells = ArrayList<SolidRect>()
  * 3. Checks each black piece to see if it can move to the king's position.
  * 4. If a piece can move to the king's position, the king is in check. The cell of the threatening piece is marked red and added to the list of checked cells.
  */
-fun kingInCheck() {
+fun kingInCheck(pd:Piece? = null): Boolean {
     // Iterate over all checked cells
     for (cell in checkedCells) {
         // Decode the position of the cell to get the x and y coordinates
@@ -242,22 +242,42 @@ fun kingInCheck() {
     checkedCells.clear()
     println("cleared checkedCells...")
     // Iterate over all pieces
-    for (piece in pieces) {
-        // Decode the position of the piece
-        val piecePos = decodePosition(piece.position)
-        // If the piece is black
-        if (piece.color == Colors.BLACK) {
+    if (pd == null) {
+        for (piece in pieces) {
+            // Decode the position of the piece
+            val piecePos = decodePosition(piece.position)
+            // If the piece is black
+            if (piece.color == Colors.BLACK) {
+                println("Piece: $piecePos, King: $kingPosition")
+                // Check if the piece can move to the position of the king
+                if (piece.moveChecker(piecePos, kingPosition, false, true)) {
+                    println("KING IN CHECK! kingPosition: $kingPosition")
+                    // If the piece can move to the position of the king, change the color of the cell the piece is on to red
+                    val b = board[piecePos.second][piecePos.first]
+                    checkedCells.add(b)
+                    b.color = Colors.RED
+                    return true
+                }
+            }
+        }
+    }
+    if (pd != null) {
+        val piecePos = decodePosition(pd.newPosi!!)
+        if (pd.color == Colors.BLACK) {
             println("Piece: $piecePos, King: $kingPosition")
             // Check if the piece can move to the position of the king
-            if (piece.moveChecker(piecePos, kingPosition, false, true)) {
+            if (pd.moveChecker(piecePos, kingPosition, false, true)) {
                 println("KING IN CHECK! kingPosition: $kingPosition")
                 // If the piece can move to the position of the king, change the color of the cell the piece is on to red
                 val b = board[piecePos.second][piecePos.first]
                 checkedCells.add(b)
                 b.color = Colors.RED
+                return true
             }
         }
     }
+
+    return false
 }
 
 /**
