@@ -29,7 +29,7 @@ var pieces = ArrayList<Piece>()
 var whiteTurn = true
 var markedCells = ArrayList<Cell>()
 /** Initial position of the white king */
-var kingPosition = Pair(4, 3)
+var whiteKingPosition = Pair(4, 0)
 /** Entry point of the application. Initializes the game window and sets up the game scene. */
 suspend fun main() =
     Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
@@ -76,7 +76,7 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         var d = 0
         for (cx in 0 until 8) {
             for (cy in 0 until 8) {
-                val cellColor = if (d.isEven) Colors.WHITE else Colors.BLACK
+                val cellColor = if (d.isEven) Colors.WHITE else Colors.MEDIUMSEAGREEN
                 val cl = Cell(cellColor, cx, cy, cont)
                 cells.add(cl)
                 d++
@@ -90,26 +90,19 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
             (0 until 8).map { Piece(PieceKind.WhitePawn, Colors.WHITE, it, 1, cont = cont) }
         val blackPawns =
             (0 until 8).map { Piece(PieceKind.BlackPawn, Colors.BLACK, it, 6, cont = cont) }
-        // Set up all the rooks
         val whiteRook1 = Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 0, cont = cont)
         val whiteRook2 = Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 0, cont = cont)
         val blackRook1 = Piece(PieceKind.BlackRook, Colors.BLACK, 0, 7, cont = cont)
         val blackRook2 = Piece(PieceKind.BlackRook, Colors.BLACK, 7, 7, cont = cont)
-        // Set up all the knights
         val whiteKnight1 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 0, cont = cont)
         val whiteKnight2 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 0, cont = cont)
         val blackKnight1 = Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 7, cont = cont)
         val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont = cont)
-        // Set up all the bishops
         val whiteBishop1 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 0, cont = cont)
         val whiteBishop2 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 0, cont = cont)
         val blackBishop1 = Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 7, cont = cont)
         val blackBishop2 = Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 7, cont = cont)
-        // Set up the kings and queens
-        //val whiteQueen = Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 0, cont = cont)
-        val whiteKing = Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 3, cont = cont)
-        //val blackQueen = Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 7, cont = cont)
-        //val blackKing = Piece(PieceKind.BlackKing, Colors.BLACK, 4, 7, cont = cont)
+        val whiteKing = Piece(PieceKind.WhiteKing, Colors.WHITE, 3, 0, cont = cont)
 
         pieces.addAll(
             whitePawns +
@@ -162,15 +155,15 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                                         "Found Cell where piece is located: ${cell.cx}, ${cell.cy}")
                                 }
                                 if (selectedPiece!!.moveChecker(
-                                    newPosition!!, Pair(cell.cx, cell.cy), false, false)) {
-                                    // println("Can move to: ${cell.cx}, ${cell.cy}")
+                                    newPosition!!,
+                                    Pair(cell.cx, cell.cy),
+                                    performMove = false,
+                                    king = false)) {
                                     changeColor(cell.cy, cell.cx, false)
                                     markedCells.add(cell)
                                 }
                             }
-
                         }
-
                     }
 
                     // When dragging ends
@@ -192,14 +185,15 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
                         // Perform the move if no error
                         if (!error) {
-                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true, false)) {
+                            if (selectedPiece!!.moveChecker(
+                                currentPos!!, newPosition!!, performMove = true, king = false)) {
                                 selectedPiece!!.moveTo(newPosition!!.first, newPosition!!.second)
                                 selectedPiece = null
                             } else {
                                 selectedPiece!!.moveTo(currentPos!!.first, currentPos!!.second)
                                 selectedPiece = null
                             }
-                            kingInCheck()
+                            whiteKingInCheck()
                             selectedPiece = null
                             newPosition = null
                             currentPos = null
@@ -211,7 +205,6 @@ class GameScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         }
                         markedCells.clear()
                         error = false
-
                     }
                 }
         }
@@ -227,48 +220,33 @@ var checkedCells = ArrayList<SolidRect>()
  * 1. Resets the colors of previously checked cells.
  * 2. Clears the list of checked cells.
  * 3. Checks each black piece to see if it can move to the king's position.
- * 4. If a piece can move to the king's position, the king is in check. The cell of the threatening piece is marked red and added to the list of checked cells.
+ * 4. If a piece can move to the king's position, the king is in check. The cell of the threatening
+ *    piece is marked red and added to the list of checked cells.
  */
-fun kingInCheck(pd:Piece? = null): Boolean {
+fun whiteKingInCheck(): Boolean {
     // Iterate over all checked cells
     for (cell in checkedCells) {
         // Decode the position of the cell to get the x and y coordinates
         val cx = decodePosition(cell.pos).first
         val cy = decodePosition(cell.pos).second
         // Change the color of the cell based on the sum of the x and y coordinates
-        cell.color = if ((cx + cy).isEven) Colors.WHITE else Colors.BLACK
+
+        cell.color = if ((cx + cy).isEven) Colors.WHITE else Colors.MEDIUMSEAGREEN
     }
     // Clear the list of checked cells
     checkedCells.clear()
     println("cleared checkedCells...")
     // Iterate over all pieces
-    if (pd == null) {
-        for (piece in pieces) {
-            // Decode the position of the piece
-            val piecePos = decodePosition(piece.position)
-            // If the piece is black
-            if (piece.color == Colors.BLACK) {
-                println("Piece: $piecePos, King: $kingPosition")
-                // Check if the piece can move to the position of the king
-                if (piece.moveChecker(piecePos, kingPosition, false, true)) {
-                    println("KING IN CHECK! kingPosition: $kingPosition")
-                    // If the piece can move to the position of the king, change the color of the cell the piece is on to red
-                    val b = board[piecePos.second][piecePos.first]
-                    checkedCells.add(b)
-                    b.color = Colors.RED
-                    return true
-                }
-            }
-        }
-    }
-    if (pd != null) {
-        val piecePos = decodePosition(pd.newPosi!!)
-        if (pd.color == Colors.BLACK) {
-            println("Piece: $piecePos, King: $kingPosition")
+    for (piece in pieces) {
+        // Decode the position of the piece
+        val piecePos = decodePosition(piece.position)
+        // If the piece is black
+        if (piece.color == Colors.BLACK) {
             // Check if the piece can move to the position of the king
-            if (pd.moveChecker(piecePos, kingPosition, false, true)) {
-                println("KING IN CHECK! kingPosition: $kingPosition")
-                // If the piece can move to the position of the king, change the color of the cell the piece is on to red
+            if (piece.moveChecker(piecePos, whiteKingPosition, performMove = false, king = true)) {
+                println("KING IN CHECK! whiteKingPosition: $whiteKingPosition")
+                // If the piece can move to the position of the king, change the color of the
+                // cell the piece is on to red
                 val b = board[piecePos.second][piecePos.first]
                 checkedCells.add(b)
                 b.color = Colors.RED

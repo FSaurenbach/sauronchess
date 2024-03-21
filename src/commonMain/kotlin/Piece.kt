@@ -54,7 +54,7 @@ class Piece(
     private var pieceKind: PieceKind = kind
     private lateinit var piece: Image
     var position = board[cx][cy].pos
-    var newPosi: Point? = null
+    private var newPosi: Point? = null
 
     init {
         if (color == Colors.WHITE) {
@@ -126,7 +126,6 @@ class Piece(
             // valid moves
             return false
         }
-        val newPosi: Point? = null
         if (!king) {
             return if (whiteTurn) {
                 when (pieceKind) {
@@ -204,9 +203,6 @@ class Piece(
         }
 
         return false
-
-
-
     }
 
     private fun moveWhiteKing(
@@ -223,15 +219,20 @@ class Piece(
 
         if (rowDiff <= 1 && colDiff <= 1) {
             if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = false
-                kingPosition = decodePosition(board[newPos.first][newPos.second].pos)
+                if (performMove) {
+                    whiteTurn = false
+                    whiteKingPosition = decodePosition(board[newPos.second][newPos.first].pos)
+                    println("king position: $whiteKingPosition")
+                }
+
                 return true
             } else if (pieceOnNewPos.color == Colors.BLACK) {
                 if (performMove) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = false
+                    whiteKingPosition = decodePosition(board[newPos.second][newPos.first].pos)
+                    println("king position: $whiteKingPosition")
                 }
-                kingPosition = decodePosition(board[newPos.first][newPos.second].pos)
                 return true
             }
         }
@@ -250,9 +251,16 @@ class Piece(
 
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = false
+
                 // println("legal")
-                return true
+                newPosi = board[newPos.second][newPos.first].pos
+                if (whiteKingInCheck()) {
+                    println("nah")
+                    return false
+                } else {
+                    if (performMove) whiteTurn = false
+                    return true
+                }
             }
         } else if (newPos.second - oldPos.second == 1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
@@ -279,21 +287,15 @@ class Piece(
         val isInitialPawnMove =
             oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
 
-
-
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = true
-                newPosi = board[newPos.second][newPos.first].pos
-                if (kingInCheck(this)){
-                    println("nah")
-                    return false
-                }
                 return true
             }
         } else if (newPos.second - oldPos.second == -1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
+
                 if (performMove) {
                     removePiece(pieceOnNewPos)
                     whiteTurn = true
