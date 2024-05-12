@@ -89,15 +89,15 @@ class Piece(
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         if (whiteTurn) {
             return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos)
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true)
                 else -> false
             }
         }
         if (!whiteTurn) {
             return when (pieceKind) {
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, false)
+                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos)
+                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false)
                 else -> false
             }
         }
@@ -109,7 +109,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        performMove: Boolean,
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
         val isInitialPawnMove =
@@ -138,7 +137,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        performMove: Boolean,
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
         val isInitialPawnMove =
