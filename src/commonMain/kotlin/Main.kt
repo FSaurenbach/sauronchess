@@ -12,9 +12,13 @@ var cells = ArrayList<Cell>()
 var schachbrett: Schachbrett? = null
 var pieces = ArrayList<Piece>()
 var whitePawn: Bitmap? = null
-var blackPawn: Bitmap? = null
 var whiteRook: Bitmap? = null
+var whiteKnight: Bitmap? = null
+
+var blackPawn: Bitmap? = null
 var blackRook: Bitmap? = null
+var blackKnight: Bitmap? = null
+
 var whiteTurn = true
 
 suspend fun main() =
@@ -33,9 +37,12 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
     override suspend fun SContainer.sceneMain() {
         schachbrett = Schachbrett(cont)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
-        blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
+        whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
+
+        blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
         blackRook = resourcesVfs["b_rook.png"].readBitmap()
+        blackKnight = resourcesVfs["b_knight.png"].readBitmap()
         addAllPieces(cont)
         handlePieceMovement()
     }
@@ -54,61 +61,52 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     // When dragging starts, update newPosition and newPositionEncoded
                     newPosition =
                         Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
-                }
-            ) { info ->
-                error = false
+                }) { info ->
+                    error = false
 
-                // When dragging starts
-                if (info.start) {
-                    // Iterate through pieces to find the selected piece
-                    // //println("Start dragging...")
-                    val pieceAtCurrentPos =
-                        schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                    // When dragging starts
+                    if (info.start) {
+                        // Iterate through pieces to find the selected piece
+                        // //println("Start dragging...")
+                        val pieceAtCurrentPos =
+                            schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
-                    if (
-                        schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) != null
-                    ) {
-                        currentPos = newPosition
-                        selectedPiece = pieceAtCurrentPos
+                        if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) !=
+                            null) {
+                            currentPos = newPosition
+                            selectedPiece = pieceAtCurrentPos
+                        }
                     }
-                }
 
-                // When dragging ends
-                if (info.end && selectedPiece != null) {
-                    // //println("End dragging...")
-                    // Check if newPosition is within the game board
-                    if (
-                        newPosition!!.first < 0 ||
+                    // When dragging ends
+                    if (info.end && selectedPiece != null) {
+                        // //println("End dragging...")
+                        // Check if newPosition is within the game board
+                        if (newPosition!!.first < 0 ||
                             newPosition!!.first >= 8 ||
                             newPosition!!.second < 0 ||
-                            newPosition!!.second >= 8
-                    ) {
-                        error = true
-                        // Reset variables
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
-                    // Perform the move if no error
-                    if (!error) {
-                        if (
-                            selectedPiece!!.moveChecker(
-                                currentPos!!,
-                                newPosition!!,
-                                performMove = true
-                            )
-                        ) {
-                            figurBewegen(selectedPiece!!, newPosition!!.first, newPosition!!.second)
+                            newPosition!!.second >= 8) {
+                            error = true
+                            // Reset variables
                             selectedPiece = null
+                            newPosition = null
+                            currentPos = null
                         }
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
+                        // Perform the move if no error
+                        if (!error) {
+                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!)) {
+                                figurBewegen(
+                                    selectedPiece!!, newPosition!!.first, newPosition!!.second)
+                                selectedPiece = null
+                            }
+                            selectedPiece = null
+                            newPosition = null
+                            currentPos = null
+                        }
 
-                    error = false
+                        error = false
+                    }
                 }
-            }
         }
     }
 }
