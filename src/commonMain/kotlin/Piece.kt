@@ -179,6 +179,10 @@ class Piece(
                         return false
                     }
                 }
+                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    return false
+                }
                 println("pieceOnNewPos: $pieceOnNewPos")
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
@@ -203,6 +207,10 @@ class Piece(
                         println("Found Piece blocking rooks path!")
                         return false
                     }
+                }
+                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
@@ -233,6 +241,10 @@ class Piece(
                         return false
                     }
                 }
+                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    return false
+                }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
                     removePiece(pieceOnNewPos)
@@ -257,6 +269,10 @@ class Piece(
                         println("Found Piece blocking rooks path!")
                         return false
                     }
+                }
+                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
