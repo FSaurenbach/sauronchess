@@ -3,6 +3,8 @@ import korlibs.korge.render.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
+import korlibs.math.geom.abs
+import kotlin.math.*
 
 enum class PieceKind {
     WhitePawn,
@@ -20,7 +22,7 @@ enum class PieceKind {
 }
 
 class Piece(
-    kind: PieceKind,
+    var kind: PieceKind,
     private val color: RGBA,
     var cx: Int,
     var cy: Int,
@@ -90,27 +92,27 @@ class Piece(
      * @param newPos The new position of the piece.
      * @return true if the move is valid, false otherwise.
      */
-    fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+    fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove:Boolean): Boolean {
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         if (whiteTurn) {
             return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true)
-                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true)
-                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true)
+                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
+                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
+                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
+                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
+                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
                 else -> false
             }
         }
         if (!whiteTurn) {
             return when (pieceKind) {
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false)
-                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false)
-                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false)
+                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
+                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
                 else -> false
             }
         }
@@ -122,21 +124,22 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
+        performMove: Boolean
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
         val isInitialPawnMove =
             oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                whiteTurn = false
+                if (performMove) whiteTurn = false
 
                 return true
             }
         } else if (oldPos.second - newPos.second == -1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
-                removePiece(pieceOnNewPos)
-                whiteTurn = false
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = false
 
                 return true
             }
@@ -148,13 +151,14 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
+        performMove: Boolean
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
         val isInitialPawnMove =
             oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                whiteTurn = true
+                if (performMove) whiteTurn = true
 
                 return true
             }
@@ -162,8 +166,8 @@ class Piece(
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
 
-                removePiece(pieceOnNewPos)
-                whiteTurn = true
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = true
 
                 return true
             }
@@ -176,6 +180,7 @@ class Piece(
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
         isWhite: Boolean,
+        performMove: Boolean
     ): Boolean {
         // Case moving up or down
         if (oldPos.first == newPos.first) {
@@ -197,13 +202,13 @@ class Piece(
                 println("pieceOnNewPos: $pieceOnNewPos")
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one down
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 whiteTurn = !isWhite
@@ -225,16 +230,16 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one down
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -258,17 +263,17 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
 
                 // Case moving one right
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             if (newPos.first < oldPos.first) {
@@ -287,14 +292,14 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
 
                 // Case moving one left
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 whiteTurn = !isWhite
@@ -306,75 +311,42 @@ class Piece(
     }
 
     private fun moveKnight(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-    ): Boolean {
-        // Case moving down right or down left
-        if (newPos.second - oldPos.second == 2 && (newPos.first - oldPos.first == 1) ||
-            (oldPos.first - newPos.first == 1)) {
-            println("ye")
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+    oldPos: Pair<Int, Int>,
+    newPos: Pair<Int, Int>,
+    pieceOnNewPos: Piece?,
+    isWhite: Boolean,
+    performMove: Boolean
+): Boolean {
+    val xDiff = abs(newPos.first - oldPos.first)
+    val yDiff = abs(newPos.second - oldPos.second)
+
+    if ((xDiff == 2 && yDiff == 1) || (xDiff == 1 && yDiff == 2)) {
+        if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+            return false
+        }
+        if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+            if (performMove) {
                 removePiece(pieceOnNewPos)
                 whiteTurn = !isWhite
-                return true
             }
-            if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
-                return true
-            }
+            return true
         }
-        // Case moving up right or up left
-        if (oldPos.second - newPos.second == 2 && (newPos.first - oldPos.first == 1) ||
-            (oldPos.first - newPos.first == 1)) {
-            println("ye")
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                removePiece(pieceOnNewPos)
+        if (pieceOnNewPos == null) {
+            if (performMove) {
                 whiteTurn = !isWhite
-                return true
             }
-            if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
-                return true
-            }
+            return true
         }
-        // Case moving right or left and a bit down or up
-        if (newPos.second - oldPos.second == 1 && (newPos.first - oldPos.first == 2) ||
-            (oldPos.first - newPos.first == 2)) {
-            println("ye")
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
-                return true
-            }
-            if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving right or left and a bit up or down
-        if (oldPos.second - newPos.second == 1 && (newPos.first - oldPos.first == 2) ||
-            (oldPos.first - newPos.first == 2)) {
-            println("ye")
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
-                return true
-            }
-            if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
-                return true
-            }
-        }
-        return false
     }
+    return false
+}
 
     private fun moveBishop(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean
+        isWhite: Boolean,
+        performMove: Boolean
     ): Boolean {
         val realMove =
             ((newPos.first - oldPos.first) == (newPos.second - oldPos.second)) ||
@@ -398,16 +370,16 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one down right
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             if (newPos.first < oldPos.first && newPos.second < oldPos.second) {
@@ -426,16 +398,16 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one up left
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             if (newPos.first > oldPos.first && newPos.second < oldPos.second) {
@@ -454,16 +426,16 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one up right
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             if (newPos.first < oldPos.first && newPos.second > oldPos.second) {
@@ -482,16 +454,16 @@ class Piece(
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                     println("pieceOnNewPos: $pieceOnNewPos")
-                    removePiece(pieceOnNewPos)
-                    whiteTurn = !isWhite
+                    if (performMove) removePiece(pieceOnNewPos)
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
                 // Case moving one down left
                 if (pieceOnNewPos == null && cellstocheck == 0) {
-                    whiteTurn = !isWhite
+                    if (performMove) whiteTurn = !isWhite
                     return true
                 }
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -502,17 +474,19 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean
+        isWhite: Boolean,
+        performMove: Boolean
     ): Boolean {
-        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite) ||
-            moveBishop(oldPos, newPos, pieceOnNewPos, isWhite)
+        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) ||
+            moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
     }
 
     private fun moveKing(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean
+        isWhite: Boolean,
+        performMove: Boolean
     ): Boolean {
         // Case moving down
         if (oldPos.first == newPos.first && newPos.second - oldPos.second == 1) {
@@ -522,13 +496,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one down
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -540,13 +514,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one up
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -558,13 +532,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one left
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -576,13 +550,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one right
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -594,13 +568,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one down right
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -612,13 +586,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one down left
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -630,13 +604,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one up right
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }
@@ -648,13 +622,13 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 println("pieceOnNewPos: $pieceOnNewPos")
-                removePiece(pieceOnNewPos)
-                whiteTurn = !isWhite
+                if (performMove) removePiece(pieceOnNewPos)
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
             // Case moving one up left
             if (pieceOnNewPos == null) {
-                whiteTurn = !isWhite
+                if (performMove) whiteTurn = !isWhite
                 return true
             }
         }

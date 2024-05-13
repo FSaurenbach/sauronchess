@@ -32,8 +32,5 @@ class Cell(color: RGBA, var cx: Int, var cy: Int, cont: SceneContainer) : Contai
 
         // Add the cell to the specified scene container
         cont.addChild(cell)
-
-        // Print the position of the cell when it is initialized
-        println("Cell initialized at: $position")
     }
 }
