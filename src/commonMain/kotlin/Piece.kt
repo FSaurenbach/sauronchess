@@ -41,6 +41,7 @@ class Piece(
                         PieceKind.WhiteKnight -> whiteKnight!!
                         PieceKind.WhiteBishop -> whiteBishop!!
                         PieceKind.WhiteQueen -> whiteQueen!!
+                        PieceKind.WhiteKing -> whiteKing!!
                         else -> throw Error("Invalid Piece !?")
                     })
 
@@ -58,6 +59,7 @@ class Piece(
                             PieceKind.BlackKnight -> blackKnight!!
                             PieceKind.BlackBishop -> blackBishop!!
                             PieceKind.BlackQueen -> blackQueen!!
+                            PieceKind.BlackKing -> blackKing!!
                             else -> throw Error("Invalid Piece !?")
                         })
                 piece.size(Size(64, 64))
@@ -97,6 +99,7 @@ class Piece(
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true)
                 PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true)
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true)
+                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true)
                 else -> false
             }
         }
@@ -107,6 +110,7 @@ class Piece(
                 PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false)
                 PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false)
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false)
+                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false)
                 else -> false
             }
         }
@@ -499,8 +503,163 @@ class Piece(
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
         isWhite: Boolean
-    ):Boolean {
-        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite) || moveBishop(oldPos, newPos, pieceOnNewPos, isWhite)
+    ): Boolean {
+        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite) ||
+            moveBishop(oldPos, newPos, pieceOnNewPos, isWhite)
+    }
+
+    private fun moveKing(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        isWhite: Boolean
+    ): Boolean {
+        // Case moving down
+        if (oldPos.first == newPos.first && newPos.second - oldPos.second == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one down
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving up
+        else if (oldPos.first == newPos.first && newPos.second - oldPos.second == -1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one up
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving left
+        else if (oldPos.second == newPos.second && oldPos.first - newPos.first == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one left
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving right
+        else if (oldPos.second == newPos.second && newPos.first - oldPos.first == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one right
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving down right
+        else if (newPos.first - oldPos.first == 1 && newPos.second - oldPos.second == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one down right
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving down left
+        else if (oldPos.first - newPos.first == 1 && newPos.second - oldPos.second == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one down left
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving up right
+        else if (newPos.first - oldPos.first == 1 && oldPos.second - newPos.second == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one up right
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+        // Case moving up left
+        else if (oldPos.first - newPos.first == 1 && oldPos.second - newPos.second == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                return false
+            }
+            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
+                println("pieceOnNewPos: $pieceOnNewPos")
+                removePiece(pieceOnNewPos)
+                whiteTurn = !isWhite
+                return true
+            }
+            // Case moving one up left
+            if (pieceOnNewPos == null) {
+                whiteTurn = !isWhite
+                return true
+            }
+        }
+
+        return false
     }
 
     private fun removePiece(piece: Piece) {
@@ -533,6 +692,7 @@ fun addAllPieces(cont: SceneContainer) {
     val whiteBishop1 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 0, cont)
     val whiteBishop2 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 0, cont)
     val whiteQueen = Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 0, cont)
+    val whiteKing = Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 4, cont)
 
     // black pieces
     val blackPawn1 = Piece(PieceKind.BlackPawn, Colors.BLACK, 0, 6, cont)
@@ -550,6 +710,7 @@ fun addAllPieces(cont: SceneContainer) {
     val blackBishop1 = Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 7, cont)
     val blackBishop2 = Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 7, cont)
     val blackQueen = Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 7, cont)
+    val blackKing = Piece(PieceKind.BlackKing, Colors.BLACK, 4, 7, cont)
 
     // Add all pieces to the pieces list
     pieces.add(whitePawn1)
@@ -582,5 +743,6 @@ fun addAllPieces(cont: SceneContainer) {
     pieces.add(blackBishop2)
     pieces.add(whiteQueen)
     pieces.add(blackQueen)
-
+    pieces.add(whiteKing)
+    pieces.add(blackKing)
 }

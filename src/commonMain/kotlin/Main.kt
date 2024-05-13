@@ -16,12 +16,14 @@ var whiteRook: Bitmap? = null
 var whiteKnight: Bitmap? = null
 var whiteBishop: Bitmap? = null
 var whiteQueen: Bitmap? = null
+var whiteKing: Bitmap? = null
 
 var blackPawn: Bitmap? = null
 var blackRook: Bitmap? = null
 var blackKnight: Bitmap? = null
 var blackBishop: Bitmap? = null
 var blackQueen: Bitmap? = null
+var blackKing: Bitmap? = null
 
 var whiteTurn = true
 
@@ -45,6 +47,7 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
         whiteBishop = resourcesVfs["w_bishop.png"].readBitmap()
         whiteQueen = resourcesVfs["w_queen.png"].readBitmap()
+        whiteKing = resourcesVfs["w_king.png"].readBitmap()
 
         blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
         blackRook = resourcesVfs["b_rook.png"].readBitmap()
