@@ -40,6 +40,7 @@ class Piece(
                         PieceKind.WhiteRook -> whiteRook!!
                         PieceKind.WhiteKnight -> whiteKnight!!
                         PieceKind.WhiteBishop -> whiteBishop!!
+                        PieceKind.WhiteQueen -> whiteQueen!!
                         else -> throw Error("Invalid Piece !?")
                     })
 
@@ -56,6 +57,7 @@ class Piece(
                             PieceKind.BlackRook -> blackRook!!
                             PieceKind.BlackKnight -> blackKnight!!
                             PieceKind.BlackBishop -> blackBishop!!
+                            PieceKind.BlackQueen -> blackQueen!!
                             else -> throw Error("Invalid Piece !?")
                         })
                 piece.size(Size(64, 64))
@@ -94,6 +96,7 @@ class Piece(
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true)
                 PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true)
+                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true)
                 else -> false
             }
         }
@@ -103,6 +106,7 @@ class Piece(
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false)
                 PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false)
                 PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false)
+                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false)
                 else -> false
             }
         }
@@ -368,13 +372,11 @@ class Piece(
         pieceOnNewPos: Piece?,
         isWhite: Boolean
     ): Boolean {
-        var realMove =
-            if (((newPos.first - oldPos.first) == (newPos.second - oldPos.second)) ||
+        val realMove =
+            ((newPos.first - oldPos.first) == (newPos.second - oldPos.second)) ||
                 ((oldPos.first - newPos.first) == (oldPos.second - newPos.first)) ||
                 ((newPos.first - oldPos.first) == (oldPos.second - newPos.first)) ||
-                ((oldPos.first - newPos.first) == (newPos.second - oldPos.second)))
-                true
-            else false
+                ((oldPos.first - newPos.first) == (newPos.second - oldPos.second))
         if (realMove) {
             if (newPos.first > oldPos.first && newPos.second > oldPos.second) {
                 val cellstocheck = newPos.first - oldPos.first - 1
@@ -492,6 +494,15 @@ class Piece(
         return false
     }
 
+    private fun moveQueen(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+        pieceOnNewPos: Piece?,
+        isWhite: Boolean
+    ):Boolean {
+        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite) || moveBishop(oldPos, newPos, pieceOnNewPos, isWhite)
+    }
+
     private fun removePiece(piece: Piece) {
         println("Pieces list before removal: $pieces")
         pieces.remove(piece)
@@ -521,6 +532,7 @@ fun addAllPieces(cont: SceneContainer) {
     val whiteKnight2 = Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 0, cont)
     val whiteBishop1 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 0, cont)
     val whiteBishop2 = Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 0, cont)
+    val whiteQueen = Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 0, cont)
 
     // black pieces
     val blackPawn1 = Piece(PieceKind.BlackPawn, Colors.BLACK, 0, 6, cont)
@@ -537,6 +549,7 @@ fun addAllPieces(cont: SceneContainer) {
     val blackKnight2 = Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 7, cont)
     val blackBishop1 = Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 7, cont)
     val blackBishop2 = Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 7, cont)
+    val blackQueen = Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 7, cont)
 
     // Add all pieces to the pieces list
     pieces.add(whitePawn1)
@@ -567,4 +580,7 @@ fun addAllPieces(cont: SceneContainer) {
     pieces.add(whiteBishop2)
     pieces.add(blackBishop1)
     pieces.add(blackBishop2)
+    pieces.add(whiteQueen)
+    pieces.add(blackQueen)
+
 }

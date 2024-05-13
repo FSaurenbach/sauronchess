@@ -15,11 +15,13 @@ var whitePawn: Bitmap? = null
 var whiteRook: Bitmap? = null
 var whiteKnight: Bitmap? = null
 var whiteBishop: Bitmap? = null
+var whiteQueen: Bitmap? = null
 
 var blackPawn: Bitmap? = null
 var blackRook: Bitmap? = null
 var blackKnight: Bitmap? = null
 var blackBishop: Bitmap? = null
+var blackQueen: Bitmap? = null
 
 var whiteTurn = true
 
@@ -42,11 +44,14 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
         whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
         whiteBishop = resourcesVfs["w_bishop.png"].readBitmap()
+        whiteQueen = resourcesVfs["w_queen.png"].readBitmap()
 
         blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
         blackRook = resourcesVfs["b_rook.png"].readBitmap()
         blackKnight = resourcesVfs["b_knight.png"].readBitmap()
         blackBishop = resourcesVfs["b_bishop.png"].readBitmap()
+        blackQueen = resourcesVfs["b_queen.png"].readBitmap()
+
         addAllPieces(cont)
         handlePieceMovement()
     }
