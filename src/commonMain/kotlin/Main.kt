@@ -17,6 +17,8 @@ var whiteKnight: Bitmap? = null
 var whiteBishop: Bitmap? = null
 var whiteQueen: Bitmap? = null
 var whiteKing: Bitmap? = null
+var whiteKingInCheck = false
+var whiteKingPosition = Pair(4, 7)
 
 var blackPawn: Bitmap? = null
 var blackRook: Bitmap? = null
@@ -24,6 +26,8 @@ var blackKnight: Bitmap? = null
 var blackBishop: Bitmap? = null
 var blackQueen: Bitmap? = null
 var blackKing: Bitmap? = null
+var blackKingInCheck = false
+var blackKingPosition = Pair(4, 0)
 
 var whiteTurn = true
 
@@ -54,6 +58,7 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         blackKnight = resourcesVfs["b_knight.png"].readBitmap()
         blackBishop = resourcesVfs["b_bishop.png"].readBitmap()
         blackQueen = resourcesVfs["b_queen.png"].readBitmap()
+        blackKing = resourcesVfs["b_king.png"].readBitmap()
 
         addAllPieces(cont)
         handlePieceMovement()
@@ -80,6 +85,7 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     if (info.start) {
                         // Iterate through pieces to find the selected piece
                         // //println("Start dragging...")
+                        // Set king position
                         val pieceAtCurrentPos =
                             schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
@@ -106,11 +112,17 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                         }
                         // Perform the move if no error
                         if (!error) {
-                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!)) {
+                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
                                 figurBewegen(
                                     selectedPiece!!, newPosition!!.first, newPosition!!.second)
                                 selectedPiece = null
                             }
+                            // Check if king is in Check
+                            inCheck()
+
+
+
+                            // Reset variables
                             selectedPiece = null
                             newPosition = null
                             currentPos = null
@@ -122,3 +134,32 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         }
     }
 }
+fun inCheck(){
+
+    println("checking for check...")
+    for (piece in pieces) {
+        if (piece.kind == PieceKind.WhiteKing) {
+            whiteKingPosition = Pair(piece.cx, piece.cy)
+            //println("White King Position: $whiteKingPosition")
+        }
+        if (piece.kind == PieceKind.BlackKing) {
+            blackKingPosition = Pair(piece.cx, piece.cy)
+            //println("Black King Position: $blackKingPosition")
+        }
+    }
+    for (bp in pieces){
+
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)){
+            whiteKingInCheck = true
+
+            println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
+        }
+        else whiteKingInCheck = false
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)){
+            blackKingInCheck = true
+            println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
+        }
+        else blackKingInCheck = false
+    }
+}
+
