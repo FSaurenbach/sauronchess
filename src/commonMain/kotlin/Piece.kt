@@ -3,7 +3,6 @@ import korlibs.korge.render.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
-import korlibs.math.geom.abs
 import kotlin.math.*
 
 enum class PieceKind {
@@ -72,10 +71,8 @@ class Piece(
     }
 
     fun bw(newX: Int, newY: Int) {
-        println("Figur bewegt nach: $newX, $newY")
         piece.pos = Point(newX * 64.0, newY * 64.0)
         piece.position(Point(newX * 64.0, newY * 64.0))
-        println("figur.pos: ${piece.pos}")
     }
 
     /**
@@ -94,6 +91,9 @@ class Piece(
      */
     fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove:Boolean): Boolean {
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
+        // Check if white or black king in check
+
+
         if (whiteTurn && performMove) {
             return when (pieceKind) {
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
@@ -146,6 +146,11 @@ class Piece(
         val isInitialPawnMove =
             oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
+            if (whiteKingInCheck) {
+                println("s")
+                println(isMoveSafe(oldPos, newPos))
+                if (!isMoveSafe(oldPos, newPos)) return false
+            }
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = false
 
@@ -154,6 +159,11 @@ class Piece(
         } else if (oldPos.second - newPos.second == -1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
+                if (whiteKingInCheck) {
+                    println("q")
+                    println(isMoveSafe(oldPos, newPos))
+                    if (!isMoveSafe(oldPos, newPos)) return false
+                }
                 if (performMove) removePiece(pieceOnNewPos)
                 if (performMove) whiteTurn = false
 
@@ -173,6 +183,11 @@ class Piece(
         val isInitialPawnMove =
             oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
+            if (blackKingInCheck) {
+                println("s")
+                println(isMoveSafe(oldPos, newPos))
+                if (!isMoveSafe(oldPos, newPos)) return false
+            }
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = true
 
@@ -181,7 +196,11 @@ class Piece(
         } else if (newPos.second - oldPos.second == -1 &&
             ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-
+                if (blackKingInCheck) {
+                    println("qd")
+                    println(isMoveSafe(oldPos, newPos))
+                    if (!isMoveSafe(oldPos, newPos)) return false
+                }
                 if (performMove) removePiece(pieceOnNewPos)
                 if (performMove) whiteTurn = true
 
@@ -203,21 +222,16 @@ class Piece(
             // going down
             if (newPos.second > oldPos.second) {
                 val cellstocheck = newPos.second - oldPos.second - 1
-                println("cellstocheck: $cellstocheck going down")
                 for (i in 1..cellstocheck) {
                     val pp = schachbrett!!.findPiece(oldPos.first, oldPos.second + i)?.pos
                     if (pp != null) {
-                        println("Found Piece blocking rooks path!")
                         return false
                     }
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     return false
                 }
-                println("pieceOnNewPos: $pieceOnNewPos")
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     if (performMove) removePiece(pieceOnNewPos)
                     if (performMove) whiteTurn = !isWhite
                     return true
@@ -232,20 +246,16 @@ class Piece(
             }
             if (newPos.second < oldPos.second) {
                 val cellstocheck = oldPos.second - newPos.second - 1
-                println("cellstocheck: $cellstocheck going up")
                 for (i in 1..cellstocheck) {
                     val pp = schachbrett!!.findPiece(oldPos.first, oldPos.second - i)?.pos
                     if (pp != null) {
-                        println("Found Piece blocking rooks path!")
                         return false
                     }
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     if (performMove) removePiece(pieceOnNewPos)
                     if (performMove) whiteTurn = !isWhite
                     return true
@@ -265,20 +275,16 @@ class Piece(
             // going right
             if (newPos.first > oldPos.first) {
                 val cellstocheck = newPos.first - oldPos.first - 1
-                println("cellstocheck: $cellstocheck going right")
                 for (i in 1..cellstocheck) {
                     val pp = schachbrett!!.findPiece(oldPos.first + i, oldPos.second)?.pos
                     if (pp != null) {
-                        println("Found Piece blocking rooks path!")
                         return false
                     }
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     if (performMove) removePiece(pieceOnNewPos)
                     if (performMove) whiteTurn = !isWhite
                     return true
@@ -294,20 +300,16 @@ class Piece(
             }
             if (newPos.first < oldPos.first) {
                 val cellstocheck = oldPos.first - newPos.first - 1
-                println("cellstocheck: $cellstocheck going left")
                 for (i in 1..cellstocheck) {
                     val pp = schachbrett!!.findPiece(oldPos.first - i, oldPos.second)?.pos
                     if (pp != null) {
-                        println("Found Piece blocking rooks path!")
                         return false
                     }
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     if (performMove) removePiece(pieceOnNewPos)
                     if (performMove) whiteTurn = !isWhite
                     return true
@@ -372,20 +374,16 @@ class Piece(
         if (realMove) {
             if (newPos.first > oldPos.first && newPos.second > oldPos.second) {
                 val cellstocheck = newPos.first - oldPos.first - 1
-                println("cellstocheck: $cellstocheck going down right")
                 for (i in 1..cellstocheck) {
                     val pp = schachbrett!!.findPiece(oldPos.first + i, oldPos.second + i)?.pos
                     if (pp != null) {
-                        println("Found Piece blocking bishops path!")
                         return false
                     }
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     return false
                 }
                 if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    println("pieceOnNewPos: $pieceOnNewPos")
                     if (performMove) removePiece(pieceOnNewPos)
                     if (performMove) whiteTurn = !isWhite
                     return true
@@ -652,7 +650,7 @@ class Piece(
         return false
     }
 
-    private fun removePiece(piece: Piece) {
+    fun removePiece(piece: Piece) {
         println("Pieces list before removal: $pieces")
         pieces.remove(piece)
         piece.piece.removeFromParent()
@@ -700,7 +698,7 @@ fun addAllPieces(cont: SceneContainer) {
     val blackBishop1 = Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 7, cont)
     val blackBishop2 = Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 7, cont)
     val blackQueen = Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 7, cont)
-    val blackKing = Piece(PieceKind.BlackKing, Colors.BLACK, 4, 7, cont)
+    val blackKing = Piece(PieceKind.BlackKing, Colors.BLACK, 4, 7   , cont)
 
     // Add all pieces to the pieces list
     pieces.add(whitePawn1)
@@ -735,4 +733,43 @@ fun addAllPieces(cont: SceneContainer) {
     pieces.add(blackQueen)
     pieces.add(whiteKing)
     pieces.add(blackKing)
+}
+
+fun isMoveSafe(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+    val piece = schachbrett?.findPiece(oldPos.first, oldPos.second)
+    println("Piece: $piece oldPos: $oldPos newPos: $newPos")
+    val newPosPiece = schachbrett?.findPiece(newPos.first, newPos.second)
+    if (newPosPiece != null) {
+        println("newPosPiece: $newPosPiece")
+    }
+    if (piece != null) {
+        figurBewegen(piece, newPos.first, newPos.second)
+    }
+    inCheck()
+    if (inCheck()) println("fuck")
+    if (whiteKingInCheck || blackKingInCheck){
+        if (piece != null) {
+            println("Piece position after moving: ${decodePos(piece.pos)}")
+            figurBewegen(piece, oldPos.first, oldPos.second)
+
+            println("Piece position after moving back: ${decodePos(piece.pos)}")
+        }
+        // If the piece at the new position is threatening the king, allow the move
+        if (newPosPiece != null && (newPosPiece.kind == PieceKind.WhitePawn || newPosPiece.kind == PieceKind.BlackPawn)) {
+            piece?.removePiece(newPosPiece)
+            // Move the piece to the new position after capturing the pawn
+            if (piece != null) {
+                figurBewegen(piece, newPos.first, newPos.second)
+            }
+            println("true")
+            return true
+        }
+        return false
+    }
+    // Only remove the piece if the move is safe
+    if (newPosPiece != null) {
+        piece?.removePiece(newPosPiece)
+    }
+    println("true")
+    return true
 }

@@ -23,10 +23,6 @@ class Schachbrett(private var cont: SceneContainer) {
         }
     }
 
-    private fun coder(cx: Int): Double {
-        return (cx * 64.0)
-    }
-
 
     fun findPiece(x: Int, y: Int): Piece? {
         for (piece in pieces) {

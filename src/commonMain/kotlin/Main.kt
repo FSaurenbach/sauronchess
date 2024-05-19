@@ -134,10 +134,11 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         }
     }
 }
-fun inCheck(){
+fun inCheck(): Boolean {
 
     println("checking for check...")
-    for (piece in pieces) {
+    val piecesCopy = pieces.toMutableList()
+    for (piece in piecesCopy) {
         if (piece.kind == PieceKind.WhiteKing) {
             whiteKingPosition = Pair(piece.cx, piece.cy)
             //println("White King Position: $whiteKingPosition")
@@ -147,19 +148,21 @@ fun inCheck(){
             //println("Black King Position: $blackKingPosition")
         }
     }
-    for (bp in pieces){
+    var foundsmt = false
+    for (bp in piecesCopy){
 
         if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)){
-            whiteKingInCheck = true
 
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
+            whiteKingInCheck = true
+            return true
         }
-        else whiteKingInCheck = false
+        else whiteKingInCheck = foundsmt
         if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)){
             blackKingInCheck = true
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
+            return true
         }
-        else blackKingInCheck = false
     }
+    return false
 }
-
