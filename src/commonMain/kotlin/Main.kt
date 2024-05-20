@@ -1,8 +1,11 @@
+@file:OptIn(KorgeExperimental::class)
+
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.*
+import korlibs.korge.annotations.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
