@@ -1,4 +1,5 @@
 import korlibs.image.color.*
+import korlibs.image.text.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.*
@@ -16,7 +17,12 @@ class Schachbrett(private var cont: SceneContainer) {
             for (cy in 0 until 8) {
                 val cellColor = if (d.isEven) Colors.WHITE else Colors.MEDIUMSEAGREEN
                 val cl = Cell(cellColor, cx, cy, cont)
+                // add location to cell like a1 or h8
+                var text = "${'a' + cx}${8 - cy}"
+
                 cells.add(cl)
+                Text(text, textSize = 16.0, alignment = TextAlignment.TOP_LEFT, color = Colors.BLACK).position(Point(cx * 64.0, cy * 64.0)).addTo(cont)
+                cl.text(text)
                 d++
             }
             d++
