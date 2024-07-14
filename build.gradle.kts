@@ -13,15 +13,32 @@ korge {
     serializationJson()
     jvmMainClassName = "MainKt"
 }
-
-dependencies {
-    add("commonMainApi", project(":deps"))
-
+kotlin {
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-core:2.1.0")
+                implementation("io.ktor:ktor-client-json:2.1.0")
+                implementation("io.ktor:ktor-client-serialization:2.1.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:2.1.0")
+            }
+        }
+        val jsMain by getting {
+            dependencies {
+                implementation("io.ktor:ktor-http-cio:1.6.0")
+                implementation("io.ktor:ktor-client-js:1.6.0")
+            }
+        }
+    }
 }
 dependencies {
-    commonMainApi("io.ktor:ktor-client-core:2.1.0")
-    commonMainApi("io.ktor:ktor-client-json:2.1.0")
-    commonMainApi("io.ktor:ktor-client-serialization:2.1.0")
-    commonMainApi("io.ktor:ktor-client-cio:2.1.0")
-    commonMainApi("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    add("commonMainApi", project(":deps"))
+}
+repositories {
+    mavenCentral()
 }

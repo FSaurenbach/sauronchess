@@ -22,7 +22,7 @@ enum class PieceKind {
 
 class Piece(
     var kind: PieceKind,
-    val color: RGBA,
+    private val color: RGBA,
     var cx: Int,
     var cy: Int,
     cont: SceneContainer,
@@ -509,153 +509,84 @@ class Piece(
         isWhite: Boolean,
         performMove: Boolean
     ): Boolean {
-        // Case moving down
-        if (oldPos.first == newPos.first && newPos.second - oldPos.second == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
+        // Determine the move direction
+        val deltaX = newPos.first - oldPos.first
+        val deltaY = newPos.second - oldPos.second
+
+        // Check if the move is within the valid range for a king
+        if (abs(deltaX) <= 1 && abs(deltaY) <= 1) {
+            // Check if there is a piece on the new position and its color
+            if (pieceOnNewPos != null) {
+                if (pieceOnNewPos.color == color) {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    return false
+                } else {
+                    println("pieceOnNewPos: $pieceOnNewPos")
+                    if (performMove) {
+                        removePiece(pieceOnNewPos)
+                    }
+                }
             }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
+
+            // If performMove is true, toggle the turn
+            if (performMove) {
+                whiteTurn = !isWhite
             }
-            // Case moving one down
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
+
+            return true
+        }
+        // Rochade
+        if (whiteRochade && isWhite && oldPos.first == 4 && oldPos.second == 7) {
+            when {
+                newPos.first == 6 && newPos.second == 7 -> {
+                    if (performMove) {
+                        val rook = schachbrett!!.findPiece(7, 7)
+                        figurBewegen(rook!!, 5, 7)
+                        whiteRochade = false
+                        whiteTurn = false
+                    }
+                    return true
+                }
+                newPos.first == 2 && newPos.second == 7 -> {
+                    if (performMove) {
+                        val rook = schachbrett!!.findPiece(0, 7)
+                        figurBewegen(rook!!, 3, 7)
+                        whiteRochade = false
+                        whiteTurn = false
+                    }
+                    return true
+                }
             }
         }
-        // Case moving up
-        else if (oldPos.first == newPos.first && newPos.second - oldPos.second == -1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one up
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving left
-        else if (oldPos.second == newPos.second && oldPos.first - newPos.first == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one left
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving right
-        else if (oldPos.second == newPos.second && newPos.first - oldPos.first == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one right
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving down right
-        else if (newPos.first - oldPos.first == 1 && newPos.second - oldPos.second == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one down right
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving down left
-        else if (oldPos.first - newPos.first == 1 && newPos.second - oldPos.second == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one down left
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving up right
-        else if (newPos.first - oldPos.first == 1 && oldPos.second - newPos.second == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one up right
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-        }
-        // Case moving up left
-        else if (oldPos.first - newPos.first == 1 && oldPos.second - newPos.second == 1) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                return false
-            }
-            if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                println("pieceOnNewPos: $pieceOnNewPos")
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            // Case moving one up left
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = !isWhite
-                return true
+        if (blackRochade && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
+            when {
+                newPos.first == 6 && newPos.second == 0 -> {
+                    if (performMove) {
+                        val rook = schachbrett!!.findPiece(7, 0)
+                        figurBewegen(rook!!, 5, 0)
+                        blackRochade = false
+                        whiteTurn = true
+                    }
+                    return true
+                }
+                newPos.first == 2 && newPos.second == 0 -> {
+                    if (performMove) {
+                        val rook = schachbrett!!.findPiece(0, 0)
+                        figurBewegen(rook!!, 3, 0)
+                        blackRochade = false
+                        whiteTurn = true
+                    }
+                    return true
+                }
             }
         }
 
+
+
+
         return false
     }
+
 
     fun removePiece(piece: Piece) {
         println("Pieces list before removal: $pieces")
