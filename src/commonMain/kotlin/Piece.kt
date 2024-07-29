@@ -22,7 +22,7 @@ enum class PieceKind {
 
 class Piece(
     var kind: PieceKind,
-    private val color: RGBA,
+    val color: RGBA,
     var cx: Int,
     var cy: Int,
     cont: SceneContainer,

@@ -1,10 +1,10 @@
 @file:OptIn(KorgeExperimental::class)
 
+import korlibs.event.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
-
 import korlibs.korge.*
 import korlibs.korge.annotations.*
 import korlibs.korge.input.*
@@ -36,12 +36,12 @@ var blackKingPosition = Pair(4, 0)
 
 var whiteTurn = true
 
-suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
-    val sceneContainer = sceneContainer()
+suspend fun main() =
+    Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
+        val sceneContainer = sceneContainer()
 
-    sceneContainer.changeTo { MyScene(sceneContainer) }
-}
-
+        sceneContainer.changeTo { MyScene(sceneContainer) }
+    }
 
 class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
@@ -50,7 +50,6 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
      * the chessboard, pieces, and handle piece movement.
      */
     override suspend fun SContainer.sceneMain() {
-
 
         schachbrett = Schachbrett(cont)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
@@ -71,8 +70,8 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         // add pieces to board state
 
         handlePieceMovement()
-
-
+        var ai = Ai()
+        ai.exampleRequest()
     }
 
     private fun SContainer.handlePieceMovement() {
@@ -84,58 +83,87 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
         // Function to handle piece movement
         for (piece in pieces) {
-            piece.draggableCloseable(onMouseDrag {
-                // When dragging starts, update newPosition and newPositionEncoded
-                newPosition = Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
-            }) { info ->
-                error = false
+            piece.draggableCloseable(
+                onMouseDrag {
+                    // When dragging starts, update newPosition and newPositionEncoded
+                    newPosition =
+                        Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
+                }) { info ->
+                    error = false
 
-                // When dragging starts
-                if (info.start) {
-                    // Iterate through pieces to find the selected piece
-                    // //println("Start dragging...")
-                    // Set king position
-                    val pieceAtCurrentPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                    // When dragging starts
+                    if (info.start) {
+                        // Iterate through pieces to find the selected piece
+                        // //println("Start dragging...")
+                        // Set king position
+                        val pieceAtCurrentPos =
+                            schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
-                    if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) != null) {
-                        currentPos = newPosition
-                        selectedPiece = pieceAtCurrentPos
+                        if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) !=
+                            null) {
+                            currentPos = newPosition
+                            selectedPiece = pieceAtCurrentPos
+                        }
                     }
-                }
 
-                // When dragging ends
-                if (info.end && selectedPiece != null) {
-                    // //println("End dragging...")
-                    // Check if newPosition is within the game board
-                    if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
-                        error = true
-                        // Reset variables
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
-                    // Perform the move if no error
-                    if (!error) {
-                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
-                            figurBewegen(
-                                selectedPiece!!, newPosition!!.first, newPosition!!.second
-                            )
+                    // When dragging ends
+                    if (info.end && selectedPiece != null) {
+                        // //println("End dragging...")
+                        // Check if newPosition is within the game board
+                        if (newPosition!!.first < 0 ||
+                            newPosition!!.first >= 8 ||
+                            newPosition!!.second < 0 ||
+                            newPosition!!.second >= 8) {
+                            error = true
+                            // Reset variables
                             selectedPiece = null
+                            newPosition = null
+                            currentPos = null
+                        }
+                        // Perform the move if no error
+                        if (!error) {
+                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                                figurBewegen(
+                                    selectedPiece!!, newPosition!!.first, newPosition!!.second)
+                                selectedPiece = null
+                            }
+
+                            // Check if king is in Check
+                            inCheck()
+
+                            // Reset variables
+                            selectedPiece = null
+                            newPosition = null
+                            currentPos = null
                         }
 
-                        // Check if king is in Check
-                        inCheck()
+                        error = false
+                        var moved = false
+                        println("b")
+                        sceneContainer.keys {
+                            justDown(Key.SPACE) {
+                                if (!moved) {
+                                    // pieces list with the name of all the pieces and their
+                                    // position
+                                    var piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
+                                    for (piece in pieces) {
+                                        piecesList.add(
+                                            Pair(piece.kind.toString(), Pair(piece.cx, piece.cy)))
+                                    }
+                                    println(piecesList)
 
+                                    var ai = Ai()
 
-                        // Reset variables
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
+                                    var fen = ai.piecesListToFEN(piecesList)
+                                    println(fen)
+                                    moved = true
+                                }
+                            }
+                        }
+                        // make a list where all pieces are stored with their positions
+
                     }
-
-                    error = false
                 }
-            }
         }
     }
 }
@@ -147,11 +175,11 @@ fun inCheck(): Boolean {
     for (piece in piecesCopy) {
         if (piece.kind == PieceKind.WhiteKing) {
             whiteKingPosition = Pair(piece.cx, piece.cy)
-            //println("White King Position: $whiteKingPosition")
+            // println("White King Position: $whiteKingPosition")
         }
         if (piece.kind == PieceKind.BlackKing) {
             blackKingPosition = Pair(piece.cx, piece.cy)
-            //println("Black King Position: $blackKingPosition")
+            // println("Black King Position: $blackKingPosition")
         }
     }
     var foundsmt = false
