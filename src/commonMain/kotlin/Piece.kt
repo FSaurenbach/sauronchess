@@ -581,12 +581,8 @@ class Piece(
             }
         }
 
-
-
-
         return false
     }
-
 
     fun removePiece(piece: Piece) {
         println("Pieces list before removal: $pieces")

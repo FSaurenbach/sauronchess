@@ -1,9 +1,9 @@
 @file:OptIn(KorgeExperimental::class)
 
-import korlibs.event.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
+import korlibs.io.async.*
 import korlibs.io.file.std.*
 import korlibs.korge.*
 import korlibs.korge.annotations.*
@@ -43,6 +43,7 @@ suspend fun main() =
         sceneContainer.changeTo { MyScene(sceneContainer) }
     }
 
+
 class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
     /**
@@ -70,8 +71,7 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         // add pieces to board state
 
         handlePieceMovement()
-        var ai = Ai()
-        ai.exampleRequest()
+        var chessAi = ChessAi()
     }
 
     private fun SContainer.handlePieceMovement() {
@@ -89,81 +89,84 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     newPosition =
                         Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
                 }) { info ->
-                    error = false
+                error = false
 
-                    // When dragging starts
-                    if (info.start) {
-                        // Iterate through pieces to find the selected piece
-                        // //println("Start dragging...")
-                        // Set king position
-                        val pieceAtCurrentPos =
-                            schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                // When dragging starts
+                if (info.start) {
+                    // Iterate through pieces to find the selected piece
+                    // //println("Start dsragging...")
+                    // Set king position
+                    val pieceAtCurrentPos =
+                        schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
-                        if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) !=
-                            null) {
-                            currentPos = newPosition
-                            selectedPiece = pieceAtCurrentPos
-                        }
-                    }
-
-                    // When dragging ends
-                    if (info.end && selectedPiece != null) {
-                        // //println("End dragging...")
-                        // Check if newPosition is within the game board
-                        if (newPosition!!.first < 0 ||
-                            newPosition!!.first >= 8 ||
-                            newPosition!!.second < 0 ||
-                            newPosition!!.second >= 8) {
-                            error = true
-                            // Reset variables
-                            selectedPiece = null
-                            newPosition = null
-                            currentPos = null
-                        }
-                        // Perform the move if no error
-                        if (!error) {
-                            if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
-                                figurBewegen(
-                                    selectedPiece!!, newPosition!!.first, newPosition!!.second)
-                                selectedPiece = null
-                            }
-
-                            // Check if king is in Check
-                            inCheck()
-
-                            // Reset variables
-                            selectedPiece = null
-                            newPosition = null
-                            currentPos = null
-                        }
-
-                        error = false
-                        var moved = false
-                        println("b")
-                        sceneContainer.keys {
-                            justDown(Key.SPACE) {
-                                if (!moved) {
-                                    // pieces list with the name of all the pieces and their
-                                    // position
-                                    var piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
-                                    for (piece in pieces) {
-                                        piecesList.add(
-                                            Pair(piece.kind.toString(), Pair(piece.cx, piece.cy)))
-                                    }
-                                    println(piecesList)
-
-                                    var ai = Ai()
-
-                                    var fen = ai.piecesListToFEN(piecesList)
-                                    println(fen)
-                                    moved = true
-                                }
-                            }
-                        }
-                        // make a list where all pieces are stored with their positions
-
+                    if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) !=
+                        null
+                    ) {
+                        currentPos = newPosition
+                        selectedPiece = pieceAtCurrentPos
                     }
                 }
+
+                // When dragging ends
+                if (info.end && selectedPiece != null) {
+                    // //println("End dragging...")
+                    // Check if newPosition is within the game board
+                    if (newPosition!!.first < 0 ||
+                        newPosition!!.first >= 8 ||
+                        newPosition!!.second < 0 ||
+                        newPosition!!.second >= 8
+                    ) {
+                        error = true
+                        // Reset variables
+                        selectedPiece = null
+                        newPosition = null
+                        currentPos = null
+                    }
+                    // Perform the move if no error
+                    if (!error) {
+                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                            figurBewegen(
+                                selectedPiece!!, newPosition!!.first, newPosition!!.second
+                            )
+                            selectedPiece = null
+                        }
+
+                        // Check if king is in Check
+                        inCheck()
+
+                        // Reset variables
+                        selectedPiece = null
+                        newPosition = null
+                        currentPos = null
+                    }
+
+                    error = false
+                    var moved = false
+                    println("b")
+                    if (!moved) {
+                        // pieces list with the name of all the pieces and their
+                        // position
+                        var piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
+                        for (piece in pieces) {
+                            piecesList.add(
+                                Pair(piece.kind.toString(), Pair(piece.cx, piece.cy))
+                            )
+                        }
+
+                        var chessAi = ChessAi()
+                        var fen = chessAi.piecesListToFEN(piecesList)
+                        launch {
+                            val response = chessAi.postBestMove(fen)
+                            println(chessAi.convertMoveToPosition(response))
+                        }
+                        moved = true
+
+
+                    }
+                    // make a list where all pieces are stored with their positions
+
+                }
+            }
         }
     }
 }
