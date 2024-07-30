@@ -1,3 +1,4 @@
+import korlibs.image.color.*
 import korlibs.io.lang.*
 import korlibs.io.net.http.*
 import korlibs.io.stream.*
@@ -64,7 +65,7 @@ class ChessAi {
 
     suspend fun postBestMove(fen: String): String {
         val client = HttpClient()
-        val url = "http://192.168.178.54:5000/best_move"
+        val url = "http://192.168.178.90:5000/best_move"
         // Create JSON object
         val json = JsonObject(mapOf("fen" to JsonPrimitive(fen)))
         val jsonString = Json.encodeToString(JsonObject.serializer(), json)
@@ -89,56 +90,59 @@ class ChessAi {
     }
 
     fun convertMoveToPosition(move: String) {
-        var old_x: Int = 9
-        var old_y: Int = 9
-        var new_x: Int = 9
-        var new_y: Int = 9
+        var oldX = 9
+        var oldY = 9
+        var newX = 9
+        var newY = 9
         when (move[0]) {
-            'a' -> old_x = 0
-            'b' -> old_x = 1
-            'c' -> old_x = 2
-            'd' -> old_x = 3
-            'e' -> old_x = 4
-            'f' -> old_x = 5
-            'g' -> old_x = 6
-            'h' -> old_x = 7
+            'a' -> oldX = 0
+            'b' -> oldX = 1
+            'c' -> oldX = 2
+            'd' -> oldX = 3
+            'e' -> oldX = 4
+            'f' -> oldX = 5
+            'g' -> oldX = 6
+            'h' -> oldX = 7
         }
         when (move[1]) {
-            '1' -> old_y = 7
-            '2' -> old_y = 6
-            '3' -> old_y = 5
-            '4' -> old_y = 4
-            '5' -> old_y = 3
-            '6' -> old_y = 2
-            '7' -> old_y = 1
-            '8' -> old_y = 0
+            '1' -> oldY = 7
+            '2' -> oldY = 6
+            '3' -> oldY = 5
+            '4' -> oldY = 4
+            '5' -> oldY = 3
+            '6' -> oldY = 2
+            '7' -> oldY = 1
+            '8' -> oldY = 0
         }
         when (move[2]) {
-            'a' -> new_x = 0
-            'b' -> new_x = 1
-            'c' -> new_x = 2
-            'd' -> new_x = 3
-            'e' -> new_x = 4
-            'f' -> new_x = 5
-            'g' -> new_x = 6
-            'h' -> new_x = 7
+            'a' -> newX = 0
+            'b' -> newX = 1
+            'c' -> newX = 2
+            'd' -> newX = 3
+            'e' -> newX = 4
+            'f' -> newX = 5
+            'g' -> newX = 6
+            'h' -> newX = 7
         }
         when (move[3]) {
-            '1' -> new_y = 7
-            '2' -> new_y = 6
-            '3' -> new_y = 5
-            '4' -> new_y = 4
-            '5' -> new_y = 3
-            '6' -> new_y = 2
-            '7' -> new_y = 1
-            '8' -> new_y = 0
+            '1' -> newY = 7
+            '2' -> newY = 6
+            '3' -> newY = 5
+            '4' -> newY = 4
+            '5' -> newY = 3
+            '6' -> newY = 2
+            '7' -> newY = 1
+            '8' -> newY = 0
         }
-        println("Old position: $old_x, $old_y")
-        println("New position: $new_x, $new_y")
-        for (piece in pieces){
-            if (piece.cx == old_x && piece.cy == old_y && old_x != 9 && old_y != 9 && new_x != 9 && new_y != 9){
-                figurBewegen(piece, new_x, new_y)
-                whiteTurn = !whiteTurn
+        println("Old position: $oldX, $oldY")
+        println("New position: $newX, $newY")
+        for (piece in pieces) {
+            if (piece.cx == oldX && piece.cy == oldY && oldX != 9 && oldY != 9 && newX != 9 && newY != 9) {
+                if (!whiteTurn && piece.moveChecker(Pair(oldX, oldY), Pair(newX, newY), true) && piece.color == Colors.BLACK) {
+                    println("whiteTurn: $whiteTurn")
+                    figurBewegen(piece, newX, newY)
+                    println("whiteTurn: $whiteTurn")
+                }
             }
         }
 

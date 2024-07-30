@@ -71,7 +71,6 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
         // add pieces to board state
 
         handlePieceMovement()
-        var chessAi = ChessAi()
     }
 
     private fun SContainer.handlePieceMovement() {
@@ -146,20 +145,19 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     if (!moved) {
                         // pieces list with the name of all the pieces and their
                         // position
-                        var piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
+                        val piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
                         for (piece in pieces) {
                             piecesList.add(
                                 Pair(piece.kind.toString(), Pair(piece.cx, piece.cy))
                             )
                         }
 
-                        var chessAi = ChessAi()
-                        var fen = chessAi.piecesListToFEN(piecesList)
+                        val chessAi = ChessAi()
+                        val fen = chessAi.piecesListToFEN(piecesList)
                         launch {
                             val response = chessAi.postBestMove(fen)
                             println(chessAi.convertMoveToPosition(response))
                         }
-                        moved = true
 
 
                     }
