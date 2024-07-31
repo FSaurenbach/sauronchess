@@ -134,14 +134,14 @@ class ChessAi {
             '7' -> newY = 1
             '8' -> newY = 0
         }
-        println("Old position: $oldX, $oldY")
-        println("New position: $newX, $newY")
-        for (piece in pieces) {
+        //println("Old position: $oldX, $oldY")
+        //println("New position: $newX, $newY")
+        var copy = pieces.toMutableList()
+        for (piece in copy) {
             if (piece.cx == oldX && piece.cy == oldY && oldX != 9 && oldY != 9 && newX != 9 && newY != 9) {
                 if (!whiteTurn && piece.moveChecker(Pair(oldX, oldY), Pair(newX, newY), true) && piece.color == Colors.BLACK) {
-                    println("whiteTurn: $whiteTurn")
+                    println(piece)
                     figurBewegen(piece, newX, newY)
-                    println("whiteTurn: $whiteTurn")
                 }
             }
         }

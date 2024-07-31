@@ -141,7 +141,6 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
                     error = false
                     var moved = false
-                    println("b")
                     if (!moved) {
                         // pieces list with the name of all the pieces and their
                         // position
@@ -171,7 +170,6 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
 fun inCheck(): Boolean {
 
-    println("checking for check...")
     val piecesCopy = pieces.toMutableList()
     for (piece in piecesCopy) {
         if (piece.kind == PieceKind.WhiteKing) {
