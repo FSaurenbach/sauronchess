@@ -79,7 +79,7 @@ class Piece(
      * @return true if the move is valid, false otherwise.
      */
     fun moveChecker(
-        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove: Boolean, fromInCheck: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove: Boolean
     ): Boolean {
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         // Check if white or black king in check
@@ -117,13 +117,9 @@ class Piece(
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
@@ -433,89 +429,52 @@ class Piece(
     private fun moveQueen(
         oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
-        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) || moveBishop(
-            oldPos, newPos, pieceOnNewPos, isWhite, performMove
-        )
+        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) ||
+            moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
     }
 
     private fun moveKing(
         oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
-        // Determine the move direction
-        val deltaX = newPos.first - oldPos.first
-        val deltaY = newPos.second - oldPos.second
+        val (deltaX, deltaY) = newPos.first - oldPos.first to newPos.second - oldPos.second
 
         // Check if the move is within the valid range for a king
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) {
-
-
-            // Check if there is a piece on the new position and its color
-            if (pieceOnNewPos != null) {
-                if (pieceOnNewPos.color == color) {
-                    return false
-                } else {
-                    if (performMove) {
-                        removePiece(pieceOnNewPos)
-                    }
-                }
+            pieceOnNewPos?.let {
+                if (it.color == color) return false
+                if (performMove) removePiece(it)
             }
-
-            // If performMove is true, toggle the turn
-            if (performMove) {
-                whiteTurn = !isWhite
-            }
+            if (performMove) whiteTurn = !isWhite
             println("color: $color , newPosColor: ${pieceOnNewPos?.color}")
+            println("king position variable: white: ${whiteKingPosition} black: ${blackKingPosition}")
+            blackKingPosition = Pair(newPos.first, newPos.second)
+            println("new king position variable: white: ${whiteKingPosition} black: ${blackKingPosition}")
             return true
         }
-        // Rochade
-        if (whiteRochade && isWhite && oldPos.first == 4 && oldPos.second == 7) {
-            when {
-                newPos.first == 6 && newPos.second == 7 -> {
-                    if (performMove) {
-                        val rook = schachbrett!!.findPiece(7, 7)
-                        figurBewegen(rook!!, 5, 7)
-                        whiteRochade = false
-                        whiteTurn = false
-                    }
-                    return true
-                }
 
-                newPos.first == 2 && newPos.second == 7 -> {
-                    if (performMove) {
-                        val rook = schachbrett!!.findPiece(0, 7)
-                        figurBewegen(rook!!, 3, 7)
-                        whiteRochade = false
-                        whiteTurn = false
-                    }
-                    return true
-                }
+        // Rochade
+        if (isWhite && whiteRochade && oldPos == 4 to 7) {
+            when (newPos) {
+                6 to 7 -> return performRochade(7, 7, 5, 7, false)
+                2 to 7 -> return performRochade(0, 7, 3, 7, false)
             }
         }
-        if (blackRochade && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
-            when {
-                newPos.first == 6 && newPos.second == 0 -> {
-                    if (performMove) {
-                        val rook = schachbrett!!.findPiece(7, 0)
-                        figurBewegen(rook!!, 5, 0)
-                        blackRochade = false
-                        whiteTurn = true
-                    }
-                    return true
-                }
-
-                newPos.first == 2 && newPos.second == 0 -> {
-                    if (performMove) {
-                        val rook = schachbrett!!.findPiece(0, 0)
-                        figurBewegen(rook!!, 3, 0)
-                        blackRochade = false
-                        whiteTurn = true
-                    }
-                    return true
-                }
+        if (!isWhite && blackRochade && oldPos == 4 to 0) {
+            when (newPos) {
+                6 to 0 -> return performRochade(7, 0, 5, 0, true)
+                2 to 0 -> return performRochade(0, 0, 3, 0, true)
             }
         }
 
         return false
+    }
+
+    private fun performRochade(rookX: Int, rookY: Int, newX: Int, newY: Int, turnWhite: Boolean): Boolean {
+        val rook = schachbrett!!.findPiece(rookX, rookY) ?: return false
+        figurBewegen(rook, newX, newY)
+        if (turnWhite) blackRochade = false else whiteRochade = false
+        whiteTurn = turnWhite
+        return true
     }
 
     fun removePiece(piece: Piece) {

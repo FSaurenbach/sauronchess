@@ -141,7 +141,7 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                         if (!whiteTurn && whiteKingInCheck) {
                             println("White King is still Check, invalid move")
                         }
-                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true, false) && whiteTurnOrPassOn) {
+                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true) && whiteTurnOrPassOn) {
                             figurBewegen(
                                 selectedPiece!!, newPosition!!.first, newPosition!!.second
                             )
@@ -184,33 +184,57 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
     }
 }
 
-fun inCheck(): Boolean {
+fun inCheck(dmrc: MutableList<Piece>? = null): Boolean {
+    if (dmrc == null){
+        val piecesCopy = pieces.toMutableList()
 
-    val piecesCopy = pieces.toMutableList()
-    for (piece in piecesCopy) {
-        if (piece.kind == PieceKind.WhiteKing) {
-            whiteKingPosition = Pair(piece.cx, piece.cy)
-            // println("White King Position: $whiteKingPosition")
+        for (bp in piecesCopy) {
+
+            if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)) {
+
+                println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
+                whiteKingInCheck = true
+                return true
+            }
+            if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)) {
+                blackKingInCheck = true
+                println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
+                return true
+            }
         }
-        if (piece.kind == PieceKind.BlackKing) {
-            blackKingPosition = Pair(piece.cx, piece.cy)
-            // println("Black King Position: $blackKingPosition")
-        }
+        return false
     }
-    val foundsmt = false
-    for (bp in piecesCopy) {
 
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false, true)) {
+    for (bp in dmrc) {
+
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)) {
 
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
             whiteKingInCheck = true
             return true
-        } else whiteKingInCheck = foundsmt
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false, fromInCheck = true)) {
+        }
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)) {
             blackKingInCheck = true
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
             return true
         }
     }
     return false
+
+}
+
+fun doesMoveResolveCheck(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>){
+    var dmrc = pieces.toMutableList()
+    for (pieceToBeMoved in dmrc){
+        if (pieceToBeMoved.cx == oldPos.first && pieceToBeMoved.cy == oldPos.second){
+            pieceToBeMoved.moveChecker(oldPos, newPos, false)
+        }
+    }
+    inCheck(dmrc)
+    if (whiteKingInCheck){
+
+    }
+    else if (blackKingInCheck){
+
+    }
 }
