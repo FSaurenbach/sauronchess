@@ -6,18 +6,7 @@ import korlibs.math.geom.*
 import kotlin.math.*
 
 enum class PieceKind {
-    WhitePawn,
-    BlackPawn,
-    WhiteRook,
-    BlackRook,
-    WhiteKnight,
-    BlackKnight,
-    WhiteBishop,
-    BlackBishop,
-    WhiteQueen,
-    BlackQueen,
-    WhiteKing,
-    BlackKing
+    WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing
 }
 
 class Piece(
@@ -34,17 +23,17 @@ class Piece(
     init {
         if (color == Colors.WHITE) {
             // If the piece is white, set the piece image to the white pawn or rook or knight
-            piece =
-                Image(
-                    when (kind) {
-                        PieceKind.WhitePawn -> whitePawn!!
-                        PieceKind.WhiteRook -> whiteRook!!
-                        PieceKind.WhiteKnight -> whiteKnight!!
-                        PieceKind.WhiteBishop -> whiteBishop!!
-                        PieceKind.WhiteQueen -> whiteQueen!!
-                        PieceKind.WhiteKing -> whiteKing!!
-                        else -> throw Error("Invalid Piece !?")
-                    })
+            piece = Image(
+                when (kind) {
+                    PieceKind.WhitePawn -> whitePawn!!
+                    PieceKind.WhiteRook -> whiteRook!!
+                    PieceKind.WhiteKnight -> whiteKnight!!
+                    PieceKind.WhiteBishop -> whiteBishop!!
+                    PieceKind.WhiteQueen -> whiteQueen!!
+                    PieceKind.WhiteKing -> whiteKing!!
+                    else -> throw Error("Invalid Piece !?")
+                }
+            )
 
             piece.size(Size(64, 64))
             piece.addTo(cont)
@@ -52,17 +41,17 @@ class Piece(
         } else {
             // If the piece is black, set the piece image to the black pawn or rook or knight
             if (color == Colors.BLACK) {
-                piece =
-                    Image(
-                        when (kind) {
-                            PieceKind.BlackPawn -> blackPawn!!
-                            PieceKind.BlackRook -> blackRook!!
-                            PieceKind.BlackKnight -> blackKnight!!
-                            PieceKind.BlackBishop -> blackBishop!!
-                            PieceKind.BlackQueen -> blackQueen!!
-                            PieceKind.BlackKing -> blackKing!!
-                            else -> throw Error("Invalid Piece !?")
-                        })
+                piece = Image(
+                    when (kind) {
+                        PieceKind.BlackPawn -> blackPawn!!
+                        PieceKind.BlackRook -> blackRook!!
+                        PieceKind.BlackKnight -> blackKnight!!
+                        PieceKind.BlackBishop -> blackBishop!!
+                        PieceKind.BlackQueen -> blackQueen!!
+                        PieceKind.BlackKing -> blackKing!!
+                        else -> throw Error("Invalid Piece !?")
+                    }
+                )
                 piece.size(Size(64, 64))
                 piece.addTo(cont)
                 objektBewegen(piece, cx, cy)
@@ -89,7 +78,9 @@ class Piece(
      * @param newPos The new position of the piece.
      * @return true if the move is valid, false otherwise.
      */
-    fun moveChecker(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove: Boolean): Boolean {
+    fun moveChecker(
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, performMove: Boolean, fromInCheck: Boolean
+    ): Boolean {
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         // Check if white or black king in check
 
@@ -97,10 +88,10 @@ class Piece(
             return when (pieceKind) {
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteKnight ->
-                    moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteBishop ->
-                    moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
+                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
+
+                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
+
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
                 else -> false
@@ -110,10 +101,10 @@ class Piece(
             return when (pieceKind) {
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackKnight ->
-                    moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackBishop ->
-                    moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
+
+                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
+
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
                 else -> false
@@ -125,14 +116,14 @@ class Piece(
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteKnight ->
-                    moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackKnight ->
-                    moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteBishop ->
-                    moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackBishop ->
-                    moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
+                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
+
+                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
+
+                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
+
+                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
+
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
@@ -144,29 +135,20 @@ class Piece(
     }
 
     private fun moveWhitePawn(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, performMove: Boolean
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
-        val isInitialPawnMove =
-            oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+        val isInitialPawnMove = oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
-            if (whiteKingInCheck) {
-                if (!isMoveSafe(oldPos, newPos)) return false
-            }
+
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = false
 
                 return true
             }
-        } else if (oldPos.second - newPos.second == 1 &&
-            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
+        } else if (oldPos.second - newPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
-                if (whiteKingInCheck) {
-                    if (!isMoveSafe(oldPos, newPos)) return false
-                }
+
                 if (performMove) removePiece(pieceOnNewPos)
                 if (performMove) whiteTurn = false
 
@@ -177,29 +159,20 @@ class Piece(
     }
 
     private fun moveBlackPawn(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, performMove: Boolean
     ): Boolean {
         val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
-        val isInitialPawnMove =
-            oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+        val isInitialPawnMove = oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
-            if (blackKingInCheck) {
-                if (!isMoveSafe(oldPos, newPos)) return false
-            }
+
             if (pieceOnNewPos == null) {
                 if (performMove) whiteTurn = true
 
                 return true
             }
-        } else if (newPos.second - oldPos.second == 1 &&
-            ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
+        } else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-                if (blackKingInCheck) {
-                    if (!isMoveSafe(oldPos, newPos)) return false
-                }
+
                 if (performMove) removePiece(pieceOnNewPos)
                 if (performMove) whiteTurn = true
 
@@ -210,11 +183,7 @@ class Piece(
     }
 
     private fun moveRook(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
         // Case moving up or down
         if (oldPos.first == newPos.first) {
@@ -328,11 +297,7 @@ class Piece(
     }
 
     private fun moveKnight(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
         val xDiff = abs(newPos.first - oldPos.first)
         val yDiff = abs(newPos.second - oldPos.second)
@@ -359,17 +324,10 @@ class Piece(
     }
 
     private fun moveBishop(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
         val realMove =
-            ((newPos.first - oldPos.first) == (newPos.second - oldPos.second)) ||
-                ((oldPos.first - newPos.first) == (oldPos.second - newPos.first)) ||
-                ((newPos.first - oldPos.first) == (oldPos.second - newPos.first)) ||
-                ((oldPos.first - newPos.first) == (newPos.second - oldPos.second))
+            ((newPos.first - oldPos.first) == (newPos.second - oldPos.second)) || ((oldPos.first - newPos.first) == (oldPos.second - newPos.first)) || ((newPos.first - oldPos.first) == (oldPos.second - newPos.first)) || ((oldPos.first - newPos.first) == (newPos.second - oldPos.second))
         if (realMove) {
             if (newPos.first > oldPos.first && newPos.second > oldPos.second) {
                 val cellstocheck = newPos.first - oldPos.first - 1
@@ -473,22 +431,15 @@ class Piece(
     }
 
     private fun moveQueen(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
-        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) ||
-            moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+        return moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) || moveBishop(
+            oldPos, newPos, pieceOnNewPos, isWhite, performMove
+        )
     }
 
     private fun moveKing(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
         // Determine the move direction
         val deltaX = newPos.first - oldPos.first
@@ -496,6 +447,8 @@ class Piece(
 
         // Check if the move is within the valid range for a king
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) {
+
+
             // Check if there is a piece on the new position and its color
             if (pieceOnNewPos != null) {
                 if (pieceOnNewPos.color == color) {
@@ -511,7 +464,7 @@ class Piece(
             if (performMove) {
                 whiteTurn = !isWhite
             }
-
+            println("color: $color , newPosColor: ${pieceOnNewPos?.color}")
             return true
         }
         // Rochade
@@ -526,6 +479,7 @@ class Piece(
                     }
                     return true
                 }
+
                 newPos.first == 2 && newPos.second == 7 -> {
                     if (performMove) {
                         val rook = schachbrett!!.findPiece(0, 7)
@@ -548,6 +502,7 @@ class Piece(
                     }
                     return true
                 }
+
                 newPos.first == 2 && newPos.second == 0 -> {
                     if (performMove) {
                         val rook = schachbrett!!.findPiece(0, 0)
@@ -602,18 +557,16 @@ fun addAllPieces(cont: SceneContainer) {
     pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont))
 }
 
-fun isMoveSafe(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+/*fun isMoveSafe(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+    return true
     val piece = schachbrett?.findPiece(oldPos.first, oldPos.second)
     //println("Piece: $piece oldPos: $oldPos newPos: $newPos")
     val newPosPiece = schachbrett?.findPiece(newPos.first, newPos.second)
-    if (newPosPiece != null) {
-        //println("newPosPiece: $newPosPiece")
-    }
+
     if (piece != null) {
         figurBewegen(piece, newPos.first, newPos.second)
     }
     inCheck()
-    if (inCheck()) println("fuck")
     if (whiteKingInCheck || blackKingInCheck) {
         if (piece != null) {
             //println("Piece position after moving: ${decodePos(piece.pos)}")
@@ -638,4 +591,4 @@ fun isMoveSafe(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
         piece?.removePiece(newPosPiece)
     }
     return true
-}
+}*/

@@ -1,15 +1,13 @@
-@file:OptIn(KorgeExperimental::class)
-
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.async.*
 import korlibs.io.file.std.*
 import korlibs.korge.*
-import korlibs.korge.annotations.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
+import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 
 var cells = ArrayList<Cell>()
@@ -36,15 +34,40 @@ var blackKingPosition = Pair(4, 0)
 
 var whiteTurn = true
 
-suspend fun main() =
-    Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
-        val sceneContainer = sceneContainer()
 
-        sceneContainer.changeTo { MyScene(sceneContainer) }
+suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
+
+    val sceneContainer = sceneContainer()
+
+    //sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
+    sceneContainer.changeTo { GameModeSelector(sceneContainer) }
+}
+
+class GameModeSelector(private val cont: SceneContainer) : PixelatedScene(512, 512) {
+    override suspend fun SContainer.sceneMain() {
+        val buttonAi = image(resourcesVfs["button_play-against-ai.png"].readBitmap())
+        val buttonPassOn = image(resourcesVfs["button_play-local-with-pass-on.png"].readBitmap())
+        val text = image(resourcesVfs["button_sauronchess.png"].readBitmap())
+        // center both buttons in the middle of the screen (button anchor point is top left)
+        buttonAi.centerXOnStage()
+        buttonPassOn.centerXOnStage()
+        buttonAi.y = 180.0
+        buttonPassOn.y = 266.0
+        text.centerXOnStage()
+        text.y = 50.0
+
+
+
+        buttonAi.onClick {
+            sceneContainer.changeTo { GameScene(cont, "AI") }
+        }
+        buttonPassOn.onClick {
+            sceneContainer.changeTo { GameScene(cont, "PO") }
+        }
     }
+}
 
-
-class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
+class GameScene(private val cont: SceneContainer, private val gameMode: String) : PixelatedScene(512, 512) {
 
     /**
      * This method is called to render the main content of the game scene. Main function to set up
@@ -82,12 +105,10 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
 
         // Function to handle piece movement
         for (piece in pieces) {
-            piece.draggableCloseable(
-                onMouseDrag {
-                    // When dragging starts, update newPosition and newPositionEncoded
-                    newPosition =
-                        Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
-                }) { info ->
+            piece.draggableCloseable(onMouseDrag {
+                // When dragging starts, update newPosition and newPositionEncoded
+                newPosition = Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
+            }) { info ->
                 error = false
 
                 // When dragging starts
@@ -95,12 +116,9 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     // Iterate through pieces to find the selected piece
                     // //println("Start dsragging...")
                     // Set king position
-                    val pieceAtCurrentPos =
-                        schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                    val pieceAtCurrentPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
-                    if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) !=
-                        null
-                    ) {
+                    if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) != null) {
                         currentPos = newPosition
                         selectedPiece = pieceAtCurrentPos
                     }
@@ -110,11 +128,7 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                 if (info.end && selectedPiece != null) {
                     // //println("End dragging...")
                     // Check if newPosition is within the game board
-                    if (newPosition!!.first < 0 ||
-                        newPosition!!.first >= 8 ||
-                        newPosition!!.second < 0 ||
-                        newPosition!!.second >= 8
-                    ) {
+                    if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                         error = true
                         // Reset variables
                         selectedPiece = null
@@ -123,7 +137,11 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     }
                     // Perform the move if no error
                     if (!error) {
-                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true)) {
+                        val whiteTurnOrPassOn = whiteTurn || gameMode == "PO"
+                        if (!whiteTurn && whiteKingInCheck) {
+                            println("White King is still Check, invalid move")
+                        }
+                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true, false) && whiteTurnOrPassOn) {
                             figurBewegen(
                                 selectedPiece!!, newPosition!!.first, newPosition!!.second
                             )
@@ -140,10 +158,8 @@ class MyScene(private val cont: SceneContainer) : PixelatedScene(512, 512) {
                     }
 
                     error = false
-                    var moved = false
-                    if (!moved) {
-                        // pieces list with the name of all the pieces and their
-                        // position
+                    val moved = false
+                    if (!moved && gameMode == "AI") {
                         val piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
                         for (piece in pieces) {
                             piecesList.add(
@@ -181,16 +197,16 @@ fun inCheck(): Boolean {
             // println("Black King Position: $blackKingPosition")
         }
     }
-    var foundsmt = false
+    val foundsmt = false
     for (bp in piecesCopy) {
 
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)) {
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false, true)) {
 
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
             whiteKingInCheck = true
             return true
         } else whiteKingInCheck = foundsmt
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)) {
+        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false, fromInCheck = true)) {
             blackKingInCheck = true
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
             return true

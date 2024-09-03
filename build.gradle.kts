@@ -5,6 +5,7 @@ plugins { alias(libs.plugins.korge) }
 korge {
     id = "de.fsaurenbach.sauronchess"
     name = "Sauronchess"
+    exeBaseName = "sauronchess"
     fullscreen = false
     targetJvm()
     targetJs()
@@ -12,6 +13,10 @@ korge {
     icon = File(rootDir,"icon.png")
     serializationJson()
     jvmMainClassName = "MainKt"
+    androidPermission("android.permission.INTERNET")
+    version = "0.1.0"
+    versionCode = 1
+
 }
 kotlin {
     sourceSets {
@@ -20,22 +25,12 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
             }
         }
-        val jvmMain by getting {
-            dependencies {
-            }
-        }
-        val jsMain by getting {
-            dependencies {
 
-            }
-        }
     }
 }
 dependencies {
     add("commonMainApi", project(":deps"))
-
 }
 repositories {
     mavenCentral()
-    maven("https://jitpack.io")
 }

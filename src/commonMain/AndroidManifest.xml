@@ -1,0 +1,10 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.example.yourapp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application>
+        <!-- Your application components go here -->
+    </application>
+
+</manifest>
