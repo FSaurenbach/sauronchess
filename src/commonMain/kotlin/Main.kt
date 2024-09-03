@@ -210,11 +210,9 @@ fun inCheck(dmrc: MutableList<Piece>? = null): Boolean {
         if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false)) {
 
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
-            whiteKingInCheck = true
             return true
         }
         if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false)) {
-            blackKingInCheck = true
             println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
             return true
         }
@@ -223,18 +221,23 @@ fun inCheck(dmrc: MutableList<Piece>? = null): Boolean {
 
 }
 
-fun doesMoveResolveCheck(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>){
+fun doesMoveResolveCheck(oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
     var dmrc = pieces.toMutableList()
+    var ptbm: Piece? = null
     for (pieceToBeMoved in dmrc){
         if (pieceToBeMoved.cx == oldPos.first && pieceToBeMoved.cy == oldPos.second){
-            pieceToBeMoved.moveChecker(oldPos, newPos, false)
+            ptbm = pieceToBeMoved
+            pieceToBeMoved.bw(newPos.first, newPos.second)
+
         }
     }
-    inCheck(dmrc)
-    if (whiteKingInCheck){
+    println(inCheck(dmrc))
+    if (inCheck(dmrc)) {
+        println("returned faöse")
 
+        ptbm!!.bw(oldPos.first, oldPos.second)
+        return false
     }
-    else if (blackKingInCheck){
 
-    }
+    return true
 }

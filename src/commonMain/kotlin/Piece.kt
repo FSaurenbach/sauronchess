@@ -162,6 +162,13 @@ class Piece(
         if (isPawnMoveForward || isInitialPawnMove) {
 
             if (pieceOnNewPos == null) {
+                inCheck()
+                if (blackKingInCheck){
+                    if (doesMoveResolveCheck(oldPos, newPos) == false){
+                        println("noo")
+                        return false
+                    }
+                }
                 if (performMove) whiteTurn = true
 
                 return true
