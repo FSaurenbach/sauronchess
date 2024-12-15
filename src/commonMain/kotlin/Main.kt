@@ -20,7 +20,6 @@ var whiteBishop: Bitmap? = null
 var whiteQueen: Bitmap? = null
 var whiteKing: Bitmap? = null
 var whiteKingInCheck = false
-var whiteKingPosition = Pair(4, 7)
 var whiteRochade = true
 var blackRochade = true
 var blackPawn: Bitmap? = null
@@ -30,8 +29,6 @@ var blackBishop: Bitmap? = null
 var blackQueen: Bitmap? = null
 var blackKing: Bitmap? = null
 var blackKingInCheck = false
-var blackKingPosition = Pair(4, 0)
-
 var whiteTurn = true
 
 
@@ -138,27 +135,32 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                     // Perform the move if no error
                     if (!error) {
                         val whiteTurnOrPassOn = whiteTurn || gameMode == "PO"
-                        if (!whiteTurn && whiteKingInCheck) {
-                            println("White King is still Check, invalid move")
-                        }
-                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true, false) && whiteTurnOrPassOn) {
+                        val wt = whiteTurn
+                        if (!wt && blackKingInCheck) println("in check")
+                        if (selectedPiece!!.moveChecker(currentPos!!, newPosition!!, true) && whiteTurnOrPassOn) {
                             figurBewegen(
                                 selectedPiece!!, newPosition!!.first, newPosition!!.second
                             )
-                            selectedPiece = null
-                        }
+                            //selectedPiece = null
 
-                        // Check if king is in Check
-                        inCheck()
+                        }
+                        inSchach()
+                        if (!wt && blackKingInCheck) {
+                            println("still in check")
+                            figurBewegen(selectedPiece!!, currentPos!!.first, currentPos!!.second)
+                            whiteTurn = wt
+                        }
 
                         // Reset variables
                         selectedPiece = null
                         newPosition = null
                         currentPos = null
+
                     }
 
                     error = false
                     val moved = false
+
                     if (!moved && gameMode == "AI") {
                         val piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
                         for (piece in pieces) {
@@ -176,7 +178,6 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
 
 
                     }
-                    // make a list where all pieces are stored with their positions
 
                 }
             }
@@ -184,33 +185,31 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
     }
 }
 
-fun inCheck(): Boolean {
 
-    val piecesCopy = pieces.toMutableList()
-    for (piece in piecesCopy) {
-        if (piece.kind == PieceKind.WhiteKing) {
-            whiteKingPosition = Pair(piece.cx, piece.cy)
-            // println("White King Position: $whiteKingPosition")
-        }
+fun inSchach(): Boolean {
+    blackKingInCheck = false
+    var blackKingPosition = Pair(0, 0)
+    for (piece in pieces) {
         if (piece.kind == PieceKind.BlackKing) {
             blackKingPosition = Pair(piece.cx, piece.cy)
-            // println("Black King Position: $blackKingPosition")
+            println(blackKingPosition)
         }
     }
-    val foundsmt = false
-    for (bp in piecesCopy) {
+    for (piece in pieces) {
+        if (piece.color == Colors.WHITE) {
+            val oldPos = Pair(piece.cx, piece.cy)
 
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), whiteKingPosition, false, true)) {
+            if (piece.moveChecker(oldPos, blackKingPosition, performMove = false)) {
+                println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
+                println("d")
+                println(blackKingPosition)
+                blackKingInCheck = true
+            }
 
-            println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the white king")
-            whiteKingInCheck = true
-            return true
-        } else whiteKingInCheck = foundsmt
-        if (bp.moveChecker(Pair(bp.cx, bp.cy), blackKingPosition, false, fromInCheck = true)) {
-            blackKingInCheck = true
-            println("Piece ${bp.kind} at location x:${bp.cx}y:${bp.cy}is attacking the black king")
-            return true
         }
+
     }
+
     return false
+
 }

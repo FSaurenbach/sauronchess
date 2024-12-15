@@ -139,7 +139,7 @@ class ChessAi {
         var copy = pieces.toMutableList()
         for (piece in copy) {
             if (piece.cx == oldX && piece.cy == oldY && oldX != 9 && oldY != 9 && newX != 9 && newY != 9) {
-                if (!whiteTurn && piece.moveChecker(Pair(oldX, oldY), Pair(newX, newY), true, false) && piece.color == Colors.BLACK) {
+                if (!whiteTurn && piece.moveChecker(Pair(oldX, oldY), Pair(newX, newY), true) && piece.color == Colors.BLACK) {
                     println(piece)
                     figurBewegen(piece, newX, newY)
                 }
