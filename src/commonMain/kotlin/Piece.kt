@@ -450,7 +450,7 @@ class Piece(
         return false
     }
 
-    fun removePiece(piece: Piece) {
+    private fun removePiece(piece: Piece) {
         pieces.remove(piece)
         piece.piece.removeFromParent()
         piece.removeFromParent()

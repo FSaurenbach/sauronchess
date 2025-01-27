@@ -19,7 +19,6 @@ var whiteKnight: Bitmap? = null
 var whiteBishop: Bitmap? = null
 var whiteQueen: Bitmap? = null
 var whiteKing: Bitmap? = null
-var whiteKingInCheck = false
 var whiteRochade = true
 var blackRochade = true
 var blackPawn: Bitmap? = null
@@ -148,6 +147,7 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                         if (!wt && blackKingInCheck) {
                             println("still in check")
                             figurBewegen(selectedPiece!!, currentPos!!.first, currentPos!!.second)
+                            
                             whiteTurn = wt
                         }
 
