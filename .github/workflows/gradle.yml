@@ -4,7 +4,9 @@
 name: Testing
 
 on:
-  push
+  push:
+    branches:
+      - master
 
 jobs:
   build:
