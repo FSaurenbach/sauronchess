@@ -213,3 +213,27 @@ fun inSchach(): Boolean {
     return false
 
 }
+
+fun simulateMoveAndCheck(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+    val originalPos = Pair(piece.cx, piece.cy)
+    val capturedPiece = schachbrett!!.findPiece(newPos.first, newPos.second)
+
+    // Simulate the move
+    piece.cx = newPos.first
+    piece.cy = newPos.second
+    if (capturedPiece != null) {
+        pieces.remove(capturedPiece)
+    }
+
+    // Check if the king is still in check
+    val kingInCheck = inSchach()
+
+    // Revert the move
+    piece.cx = originalPos.first
+    piece.cy = originalPos.second
+    if (capturedPiece != null) {
+        pieces.add(capturedPiece)
+    }
+
+    return kingInCheck
+}
