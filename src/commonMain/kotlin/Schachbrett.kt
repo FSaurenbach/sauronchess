@@ -39,12 +39,7 @@ class Schachbrett(private var cont: SceneContainer) {
         return null
     }
 }
-fun decode(x: Double): Int {
-    return (x / 64).toInt()
-}
-fun decodePos(pos: Point): Pair<Int, Int> {
-    return Pair(decode(pos.x), decode(pos.y))
-}
+
 fun figurBewegen(figur: Piece, newX: Int, newY: Int) {
     figur.pos = Point(newX * 64.0, newY * 64.0)
     figur.position(Point(newX * 64.0, newY * 64.0))

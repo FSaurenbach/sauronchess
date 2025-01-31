@@ -64,12 +64,6 @@ class Piece(
         piece.position(Point(newX * 64.0, newY * 64.0))
     }
 
-    /**
-     * Moves the piece to a new position on the board.
-     *
-     * @param cx The new x-coordinate of the piece.
-     * @param cy The new y-coordinate of the piece.
-     */
 
     /**
      * Checks if the move of the piece is valid.
@@ -89,9 +83,7 @@ class Piece(
                 PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
                 else -> false
@@ -102,9 +94,7 @@ class Piece(
                 PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
                 else -> false
@@ -117,13 +107,9 @@ class Piece(
                 PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-
                 PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-
                 PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
                 PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
                 PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
@@ -324,11 +310,7 @@ class Piece(
     }
 
     private fun moveBishop(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, pieceOnNewPos: Piece?, isWhite: Boolean, performMove: Boolean
     ): Boolean {
         val dx = abs(newPos.first - oldPos.first)
         val dy = abs(newPos.second - oldPos.second)
@@ -450,10 +432,9 @@ class Piece(
         return false
     }
 
-    private fun removePiece(piece: Piece) {
+    fun removePiece(piece: Piece) {
         pieces.remove(piece)
         piece.piece.removeFromParent()
-        piece.removeFromParent()
 
         println("Piece removed: $piece")
     }
