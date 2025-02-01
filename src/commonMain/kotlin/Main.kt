@@ -224,7 +224,6 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
     print("move is possible: $moveIsPossible")
-
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
     if (moveIsPossible) {
         figurBewegen(piece, newPos.first, newPos.second)
