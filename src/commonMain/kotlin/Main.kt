@@ -34,7 +34,7 @@ var whiteTurn = true
 suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
 
     val sceneContainer = sceneContainer()
-
+    println("new version")
     sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
     //sceneContainer.changeTo { GameModeSelector(sceneContainer) }
 }
