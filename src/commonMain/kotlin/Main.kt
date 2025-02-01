@@ -1,13 +1,11 @@
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
-import korlibs.io.async.*
 import korlibs.io.file.std.*
 import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
-import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 
 var cells = ArrayList<Cell>()
@@ -35,29 +33,6 @@ suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors
 
     val sceneContainer = sceneContainer()
     sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
-    //sceneContainer.changeTo { GameModeSelector(sceneContainer) }
-}
-
-class GameModeSelector(private val cont: SceneContainer) : PixelatedScene(512, 512) {
-    override suspend fun SContainer.sceneMain() {
-        val buttonAi = image(resourcesVfs["button_play-against-ai.png"].readBitmap())
-        val buttonPassOn = image(resourcesVfs["button_play-local-with-pass-on.png"].readBitmap())
-        val text = image(resourcesVfs["button_sauronchess.png"].readBitmap())
-        // center both buttons in the middle of the screen (button anchor point is top left)
-        buttonAi.centerXOnStage()
-        buttonPassOn.centerXOnStage()
-        buttonAi.y = 180.0
-        buttonPassOn.y = 266.0
-        text.centerXOnStage()
-        text.y = 50.0
-
-        buttonAi.onClick {
-            sceneContainer.changeTo { GameScene(cont, "AI") }
-        }
-        buttonPassOn.onClick {
-            sceneContainer.changeTo { GameScene(cont, "PO") }
-        }
-    }
 }
 
 class GameScene(private val cont: SceneContainer, private val gameMode: String) : PixelatedScene(512, 512) {
@@ -154,25 +129,7 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                     }
 
                     error = false
-                    val moved = false
 
-                    if (!moved && gameMode == "AI") {
-                        val piecesList = mutableListOf<Pair<String, Pair<Int, Int>>>()
-                        for (piece in pieces) {
-                            piecesList.add(
-                                Pair(piece.kind.toString(), Pair(piece.cx, piece.cy))
-                            )
-                        }
-
-                        val chessAi = ChessAi()
-                        val fen = chessAi.piecesListToFEN(piecesList)
-                        launch {
-                            val response = chessAi.postBestMove(fen)
-                            println(chessAi.convertMoveToPosition(response))
-                        }
-
-
-                    }
 
                 }
             }
@@ -227,7 +184,7 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
         return false
     } else {
 
-        whiteTurn = if (piece.color == Colors.BLACK) true else false
+        whiteTurn = piece.color == Colors.BLACK
     }
     inSchach(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
