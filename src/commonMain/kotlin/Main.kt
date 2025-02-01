@@ -34,7 +34,6 @@ var whiteTurn = true
 suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
 
     val sceneContainer = sceneContainer()
-    println("new version")
     sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
     //sceneContainer.changeTo { GameModeSelector(sceneContainer) }
 }
@@ -51,8 +50,6 @@ class GameModeSelector(private val cont: SceneContainer) : PixelatedScene(512, 5
         buttonPassOn.y = 266.0
         text.centerXOnStage()
         text.y = 50.0
-
-
 
         buttonAi.onClick {
             sceneContainer.changeTo { GameScene(cont, "AI") }
@@ -109,9 +106,6 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
 
                 // When dragging starts
                 if (info.start) {
-                    // Iterate through pieces to find the selected piece
-                    // //println("Start dsragging...")
-                    // Set king position
                     val pieceAtCurrentPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
 
                     if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) != null) {
@@ -142,15 +136,12 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                         } else if (selectedPiece!!.moveChecker(
                                 currentPos!!, newPosition!!, false
                             ) && whiteTurnOrPassOn && !blackKingInCheck
-                        ) {/*figurBewegen(
-                                selectedPiece!!, newPosition!!.first, newPosition!!.second
-                            )*/
+                        ) {
                             val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
                             if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!) && pieceOnNewPos != null) {
                                 pieceOnNewPos.removePiece(pieceOnNewPos)
                             }
                             println("normal way")
-                            //selectedPiece = null
 
                         }
 

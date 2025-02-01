@@ -18,7 +18,7 @@ class Schachbrett(private var cont: SceneContainer) {
                 val cellColor = if (d.isEven) Colors.WHITE else Colors.MEDIUMSEAGREEN
                 val cl = Cell(cellColor, cx, cy, cont)
                 // add location to cell like a1 or h8
-                var text = "${'a' + cx}${8 - cy}"
+                val text = "${'a' + cx}${8 - cy}"
 
                 cells.add(cl)
                 Text(text, textSize = 16.0, alignment = TextAlignment.TOP_LEFT, color = Colors.BLACK).position(Point(cx * 64.0, cy * 64.0)).addTo(cont)

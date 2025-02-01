@@ -10,13 +10,9 @@ enum class PieceKind {
 }
 
 class Piece(
-    var kind: PieceKind,
-    val color: RGBA,
-    var cx: Int,
-    var cy: Int,
+    var kind: PieceKind, val color: RGBA, var cx: Int, var cy: Int,
 
-    cont: SceneContainer,
-    var disabled:Boolean = false
+    cont: SceneContainer, var disabled: Boolean = false
 ) : View() {
 
     private var pieceKind: PieceKind = kind
