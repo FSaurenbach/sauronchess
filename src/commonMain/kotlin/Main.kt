@@ -227,7 +227,7 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
     if (moveIsPossible) {
         figurBewegen(piece, newPos.first, newPos.second)
-        if (pieceOnNewPos != null) pieceOnNewPos.disabled = true
+        pieceOnNewPos?.disabled = true
     }
     inSchach(pieces)
     if (piece.color == Colors.BLACK && blackKingInCheck) {
@@ -240,6 +240,7 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
     }
     inSchach(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
+    pieceOnNewPos?.disabled = false
     return true
 
 }
