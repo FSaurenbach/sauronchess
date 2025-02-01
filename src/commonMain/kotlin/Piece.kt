@@ -14,7 +14,9 @@ class Piece(
     val color: RGBA,
     var cx: Int,
     var cy: Int,
+
     cont: SceneContainer,
+    var disabled:Boolean = false
 ) : View() {
 
     private var pieceKind: PieceKind = kind

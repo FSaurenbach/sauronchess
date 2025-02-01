@@ -140,16 +140,13 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                             println("in check")
                             simulateMove(selectedPiece!!, currentPos!!, newPosition!!)
                         } else if (selectedPiece!!.moveChecker(
-                                currentPos!!,
-                                newPosition!!,
-                                false
+                                currentPos!!, newPosition!!, false
                             ) && whiteTurnOrPassOn && !blackKingInCheck
-                        ) {
-                            /*figurBewegen(
+                        ) {/*figurBewegen(
                                 selectedPiece!!, newPosition!!.first, newPosition!!.second
                             )*/
-                            var pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
-                            if (simulateMove(selectedPiece!!,currentPos!!, newPosition!!) && pieceOnNewPos != null) {
+                            val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!) && pieceOnNewPos != null) {
                                 pieceOnNewPos.removePiece(pieceOnNewPos)
                             }
                             println("normal way")
@@ -203,7 +200,7 @@ fun inSchach(piecesList: ArrayList<Piece>): Boolean {
         }
     }
     for (piece in piecesList) {
-        if (piece.color == Colors.WHITE) {
+        if (piece.color == Colors.WHITE && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
 
             if (piece.moveChecker(oldPos, blackKingPosition, performMove = false)) {
@@ -225,17 +222,20 @@ fun inSchach(piecesList: ArrayList<Piece>): Boolean {
 fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
     inSchach(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
+    val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
     print("move is possible: $moveIsPossible")
 
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
-    if (moveIsPossible) figurBewegen(piece, newPos.first, newPos.second)
+    if (moveIsPossible) {
+        figurBewegen(piece, newPos.first, newPos.second)
+        if (pieceOnNewPos != null) pieceOnNewPos.disabled = true
+    }
     inSchach(pieces)
     if (piece.color == Colors.BLACK && blackKingInCheck) {
         figurBewegen(piece, oldPos.first, oldPos.second)
         println("move is not possbile")
         return false
-    }
-    else{
+    } else {
 
         whiteTurn = if (piece.color == Colors.BLACK) true else false
     }
