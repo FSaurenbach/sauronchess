@@ -1,4 +1,4 @@
-import korlibs.image.color.*
+    import korlibs.image.color.*
 import korlibs.korge.render.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*

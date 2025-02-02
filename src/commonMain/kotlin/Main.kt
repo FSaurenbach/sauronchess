@@ -1,12 +1,15 @@
-import korlibs.image.bitmap.*
-import korlibs.image.color.*
-import korlibs.image.format.*
-import korlibs.io.file.std.*
-import korlibs.korge.*
-import korlibs.korge.input.*
-import korlibs.korge.scene.*
-import korlibs.korge.view.*
-import korlibs.math.geom.*
+import korlibs.image.bitmap.Bitmap
+import korlibs.image.color.Colors
+import korlibs.image.format.readBitmap
+import korlibs.io.file.std.resourcesVfs
+import korlibs.korge.Korge
+import korlibs.korge.input.draggableCloseable
+import korlibs.korge.input.onMouseDrag
+import korlibs.korge.scene.PixelatedScene
+import korlibs.korge.scene.SceneContainer
+import korlibs.korge.scene.sceneContainer
+import korlibs.korge.view.SContainer
+import korlibs.math.geom.Size
 
 var cells = ArrayList<Cell>()
 var schachbrett: Schachbrett? = null
@@ -151,7 +154,7 @@ fun inSchach(piecesList: ArrayList<Piece>): Boolean {
         if (piece.color == Colors.WHITE && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
 
-            if (piece.moveChecker(oldPos, blackKingPosition, performMove = false)) {
+            if (piece.moveChecker(oldPos, blackKingPosition, false)) {
                 println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
                 println("d")
                 println(blackKingPosition)
