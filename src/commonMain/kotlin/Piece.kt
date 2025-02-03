@@ -119,14 +119,11 @@ class Piece(
         val isInitialPawnMove = oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = false
-
                 return true
             }
         } else if (oldPos.second - newPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
                 if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = false
 
                 return true
             }
@@ -144,14 +141,11 @@ class Piece(
         val isInitialPawnMove = oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = true
-
                 return true
             }
         } else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
             if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
                 if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = true
 
                 return true
             }
@@ -402,7 +396,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(7, 7)
                         figurBewegen(rook!!, 5, 7)
                         whiteRochade = false
-                        whiteTurn = false
                     }
                     return true
                 }
@@ -412,7 +405,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(0, 7)
                         figurBewegen(rook!!, 3, 7)
                         whiteRochade = false
-                        whiteTurn = false
                     }
                     return true
                 }
@@ -425,7 +417,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(7, 0)
                         figurBewegen(rook!!, 5, 0)
                         blackRochade = false
-                        whiteTurn = true
                     }
                     return true
                 }
@@ -435,7 +426,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(0, 0)
                         figurBewegen(rook!!, 3, 0)
                         blackRochade = false
-                        whiteTurn = true
                     }
                     return true
                 }
