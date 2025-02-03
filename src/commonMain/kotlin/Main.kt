@@ -1,15 +1,12 @@
-import korlibs.image.bitmap.Bitmap
-import korlibs.image.color.Colors
-import korlibs.image.format.readBitmap
-import korlibs.io.file.std.resourcesVfs
-import korlibs.korge.Korge
-import korlibs.korge.input.draggableCloseable
-import korlibs.korge.input.onMouseDrag
-import korlibs.korge.scene.PixelatedScene
-import korlibs.korge.scene.SceneContainer
-import korlibs.korge.scene.sceneContainer
-import korlibs.korge.view.SContainer
-import korlibs.math.geom.Size
+import korlibs.image.bitmap.*
+import korlibs.image.color.*
+import korlibs.image.format.*
+import korlibs.io.file.std.*
+import korlibs.korge.*
+import korlibs.korge.input.*
+import korlibs.korge.scene.*
+import korlibs.korge.view.*
+import korlibs.math.geom.*
 
 var cells = ArrayList<Cell>()
 var schachbrett: Schachbrett? = null
@@ -176,6 +173,8 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
     val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
     print("move is possible: $moveIsPossible")
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
+    if (whiteTurn && piece.color == Colors.BLACK) return false
+    if (!whiteTurn && piece.color == Colors.WHITE) return false
     if (moveIsPossible) {
         figurBewegen(piece, newPos.first, newPos.second)
         pieceOnNewPos?.disabled = true
@@ -186,7 +185,6 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
         println("move is not possbile")
         return false
     } else {
-
         whiteTurn = piece.color == Colors.BLACK
     }
     inSchach(pieces)
