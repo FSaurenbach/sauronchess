@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.format.*
@@ -28,21 +30,21 @@ var blackKing: Bitmap? = null
 var blackKingInCheck = false
 var whiteTurn = true
 
+suspend fun main() =
+    Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
+        val sceneContainer = sceneContainer()
+        sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
+    }
 
-suspend fun main() = Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
-
-    val sceneContainer = sceneContainer()
-    sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
-}
-
-class GameScene(private val cont: SceneContainer, private val gameMode: String) : PixelatedScene(512, 512) {
-
+class GameScene(
+    private val cont: SceneContainer,
+    private val gameMode: String,
+) : PixelatedScene(512, 512) {
     /**
      * This method is called to render the main content of the game scene. Main function to set up
      * the chessboard, pieces, and handle piece movement.
      */
     override suspend fun SContainer.sceneMain() {
-
         schachbrett = Schachbrett(cont)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
@@ -73,10 +75,12 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
 
         // Function to handle piece movement
         for (piece in pieces) {
-            piece.draggableCloseable(onMouseDrag {
-                // When dragging starts, update newPosition and newPositionEncoded
-                newPosition = Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
-            }) { info ->
+            piece.draggableCloseable(
+                onMouseDrag {
+                    // When dragging starts, update newPosition and newPositionEncoded
+                    newPosition = Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
+                },
+            ) { info ->
                 error = false
 
                 // When dragging starts
@@ -109,34 +113,31 @@ class GameScene(private val cont: SceneContainer, private val gameMode: String) 
                             println("in check")
                             simulateMove(selectedPiece!!, currentPos!!, newPosition!!)
                         } else if (selectedPiece!!.moveChecker(
-                                currentPos!!, newPosition!!, false
-                            ) && whiteTurnOrPassOn && !blackKingInCheck
+                                currentPos!!,
+                                newPosition!!,
+                                false,
+                            ) &&
+                            whiteTurnOrPassOn &&
+                            !blackKingInCheck
                         ) {
                             val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
                             if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!) && pieceOnNewPos != null) {
                                 pieceOnNewPos.removePiece(pieceOnNewPos)
                             }
                             println("normal way")
-
                         }
-
 
                         // Reset variables
                         selectedPiece = null
                         newPosition = null
                         currentPos = null
-
                     }
-
                     error = false
-
-
                 }
             }
         }
     }
 }
-
 
 fun inSchach(piecesList: ArrayList<Piece>): Boolean {
     blackKingInCheck = false
@@ -158,16 +159,17 @@ fun inSchach(piecesList: ArrayList<Piece>): Boolean {
                 blackKingInCheck = true
                 return true
             }
-
         }
-
     }
 
     return false
-
 }
 
-fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): Boolean {
+fun simulateMove(
+    piece: Piece,
+    oldPos: Pair<Int, Int>,
+    newPos: Pair<Int, Int>,
+): Boolean {
     inSchach(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
@@ -191,5 +193,4 @@ fun simulateMove(piece: Piece, oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>): 
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
     pieceOnNewPos?.disabled = false
     return true
-
 }

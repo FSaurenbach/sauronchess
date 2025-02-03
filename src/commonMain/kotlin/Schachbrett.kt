@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 import korlibs.image.color.*
 import korlibs.image.text.*
 import korlibs.korge.scene.*
@@ -5,7 +7,9 @@ import korlibs.korge.view.*
 import korlibs.math.*
 import korlibs.math.geom.*
 
-class Schachbrett(private var cont: SceneContainer) {
+class Schachbrett(
+    private var cont: SceneContainer,
+) {
     init {
         println("Schachbrett initialized")
         initializeBoard()
@@ -21,7 +25,12 @@ class Schachbrett(private var cont: SceneContainer) {
                 val text = "${'a' + cx}${8 - cy}"
 
                 cells.add(cl)
-                Text(text, textSize = 16.0, alignment = TextAlignment.TOP_LEFT, color = Colors.BLACK).position(Point(cx * 64.0, cy * 64.0)).addTo(cont)
+                Text(
+                    text,
+                    textSize = 16.0,
+                    alignment = TextAlignment.TOP_LEFT,
+                    color = Colors.BLACK,
+                ).position(Point(cx * 64.0, cy * 64.0)).addTo(cont)
                 cl.text(text)
                 d++
             }
@@ -29,8 +38,10 @@ class Schachbrett(private var cont: SceneContainer) {
         }
     }
 
-
-    fun findPiece(x: Int, y: Int): Piece? {
+    fun findPiece(
+        x: Int,
+        y: Int,
+    ): Piece? {
         for (piece in pieces) {
             if (piece.cx == x && piece.cy == y) {
                 return piece
@@ -40,7 +51,11 @@ class Schachbrett(private var cont: SceneContainer) {
     }
 }
 
-fun figurBewegen(figur: Piece, newX: Int, newY: Int) {
+fun figurBewegen(
+    figur: Piece,
+    newX: Int,
+    newY: Int,
+) {
     figur.pos = Point(newX * 64.0, newY * 64.0)
     figur.position(Point(newX * 64.0, newY * 64.0))
     figur.cx = newX
@@ -48,7 +63,11 @@ fun figurBewegen(figur: Piece, newX: Int, newY: Int) {
     figur.bw(newX, newY)
 }
 
-fun objektBewegen(figur: View, newX: Int, newY: Int) {
+fun objektBewegen(
+    figur: View,
+    newX: Int,
+    newY: Int,
+) {
     figur.pos = Point(newX * 64.0, newY * 64.0)
     figur.position(Point(newX * 64.0, newY * 64.0))
 }
