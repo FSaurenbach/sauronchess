@@ -33,12 +33,11 @@ var whiteTurn = true
 suspend fun main() =
     Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
         val sceneContainer = sceneContainer()
-        sceneContainer.changeTo { GameScene(sceneContainer, "PO") }
+        sceneContainer.changeTo { GameScene(sceneContainer) }
     }
 
 class GameScene(
     private val cont: SceneContainer,
-    private val gameMode: String,
 ) : PixelatedScene(512, 512) {
     /**
      * This method is called to render the main content of the game scene. Main function to set up
@@ -106,7 +105,6 @@ class GameScene(
                     }
                     // Perform the move if no error
                     if (!error) {
-                        val whiteTurnOrPassOn = whiteTurn || gameMode == "PO"
                         val wt = whiteTurn
                         inSchach(pieces)
                         if (!wt && blackKingInCheck) {
@@ -117,7 +115,6 @@ class GameScene(
                                 newPosition!!,
                                 false,
                             ) &&
-                            whiteTurnOrPassOn &&
                             !blackKingInCheck
                         ) {
                             val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
