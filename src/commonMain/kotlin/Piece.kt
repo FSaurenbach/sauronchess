@@ -99,8 +99,7 @@ class Piece(
         // Check if white or black king in check
 
         return when (pieceKind) {
-            PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
-            PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
+            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
@@ -109,44 +108,32 @@ class Piece(
         }
     }
 
-    private fun moveWhitePawn(
+    private fun movePawn(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
+        isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
-        val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
-        val isInitialPawnMove = oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+        val isPawnMoveForward =
+            if (isWhite) {
+                newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
+            } else {
+                newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
+            }
+        val isInitialPawnMove =
+            if (isWhite) {
+                oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+            } else {
+                oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+            }
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 return true
             }
-        } else if (oldPos.second - newPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
+        } else if (abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
                 if (performMove) removePiece(pieceOnNewPos)
-
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun moveBlackPawn(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        performMove: Boolean,
-    ): Boolean {
-        val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
-        val isInitialPawnMove = oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
-        if (isPawnMoveForward || isInitialPawnMove) {
-            if (pieceOnNewPos == null) {
-                return true
-            }
-        } else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-                if (performMove) removePiece(pieceOnNewPos)
-
                 return true
             }
         }
