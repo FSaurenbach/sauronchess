@@ -29,6 +29,7 @@ class Piece(
     var cy: Int,
     cont: SceneContainer,
     var disabled: Boolean = false,
+    val isWhite: Boolean,
 ) : View() {
     private var pieceKind: PieceKind = kind
     private lateinit var piece: Image
@@ -97,46 +98,16 @@ class Piece(
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         // Check if white or black king in check
 
-        if (whiteTurn && performMove) {
-            return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
-                else -> false
-            }
-        }
-        if (!whiteTurn && performMove) {
-            return when (pieceKind) {
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
-                else -> false
-            }
-        }
-        if (!performMove) {
-            return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
-            }
-        }
+        return when (pieceKind) {
+            PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
+            PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
 
-        return false
+            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+        }
     }
 
     private fun moveWhitePawn(
@@ -489,26 +460,26 @@ fun addAllPieces(cont: SceneContainer) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont))
+        pieces.add(Piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true))
     }
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont))
+    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont, isWhite = true))
 
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont))
+        pieces.add(Piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont, isWhite = false))
     }
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont))
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont))
-    pieces.add(Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont))
+    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont, isWhite = false))
 }
