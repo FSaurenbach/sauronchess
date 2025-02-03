@@ -214,23 +214,20 @@ class Piece(
         if (dx != dy) return false
 
         // Check for obstructions on the diagonal path
-        val directionX = if (newPos.first > oldPos.first) 1 else -1
-        val directionY = if (newPos.second > oldPos.second) 1 else -1
+        val directionX = (newPos.first - oldPos.first).sign
+        val directionY = (newPos.second - oldPos.second).sign
 
         for (i in 1 until dx) {
-            val checkPos = Pair(oldPos.first + i * directionX, oldPos.second + i * directionY)
+            val checkPos = oldPos.first + i * directionX to oldPos.second + i * directionY
             if (schachbrett!!.findPiece(checkPos.first, checkPos.second) != null) {
                 return false
             }
         }
 
         // Check if the target square is empty or contains an enemy piece
-        if (pieceOnNewPos == null) {
-            if (performMove) whiteTurn = !isWhite
-            return true
-        } else if (pieceOnNewPos.color != color) {
+        if (pieceOnNewPos == null || pieceOnNewPos.color != color) {
             if (performMove) {
-                removePiece(pieceOnNewPos)
+                pieceOnNewPos?.let { removePiece(it) }
                 whiteTurn = !isWhite
             }
             return true
