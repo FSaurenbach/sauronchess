@@ -29,6 +29,7 @@ class Piece(
     var cy: Int,
     cont: SceneContainer,
     var disabled: Boolean = false,
+    val isWhite: Boolean,
 ) : View() {
     private var pieceKind: PieceKind = kind
     private lateinit var piece: Image
@@ -97,92 +98,42 @@ class Piece(
         val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
         // Check if white or black king in check
 
-        if (whiteTurn && performMove) {
-            return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
-                else -> false
-            }
+        return when (pieceKind) {
+            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
         }
-        if (!whiteTurn && performMove) {
-            return when (pieceKind) {
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
-                else -> false
-            }
-        }
-        if (!performMove) {
-            return when (pieceKind) {
-                PieceKind.WhitePawn -> moveWhitePawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.BlackPawn -> moveBlackPawn(oldPos, newPos, pieceOnNewPos, performMove)
-                PieceKind.WhiteRook -> moveRook(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, false, performMove)
-                PieceKind.WhiteKing -> moveKing(oldPos, newPos, pieceOnNewPos, true, performMove)
-                PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, false, performMove)
-            }
-        }
-
-        return false
     }
 
-    private fun moveWhitePawn(
+    private fun movePawn(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
+        isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
-        val isPawnMoveForward = newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
-        val isInitialPawnMove = oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+        val isPawnMoveForward =
+            if (isWhite) {
+                newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
+            } else {
+                newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
+            }
+        val isInitialPawnMove =
+            if (isWhite) {
+                oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+            } else {
+                oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+            }
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = false
-
                 return true
             }
-        } else if (oldPos.second - newPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.BLACK) {
+        } else if (abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1) {
+            if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
                 if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = false
-
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun moveBlackPawn(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        performMove: Boolean,
-    ): Boolean {
-        val isPawnMoveForward = newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
-        val isInitialPawnMove = oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
-        if (isPawnMoveForward || isInitialPawnMove) {
-            if (pieceOnNewPos == null) {
-                if (performMove) whiteTurn = true
-
-                return true
-            }
-        } else if (newPos.second - oldPos.second == 1 && ((newPos.first - oldPos.first == 1) || (newPos.first - oldPos.first == -1))) {
-            if (pieceOnNewPos != null && pieceOnNewPos.color == Colors.WHITE) {
-                if (performMove) removePiece(pieceOnNewPos)
-                if (performMove) whiteTurn = true
-
                 return true
             }
         }
@@ -196,115 +147,26 @@ class Piece(
         isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
-        // Case moving up or down
-        if (oldPos.first == newPos.first) {
-            // going down
-            if (newPos.second > oldPos.second) {
-                val cellstocheck = newPos.second - oldPos.second - 1
-                for (i in 1..cellstocheck) {
-                    val pp = schachbrett!!.findPiece(oldPos.first, oldPos.second + i)?.pos
-                    if (pp != null) {
-                        return false
-                    }
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    return false
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    if (performMove) removePiece(pieceOnNewPos)
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                // Case moving one down
-                if (pieceOnNewPos == null && cellstocheck == 0) {
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                whiteTurn = !isWhite
-                return true
-            }
-            if (newPos.second < oldPos.second) {
-                val cellstocheck = oldPos.second - newPos.second - 1
-                for (i in 1..cellstocheck) {
-                    val pp = schachbrett!!.findPiece(oldPos.first, oldPos.second - i)?.pos
-                    if (pp != null) {
-                        return false
-                    }
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    return false
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    if (performMove) removePiece(pieceOnNewPos)
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                // Case moving one down
-                if (pieceOnNewPos == null && cellstocheck == 0) {
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
+        val (oldX, oldY) = oldPos
+        val (newX, newY) = newPos
+
+        if (oldX == newX) {
+            val range = if (newY > oldY) (oldY + 1 until newY) else (newY + 1 until oldY)
+            if (range.any { schachbrett!!.findPiece(oldX, it) != null }) return false
+        } else if (oldY == newY) {
+            val range = if (newX > oldX) (oldX + 1 until newX) else (newX + 1 until oldX)
+            if (range.any { schachbrett!!.findPiece(it, oldY) != null }) return false
+        } else {
+            return false
         }
 
-        // Case moving left or right
-        if (oldPos.second == newPos.second) {
-            // going right
-            if (newPos.first > oldPos.first) {
-                val cellstocheck = newPos.first - oldPos.first - 1
-                for (i in 1..cellstocheck) {
-                    val pp = schachbrett!!.findPiece(oldPos.first + i, oldPos.second)?.pos
-                    if (pp != null) {
-                        return false
-                    }
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    return false
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    if (performMove) removePiece(pieceOnNewPos)
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-
-                // Case moving one right
-                if (pieceOnNewPos == null && cellstocheck == 0) {
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                if (performMove) whiteTurn = !isWhite
-                return true
-            }
-            if (newPos.first < oldPos.first) {
-                val cellstocheck = oldPos.first - newPos.first - 1
-                for (i in 1..cellstocheck) {
-                    val pp = schachbrett!!.findPiece(oldPos.first - i, oldPos.second)?.pos
-                    if (pp != null) {
-                        return false
-                    }
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color == color) {
-                    return false
-                }
-                if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                    if (performMove) removePiece(pieceOnNewPos)
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-
-                // Case moving one left
-                if (pieceOnNewPos == null && cellstocheck == 0) {
-                    if (performMove) whiteTurn = !isWhite
-                    return true
-                }
-                whiteTurn = !isWhite
-                return true
-            }
+        if (pieceOnNewPos != null) {
+            if (pieceOnNewPos.color == color) return false
+            if (performMove) removePiece(pieceOnNewPos)
         }
 
-        return false
+        if (performMove) whiteTurn = !isWhite
+        return true
     }
 
     private fun moveKnight(
@@ -352,23 +214,20 @@ class Piece(
         if (dx != dy) return false
 
         // Check for obstructions on the diagonal path
-        val directionX = if (newPos.first > oldPos.first) 1 else -1
-        val directionY = if (newPos.second > oldPos.second) 1 else -1
+        val directionX = (newPos.first - oldPos.first).sign
+        val directionY = (newPos.second - oldPos.second).sign
 
         for (i in 1 until dx) {
-            val checkPos = Pair(oldPos.first + i * directionX, oldPos.second + i * directionY)
+            val checkPos = oldPos.first + i * directionX to oldPos.second + i * directionY
             if (schachbrett!!.findPiece(checkPos.first, checkPos.second) != null) {
                 return false
             }
         }
 
         // Check if the target square is empty or contains an enemy piece
-        if (pieceOnNewPos == null) {
-            if (performMove) whiteTurn = !isWhite
-            return true
-        } else if (pieceOnNewPos.color != color) {
+        if (pieceOnNewPos == null || pieceOnNewPos.color != color) {
             if (performMove) {
-                removePiece(pieceOnNewPos)
+                pieceOnNewPos?.let { removePiece(it) }
                 whiteTurn = !isWhite
             }
             return true
@@ -432,7 +291,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(7, 7)
                         figurBewegen(rook!!, 5, 7)
                         whiteRochade = false
-                        whiteTurn = false
                     }
                     return true
                 }
@@ -442,7 +300,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(0, 7)
                         figurBewegen(rook!!, 3, 7)
                         whiteRochade = false
-                        whiteTurn = false
                     }
                     return true
                 }
@@ -455,7 +312,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(7, 0)
                         figurBewegen(rook!!, 5, 0)
                         blackRochade = false
-                        whiteTurn = true
                     }
                     return true
                 }
@@ -465,7 +321,6 @@ class Piece(
                         val rook = schachbrett!!.findPiece(0, 0)
                         figurBewegen(rook!!, 3, 0)
                         blackRochade = false
-                        whiteTurn = true
                     }
                     return true
                 }
@@ -489,26 +344,26 @@ fun addAllPieces(cont: SceneContainer) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont))
+        pieces.add(Piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true))
     }
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont))
-    pieces.add(Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont))
+    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont, isWhite = true))
+    pieces.add(Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont, isWhite = true))
 
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont))
+        pieces.add(Piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont, isWhite = false))
     }
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont))
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont))
-    pieces.add(Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont))
-    pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont))
+    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont, isWhite = false))
+    pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont, isWhite = false))
 }

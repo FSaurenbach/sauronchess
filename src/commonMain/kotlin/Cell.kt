@@ -1,3 +1,5 @@
+@file:Suppress("ktlint:standard:no-wildcard-imports")
+
 import korlibs.image.color.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
@@ -13,8 +15,12 @@ import korlibs.math.geom.*
  * @property cx The x-coordinate of the cell in the grid.
  * @property cy The y-coordinate of the cell in the grid.
  */
-class Cell(color: RGBA, var cx: Int, var cy: Int, cont: SceneContainer) : Container() {
-
+class Cell(
+    color: RGBA,
+    private var cx: Int,
+    private var cy: Int,
+    cont: SceneContainer,
+) : Container() {
     private var position: Point
 
     init {
