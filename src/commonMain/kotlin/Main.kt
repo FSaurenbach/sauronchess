@@ -27,6 +27,7 @@ var blackKnight: Bitmap? = null
 var blackBishop: Bitmap? = null
 var blackQueen: Bitmap? = null
 var blackKing: Bitmap? = null
+var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
 
@@ -94,7 +95,6 @@ class GameScene(
 
                 // When dragging ends
                 if (info.end && selectedPiece != null) {
-                    // //println("End dragging...")
                     // Check if newPosition is within the game board
                     if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                         error = true
@@ -107,27 +107,29 @@ class GameScene(
                     if (!error) {
                         val wt = whiteTurn
                         inSchach(pieces)
-                        if (!wt && blackKingInCheck) {
+                        val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                        if (!wt && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
-                            simulateMove(selectedPiece!!, currentPos!!, newPosition!!)
+                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                                pieceOnNewPos?.removePiece(pieceOnNewPos)
+                            }
                         } else if (selectedPiece!!.moveChecker(
                                 currentPos!!,
                                 newPosition!!,
                                 false,
                             ) &&
-                            !blackKingInCheck
+                            !blackKingInCheck &&
+                            !whiteKingInCheck
                         ) {
-                            val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
-                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!) && pieceOnNewPos != null) {
-                                pieceOnNewPos.removePiece(pieceOnNewPos)
+                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                                pieceOnNewPos?.removePiece(pieceOnNewPos)
                             }
-                            println("normal way")
                         }
-
                         // Reset variables
                         selectedPiece = null
                         newPosition = null
                         currentPos = null
+                        error = false
                     }
                     error = false
                 }
@@ -137,23 +139,34 @@ class GameScene(
 }
 
 fun inSchach(piecesList: ArrayList<Piece>): Boolean {
+    whiteKingInCheck = false
     blackKingInCheck = false
+    var whiteKingPosition = Pair(0, 0)
     var blackKingPosition = Pair(0, 0)
     for (piece in piecesList) {
-        if (piece.kind == PieceKind.BlackKing) {
+        if (piece.kind == PieceKind.WhiteKing) {
+            whiteKingPosition = Pair(piece.cx, piece.cy)
+        } else if (piece.kind == PieceKind.BlackKing) {
             blackKingPosition = Pair(piece.cx, piece.cy)
-            println(blackKingPosition)
         }
     }
     for (piece in piecesList) {
         if (piece.color == Colors.WHITE && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
-
             if (piece.moveChecker(oldPos, blackKingPosition, false)) {
                 println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
-                println("d")
                 println(blackKingPosition)
                 blackKingInCheck = true
+                return true
+            }
+        }
+        if (piece.color == Colors.BLACK && !piece.disabled) {
+            val oldPos = Pair(piece.cx, piece.cy)
+
+            if (piece.moveChecker(oldPos, whiteKingPosition, false)) {
+                println("White King is in check because of: ${piece.cx}, ${piece.cy}, ${piece.kind}")
+                println(whiteKingPosition)
+                whiteKingInCheck = true
                 return true
             }
         }
@@ -166,11 +179,11 @@ fun simulateMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
+    performMove: Boolean = true,
 ): Boolean {
     inSchach(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
-    print("move is possible: $moveIsPossible")
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
@@ -179,7 +192,7 @@ fun simulateMove(
         pieceOnNewPos?.disabled = true
     }
     inSchach(pieces)
-    if (piece.color == Colors.BLACK && blackKingInCheck) {
+    if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         figurBewegen(piece, oldPos.first, oldPos.second)
         println("move is not possbile")
         return false
@@ -189,5 +202,6 @@ fun simulateMove(
     inSchach(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
     pieceOnNewPos?.disabled = false
+    if (!performMove) figurBewegen(piece, oldPos.first, oldPos.second)
     return true
 }
