@@ -32,47 +32,31 @@ class Piece(
     val isWhite: Boolean,
 ) : View() {
     private var pieceKind: PieceKind = kind
-    private lateinit var piece: Image
+
+    // If the piece is white, set the piece image to the white pawn or rook or knight
+    private var piece: Image =
+        Image(
+            when (kind) {
+                PieceKind.WhitePawn -> whitePawn!!
+                PieceKind.WhiteRook -> whiteRook!!
+                PieceKind.WhiteKnight -> whiteKnight!!
+                PieceKind.WhiteBishop -> whiteBishop!!
+                PieceKind.WhiteQueen -> whiteQueen!!
+                PieceKind.WhiteKing -> whiteKing!!
+                PieceKind.BlackPawn -> blackPawn!!
+                PieceKind.BlackRook -> blackRook!!
+                PieceKind.BlackKnight -> blackKnight!!
+                PieceKind.BlackBishop -> blackBishop!!
+                PieceKind.BlackQueen -> blackQueen!!
+                PieceKind.BlackKing -> blackKing!!
+            },
+        )
 
     init {
-        if (color == Colors.WHITE) {
-            // If the piece is white, set the piece image to the white pawn or rook or knight
-            piece =
-                Image(
-                    when (kind) {
-                        PieceKind.WhitePawn -> whitePawn!!
-                        PieceKind.WhiteRook -> whiteRook!!
-                        PieceKind.WhiteKnight -> whiteKnight!!
-                        PieceKind.WhiteBishop -> whiteBishop!!
-                        PieceKind.WhiteQueen -> whiteQueen!!
-                        PieceKind.WhiteKing -> whiteKing!!
-                        else -> throw Error("Invalid Piece !?")
-                    },
-                )
 
-            piece.size(Size(64, 64))
-            piece.addTo(cont)
-            objektBewegen(piece, cx, cy)
-        } else {
-            // If the piece is black, set the piece image to the black pawn or rook or knight
-            if (color == Colors.BLACK) {
-                piece =
-                    Image(
-                        when (kind) {
-                            PieceKind.BlackPawn -> blackPawn!!
-                            PieceKind.BlackRook -> blackRook!!
-                            PieceKind.BlackKnight -> blackKnight!!
-                            PieceKind.BlackBishop -> blackBishop!!
-                            PieceKind.BlackQueen -> blackQueen!!
-                            PieceKind.BlackKing -> blackKing!!
-                            else -> throw Error("Invalid Piece !?")
-                        },
-                    )
-                piece.size(Size(64, 64))
-                piece.addTo(cont)
-                objektBewegen(piece, cx, cy)
-            }
-        }
+        piece.size(Size(64, 64))
+        piece.addTo(cont)
+        objektBewegen(piece, cx, cy)
     }
 
     fun bw(
@@ -101,8 +85,24 @@ class Piece(
         return when (pieceKind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
-            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
-            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteKnight, PieceKind.BlackKnight ->
+                moveKnight(
+                    oldPos,
+                    newPos,
+                    pieceOnNewPos,
+                    isWhite,
+                    performMove,
+                )
+
+            PieceKind.WhiteBishop, PieceKind.BlackBishop ->
+                moveBishop(
+                    oldPos,
+                    newPos,
+                    pieceOnNewPos,
+                    isWhite,
+                    performMove,
+                )
+
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
         }
