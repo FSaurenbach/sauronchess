@@ -2,53 +2,45 @@
 
 import korlibs.image.color.*
 import korlibs.image.text.*
-import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.*
 import korlibs.math.geom.*
 
-class Schachbrett(
-    private var cont: SceneContainer,
-) {
-    init {
-        println("Schachbrett initialized")
-        initializeBoard()
-    }
+fun initializeBoard(cont: Container) {
+    // set the position of the cells RELATIVE to the container
+    println("Container position: $offsetX, $offsetY")
+    var d = 0
+    for (cx in 0 until 8) {
+        for (cy in 0 until 8) {
+            val cellColor = if (d.isEven) Colors["#404040"] else Colors.TEAL
+            val cl = Cell(cellColor, cx, cy, cont)
+            // add location to cell like a1 or h8
+            val text = "${'a' + cx}${8 - cy}"
 
-    private fun initializeBoard() {
-        var d = 0
-        for (cx in 0 until 8) {
-            for (cy in 0 until 8) {
-                val cellColor = if (d.isEven) Colors.WHITE else Colors.MEDIUMSEAGREEN
-                val cl = Cell(cellColor, cx, cy, cont)
-                // add location to cell like a1 or h8
-                val text = "${'a' + cx}${8 - cy}"
-
-                cells.add(cl)
-                Text(
-                    text,
-                    textSize = 16.0,
-                    alignment = TextAlignment.TOP_LEFT,
-                    color = Colors.BLACK,
-                ).position(Point(cx * 64.0, cy * 64.0)).addTo(cont)
-                cl.text(text)
-                d++
-            }
+            cells.add(cl)
+            Text(
+                text,
+                textSize = 16.0,
+                alignment = TextAlignment.TOP_LEFT,
+                color = Colors.BLACK,
+            ).position(Point(cx * 64.0 + offsetX, cy * 64.0 + offsetY)).addTo(cont) // Use `this` to add to Schachbrett
+            cl.text(text)
             d++
         }
+        d++
     }
+}
 
-    fun findPiece(
-        x: Int,
-        y: Int,
-    ): Piece? {
-        for (piece in pieces) {
-            if (piece.cx == x && piece.cy == y) {
-                return piece
-            }
+fun findPiece(
+    x: Int,
+    y: Int,
+): Piece? {
+    for (piece in pieces) {
+        if (piece.cx == x && piece.cy == y) {
+            return piece
         }
-        return null
     }
+    return null
 }
 
 fun figurBewegen(
@@ -56,8 +48,8 @@ fun figurBewegen(
     newX: Int,
     newY: Int,
 ) {
-    figur.pos = Point(newX * 64.0, newY * 64.0)
-    figur.position(Point(newX * 64.0, newY * 64.0))
+    figur.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
+    figur.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
     figur.cx = newX
     figur.cy = newY
     figur.bw(newX, newY)
@@ -68,6 +60,6 @@ fun objektBewegen(
     newX: Int,
     newY: Int,
 ) {
-    figur.pos = Point(newX * 64.0, newY * 64.0)
-    figur.position(Point(newX * 64.0, newY * 64.0))
+    figur.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
+    figur.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
 }

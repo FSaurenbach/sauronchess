@@ -63,8 +63,8 @@ class Piece(
         newX: Int,
         newY: Int,
     ) {
-        piece.pos = Point(newX * 64.0, newY * 64.0)
-        piece.position(Point(newX * 64.0, newY * 64.0))
+        piece.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
+        piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
     }
 
     /**
@@ -79,7 +79,7 @@ class Piece(
         newPos: Pair<Int, Int>,
         performMove: Boolean,
     ): Boolean {
-        val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
+        val pieceOnNewPos = findPiece(newPos.first, newPos.second)
         // Check if white or black king in check
 
         return when (pieceKind) {
@@ -152,10 +152,10 @@ class Piece(
 
         if (oldX == newX) {
             val range = if (newY > oldY) (oldY + 1 until newY) else (newY + 1 until oldY)
-            if (range.any { schachbrett!!.findPiece(oldX, it) != null }) return false
+            if (range.any { findPiece(oldX, it) != null }) return false
         } else if (oldY == newY) {
             val range = if (newX > oldX) (oldX + 1 until newX) else (newX + 1 until oldX)
-            if (range.any { schachbrett!!.findPiece(it, oldY) != null }) return false
+            if (range.any { findPiece(it, oldY) != null }) return false
         } else {
             return false
         }
@@ -219,7 +219,7 @@ class Piece(
 
         for (i in 1 until dx) {
             val checkPos = oldPos.first + i * directionX to oldPos.second + i * directionY
-            if (schachbrett!!.findPiece(checkPos.first, checkPos.second) != null) {
+            if (findPiece(checkPos.first, checkPos.second) != null) {
                 return false
             }
         }
@@ -288,7 +288,7 @@ class Piece(
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
                     if (performMove) {
-                        val rook = schachbrett!!.findPiece(7, 7)
+                        val rook = findPiece(7, 7)
                         figurBewegen(rook!!, 5, 7)
                         whiteRochade = false
                     }
@@ -297,7 +297,7 @@ class Piece(
 
                 newPos.first == 2 && newPos.second == 7 -> {
                     if (performMove) {
-                        val rook = schachbrett!!.findPiece(0, 7)
+                        val rook = findPiece(0, 7)
                         figurBewegen(rook!!, 3, 7)
                         whiteRochade = false
                     }
@@ -309,7 +309,7 @@ class Piece(
             when {
                 newPos.first == 6 && newPos.second == 0 -> {
                     if (performMove) {
-                        val rook = schachbrett!!.findPiece(7, 0)
+                        val rook = findPiece(7, 0)
                         figurBewegen(rook!!, 5, 0)
                         blackRochade = false
                     }
@@ -318,7 +318,7 @@ class Piece(
 
                 newPos.first == 2 && newPos.second == 0 -> {
                     if (performMove) {
-                        val rook = schachbrett!!.findPiece(0, 0)
+                        val rook = findPiece(0, 0)
                         figurBewegen(rook!!, 3, 0)
                         blackRochade = false
                     }

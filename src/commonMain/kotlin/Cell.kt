@@ -19,10 +19,8 @@ class Cell(
     color: RGBA,
     private var cx: Int,
     private var cy: Int,
-    cont: SceneContainer,
+    cont: Container,
 ) : Container() {
-    private var position: Point
-
     init {
         // Retrieve the cell from the board based on the coordinates
         val cell = SolidRect(64, 64)
@@ -31,7 +29,6 @@ class Cell(
         objektBewegen(cell, cx, cy)
 
         // Set the position of the cell
-        position = Point(cell.x, cell.y)
 
         // Set the color of the cell
         cell.color = color
