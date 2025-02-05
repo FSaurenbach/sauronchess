@@ -8,10 +8,10 @@ import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
+import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 
 var cells = ArrayList<Cell>()
-var schachbrett: Schachbrett? = null
 var pieces = ArrayList<Piece>()
 var whitePawn: Bitmap? = null
 var whiteRook: Bitmap? = null
@@ -30,22 +30,39 @@ var blackKing: Bitmap? = null
 var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
+var schachbrett: Container? = null
+var screenSizeX = 800
+var screenSizeY = 800
+var chessBoardX = 512
+var chessBoardY = 512
+var offsetX = (screenSizeX - chessBoardX) / 2
+var offsetY = (screenSizeY - chessBoardY) / 2
 
 suspend fun main() =
-    Korge(windowSize = Size(512, 512), backgroundColor = Colors["#2b2b2b"]) {
+    Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
         val sceneContainer = sceneContainer()
-        sceneContainer.changeTo { GameScene(sceneContainer) }
+        sceneContainer.changeTo { GameScene() }
     }
 
-class GameScene(
-    private val cont: SceneContainer,
-) : PixelatedScene(512, 512) {
+class GameScene : Scene() {
     /**
      * This method is called to render the main content of the game scene. Main function to set up
      * the chessboard, pieces, and handle piece movement.
      */
     override suspend fun SContainer.sceneMain() {
-        schachbrett = Schachbrett(cont)
+        // Make a nice backdrop for the titleText
+
+        // Chessboard container
+        val schachbrett =
+            container {
+                position(offsetX, offsetY)
+                width = chessBoardX.toDouble()
+                height = chessBoardY.toDouble()
+                println("Schachbrett initialized")
+                initializeBoard(this)
+            }.name("schachbrett")
+
+        // Load pieces (you can keep the loading logic as you already have it)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
         whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
@@ -60,10 +77,44 @@ class GameScene(
         blackQueen = resourcesVfs["b_queen.png"].readBitmap()
         blackKing = resourcesVfs["b_king.png"].readBitmap()
 
-        addAllPieces(cont)
-        // add pieces to board state
-
+        addAllPieces(schachbrett!!)
         handlePieceMovement()
+
+        // Add the shadow and play button
+        val shadow =
+            solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
+                position(offsetX, offsetY)
+                visible = true
+            }
+        val titel: Text =
+            text("Schach") {
+                textSize = 50.0
+                centerXOnStage()
+                y = 20.0
+                color = Colors.WHITE
+            }
+
+        roundRect(Size(titel.width + 20, titel.height + 20), RectCorners(10), Colors["#3b7d88"]) {
+            this.zIndex(-1)
+        }.centerOn(titel)
+        val playButtonBackground =
+            roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
+                // Set the background to have rounded corners
+                centerOn(schachbrett)
+            }
+
+        text("Play") {
+            color = Colors.WHITE
+            textSize = 40.0
+            centerOn(playButtonBackground) // Align the text inside the background rectangle
+
+            onClick {
+                // When the play button is clicked, hide the shadow and the button
+                shadow.visible = false
+                playButtonBackground.visible = false
+                this.visible = false
+            }
+        }
     }
 
     private fun SContainer.handlePieceMovement() {
@@ -78,21 +129,24 @@ class GameScene(
             piece.draggableCloseable(
                 onMouseDrag {
                     // When dragging starts, update newPosition and newPositionEncoded
-                    newPosition = Pair(this.globalMousePos.x.toInt() / 64, this.globalMousePos.y.toInt() / 64)
+                    newPosition =
+                        Pair(
+                            (this.globalMousePos.x - offsetX).toInt() / 64,
+                            (this.globalMousePos.y - offsetY).toInt() / 64,
+                        )
                 },
             ) { info ->
                 error = false
 
                 // When dragging starts
                 if (info.start) {
-                    val pieceAtCurrentPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                    val pieceAtCurrentPos = findPiece(newPosition!!.first, newPosition!!.second)
 
-                    if (schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second) != null) {
+                    if (findPiece(newPosition!!.first, newPosition!!.second) != null) {
                         currentPos = newPosition
                         selectedPiece = pieceAtCurrentPos
                     }
                 }
-
                 // When dragging ends
                 if (info.end && selectedPiece != null) {
                     // Check if newPosition is within the game board
@@ -107,7 +161,7 @@ class GameScene(
                     if (!error) {
                         val wt = whiteTurn
                         inSchach(pieces)
-                        val pieceOnNewPos = schachbrett!!.findPiece(newPosition!!.first, newPosition!!.second)
+                        val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
                         if (!wt && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
                             if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
@@ -183,7 +237,7 @@ fun simulateMove(
 ): Boolean {
     inSchach(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
-    val pieceOnNewPos = schachbrett!!.findPiece(newPos.first, newPos.second)
+    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
