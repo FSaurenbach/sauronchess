@@ -2,7 +2,6 @@
 
 import korlibs.image.color.*
 import korlibs.korge.render.*
-import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
 import kotlin.math.*
@@ -27,7 +26,7 @@ class Piece(
     val color: RGBA,
     var cx: Int,
     var cy: Int,
-    cont: SceneContainer,
+    cont: Container,
     var disabled: Boolean = false,
     val isWhite: Boolean,
 ) : View() {
@@ -340,7 +339,7 @@ class Piece(
     override fun renderInternal(ctx: RenderContext) {}
 }
 
-fun addAllPieces(cont: SceneContainer) {
+fun addAllPieces(cont: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
     for (i in 0 until 8) {

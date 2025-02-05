@@ -12,7 +12,7 @@ fun initializeBoard(cont: Container) {
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
-            val cellColor = if (d.isEven) Colors["#404040"] else Colors.TEAL
+            val cellColor = if (d.isEven) Colors.WHITE else Colors["#964d22"]
             val cl = Cell(cellColor, cx, cy, cont)
             // add location to cell like a1 or h8
             val text = "${'a' + cx}${8 - cy}"
