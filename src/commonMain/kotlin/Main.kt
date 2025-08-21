@@ -59,7 +59,7 @@ class GameScene : Scene() {
                 height = chessBoardY.toDouble()
                 println("Schachbrett initialized")
                 initializeBoard(this)
-            }.name("schachbrett")
+            }
 
         // Load pieces (you can keep the loading logic as you already have it)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
