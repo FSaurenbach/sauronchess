@@ -85,17 +85,17 @@ class GameScene : Scene() {
                 position(offsetX, offsetY)
                 visible = true
             }
-        val titel: Text =
-            text("Schach") {
+        val title: Text =
+            text("Chess") {
                 textSize = 50.0
                 centerXOnStage()
                 y = 20.0
                 color = Colors.WHITE
             }
 
-        roundRect(Size(titel.width + 20, titel.height + 20), RectCorners(10), Colors["#3b7d88"]) {
+        roundRect(Size(title.width + 20, title.height + 20), RectCorners(10), Colors["#3b7d88"]) {
             this.zIndex(-1)
-        }.centerOn(titel)
+        }.centerOn(title)
         val playButtonBackground =
             roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
                 centerOn(chessboard)
