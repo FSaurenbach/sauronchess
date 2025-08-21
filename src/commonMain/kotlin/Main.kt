@@ -30,7 +30,6 @@ var blackKing: Bitmap? = null
 var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
-var schachbrett: Container? = null
 var screenSizeX = 800
 var screenSizeY = 800
 var chessBoardX = 512
