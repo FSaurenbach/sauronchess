@@ -76,7 +76,7 @@ class Piece(
 
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, performMove)
 
-            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, performMove)
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
         }
     }
@@ -201,7 +201,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean,
         performMove: Boolean,
     ): Boolean = moveRook(oldPos, newPos, pieceOnNewPos, performMove) || moveBishop(
         oldPos,
