@@ -136,7 +136,6 @@ class Piece(
             if (performMove) removePiece(pieceOnNewPos)
         }
 
-        if (performMove) whiteTurn = !isWhite
         return true
     }
 
@@ -155,15 +154,11 @@ class Piece(
                 return false
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
-                if (performMove) {
-                    whiteTurn = !isWhite
-                }
+
                 return true
             }
             if (pieceOnNewPos == null) {
-                if (performMove) {
-                    whiteTurn = !isWhite
-                }
+
                 return true
             }
         }
@@ -198,7 +193,7 @@ class Piece(
         if (pieceOnNewPos == null || pieceOnNewPos.color != color) {
             if (performMove) {
                 pieceOnNewPos?.let { removePiece(it) }
-                whiteTurn = !isWhite
+
             }
             return true
         }
@@ -245,9 +240,7 @@ class Piece(
             }
 
             // If performMove is true, toggle the turn
-            if (performMove) {
-                whiteTurn = !isWhite
-            }
+
             println("color: $color , newPosColor: ${pieceOnNewPos?.color}")
             return true
         }

@@ -176,6 +176,7 @@ class GameScene : Scene() {
                         ) {
                             if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
+                                whiteTurn = !whiteTurn
                             }
                         }
                         // Reset variables
@@ -249,8 +250,6 @@ fun simulateMove(
         figurBewegen(piece, oldPos.first, oldPos.second)
         println("move is not possbile")
         return false
-    } else {
-        whiteTurn = piece.color == Colors.BLACK
     }
     inSchach(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
