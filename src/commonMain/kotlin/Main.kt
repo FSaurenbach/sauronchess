@@ -159,7 +159,7 @@ class GameScene : Scene() {
                     }
                     // Perform the move if no error
                     if (!error) {
-                        inSchach(pieces)
+                        inCheck(pieces)
                         val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
                         if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
@@ -192,7 +192,7 @@ class GameScene : Scene() {
     }
 }
 
-fun inSchach(piecesList: ArrayList<Piece>): Boolean {
+fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
     var whiteKingPosition = Pair(0, 0)
@@ -235,24 +235,24 @@ fun simulateMove(
     newPos: Pair<Int, Int>,
     performMove: Boolean = true,
 ): Boolean {
-    inSchach(pieces)
+    inCheck(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inSchach(pieces)}")
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inCheck(pieces)}")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
     if (moveIsPossible) {
         figurBewegen(piece, newPos.first, newPos.second)
         pieceOnNewPos?.disabled = true
     }
-    inSchach(pieces)
+    inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         figurBewegen(piece, oldPos.first, oldPos.second)
         println("move is not possbile")
         return false
     }
-    inSchach(pieces)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inSchach(pieces)}")
+    inCheck(pieces)
+    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
     pieceOnNewPos?.disabled = false
     if (!performMove) figurBewegen(piece, oldPos.first, oldPos.second)
     return true
