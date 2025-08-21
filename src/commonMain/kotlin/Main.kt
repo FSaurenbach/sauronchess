@@ -233,7 +233,6 @@ fun simulateMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
-    performMove: Boolean = true,
 ): Boolean {
     inCheck(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
@@ -254,6 +253,5 @@ fun simulateMove(
     inCheck(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
     pieceOnNewPos?.disabled = false
-    if (!performMove) figurBewegen(piece, oldPos.first, oldPos.second)
     return true
 }
