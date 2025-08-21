@@ -134,8 +134,8 @@ class Piece(
             if (pieceOnNewPos.color == color) return false
             if (performMove) removePiece(pieceOnNewPos)
         }
-        if (color == Colors.WHITE) whiteRochadeLegal = false
-        if (color == Colors.BLACK) blackRochadeLegal = false
+        if (color == Colors.WHITE) whiteCastlingLegal = false
+        if (color == Colors.BLACK) blackCastlingLegal = false
         return true
     }
 
@@ -233,18 +233,19 @@ class Piece(
             // If performMove is true, toggle the turn
 
             println("color: $color , newPosColor: ${pieceOnNewPos?.color}")
-            if (color == Colors.WHITE) whiteRochadeLegal = false
-            if (color == Colors.BLACK) blackRochadeLegal = false
+            if (color == Colors.WHITE) whiteCastlingLegal = false
+            if (color == Colors.BLACK) blackCastlingLegal = false
             return true
         }
         // Rochade
-        if (whiteRochadeLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
+        if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
+            if (pieceOnNewPos != null) return false
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
                     if (performMove) {
                         val rook = findPiece(7, 7)
                         figurBewegen(rook!!, 5, 7)
-                        whiteRochadeLegal = false
+                        whiteCastlingLegal = false
                     }
                     return true
                 }
@@ -253,19 +254,19 @@ class Piece(
                     if (performMove) {
                         val rook = findPiece(0, 7)
                         figurBewegen(rook!!, 3, 7)
-                        whiteRochadeLegal = false
+                        whiteCastlingLegal = false
                     }
                     return true
                 }
             }
         }
-        if (blackRochadeLegal && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
+        if (blackCastlingLegal && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
             when {
                 newPos.first == 6 && newPos.second == 0 -> {
                     if (performMove) {
                         val rook = findPiece(7, 0)
                         figurBewegen(rook!!, 5, 0)
-                        blackRochadeLegal = false
+                        blackCastlingLegal = false
                     }
                     return true
                 }
@@ -274,7 +275,7 @@ class Piece(
                     if (performMove) {
                         val rook = findPiece(0, 0)
                         figurBewegen(rook!!, 3, 0)
-                        blackRochadeLegal = false
+                        blackCastlingLegal = false
                     }
                     return true
                 }
