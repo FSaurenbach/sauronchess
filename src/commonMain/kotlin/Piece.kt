@@ -156,7 +156,6 @@ class Piece(
             }
             if (pieceOnNewPos != null && pieceOnNewPos.color != color) {
                 if (performMove) {
-                    removePiece(pieceOnNewPos)
                     whiteTurn = !isWhite
                 }
                 return true
