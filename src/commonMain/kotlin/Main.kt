@@ -98,17 +98,15 @@ class GameScene : Scene() {
         }.centerOn(titel)
         val playButtonBackground =
             roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
-                // Set the background to have rounded corners
                 centerOn(chessboard)
             }
 
         text("Play") {
             color = Colors.WHITE
             textSize = 40.0
-            centerOn(playButtonBackground) // Align the text inside the background rectangle
+            centerOn(playButtonBackground)
 
             onClick {
-                // When the play button is clicked, hide the shadow and the button
                 shadow.visible = false
                 playButtonBackground.visible = false
                 this.visible = false
@@ -117,17 +115,14 @@ class GameScene : Scene() {
     }
 
     private fun SContainer.handlePieceMovement() {
-        // Variables initialization
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var selectedPiece: Piece? = null
         var error: Boolean
 
-        // Function to handle piece movement
         for (piece in pieces) {
             piece.draggableCloseable(
                 onMouseDrag {
-                    // When dragging starts, update newPosition and newPositionEncoded
                     newPosition =
                         Pair(
                             (this.globalMousePos.x - offsetX).toInt() / 64,
@@ -136,8 +131,7 @@ class GameScene : Scene() {
                 },
             ) { info ->
                 error = false
-
-                // When dragging starts
+                // Dragging start
                 if (info.start) {
                     val pieceAtCurrentPos = findPiece(newPosition!!.first, newPosition!!.second)
 
@@ -146,7 +140,7 @@ class GameScene : Scene() {
                         selectedPiece = pieceAtCurrentPos
                     }
                 }
-                // When dragging ends
+                // Dragging end
                 if (info.end && selectedPiece != null) {
                     // Check if newPosition is within the game board
                     if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
@@ -162,7 +156,7 @@ class GameScene : Scene() {
                         val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
                         if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
-                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                            if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
                             }
                         } else if (selectedPiece!!.moveChecker(
@@ -173,12 +167,12 @@ class GameScene : Scene() {
                             !blackKingInCheck &&
                             !whiteKingInCheck
                         ) {
-                            if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                            if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
                                 whiteTurn = !whiteTurn
                             }
                         }
-                        // Reset variables
+
                         selectedPiece = null
                         newPosition = null
                         currentPos = null
@@ -228,7 +222,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     return false
 }
 
-fun simulateMove(
+fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
@@ -236,7 +230,7 @@ fun simulateMove(
     inCheck(pieces)
     val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCeck: ${inCheck(pieces)}")
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)}")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
     if (moveIsPossible) {
