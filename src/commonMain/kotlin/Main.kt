@@ -247,7 +247,7 @@ fun simulateMove(
     inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         figurBewegen(piece, oldPos.first, oldPos.second)
-        println("move is not possbile")
+        println("move is not possible")
         return false
     }
     inCheck(pieces)
