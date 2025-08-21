@@ -7,18 +7,7 @@ import korlibs.math.geom.*
 import kotlin.math.*
 
 enum class PieceKind {
-    WhitePawn,
-    BlackPawn,
-    WhiteRook,
-    BlackRook,
-    WhiteKnight,
-    BlackKnight,
-    WhiteBishop,
-    BlackBishop,
-    WhiteQueen,
-    BlackQueen,
-    WhiteKing,
-    BlackKing,
+    WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
 
 class Piece(
@@ -33,23 +22,22 @@ class Piece(
     private var pieceKind: PieceKind = kind
 
     // If the piece is white, set the piece image to the white pawn or rook or knight
-    private var piece: Image =
-        Image(
-            when (kind) {
-                PieceKind.WhitePawn -> whitePawn!!
-                PieceKind.WhiteRook -> whiteRook!!
-                PieceKind.WhiteKnight -> whiteKnight!!
-                PieceKind.WhiteBishop -> whiteBishop!!
-                PieceKind.WhiteQueen -> whiteQueen!!
-                PieceKind.WhiteKing -> whiteKing!!
-                PieceKind.BlackPawn -> blackPawn!!
-                PieceKind.BlackRook -> blackRook!!
-                PieceKind.BlackKnight -> blackKnight!!
-                PieceKind.BlackBishop -> blackBishop!!
-                PieceKind.BlackQueen -> blackQueen!!
-                PieceKind.BlackKing -> blackKing!!
-            },
-        )
+    private var piece: Image = Image(
+        when (kind) {
+            PieceKind.WhitePawn -> whitePawn!!
+            PieceKind.WhiteRook -> whiteRook!!
+            PieceKind.WhiteKnight -> whiteKnight!!
+            PieceKind.WhiteBishop -> whiteBishop!!
+            PieceKind.WhiteQueen -> whiteQueen!!
+            PieceKind.WhiteKing -> whiteKing!!
+            PieceKind.BlackPawn -> blackPawn!!
+            PieceKind.BlackRook -> blackRook!!
+            PieceKind.BlackKnight -> blackKnight!!
+            PieceKind.BlackBishop -> blackBishop!!
+            PieceKind.BlackQueen -> blackQueen!!
+            PieceKind.BlackKing -> blackKing!!
+        },
+    )
 
     init {
 
@@ -84,25 +72,11 @@ class Piece(
         return when (pieceKind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
-            PieceKind.WhiteKnight, PieceKind.BlackKnight ->
-                moveKnight(
-                    oldPos,
-                    newPos,
-                    pieceOnNewPos,
-                    isWhite,
-                    performMove,
-                )
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
 
-            PieceKind.WhiteBishop, PieceKind.BlackBishop ->
-                moveBishop(
-                    oldPos,
-                    newPos,
-                    pieceOnNewPos,
-                    isWhite,
-                    performMove,
-                )
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
 
-            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, true, performMove)
+            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
         }
     }
@@ -114,18 +88,16 @@ class Piece(
         isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
-        val isPawnMoveForward =
-            if (isWhite) {
-                newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
-            } else {
-                newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
-            }
-        val isInitialPawnMove =
-            if (isWhite) {
-                oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
-            } else {
-                oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
-            }
+        val isPawnMoveForward = if (isWhite) {
+            newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
+        } else {
+            newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
+        }
+        val isInitialPawnMove = if (isWhite) {
+            oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+        } else {
+            oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+        }
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 return true
@@ -241,15 +213,13 @@ class Piece(
         pieceOnNewPos: Piece?,
         isWhite: Boolean,
         performMove: Boolean,
-    ): Boolean =
-        moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) ||
-            moveBishop(
-                oldPos,
-                newPos,
-                pieceOnNewPos,
-                isWhite,
-                performMove,
-            )
+    ): Boolean = moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) || moveBishop(
+        oldPos,
+        newPos,
+        pieceOnNewPos,
+        isWhite,
+        performMove,
+    )
 
     private fun moveKing(
         oldPos: Pair<Int, Int>,

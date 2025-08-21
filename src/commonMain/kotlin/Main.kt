@@ -53,7 +53,7 @@ class GameScene : Scene() {
         // Make a nice backdrop for the titleText
 
         // Chessboard container
-        val schachbrett =
+        val chessboard =
             container {
                 position(offsetX, offsetY)
                 width = chessBoardX.toDouble()
@@ -77,7 +77,7 @@ class GameScene : Scene() {
         blackQueen = resourcesVfs["b_queen.png"].readBitmap()
         blackKing = resourcesVfs["b_king.png"].readBitmap()
 
-        addAllPieces(schachbrett!!)
+        addAllPieces(chessboard)
         handlePieceMovement()
 
         // Add the shadow and play button
@@ -100,7 +100,7 @@ class GameScene : Scene() {
         val playButtonBackground =
             roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
                 // Set the background to have rounded corners
-                centerOn(schachbrett)
+                centerOn(chessboard)
             }
 
         text("Play") {
@@ -159,10 +159,9 @@ class GameScene : Scene() {
                     }
                     // Perform the move if no error
                     if (!error) {
-                        val wt = whiteTurn
                         inSchach(pieces)
                         val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
-                        if (!wt && (blackKingInCheck || whiteKingInCheck)) {
+                        if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
                             if (simulateMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
