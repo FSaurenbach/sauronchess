@@ -71,10 +71,10 @@ class Piece(
 
         return when (pieceKind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
-            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
-            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, performMove)
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos)
 
-            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, performMove)
 
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
@@ -115,7 +115,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
         val (oldX, oldY) = oldPos
@@ -142,9 +141,7 @@ class Piece(
     private fun moveKnight(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
-        performMove: Boolean,
+        pieceOnNewPos: Piece?
     ): Boolean {
         val xDiff = abs(newPos.first - oldPos.first)
         val yDiff = abs(newPos.second - oldPos.second)
@@ -169,7 +166,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        isWhite: Boolean,
         performMove: Boolean,
     ): Boolean {
         val dx = abs(newPos.first - oldPos.first)
@@ -207,11 +203,10 @@ class Piece(
         pieceOnNewPos: Piece?,
         isWhite: Boolean,
         performMove: Boolean,
-    ): Boolean = moveRook(oldPos, newPos, pieceOnNewPos, isWhite, performMove) || moveBishop(
+    ): Boolean = moveRook(oldPos, newPos, pieceOnNewPos, performMove) || moveBishop(
         oldPos,
         newPos,
         pieceOnNewPos,
-        isWhite,
         performMove,
     )
 
