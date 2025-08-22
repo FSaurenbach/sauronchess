@@ -140,10 +140,12 @@ class GameScene : Scene() {
                         newPosition = null
                         currentPos = null
                     }
+                    val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
+                    if (pieceOnNewPos?.color == selectedPiece?.color) error = true
                     // Perform the move if no error
                     if (!error) {
                         inCheck(pieces)
-                        val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
+
                         if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
                             println("in check")
                             if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
@@ -153,7 +155,6 @@ class GameScene : Scene() {
                         } else if (selectedPiece!!.moveChecker(
                                 currentPos!!,
                                 newPosition!!,
-                                false,
                             ) && !blackKingInCheck && !whiteKingInCheck
                         ) {
                             if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
@@ -189,7 +190,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     for (piece in piecesList) {
         if (piece.color == Colors.WHITE && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
-            if (piece.moveChecker(oldPos, blackKingPosition, false)) {
+            if (piece.moveChecker(oldPos, blackKingPosition,)) {
                 println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
                 println(blackKingPosition)
                 blackKingInCheck = true
@@ -199,7 +200,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
         if (piece.color == Colors.BLACK && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
 
-            if (piece.moveChecker(oldPos, whiteKingPosition, false)) {
+            if (piece.moveChecker(oldPos, whiteKingPosition)) {
                 println("White King is in check because of: ${piece.cx}, ${piece.cy}, ${piece.kind}")
                 println(whiteKingPosition)
                 whiteKingInCheck = true
@@ -217,15 +218,12 @@ fun doMove(
     newPos: Pair<Int, Int>,
 ): Boolean {
     inCheck(pieces)
-    val moveIsPossible = piece.moveChecker(oldPos, newPos, false)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)}")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
-    if (moveIsPossible) {
         figurBewegen(piece, newPos.first, newPos.second)
         pieceOnNewPos?.disabled = true
-    }
     inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         figurBewegen(piece, oldPos.first, oldPos.second)
