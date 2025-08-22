@@ -17,7 +17,7 @@ class Piece(
     var cy: Int,
     cont: Container,
     var disabled: Boolean = false,
-    val isWhite: Boolean,
+    val isWhite: Boolean
 ) : View() {
     private var pieceKind: PieceKind = kind
 
@@ -65,27 +65,25 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
     ): Boolean {
-        val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-        // Check if white or black king in check
 
         return when (pieceKind) {
-            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos, pieceOnNewPos, isWhite)
+            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos)
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos)
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos)
 
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos)
 
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos)
-            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite)
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos)
         }
     }
 
     private fun movePawn(
         oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean,
+        newPos: Pair<Int, Int>
     ): Boolean {
+        val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+
         val isPawnMoveForward = if (isWhite) {
             newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
         } else {
@@ -109,12 +107,10 @@ class Piece(
     }
 
     private fun moveRook(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         val (oldX, oldY) = oldPos
         val (newX, newY) = newPos
-
         if (oldX == newX) {
             val range = if (newY > oldY) (oldY + 1 until newY) else (newY + 1 until oldY)
             if (range.any { findPiece(oldX, it) != null }) return false
@@ -132,8 +128,7 @@ class Piece(
     }
 
     private fun moveKnight(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         val xDiff = abs(newPos.first - oldPos.first)
         val yDiff = abs(newPos.second - oldPos.second)
@@ -142,8 +137,7 @@ class Piece(
     }
 
     private fun moveBishop(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         val dx = abs(newPos.first - oldPos.first)
         val dy = abs(newPos.second - oldPos.second)
@@ -166,18 +160,13 @@ class Piece(
     }
 
     private fun moveQueen(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean = moveRook(oldPos, newPos) || moveBishop(
-        oldPos,
-        newPos
+        oldPos, newPos
     )
 
     private fun moveKing(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>,
-        pieceOnNewPos: Piece?,
-        isWhite: Boolean
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         // Determine the move direction
         val deltaX = newPos.first - oldPos.first
@@ -185,26 +174,17 @@ class Piece(
 
         // Check if the move is within the valid range for a king
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) {
-            // Check if there is a piece on the new position and its color
-            if (pieceOnNewPos != null) {
-                if (pieceOnNewPos.color == color) {
-                    return false
-                }
-            }
-
-            // If performMove is true, toggle the turn
-
-            println("color: $color , newPosColor: ${pieceOnNewPos?.color}")
             if (color == Colors.WHITE) whiteCastlingLegal = false
             if (color == Colors.BLACK) blackCastlingLegal = false
             return true
         }
         // Castling
         if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
-            println("castling with perform move ")
-            if (pieceOnNewPos != null) return false
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
+                    // If something is in the way of the castling return false
+                    if (findPiece(6, 7) != null || findPiece(5, 7) != null) return false
+
                     val rook = findPiece(7, 7)
                     figurBewegen(rook!!, 5, 7)
                     whiteCastlingLegal = false
@@ -213,6 +193,9 @@ class Piece(
                 }
 
                 newPos.first == 2 && newPos.second == 7 -> {
+
+                    if (findPiece(1, 7) != null || findPiece(2, 7) != null) return false
+
                     val rook = findPiece(0, 7)
                     figurBewegen(rook!!, 3, 7)
                     whiteCastlingLegal = false
@@ -224,6 +207,8 @@ class Piece(
         if (blackCastlingLegal && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
             when {
                 newPos.first == 6 && newPos.second == 0 -> {
+                    if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
+
                     val rook = findPiece(7, 0)
                     figurBewegen(rook!!, 5, 0)
                     blackCastlingLegal = false
@@ -231,6 +216,8 @@ class Piece(
                 }
 
                 newPos.first == 2 && newPos.second == 0 -> {
+                    if (findPiece(1, 0) != null || findPiece(2, 0) != null) return false
+
                     val rook = findPiece(0, 0)
                     figurBewegen(rook!!, 3, 0)
                     blackCastlingLegal = false
