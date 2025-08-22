@@ -10,7 +10,7 @@ korge.keystore
 local.properties
 src/main/*
 .DS_Store
-
+.run
 /kotlin-js-store/
 /build/
 build
