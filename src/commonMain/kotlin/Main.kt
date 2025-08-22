@@ -37,29 +37,23 @@ var chessBoardY = 512
 var offsetX = (screenSizeX - chessBoardX) / 2
 var offsetY = (screenSizeY - chessBoardY) / 2
 
-suspend fun main() =
-    Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
-        val sceneContainer = sceneContainer()
-        sceneContainer.changeTo { GameScene() }
-    }
+suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
+    val sceneContainer = sceneContainer()
+    sceneContainer.changeTo { GameScene() }
+}
 
 class GameScene : Scene() {
-    /**
-     * This method is called to render the main content of the game scene. Main function to set up
-     * the chessboard, pieces, and handle piece movement.
-     */
+
     override suspend fun SContainer.sceneMain() {
-        // Make a nice backdrop for the titleText
 
         // Chessboard container
-        val chessboard =
-            container {
-                position(offsetX, offsetY)
-                width = chessBoardX.toDouble()
-                height = chessBoardY.toDouble()
-                println("Schachbrett initialized")
-                initializeBoard(this)
-            }
+        val chessboard = container {
+            position(offsetX, offsetY)
+            width = chessBoardX.toDouble()
+            height = chessBoardY.toDouble()
+            println("Schachbrett initialized")
+            initializeBoard(this)
+        }
 
         // Load pieces (you can keep the loading logic as you already have it)
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
@@ -80,26 +74,23 @@ class GameScene : Scene() {
         handlePieceMovement()
 
         // Add the shadow and play button
-        val shadow =
-            solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
-                position(offsetX, offsetY)
-                visible = true
-            }
-        val title: Text =
-            text("Chess") {
-                textSize = 50.0
-                centerXOnStage()
-                y = 20.0
-                color = Colors.WHITE
-            }
+        val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
+            position(offsetX, offsetY)
+            visible = true
+        }
+        val title: Text = text("Chess") {
+            textSize = 50.0
+            centerXOnStage()
+            y = 20.0
+            color = Colors.WHITE
+        }
 
         roundRect(Size(title.width + 20, title.height + 20), RectCorners(10), Colors["#3b7d88"]) {
             this.zIndex(-1)
         }.centerOn(title)
-        val playButtonBackground =
-            roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
-                centerOn(chessboard)
-            }
+        val playButtonBackground = roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
+            centerOn(chessboard)
+        }
 
         text("Play") {
             color = Colors.WHITE
@@ -123,11 +114,10 @@ class GameScene : Scene() {
         for (piece in pieces) {
             piece.draggableCloseable(
                 onMouseDrag {
-                    newPosition =
-                        Pair(
-                            (this.globalMousePos.x - offsetX).toInt() / 64,
-                            (this.globalMousePos.y - offsetY).toInt() / 64,
-                        )
+                    newPosition = Pair(
+                        (this.globalMousePos.x - offsetX).toInt() / 64,
+                        (this.globalMousePos.y - offsetY).toInt() / 64,
+                    )
                 },
             ) { info ->
                 error = false
@@ -163,9 +153,7 @@ class GameScene : Scene() {
                                 currentPos!!,
                                 newPosition!!,
                                 false,
-                            ) &&
-                            !blackKingInCheck &&
-                            !whiteKingInCheck
+                            ) && !blackKingInCheck && !whiteKingInCheck
                         ) {
                             if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
