@@ -74,7 +74,7 @@ class Piece(
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos, pieceOnNewPos, performMove)
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos, pieceOnNewPos)
 
-            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos, performMove)
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos, pieceOnNewPos)
 
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos, pieceOnNewPos, performMove)
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos, pieceOnNewPos, isWhite, performMove)
@@ -167,7 +167,6 @@ class Piece(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
         pieceOnNewPos: Piece?,
-        performMove: Boolean,
     ): Boolean {
         val dx = abs(newPos.first - oldPos.first)
         val dy = abs(newPos.second - oldPos.second)
@@ -188,10 +187,6 @@ class Piece(
 
         // Check if the target square is empty or contains an enemy piece
         if (pieceOnNewPos == null || pieceOnNewPos.color != color) {
-            if (performMove) {
-                pieceOnNewPos?.let { removePiece(it) }
-
-            }
             return true
         }
 
@@ -207,7 +202,6 @@ class Piece(
         oldPos,
         newPos,
         pieceOnNewPos,
-        performMove,
     )
 
     private fun moveKing(
@@ -237,13 +231,15 @@ class Piece(
             if (color == Colors.BLACK) blackCastlingLegal = false
             return true
         }
-        // Rochade
+        // Castling
         if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
+            println("castling with perform move = $performMove ")
             if (pieceOnNewPos != null) return false
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
                     if (performMove) {
                         val rook = findPiece(7, 7)
+                        println("trying to castle with $rook")
                         figurBewegen(rook!!, 5, 7)
                         whiteCastlingLegal = false
                     }
@@ -253,6 +249,7 @@ class Piece(
                 newPos.first == 2 && newPos.second == 7 -> {
                     if (performMove) {
                         val rook = findPiece(0, 7)
+                        println("trying to castle with rook2 $rook")
                         figurBewegen(rook!!, 3, 7)
                         whiteCastlingLegal = false
                     }

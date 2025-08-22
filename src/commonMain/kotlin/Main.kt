@@ -148,6 +148,7 @@ class GameScene : Scene() {
                             println("in check")
                             if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
                                 pieceOnNewPos?.removePiece(pieceOnNewPos)
+                                whiteTurn = !whiteTurn
                             }
                         } else if (selectedPiece!!.moveChecker(
                                 currentPos!!,
