@@ -79,8 +79,7 @@ class Piece(
     }
 
     private fun movePawn(
-        oldPos: Pair<Int, Int>,
-        newPos: Pair<Int, Int>
+        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         val pieceOnNewPos = findPiece(newPos.first, newPos.second)
 

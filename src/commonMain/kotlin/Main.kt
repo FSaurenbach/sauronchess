@@ -46,7 +46,6 @@ class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
 
-        // Chessboard container
         val chessboard = container {
             position(offsetX, offsetY)
             width = chessBoardX.toDouble()
@@ -55,7 +54,7 @@ class GameScene : Scene() {
             initializeBoard(this)
         }
 
-        // Load pieces (you can keep the loading logic as you already have it)
+        // Load pictures
         whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
         whiteRook = resourcesVfs["w_rook.png"].readBitmap()
         whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
@@ -190,7 +189,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     for (piece in piecesList) {
         if (piece.color == Colors.WHITE && !piece.disabled) {
             val oldPos = Pair(piece.cx, piece.cy)
-            if (piece.moveChecker(oldPos, blackKingPosition,)) {
+            if (piece.moveChecker(oldPos, blackKingPosition)) {
                 println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
                 println(blackKingPosition)
                 blackKingInCheck = true
