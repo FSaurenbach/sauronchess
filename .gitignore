@@ -165,3 +165,4 @@ build/kotlin/compileKotlinJs/cacheable/caches-js/lookups/lookups.tab.values.at
 build/kotlin/compileKotlinJs/cacheable/caches-js/lookups/lookups.tab_i
 build/kotlin/compileKotlinJs/cacheable/last-build.bin
 build/kotlin/compileKotlinJs/local-state/build-history.bin
+/.kotlin/

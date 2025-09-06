@@ -69,8 +69,7 @@ class GameScene : Scene() {
         blackQueen = resourcesVfs["b_queen.png"].readBitmap()
         blackKing = resourcesVfs["b_king.png"].readBitmap()
 
-        addAllPieces(chessboard)
-        handlePieceMovement()
+
 
         // Add the shadow and play button
         val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
@@ -100,24 +99,28 @@ class GameScene : Scene() {
                 shadow.visible = false
                 playButtonBackground.visible = false
                 this.visible = false
+                addAllPieces(chessboard)
+                this@sceneMain.handlePieceMovement()
             }
         }
     }
 
     private fun SContainer.handlePieceMovement() {
+
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var selectedPiece: Piece? = null
         var error: Boolean
-
         for (piece in pieces) {
-            piece.draggableCloseable(
+            piece.draggable(
+
                 onMouseDrag {
                     newPosition = Pair(
                         (this.globalMousePos.x - offsetX).toInt() / 64,
                         (this.globalMousePos.y - offsetY).toInt() / 64,
                     )
                 },
+                autoMove = true
             ) { info ->
                 error = false
                 // Dragging start
@@ -132,7 +135,7 @@ class GameScene : Scene() {
                 // Dragging end
                 if (info.end && selectedPiece != null) {
                     // Check if newPosition is within the game board
-                    if (newPosition!!.first < 0 || newPosition!!.first >= 8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
+                    if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                         error = true
                         // Reset variables
                         selectedPiece = null
