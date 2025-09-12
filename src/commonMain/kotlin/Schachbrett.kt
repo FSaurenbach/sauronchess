@@ -43,22 +43,22 @@ fun findPiece(
     return null
 }
 
-fun figurBewegen(
-    figur: Piece,
+fun movePiece(
+    piece: Piece,
     newX: Int,
     newY: Int,
 ) {
-    figur.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+    piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
 
-    figur.cx = newX
-    figur.cy = newY
+    piece.cx = newX
+    piece.cy = newY
 }
 
-fun objektBewegen(
-    figur: View,
+fun moveCell(
+    cell: View,
     newX: Int,
     newY: Int,
 ) {
-    figur.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
-    figur.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+    cell.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
+    cell.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
 }

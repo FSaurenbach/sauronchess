@@ -1,9 +1,7 @@
 @file:Suppress("ktlint:standard:no-wildcard-imports")
 
 import korlibs.image.color.*
-import korlibs.korge.scene.*
 import korlibs.korge.view.*
-import korlibs.math.geom.*
 
 /**
  * Represents a cell in a grid with a specified color and position.
@@ -26,7 +24,7 @@ class Cell(
         val cell = SolidRect(64, 64)
 
         // Calculate the x and y coordinates of the cell within the scene
-        objektBewegen(cell, cx, cy)
+        moveCell(cell, cx, cy)
 
         // Set the position of the cell
 

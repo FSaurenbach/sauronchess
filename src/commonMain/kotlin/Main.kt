@@ -155,11 +155,11 @@ fun doMove(
     println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
-        figurBewegen(piece, newPos.first, newPos.second)
+        movePiece(piece, newPos.first, newPos.second)
         pieceOnNewPos?.disabled = true
     inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
-        figurBewegen(piece, oldPos.first, oldPos.second)
+        movePiece(piece, oldPos.first, oldPos.second)
         println("move is not possible")
         return false
     }

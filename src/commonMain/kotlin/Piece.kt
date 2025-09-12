@@ -54,7 +54,7 @@ class Piece(
         piece.addTo(this)
         pieces.add(this)
 
-        objektBewegen(this, cx, cy)
+        movePiece(this, cx, cy)
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var error: Boolean
@@ -86,9 +86,6 @@ class Piece(
                 // Check if newPosition is within the game board
                 if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                     error = true
-                    // Reset variables
-                    newPosition = null
-                    currentPos = null
                 }
                 val oldPos = currentPos
                 println("currentPos $currentPos , new Pos $newPosition")
@@ -118,7 +115,7 @@ class Piece(
 
                         }
                     } else {
-                        figurBewegen(this, oldPos!!.first, oldPos.second)
+                        movePiece(this, oldPos!!.first, oldPos.second)
 
                     }
 
@@ -126,7 +123,13 @@ class Piece(
                     currentPos = null
                     error = false
                 }
+
+                else movePiece(this, oldPos!!.first, oldPos.second)
                 error = false
+
+                // Reset variables
+                newPosition = null
+                currentPos = null
                 println()
                 println()
 
@@ -265,7 +268,7 @@ class Piece(
                     if (findPiece(6, 7) != null || findPiece(5, 7) != null) return false
 
                     val rook = findPiece(7, 7)
-                    figurBewegen(rook!!, 5, 7)
+                    movePiece(rook!!, 5, 7)
                     whiteCastlingLegal = false
 
                     return true
@@ -276,7 +279,7 @@ class Piece(
                     if (findPiece(1, 7) != null || findPiece(2, 7) != null) return false
 
                     val rook = findPiece(0, 7)
-                    figurBewegen(rook!!, 3, 7)
+                    movePiece(rook!!, 3, 7)
                     whiteCastlingLegal = false
 
                     return true
@@ -289,7 +292,7 @@ class Piece(
                     if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
 
                     val rook = findPiece(7, 0)
-                    figurBewegen(rook!!, 5, 0)
+                    movePiece(rook!!, 5, 0)
                     blackCastlingLegal = false
                     return true
                 }
@@ -298,7 +301,7 @@ class Piece(
                     if (findPiece(1, 0) != null || findPiece(2, 0) != null) return false
 
                     val rook = findPiece(0, 0)
-                    figurBewegen(rook!!, 3, 0)
+                    movePiece(rook!!, 3, 0)
                     blackCastlingLegal = false
                     return true
                 }
