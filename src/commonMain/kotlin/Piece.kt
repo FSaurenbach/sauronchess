@@ -1,9 +1,7 @@
 @file:Suppress("ktlint:standard:no-wildcard-imports")
 
 import korlibs.image.color.*
-import korlibs.io.resources.*
 import korlibs.korge.input.*
-import korlibs.korge.render.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
 import kotlin.math.*
@@ -11,18 +9,24 @@ import kotlin.math.*
 enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
+
 inline fun Container.piece(
-    kind: PieceKind,color: RGBA,cx: Int,cy: Int,cont: Container,disabled: Boolean = false,isWhite: Boolean, callback: @ViewDslMarker Piece.() -> Unit = {}
-): Piece = Piece(kind, color, cx, cy, cont, disabled, isWhite).addTo(this, callback)
+    kind: PieceKind,
+    color: RGBA,
+    cx: Int,
+    cy: Int,
+    disabled: Boolean = false,
+    isWhite: Boolean,
+    callback: @ViewDslMarker Piece.() -> Unit = {}
+): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this, callback)
 
 class Piece(
     var kind: PieceKind,
     val color: RGBA,
     var cx: Int,
     var cy: Int,
-    cont: Container,
     var disabled: Boolean = false,
-    val isWhite: Boolean
+    private val isWhite: Boolean
 ) : Container() {
     private var pieceKind: PieceKind = kind
 
@@ -48,21 +52,20 @@ class Piece(
 
         piece.size(Size(64, 64))
         piece.addTo(this)
+        pieces.add(this)
 
         objektBewegen(this, cx, cy)
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
-        var selectedPiece: Piece? = null
         var error: Boolean
-        this.draggableCloseable (
+        this.draggableCloseable(
 
             onMouseDrag {
                 newPosition = Pair(
                     (this.globalMousePos.x - offsetX).toInt() / 64,
                     (this.globalMousePos.y - offsetY).toInt() / 64,
                 )
-            },
-            autoMove = false
+            }, autoMove = false
         ) { info ->
             if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
                 info.view.x = info.viewNextXY.x
@@ -71,70 +74,65 @@ class Piece(
             error = false
             // Dragging start
             if (info.start) {
-                println("draggg")
-                val pieceAtCurrentPos = this
-                println(pieceAtCurrentPos)
-                selectedPiece = this
-                currentPos = Pair(this.cx,this.cy)
-                /*if (findPiece(newPosition!!.first, newPosition!!.second) != null) {
-                    currentPos = newPosition
-                    selectedPiece = pieceAtCurrentPos
-                }*/
+                // init vars
+                currentPos = Pair(this.cx, this.cy)
+                println(this.zIndex)
+                this.zIndex = 1.0
             }
             // Dragging end
 
-            if (info.end && selectedPiece != null) {
-
+            if (info.end) {
+                this.zIndex = 0.0
                 // Check if newPosition is within the game board
                 if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                     error = true
                     // Reset variables
-                    selectedPiece = null
                     newPosition = null
                     currentPos = null
                 }
                 val oldPos = currentPos
                 println("currentPos $currentPos , new Pos $newPosition")
                 val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
-                if (pieceOnNewPos?.color == selectedPiece?.color) error = true
+                if (pieceOnNewPos?.color == color) error = true
                 // Perform the move if no error
                 if (!error) {
-                    println("thad")
-                    println("currentPos $currentPos , new Pos $newPosition, selectedp $selectedPiece")
+                    println("currentPos $currentPos , new Pos $newPosition, whiteTurn $whiteTurn")
 
                     inCheck(pieces)
                     if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
                         println("in check")
-                        if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                        if (doMove(this, currentPos!!, newPosition!!)) {
                             whiteTurn = !whiteTurn
+                            pieceOnNewPos?.let { removePiece(it) }
+
                         }
 
-                    } else if (selectedPiece!!.moveChecker(
+                    } else if (moveChecker(
                             currentPos!!,
                             newPosition!!,
                         ) && !blackKingInCheck && !whiteKingInCheck
                     ) {
-                        if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                        if (doMove(this, currentPos!!, newPosition!!)) {
                             whiteTurn = !whiteTurn
-                            println("doing move?")
+                            pieceOnNewPos?.let { removePiece(it) }
+
                         }
-                    }
-                    else {
-                        println("rejecting hard")
+                    } else {
                         figurBewegen(this, oldPos!!.first, oldPos.second)
 
                     }
 
-                    selectedPiece = null
                     newPosition = null
                     currentPos = null
                     error = false
                 }
                 error = false
+                println()
+                println()
+
             }
         }
     }
-
 
 
     /**
@@ -165,7 +163,6 @@ class Piece(
         oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
     ): Boolean {
         val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-
         val isPawnMoveForward = if (isWhite) {
             newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
         } else {
@@ -311,12 +308,6 @@ class Piece(
         return false
     }
 
-    fun removePiece(piece: Piece) {
-        pieces.remove(piece)
-        piece.piece.removeFromParent()
-
-        println("Piece removed: $piece")
-    }
 
 }
 
@@ -324,26 +315,31 @@ fun addAllPieces(cont: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
     for (i in 0 until 8) {
-        cont.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true)
+        cont.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
     }
-    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont, isWhite = true)
-    cont.piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, isWhite = true)
+    cont.piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, isWhite = true)
 
     for (i in 0 until 8) {
-        cont.piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont, isWhite = false)
+        cont.piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, isWhite = false)
     }
-    cont.piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont, isWhite = false)
-    cont.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, isWhite = false)
+    cont.piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, isWhite = false)
+    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, isWhite = false)
+    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, isWhite = false)
+    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, isWhite = false)
+    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, isWhite = false)
+    cont.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, isWhite = false)
+    cont.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
+}
+
+fun removePiece(piece: Piece) {
+    pieces.remove(piece)
+    piece.removeFromParent()
 }

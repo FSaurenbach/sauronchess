@@ -100,18 +100,11 @@ class GameScene : Scene() {
                 playButtonBackground.visible = false
                 this.visible = false
                 addAllPieces(chessboard)
-                this@sceneMain.handlePieceMovement()
             }
         }
     }
 
-    private fun SContainer.handlePieceMovement() {
-        pieces.forEach {
-            print("d")
-        }
 
-
-    }
 }
 
 fun inCheck(piecesList: ArrayList<Piece>): Boolean {
@@ -151,6 +144,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     return false
 }
 
+@Suppress("SuspiciousIndentation")
 fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
@@ -171,6 +165,8 @@ fun doMove(
     }
     inCheck(pieces)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
+    piece.cx = newPos.first
+    piece.cy = newPos.second
     pieceOnNewPos?.disabled = false
     return true
 }
