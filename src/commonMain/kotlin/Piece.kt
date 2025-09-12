@@ -62,8 +62,12 @@ class Piece(
                     (this.globalMousePos.y - offsetY).toInt() / 64,
                 )
             },
-            autoMove = true
+            autoMove = false
         ) { info ->
+            if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
+                info.view.x = info.viewNextXY.x
+                info.view.y = info.viewNextXY.y
+            }
             error = false
             // Dragging start
             if (info.start) {
@@ -322,24 +326,24 @@ fun addAllPieces(cont: Container) {
     for (i in 0 until 8) {
         cont.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true)
     }
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont, isWhite = true))
-    pieces.add(Piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont, isWhite = true))
+    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, cont, isWhite = true)
+    cont.piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, cont, isWhite = true)
 
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont, isWhite = false))
+        cont.piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, cont, isWhite = false)
     }
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont, isWhite = false))
-    pieces.add(Piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont, isWhite = false))
+    cont.piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, cont, isWhite = false)
+    cont.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, cont, isWhite = false)
 }
