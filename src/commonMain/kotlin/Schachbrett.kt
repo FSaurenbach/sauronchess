@@ -48,11 +48,10 @@ fun figurBewegen(
     newX: Int,
     newY: Int,
 ) {
-    figur.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
     figur.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+
     figur.cx = newX
     figur.cy = newY
-    figur.bw(newX, newY)
 }
 
 fun objektBewegen(

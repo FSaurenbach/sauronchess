@@ -106,74 +106,11 @@ class GameScene : Scene() {
     }
 
     private fun SContainer.handlePieceMovement() {
-
-        var newPosition: Pair<Int, Int>? = null
-        var currentPos: Pair<Int, Int>? = null
-        var selectedPiece: Piece? = null
-        var error: Boolean
-        for (piece in pieces) {
-            piece.draggable(
-
-                onMouseDrag {
-                    newPosition = Pair(
-                        (this.globalMousePos.x - offsetX).toInt() / 64,
-                        (this.globalMousePos.y - offsetY).toInt() / 64,
-                    )
-                },
-                autoMove = true
-            ) { info ->
-                error = false
-                // Dragging start
-                if (info.start) {
-                    val pieceAtCurrentPos = findPiece(newPosition!!.first, newPosition!!.second)
-
-                    if (findPiece(newPosition!!.first, newPosition!!.second) != null) {
-                        currentPos = newPosition
-                        selectedPiece = pieceAtCurrentPos
-                    }
-                }
-                // Dragging end
-                if (info.end && selectedPiece != null) {
-                    // Check if newPosition is within the game board
-                    if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
-                        error = true
-                        // Reset variables
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                    }
-                    val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
-                    if (pieceOnNewPos?.color == selectedPiece?.color) error = true
-                    // Perform the move if no error
-                    if (!error) {
-                        inCheck(pieces)
-
-                        if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
-                            println("in check")
-                            if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
-                                pieceOnNewPos?.removePiece(pieceOnNewPos)
-                                whiteTurn = !whiteTurn
-                            }
-                        } else if (selectedPiece!!.moveChecker(
-                                currentPos!!,
-                                newPosition!!,
-                            ) && !blackKingInCheck && !whiteKingInCheck
-                        ) {
-                            if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
-                                pieceOnNewPos?.removePiece(pieceOnNewPos)
-                                whiteTurn = !whiteTurn
-                            }
-                        }
-
-                        selectedPiece = null
-                        newPosition = null
-                        currentPos = null
-                        error = false
-                    }
-                    error = false
-                }
-            }
+        pieces.forEach {
+            print("d")
         }
+
+
     }
 }
 
@@ -221,7 +158,7 @@ fun doMove(
 ): Boolean {
     inCheck(pieces)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)}")
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
         figurBewegen(piece, newPos.first, newPos.second)

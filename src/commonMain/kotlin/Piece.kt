@@ -1,6 +1,8 @@
 @file:Suppress("ktlint:standard:no-wildcard-imports")
 
 import korlibs.image.color.*
+import korlibs.io.resources.*
+import korlibs.korge.input.*
 import korlibs.korge.render.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
@@ -9,6 +11,9 @@ import kotlin.math.*
 enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
+inline fun Container.piece(
+    kind: PieceKind,color: RGBA,cx: Int,cy: Int,cont: Container,disabled: Boolean = false,isWhite: Boolean, callback: @ViewDslMarker Piece.() -> Unit = {}
+): Piece = Piece(kind, color, cx, cy, cont, disabled, isWhite).addTo(this, callback)
 
 class Piece(
     var kind: PieceKind,
@@ -18,7 +23,7 @@ class Piece(
     cont: Container,
     var disabled: Boolean = false,
     val isWhite: Boolean
-) : View() {
+) : Container() {
     private var pieceKind: PieceKind = kind
 
     // Set the images
@@ -42,17 +47,91 @@ class Piece(
     init {
 
         piece.size(Size(64, 64))
-        piece.addTo(cont)
-        objektBewegen(piece, cx, cy)
+        piece.addTo(this)
+
+        objektBewegen(this, cx, cy)
+        var newPosition: Pair<Int, Int>? = null
+        var currentPos: Pair<Int, Int>? = null
+        var selectedPiece: Piece? = null
+        var error: Boolean
+        this.draggableCloseable (
+
+            onMouseDrag {
+                newPosition = Pair(
+                    (this.globalMousePos.x - offsetX).toInt() / 64,
+                    (this.globalMousePos.y - offsetY).toInt() / 64,
+                )
+            },
+            autoMove = true
+        ) { info ->
+            error = false
+            // Dragging start
+            if (info.start) {
+                println("draggg")
+                val pieceAtCurrentPos = this
+                println(pieceAtCurrentPos)
+                selectedPiece = this
+                currentPos = Pair(this.cx,this.cy)
+                /*if (findPiece(newPosition!!.first, newPosition!!.second) != null) {
+                    currentPos = newPosition
+                    selectedPiece = pieceAtCurrentPos
+                }*/
+            }
+            // Dragging end
+
+            if (info.end && selectedPiece != null) {
+
+                // Check if newPosition is within the game board
+                if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
+                    error = true
+                    // Reset variables
+                    selectedPiece = null
+                    newPosition = null
+                    currentPos = null
+                }
+                val oldPos = currentPos
+                println("currentPos $currentPos , new Pos $newPosition")
+                val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
+                if (pieceOnNewPos?.color == selectedPiece?.color) error = true
+                // Perform the move if no error
+                if (!error) {
+                    println("thad")
+                    println("currentPos $currentPos , new Pos $newPosition, selectedp $selectedPiece")
+
+                    inCheck(pieces)
+                    if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
+                        println("in check")
+                        if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                            whiteTurn = !whiteTurn
+                        }
+
+                    } else if (selectedPiece!!.moveChecker(
+                            currentPos!!,
+                            newPosition!!,
+                        ) && !blackKingInCheck && !whiteKingInCheck
+                    ) {
+                        if (doMove(selectedPiece!!, currentPos!!, newPosition!!)) {
+                            whiteTurn = !whiteTurn
+                            println("doing move?")
+                        }
+                    }
+                    else {
+                        println("rejecting hard")
+                        figurBewegen(this, oldPos!!.first, oldPos.second)
+
+                    }
+
+                    selectedPiece = null
+                    newPosition = null
+                    currentPos = null
+                    error = false
+                }
+                error = false
+            }
+        }
     }
 
-    fun bw(
-        newX: Int,
-        newY: Int,
-    ) {
-        piece.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
-        piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
-    }
+
 
     /**
      * Checks if the move of the piece is valid.
@@ -235,14 +314,13 @@ class Piece(
         println("Piece removed: $piece")
     }
 
-    override fun renderInternal(ctx: RenderContext) {}
 }
 
 fun addAllPieces(cont: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
     for (i in 0 until 8) {
-        pieces.add(Piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true))
+        cont.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, cont, isWhite = true)
     }
     pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, cont, isWhite = true))
     pieces.add(Piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, cont, isWhite = true))
