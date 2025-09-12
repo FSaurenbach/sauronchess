@@ -13,7 +13,6 @@ korge {
     icon = File(rootDir,"icon.png")
     serializationJson()
     jvmMainClassName = "MainKt"
-    androidPermission("android.permission.INTERNET")
     version = "0.1.0"
     versionCode = 1
 
