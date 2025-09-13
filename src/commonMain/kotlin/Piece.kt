@@ -97,13 +97,12 @@ class Piece(
                                 color = Colors["#ff000081"]
                                 multiplier = 1.5
                             }
-                            var circle = Circle(10*multiplier, fill = color)
+                            val circle = Circle(10*multiplier, fill = color)
                             circle.addFilter(BlurFilter(multiplier*1))
 
                             circle.addTo(this.parent!!)
                             circle.pos = cell!!.pos
                             circle.centerOn(cell.cell)
-                            //cell?.color(Colors.DARKGRAY)
                             circles.add(circle)
                         }
                     }
