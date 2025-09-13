@@ -1,4 +1,6 @@
 import korlibs.image.color.*
+import korlibs.image.format.*
+import korlibs.io.file.std.*
 import korlibs.korge.view.*
 
 fun removePiece(piece: Piece) {
@@ -33,4 +35,20 @@ fun addAllPieces(cont: Container) {
     cont.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
 }
 
+/**Load bitmaps*/
+suspend fun loadPictures(){
+    // Load pictures
+    whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
+    whiteRook = resourcesVfs["w_rook.png"].readBitmap()
+    whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
+    whiteBishop = resourcesVfs["w_bishop.png"].readBitmap()
+    whiteQueen = resourcesVfs["w_queen.png"].readBitmap()
+    whiteKing = resourcesVfs["w_king.png"].readBitmap()
 
+    blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
+    blackRook = resourcesVfs["b_rook.png"].readBitmap()
+    blackKnight = resourcesVfs["b_knight.png"].readBitmap()
+    blackBishop = resourcesVfs["b_bishop.png"].readBitmap()
+    blackQueen = resourcesVfs["b_queen.png"].readBitmap()
+    blackKing = resourcesVfs["b_king.png"].readBitmap()
+}

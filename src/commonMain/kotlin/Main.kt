@@ -2,8 +2,6 @@
 
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
-import korlibs.image.format.*
-import korlibs.io.file.std.*
 import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
@@ -50,26 +48,10 @@ class GameScene : Scene() {
             position(offsetX, offsetY)
             width = chessBoardX
             height = chessBoardY
-            println("Schachbrett initialized")
-            val boardContainer = container()
-            initializeBoard(boardContainer)
+            initializeBoard(container())
         }
 
-        // Load pictures
-        whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
-        whiteRook = resourcesVfs["w_rook.png"].readBitmap()
-        whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
-        whiteBishop = resourcesVfs["w_bishop.png"].readBitmap()
-        whiteQueen = resourcesVfs["w_queen.png"].readBitmap()
-        whiteKing = resourcesVfs["w_king.png"].readBitmap()
-
-        blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
-        blackRook = resourcesVfs["b_rook.png"].readBitmap()
-        blackKnight = resourcesVfs["b_knight.png"].readBitmap()
-        blackBishop = resourcesVfs["b_bishop.png"].readBitmap()
-        blackQueen = resourcesVfs["b_queen.png"].readBitmap()
-        blackKing = resourcesVfs["b_king.png"].readBitmap()
-
+        loadPictures()
 
 
         // Add the shadow and play button
@@ -113,7 +95,6 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     blackKingInCheck = false
 
 
-
     val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.cxy()
     val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy()
 
@@ -127,8 +108,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
                 whiteKingInCheck = true
                 return true
             }
-        }
-        else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
+        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
             if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
                 println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
@@ -143,6 +123,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     return false
 }
 
+/** Execute move after it has been verified by moveChecker*/
 fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
@@ -151,7 +132,10 @@ fun doMove(
     if ((whiteTurn && piece.color == Colors.BLACK) || (!whiteTurn && piece.color == Colors.WHITE)) return false
 
     inCheck(pieces)
-    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+    val pieceOnNewPos = findPiece(
+        newPos.first,
+        newPos.second
+    )
     /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
 
     movePiece(piece, newPos.first, newPos.second)

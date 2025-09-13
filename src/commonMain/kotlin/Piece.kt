@@ -342,7 +342,7 @@ class Piece(
 
 
 }
-
+/** Simulates a move for showing available moves.*/
 fun simulateMove(oldPos: Pair<Int, Int>,
                  newPos: Pair<Int, Int>, piece:Piece): Boolean {
     if (!piece.moveChecker(Pair(oldPos.first, oldPos.second), Pair(newPos.first, newPos.second))) return false
