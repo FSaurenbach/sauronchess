@@ -27,7 +27,7 @@ class Cell(
     var cy: Int,
 ) : Container() {
     // Retrieve the cell from the board based on the coordinates
-    private val cell:SolidRect = solidRect(64, 64)
+    val cell:SolidRect = solidRect(64, 64)
     val baseColor = color
 
     init {

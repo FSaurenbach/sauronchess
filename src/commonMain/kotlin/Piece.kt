@@ -3,6 +3,8 @@
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
+import korlibs.korge.view.align.*
+import korlibs.korge.view.filter.*
 import korlibs.math.geom.*
 import kotlin.math.*
 
@@ -72,6 +74,9 @@ class Piece(
                 info.view.x = info.viewNextXY.x
                 info.view.y = info.viewNextXY.y
             }
+            else {
+                return@draggableCloseable
+            }
             error = false
             // Dragging start
             if (info.start) {
@@ -79,6 +84,7 @@ class Piece(
                 currentPos = Pair(this.cx, this.cy)
                 println(this.zIndex)
                 this.zIndex = 1.0
+                this.scale(1.2,1.2)
 
                 // Show available moves
                 for (x in 0..7){
@@ -98,6 +104,7 @@ class Piece(
 
             if (info.end) {
                 this.zIndex = 0.0
+                this.scale(1.0,1.0)
                 // Check if newPosition is within the game board
                 if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
                     error = true
@@ -329,6 +336,10 @@ class Piece(
         return false
     }
 
+    fun cxy(): Pair<Int, Int> {
+        return Pair(cx,cy)
+    }
+
 
 }
 
@@ -354,40 +365,6 @@ fun simulateMove(oldPos: Pair<Int, Int>,
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
     return true
-    /*
-    return true*/
 }
 
 
-fun addAllPieces(cont: Container) {
-    // Add all pieces in right order and add them to the pieces list (white pieces are at the
-    // bottom)
-    for (i in 0 until 8) {
-        cont.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
-    }
-    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, isWhite = true)
-    cont.piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, isWhite = true)
-
-    for (i in 0 until 8) {
-        cont.piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, isWhite = false)
-    }
-    cont.piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, isWhite = false)
-    cont.piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, isWhite = false)
-    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, isWhite = false)
-    cont.piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, isWhite = false)
-    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, isWhite = false)
-    cont.piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, isWhite = false)
-    cont.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, isWhite = false)
-    cont.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
-}
-
-fun removePiece(piece: Piece) {
-    pieces.remove(piece)
-    piece.removeFromParent()
-}

@@ -111,30 +111,27 @@ class GameScene : Scene() {
 fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
-    var whiteKingPosition = Pair(0, 0)
-    var blackKingPosition = Pair(0, 0)
-    for (piece in piecesList) {
-        if (piece.kind == PieceKind.WhiteKing) {
-            whiteKingPosition = Pair(piece.cx, piece.cy)
-        } else if (piece.kind == PieceKind.BlackKing) {
-            blackKingPosition = Pair(piece.cx, piece.cy)
-        }
-    }
-    for (piece in piecesList) {
-        if (piece.color == Colors.WHITE && !piece.disabled) {
-            val oldPos = Pair(piece.cx, piece.cy)
-            if (piece.moveChecker(oldPos, blackKingPosition)) {
-                println("true: ${piece.cx}, ${piece.cy}, ${piece.kind}")
+
+
+
+    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }?.cxy()
+    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }?.cxy()
+
+    for (enemyPiece in piecesList) {
+        if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
+            val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
+            if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
+                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                 println(blackKingPosition)
                 blackKingInCheck = true
                 return true
             }
         }
-        if (piece.color == Colors.BLACK && !piece.disabled) {
-            val oldPos = Pair(piece.cx, piece.cy)
+        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
+            val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
-            if (piece.moveChecker(oldPos, whiteKingPosition)) {
-                println("White King is in check because of: ${piece.cx}, ${piece.cy}, ${piece.kind}")
+            if (enemyPiece.moveChecker(enemyPos, whiteKingPosition)) {
+                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                 println(whiteKingPosition)
                 whiteKingInCheck = true
                 return true
@@ -145,27 +142,29 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     return false
 }
 
-@Suppress("SuspiciousIndentation")
 fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
     newPos: Pair<Int, Int>,
 ): Boolean {
+    if ((whiteTurn && piece.color == Colors.BLACK) || (!whiteTurn && piece.color == Colors.WHITE)) return false
+
     inCheck(pieces)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
-    if (whiteTurn && piece.color == Colors.BLACK) return false
-    if (!whiteTurn && piece.color == Colors.WHITE) return false
-        movePiece(piece, newPos.first, newPos.second)
-        pieceOnNewPos?.disabled = true
+    /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
+
+    // Return if it's not your turn
+
+    movePiece(piece, newPos.first, newPos.second)
+    pieceOnNewPos?.disabled = true
     inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         movePiece(piece, oldPos.first, oldPos.second)
-        println("move is not possible")
+        println("King will (still) be in check after this move!")
         return false
     }
     inCheck(pieces)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
+    println("Doing move: ${piece.cx}, ${piece.cy}, (still) inCheck: ${inCheck(pieces)}")
     piece.cx = newPos.first
     piece.cy = newPos.second
     pieceOnNewPos?.disabled = false
