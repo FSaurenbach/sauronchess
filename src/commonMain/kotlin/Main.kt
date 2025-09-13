@@ -114,8 +114,8 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
 
 
 
-    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }?.cxy()
-    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }?.cxy()
+    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.cxy()
+    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy()
 
     for (enemyPiece in piecesList) {
         if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
