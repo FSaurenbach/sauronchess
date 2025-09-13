@@ -32,8 +32,8 @@ var blackKingInCheck = false
 var whiteTurn = true
 var screenSizeX = 800
 var screenSizeY = 800
-var chessBoardX = 512
-var chessBoardY = 512
+var chessBoardX = 512.0
+var chessBoardY = 512.0
 var offsetX = (screenSizeX - chessBoardX) / 2
 var offsetY = (screenSizeY - chessBoardY) / 2
 
@@ -48,8 +48,8 @@ class GameScene : Scene() {
 
         val chessboard = container {
             position(offsetX, offsetY)
-            width = chessBoardX.toDouble()
-            height = chessBoardY.toDouble()
+            width = chessBoardX
+            height = chessBoardY
             println("Schachbrett initialized")
             val boardContainer = container()
             initializeBoard(boardContainer)
@@ -153,8 +153,6 @@ fun doMove(
     inCheck(pieces)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
-
-    // Return if it's not your turn
 
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
