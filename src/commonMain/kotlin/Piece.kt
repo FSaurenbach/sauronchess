@@ -1,8 +1,7 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
+import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
 import korlibs.korge.view.filter.*
 import korlibs.math.geom.*
@@ -60,7 +59,7 @@ class Piece(
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var error: Boolean
-        var coloredCells = ArrayList<Cell>()
+        val circles = ArrayList<Circle>()
         this.draggableCloseable(
 
             onMouseDrag {
@@ -92,10 +91,20 @@ class Piece(
                         if (simulateMove(Pair(cx, cy), Pair(x,y), this)) {
                             println("the move from $cx, $cy -> $x, $y is possible")
                             val cell = findCell(x,y)
-                            cell?.color(Colors.RED)
-                            if (cell != null) {
-                                coloredCells.add(cell)
+                            var color = Colors["#3b3b3b81"]
+                            var multiplier = 1.0
+                            if (findPiece(x,y) !=null) {
+                                color = Colors["#ff000081"]
+                                multiplier = 1.5
                             }
+                            var circle = Circle(10*multiplier, fill = color)
+                            circle.addFilter(BlurFilter(multiplier*1))
+
+                            circle.addTo(this.parent!!)
+                            circle.pos = cell!!.pos
+                            circle.centerOn(cell.cell)
+                            //cell?.color(Colors.DARKGRAY)
+                            circles.add(circle)
                         }
                     }
                 }
@@ -152,8 +161,8 @@ class Piece(
                 // Reset variables
                 newPosition = null
                 currentPos = null
-                for (cell in coloredCells){
-                    cell.color(cell.baseColor)
+                for (circle in circles){
+                    circle.removeFromParent()
                 }
                 println()
                 println()

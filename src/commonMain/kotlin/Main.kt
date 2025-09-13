@@ -1,5 +1,3 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.korge.*
