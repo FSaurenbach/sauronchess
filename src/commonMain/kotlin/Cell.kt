@@ -13,25 +13,43 @@ import korlibs.korge.view.*
  * @property cx The x-coordinate of the cell in the grid.
  * @property cy The y-coordinate of the cell in the grid.
  */
+
+inline fun Container.cell(
+    color:RGBA,
+    cx: Int,
+    cy: Int,
+    callback: @ViewDslMarker Cell.() -> Unit = {}
+): Cell = Cell(color, cx, cy).addTo(this, callback)
+
 class Cell(
     color: RGBA,
-    private var cx: Int,
-    private var cy: Int,
-    cont: Container,
+    var cx: Int,
+    var cy: Int,
 ) : Container() {
+    // Retrieve the cell from the board based on the coordinates
+    private val cell:SolidRect = solidRect(64, 64)
+    val baseColor = color
+
     init {
-        // Retrieve the cell from the board based on the coordinates
-        val cell = SolidRect(64, 64)
 
         // Calculate the x and y coordinates of the cell within the scene
-        moveCell(cell, cx, cy)
+        moveCell(this, cx, cy)
 
         // Set the position of the cell
 
         // Set the color of the cell
         cell.color = color
 
-        // Add the cell to the specified scene container
-        cont.addChild(cell)
     }
+    fun color(color: RGBA) {
+        cell.color = color
+    }
+}
+
+
+fun findCell(cx: Int, cy: Int): Cell? {
+    for (cell in cells){
+        if (cell.cx == cx && cell.cy == cy) return cell
+    }
+    return null
 }

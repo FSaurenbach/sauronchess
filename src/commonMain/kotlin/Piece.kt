@@ -58,6 +58,7 @@ class Piece(
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var error: Boolean
+        var coloredCells = ArrayList<Cell>()
         this.draggableCloseable(
 
             onMouseDrag {
@@ -78,6 +79,20 @@ class Piece(
                 currentPos = Pair(this.cx, this.cy)
                 println(this.zIndex)
                 this.zIndex = 1.0
+
+                // Show available moves
+                for (x in 0..7){
+                    for (y in 0..7){
+                        if (simulateMove(Pair(cx, cy), Pair(x,y), this)) {
+                            println("the move from $cx, $cy -> $x, $y is possible")
+                            val cell = findCell(x,y)
+                            cell?.color(Colors.RED)
+                            if (cell != null) {
+                                coloredCells.add(cell)
+                            }
+                        }
+                    }
+                }
             }
             // Dragging end
 
@@ -130,6 +145,9 @@ class Piece(
                 // Reset variables
                 newPosition = null
                 currentPos = null
+                for (cell in coloredCells){
+                    cell.color(cell.baseColor)
+                }
                 println()
                 println()
 
@@ -313,6 +331,33 @@ class Piece(
 
 
 }
+
+fun simulateMove(oldPos: Pair<Int, Int>,
+                 newPos: Pair<Int, Int>, piece:Piece): Boolean {
+    if (!piece.moveChecker(Pair(oldPos.first, oldPos.second), Pair(newPos.first, newPos.second))) return false
+    inCheck(pieces)
+    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+    if (piece.color == pieceOnNewPos?.color) return false
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
+    if (whiteTurn && piece.color == Colors.BLACK) return false
+    if (!whiteTurn && piece.color == Colors.WHITE) return false
+    movePiece(piece, newPos.first, newPos.second)
+    pieceOnNewPos?.disabled = true
+    inCheck(pieces)
+    if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
+        movePiece(piece, oldPos.first, oldPos.second)
+        println("move is not possible")
+        return false
+    }
+    inCheck(pieces)
+    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
+    movePiece(piece, oldPos.first, oldPos.second)
+    pieceOnNewPos?.disabled = false
+    return true
+    /*
+    return true*/
+}
+
 
 fun addAllPieces(cont: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the

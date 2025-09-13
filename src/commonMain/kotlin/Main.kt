@@ -51,7 +51,8 @@ class GameScene : Scene() {
             width = chessBoardX.toDouble()
             height = chessBoardY.toDouble()
             println("Schachbrett initialized")
-            initializeBoard(this)
+            val boardContainer = container()
+            initializeBoard(boardContainer)
         }
 
         // Load pictures
