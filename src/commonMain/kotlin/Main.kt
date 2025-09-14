@@ -97,19 +97,19 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy()
 
     for (enemyPiece in piecesList) {
-        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
+        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled && !whiteTurn) {
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
             if (enemyPiece.moveChecker(enemyPos, whiteKingPosition)) {
-                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
                 println(whiteKingPosition)
                 whiteKingInCheck = true
                 return true
             }
-        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
+        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled &&whiteTurn) {
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
             if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
-                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                 println(blackKingPosition)
                 blackKingInCheck = true
                 return true
@@ -121,7 +121,7 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     return false
 }
 
-/** Execute move after it has been verified by moveChecker*/
+/** Execute move after it has been verified by moveChecker, returns false if king will be in check after move!*/
 fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
