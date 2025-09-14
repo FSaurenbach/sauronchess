@@ -50,5 +50,4 @@ fun moveCell(
     newY: Int,
 ) {
     cell.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
-    cell.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
 }

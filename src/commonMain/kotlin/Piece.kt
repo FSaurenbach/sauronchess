@@ -32,7 +32,6 @@ class Piece(
     var disabled: Boolean = false,
     private val isWhite: Boolean
 ) : Container() {
-    private var pieceKind: PieceKind = kind
 
     // Set the images
     private var piece: Image = Image(
@@ -238,7 +237,7 @@ class Piece(
         newPos: Pair<Int, Int>,
     ): Boolean {
 
-        return when (pieceKind) {
+        return when (kind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos)
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos)
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos)
