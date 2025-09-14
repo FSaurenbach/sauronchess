@@ -46,9 +46,9 @@ class GameScene : Scene() {
             position(offsetX, offsetY)
             width = chessBoardX
             height = chessBoardY
-            initializeBoard(container())
-        }
 
+        }
+        initializeBoard(chessboard)
         loadPictures()
 
 
