@@ -88,7 +88,7 @@ class GameScene : Scene() {
 
 }
 
-fun inCheck(piecesList: ArrayList<Piece>): Boolean {
+fun inCheck(piecesList: ArrayList<Piece>, fromCastling:Boolean = false): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
 
@@ -97,7 +97,8 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
     val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy()
 
     for (enemyPiece in piecesList) {
-        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled && !whiteTurn) {
+        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
+            if (whiteTurn && !fromCastling) return false
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
             if (enemyPiece.moveChecker(enemyPos, whiteKingPosition)) {
@@ -106,7 +107,8 @@ fun inCheck(piecesList: ArrayList<Piece>): Boolean {
                 whiteKingInCheck = true
                 return true
             }
-        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled &&whiteTurn) {
+        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
+            if (!whiteTurn && !fromCastling) return false
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
             if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
                 println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
