@@ -420,8 +420,8 @@ fun simulateMove(
         println("move is not possible")
         return false
     }
-    val inc = inCheck(pieces, calledFromKing)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inc}")
+    /*val stillInCheck = */inCheck(pieces, calledFromKing)
+    // println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
     return true
