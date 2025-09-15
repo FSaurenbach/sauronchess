@@ -13,13 +13,11 @@ korge {
     icon = File(rootDir,"icon.png")
     serializationJson()
     jvmMainClassName = "MainKt"
-    version = "0.1.0"
+    version = "1.0.0"
     versionCode = 1
 
 }
-dependencies {
-    add("commonMainApi", project(":deps"))
-}
+
 repositories {
     mavenCentral()
 }
