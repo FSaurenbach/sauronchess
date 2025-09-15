@@ -17,16 +17,6 @@ korge {
     versionCode = 1
 
 }
-kotlin {
-    sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
-            }
-        }
-
-    }
-}
 dependencies {
     add("commonMainApi", project(":deps"))
 }
