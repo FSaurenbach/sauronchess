@@ -34,27 +34,11 @@ class Piece(
 ) : Container() {
 
     // Set the images
-    private var piece: Image = Image(
-        when (kind) {
-            PieceKind.WhitePawn -> whitePawn!!
-            PieceKind.WhiteRook -> whiteRook!!
-            PieceKind.WhiteKnight -> whiteKnight!!
-            PieceKind.WhiteBishop -> whiteBishop!!
-            PieceKind.WhiteQueen -> whiteQueen!!
-            PieceKind.WhiteKing -> whiteKing!!
-            PieceKind.BlackPawn -> blackPawn!!
-            PieceKind.BlackRook -> blackRook!!
-            PieceKind.BlackKnight -> blackKnight!!
-            PieceKind.BlackBishop -> blackBishop!!
-            PieceKind.BlackQueen -> blackQueen!!
-            PieceKind.BlackKing -> blackKing!!
-        },
-    )
+    lateinit var pImage: Image
 
     init {
+        loadImages()
 
-        piece.size(Size(64, 64))
-        piece.addTo(this)
         pieces.add(this)
 
         movePiece(this, cx, cy)
@@ -141,6 +125,18 @@ class Piece(
                             newPosition!!,
                         ) && !blackKingInCheck && !whiteKingInCheck
                     ) {
+
+                        /** Pawn promotion.*/
+                        if (this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) {
+                            println("promote")
+                            var newKind: PieceKind = PieceKind.WhiteQueen
+                            promoteTo(newKind)
+                        }
+                        if (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7) {
+                            println("promoting black")
+                            var newKind: PieceKind = PieceKind.BlackQueen
+                            promoteTo(newKind)
+                        }
 
                         // If rook or king move outside of castling, deny castling
                         if (!castleAttempt) {
@@ -393,38 +389,39 @@ class Piece(
         return Pair(cx, cy)
     }
 
+    private fun promoteTo(newPieceKind: PieceKind) {
+        println("Promoting to $newPieceKind")
+        this.kind = newPieceKind
+        loadImages()
 
-}
 
-/** Simulates a move for showing available moves.*/
-fun simulateMove(
-    oldPos: Pair<Int, Int>,
-    newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
-): Boolean {
-    if (!calledFromKing) if (!piece.moveChecker(
-            Pair(oldPos.first, oldPos.second),
-            Pair(newPos.first, newPos.second)
-        )
-    ) return false
-
-    inCheck(pieces, calledFromKing)
-    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-    if (piece.color == pieceOnNewPos?.color) return false
-    //println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
-    if (whiteTurn && piece.color == Colors.BLACK) return false
-    if (!whiteTurn && piece.color == Colors.WHITE) return false
-    movePiece(piece, newPos.first, newPos.second)
-    pieceOnNewPos?.disabled = true
-    if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
-        movePiece(piece, oldPos.first, oldPos.second)
-        println("move is not possible")
-        return false
     }
-    /*val stillInCheck = */inCheck(pieces, calledFromKing)
-    // println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
-    movePiece(piece, oldPos.first, oldPos.second)
-    pieceOnNewPos?.disabled = false
-    return true
+
+    private fun loadImages() {
+        println("RELOADING IMAGES: $kind")
+        if (::pImage.isInitialized) {
+            pImage.removeFromParent()
+        }
+        this.pImage = image(
+            when (kind) {
+                PieceKind.WhitePawn -> whitePawn!!
+                PieceKind.WhiteRook -> whiteRook!!
+                PieceKind.WhiteKnight -> whiteKnight!!
+                PieceKind.WhiteBishop -> whiteBishop!!
+                PieceKind.WhiteQueen -> whiteQueen!!
+                PieceKind.WhiteKing -> whiteKing!!
+                PieceKind.BlackPawn -> blackPawn!!
+                PieceKind.BlackRook -> blackRook!!
+                PieceKind.BlackKnight -> blackKnight!!
+                PieceKind.BlackBishop -> blackBishop!!
+                PieceKind.BlackQueen -> blackQueen!!
+                PieceKind.BlackKing -> blackKing!!
+            },
+        )
+        pImage.size(Size(64, 64))
+    }
+
+
 }
 
 
