@@ -143,7 +143,7 @@ class Piece(
                     ) {
 
                         // If rook or king move outside of castling, deny castling
-                        if (!castleAttempt){
+                        if (!castleAttempt) {
                             when (this.kind) {
                                 PieceKind.WhiteRook, PieceKind.WhiteKing -> whiteCastlingLegal = false
                                 PieceKind.BlackRook, PieceKind.BlackKing -> blackCastlingLegal = false
@@ -173,8 +173,7 @@ class Piece(
                                     whiteCastlingLegal = false
                                 }
                             }
-                        }
-                        else if (blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
+                        } else if (blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 0 -> {
                                     val rook = findPiece(7, 0)
@@ -193,9 +192,7 @@ class Piece(
                                     blackCastlingLegal = false
                                 }
                             }
-                        }
-
-                        else if (doMove(this, currentPos!!, newPosition!!)) {
+                        } else if (doMove(this, currentPos!!, newPosition!!)) {
                             whiteTurn = !whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
 
@@ -345,20 +342,23 @@ class Piece(
             return true
         }
         // Castling
-        println("whiteCastlingLegal: $whiteCastlingLegal, isWhite = $isWhite,  ")
+        println("whiteCastlingLegal: $whiteCastlingLegal, blackCastlingLegal: $blackCastlingLegal isWhite = $isWhite,  ")
         if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
                     // If something is in the way of the castling return false
                     if (findPiece(6, 7) != null || findPiece(5, 7) != null) return false
+                    // Check if king (will) be/is in check
+                    if (!simulateMove(oldPos, newPos, this, true)) return false
+
                     castleAttempt = true
-                    println("attempt true")
                     return true
                 }
 
                 newPos.first == 2 && newPos.second == 7 -> {
 
                     if (findPiece(1, 7) != null || findPiece(2, 7) != null) return false
+                    if (!simulateMove(oldPos, newPos, this, true)) return false
 
                     castleAttempt = true
                     return true
@@ -369,6 +369,7 @@ class Piece(
             when {
                 newPos.first == 6 && newPos.second == 0 -> {
                     if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
+                    if (!simulateMove(oldPos, newPos, this, true)) return false
 
                     castleAttempt = true
                     return true
@@ -376,6 +377,9 @@ class Piece(
 
                 newPos.first == 2 && newPos.second == 0 -> {
                     if (findPiece(1, 0) != null || findPiece(2, 0) != null) return false
+
+                    if (!simulateMove(oldPos, newPos, this, true)) return false
+
                     castleAttempt = true
                     return true
                 }
@@ -395,10 +399,15 @@ class Piece(
 /** Simulates a move for showing available moves.*/
 fun simulateMove(
     oldPos: Pair<Int, Int>,
-    newPos: Pair<Int, Int>, piece: Piece
+    newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
 ): Boolean {
-    if (!piece.moveChecker(Pair(oldPos.first, oldPos.second), Pair(newPos.first, newPos.second))) return false
-    inCheck(pieces)
+    if (!calledFromKing) if (!piece.moveChecker(
+            Pair(oldPos.first, oldPos.second),
+            Pair(newPos.first, newPos.second)
+        )
+    ) return false
+
+    inCheck(pieces, calledFromKing)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     if (piece.color == pieceOnNewPos?.color) return false
     //println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
@@ -406,14 +415,13 @@ fun simulateMove(
     if (!whiteTurn && piece.color == Colors.WHITE) return false
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
-    inCheck(pieces)
     if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
         movePiece(piece, oldPos.first, oldPos.second)
         println("move is not possible")
         return false
     }
-    inCheck(pieces)
-    //println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inCheck(pieces)}")
+    val inc = inCheck(pieces, calledFromKing)
+    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: ${inc}")
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
     return true
