@@ -2,6 +2,7 @@ import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
+import korlibs.math.geom.*
 
 fun removePiece(piece: Piece) {
     pieces.remove(piece)
@@ -52,3 +53,35 @@ suspend fun loadPictures(){
     blackQueen = resourcesVfs["b_queen.png"].readBitmap()
     blackKing = resourcesVfs["b_king.png"].readBitmap()
 }
+
+/** Simulates a move for showing available moves.*/
+fun simulateMove(
+    oldPos: Pair<Int, Int>,
+    newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
+): Boolean {
+    if (!calledFromKing) if (!piece.moveChecker(
+            Pair(oldPos.first, oldPos.second),
+            Pair(newPos.first, newPos.second)
+        )
+    ) return false
+
+    inCheck(pieces, calledFromKing)
+    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+    if (piece.color == pieceOnNewPos?.color) return false
+    //println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
+    if (whiteTurn && piece.color == Colors.BLACK) return false
+    if (!whiteTurn && piece.color == Colors.WHITE) return false
+    movePiece(piece, newPos.first, newPos.second)
+    pieceOnNewPos?.disabled = true
+    if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
+        movePiece(piece, oldPos.first, oldPos.second)
+        println("move is not possible")
+        return false
+    }
+    /*val stillInCheck = */inCheck(pieces, calledFromKing)
+    // println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
+    movePiece(piece, oldPos.first, oldPos.second)
+    pieceOnNewPos?.disabled = false
+    return true
+}
+
