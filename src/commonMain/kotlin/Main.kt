@@ -87,7 +87,8 @@ class GameScene : Scene() {
 
 
 }
-
+/** Check if a piece could take a king from the current position
+ *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
 fun inCheck(piecesList: ArrayList<Piece>, fromCastling:Boolean = false): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
@@ -123,7 +124,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling:Boolean = false): Boolean
     return false
 }
 
-/** Execute move after it has been verified by moveChecker, returns false if king will be in check after move!*/
+/** Execute move after it has been verified by moveChecker, returns false if a king will be in check after move!*/
 fun doMove(
     piece: Piece,
     oldPos: Pair<Int, Int>,
