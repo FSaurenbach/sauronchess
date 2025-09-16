@@ -1,7 +1,5 @@
 # 🏰 SauronChess ♟️
 
-> *"One does not simply play chess... but in Kotlin, you can!"*
-
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/09437976fa054f2cb7ad3f32504b4132)](https://app.codacy.com/gh/FSaurenbach/sauronchess/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 [![License](https://img.shields.io/github/license/FSaurenbach/sauronchess?style=flat-square)](LICENSE)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9.22-purple?style=flat-square&logo=kotlin)](https://kotlinlang.org/)
@@ -11,41 +9,6 @@
 A modern, cross-platform chess game built with Kotlin and KorGE game engine. Experience the timeless game of chess with smooth animations, intuitive drag-and-drop controls, and professional-grade chess mechanics.
 
 ## 🎮 **[Play Now!](https://fsaurenbach.github.io/sauronchess)** 🎮
-
----
-
-## ✨ Features
-
-### 🎯 **Chess Implementation**
-- ✅ **Smart Movement**: Intelligent piece movement validation
-- ✅ **Check Detection**: Advanced king safety detection
-- ✅ **Special Moves**: Castling (kingside & queenside)
-- ✅ **Pawn Promotion**: Automatic promotion to Queen
-- 🔄 **Checkmate Detection**: *Currently in development*
-- 🔄 **En Passant**: *Currently in development*
-- 🔄 **Stalemate Detection**: *Currently in development*
-
-### 🎨 **Beautiful Interface**
-- ✅ **Visual Board**: Classic brown and white checkered design
-- ✅ **Professional Pieces**: High-quality chess piece sprites
-- ✅ **Drag & Drop**: Intuitive piece movement
-- ✅ **Move Hints**: Visual indicators for valid moves
-- ✅ **Attack Highlights**: Red circles show capture opportunities
-- ✅ **Smooth Animations**: Polished piece movement and scaling
-
-### 🎲 **Game Mechanics**
-- ✅ **Turn-Based Play**: Proper alternating turns
-- ✅ **Piece Capture**: Full capture mechanics
-- ✅ **Move Validation**: Prevents illegal moves
-- ✅ **King Safety**: Cannot move into check
-- ✅ **Castling Rights**: Properly tracks castling availability
-- ✅ **Board Notation**: Algebraic notation display (a1-h8)
-
-### 🚀 **Technical Excellence**
-- ✅ **Cross-Platform**: JVM, JavaScript, and Android support
-- ✅ **Modern Kotlin**: Clean, idiomatic Kotlin code
-- ✅ **KorGE Engine**: Powerful 2D game engine
-- ✅ **Responsive Design**: Adaptive to different screen sizes
 
 ---
 
@@ -113,27 +76,6 @@ cd sauronchess
 | **Stalemate Detection** | 🔄 In Progress | Draw condition detection |
 | **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape |
 | **AI Opponent** | 📋 Planned | Computer player implementation |
-
----
-
-## 🛠️ Development
-
-### Building from Source
-```bash
-# Clean build
-./gradlew clean build
-
-# Run tests
-./gradlew test
-
-# Generate documentation
-./gradlew dokka
-```
-
-### Build Requirements
-- **Gradle 8.8+**
-- **Kotlin 1.9.22+**
-- **Java 21+** (KorGE requirement)
 
 ---
 
