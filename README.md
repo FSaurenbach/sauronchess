@@ -8,7 +8,7 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/FSaurenbach/sauronchess?style=flat-square)
 ![GitHub stars](https://img.shields.io/github/stars/FSaurenbach/sauronchess?style=social)
 
-A modern, cross-platform chess game built with Kotlin and KorGE game engine. Experience the timeless game of chess with smooth animations, intuitive drag-and-drop controls, and professional-grade chess mechanics.
+A modern, cross-platform chess game built with Kotlin and KorGE game engine.
 
 ## 🎮 **[Play Now!](https://fsaurenbach.github.io/sauronchess)** 🎮
 
