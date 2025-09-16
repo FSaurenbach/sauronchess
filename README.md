@@ -77,4 +77,8 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 *Built with ❤️ using Kotlin & KorGE*
 
+---
+
+<sub>This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been manually verified.</sub>
+
 </div>
