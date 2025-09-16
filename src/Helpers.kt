@@ -63,25 +63,27 @@ fun simulateMove(
             Pair(oldPos.first, oldPos.second),
             Pair(newPos.first, newPos.second)
         )
-    ) return false
+    ) {
+        return false
+    }
 
     inCheck(pieces, calledFromKing)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     if (piece.color == pieceOnNewPos?.color) return false
-    //println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
     if (whiteTurn && piece.color == Colors.BLACK) return false
     if (!whiteTurn && piece.color == Colors.WHITE) return false
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
-    if ((piece.color == Colors.BLACK && blackKingInCheck) || (piece.color == Colors.WHITE && whiteKingInCheck)) {
+    if ((piece.color == Colors.WHITE && blackKingInCheck) || (piece.color == Colors.BLACK && whiteKingInCheck)) {
         movePiece(piece, oldPos.first, oldPos.second)
         println("move is not possible")
         return false
     }
-    /*val stillInCheck = */inCheck(pieces, calledFromKing)
-    // println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
+    val stillInCheck = inCheck(pieces, calledFromKing)
+    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
-    return true
+    return !stillInCheck
 }
 

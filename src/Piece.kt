@@ -398,7 +398,6 @@ class Piece(
     }
 
     private fun loadImages() {
-        println("RELOADING IMAGES: $kind")
         if (::pImage.isInitialized) {
             pImage.removeFromParent()
         }
