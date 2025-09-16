@@ -46,7 +46,6 @@ A modern, cross-platform chess game built with Kotlin and KorGE game engine. Exp
 - ✅ **Modern Kotlin**: Clean, idiomatic Kotlin code
 - ✅ **KorGE Engine**: Powerful 2D game engine
 - ✅ **Responsive Design**: Adaptive to different screen sizes
-- ✅ **Code Quality**: Codacy Grade A rating
 
 ---
 
@@ -55,7 +54,6 @@ A modern, cross-platform chess game built with Kotlin and KorGE game engine. Exp
 ### Prerequisites
 - **Java 21+** (Required for KorGE 6.0.0)
 - **Git** for cloning the repository
-- **Network Access** for downloading Android build tools (if building for Android)
 
 ### 🏃‍♂️ Run Instantly
 ```bash
@@ -76,44 +74,24 @@ cd sauronchess
 
 ## 🏗️ Architecture
 
-### 📁 Project Structure
-```
-src/
-├── Main.kt          # Game entry point and scene management
-├── Piece.kt         # Chess piece logic and movement rules  
-├── Chessboard.kt    # Board initialization and helpers
-├── Cell.kt          # Individual board cell representation
-├── Helpers.kt       # Utility functions and piece management
-└── resources/       # Chess piece sprites and assets
-    ├── w_*.png      # White piece sprites
-    ├── b_*.png      # Black piece sprites
-    └── ...
-```
+### Core Components
 
-### 🧠 Core Components
-
-**🎮 Game Engine**: Built on KorGE for cross-platform 2D rendering
+**Game Engine**: Built on KorGE for cross-platform 2D rendering
 - Scene management with `GameScene`
 - Container-based UI architecture  
 - Event-driven input handling with drag-and-drop
 
-**♟️ Chess Logic**: Professional-grade chess implementation
+**Chess Logic**: Professional-grade chess implementation
 - `Piece` class with individual movement validation methods
 - Smart check detection system (`inCheck` function)
 - Turn-based gameplay with proper move validation
 - Castling logic with legal move tracking
 
-**🎨 Visual System**: Modern game interface
+**Visual System**: Modern game interface
 - Dynamic move highlighting with colored circles
 - Drag-and-drop with visual feedback and scaling
 - Responsive board layout with algebraic notation
 - Professional piece sprites for all chess pieces
-
-**🏗️ Architecture Patterns**
-- **Container Composition**: UI built with nested containers
-- **Event-Driven**: Mouse events drive piece movement
-- **State Management**: Global variables track game state
-- **Validation Chain**: Multiple layers of move validation
 
 ---
 
@@ -135,7 +113,6 @@ src/
 | **Stalemate Detection** | 🔄 In Progress | Draw condition detection |
 | **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape |
 | **AI Opponent** | 📋 Planned | Computer player implementation |
-| **Online Play** | 📋 Planned | Multiplayer functionality |
 
 ---
 
@@ -153,48 +130,10 @@ src/
 ./gradlew dokka
 ```
 
-### 🏢 Build Requirements
+### Build Requirements
 - **Gradle 8.8+**
 - **Kotlin 1.9.22+**
 - **Java 21+** (KorGE requirement)
-
-### ⚠️ **Common Issues**
-- **Java Version**: Make sure you're using Java 21+. Check with `java -version`
-- **Network Access**: Android builds require access to Google's Maven repository
-- **Memory**: Large builds may need increased heap size: `export GRADLE_OPTS="-Xmx4g"`
-
-### 🎨 Assets
-Professional chess piece sprites included:
-- **White Pieces**: `w_king.png`, `w_queen.png`, `w_rook.png`, etc.
-- **Black Pieces**: `b_king.png`, `b_queen.png`, `b_rook.png`, etc.
-- **Board Elements**: Square textures and UI elements
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-### 🐛 **Priority Issues**
-1. **Complete Checkmate Detection**: Implement proper game ending conditions
-2. **Add Stalemate Detection**: Detect draw conditions when no legal moves available
-3. **Complete En Passant**: Implement the special pawn capture rule
-4. **AI Player**: Add computer opponent with difficulty levels
-5. **Game State**: Save/load game functionality
-6. **Move History**: Display move notation history
-7. **Sound Effects**: Add audio feedback for moves
-
-### 📝 **How to Contribute**
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-### 🧪 **Testing**
-- Ensure all chess rules work correctly
-- Test cross-platform compatibility
-- Verify UI responsiveness
 
 ---
 
@@ -204,12 +143,10 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - **KorGE Team** - Amazing Kotlin game engine
-- **Chess.com** - Inspiration for piece design
-- **Kotlin Community** - Outstanding language and ecosystem
-- **Contributors** - Everyone who helps improve SauronChess
+- **Kotlin** - Outstanding language and ecosystem
 
 ---
 
