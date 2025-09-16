@@ -50,11 +50,11 @@ cd sauronchess
 
 ### 🌐 Platform Support
 
-| Platform | Command | Status |
-|----------|---------|--------|
-| **Desktop (JVM)** | `./gradlew runJvm` | ✅ Ready |
-| **Web (JS)** | `./gradlew runJs` | ✅ Ready |
-| **Android** | `./gradlew runAndroid` | ✅ Ready |
+| Platform | Command |
+|----------|---------|
+| **Desktop (JVM)** | `./gradlew runJvm` |
+| **Web (JS)** | `./gradlew runJs` |
+| **Android** | `./gradlew runAndroid` | 
 
 ---
 
