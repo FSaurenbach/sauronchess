@@ -36,7 +36,7 @@ fun addAllPieces(chessboard: Container) {
     chessboard.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
 }
 
-/**Load bitmaps*/
+/**Load bitmaps of the pieces.*/
 suspend fun loadPictures(){
     // Load pictures
     whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
