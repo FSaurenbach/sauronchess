@@ -212,6 +212,7 @@ class Piece(
                 }
                 println()
                 println()
+                checkForGameEnd()
 
             }
         }
@@ -338,7 +339,7 @@ class Piece(
             return true
         }
         // Castling
-        println("whiteCastlingLegal: $whiteCastlingLegal, blackCastlingLegal: $blackCastlingLegal isWhite = $isWhite,  ")
+        //println("whiteCastlingLegal: $whiteCastlingLegal, blackCastlingLegal: $blackCastlingLegal isWhite = $isWhite,  ")
         if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
@@ -424,3 +425,24 @@ class Piece(
 }
 
 
+fun checkForGameEnd(): Boolean {
+    val whitePieces = pieces.filter { it.color == Colors.WHITE }
+    val blackPieces = pieces.filter { it.color == Colors.BLACK }
+    for (piece in if (whiteTurn) whitePieces else blackPieces) {
+        for (x in 0..7) {
+            for (y in 0..7) {
+                if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
+                    println("the move from ${piece.cx}, ${piece.cy} -> $x, $y is possible")
+                    return true
+
+                }
+            }
+        }
+    }
+
+
+
+    println("No moves left for white / black!")
+    if (whiteTurn) println("Black won the game!") else println("White won the game!")
+    return false
+}
