@@ -440,9 +440,15 @@ fun checkForGameEnd(): Boolean {
         }
     }
 
-
-
     println("No moves left for white / black!")
-    if (whiteTurn) println("Black won the game!") else println("White won the game!")
+
+    if (whiteTurn){
+        if (whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
+        println("Black won the game!")
+    }
+    else {
+        if (blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
+        println("White won the game!")
+    }
     return false
 }
