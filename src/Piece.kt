@@ -261,7 +261,10 @@ class Piece(
             if (pieceOnNewPos == null) {
                 return true
             }
-        } else if (abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1) {
+        } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1) ) {
+            // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
+            if ((isWhite && newPos.second > oldPos.second) || (!isWhite && newPos.second < oldPos.second)) return false
+
             if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
                 return true
             }
