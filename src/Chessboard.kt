@@ -1,8 +1,7 @@
 import korlibs.image.color.*
-import korlibs.image.text.*
 import korlibs.korge.view.*
+import korlibs.korge.view.align.*
 import korlibs.math.*
-import korlibs.math.geom.*
 
 fun initializeBoard(chessboard: Container) {
     // set the position of the cells RELATIVE to the container
@@ -33,7 +32,9 @@ fun movePiece(
     newX: Int,
     newY: Int,
 ) {
-    piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+    //piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+
+    findCell(newX, newY)?.let { piece.centerOn(it) }
 
     piece.cx = newX
     piece.cy = newY

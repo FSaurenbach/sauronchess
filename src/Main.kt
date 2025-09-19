@@ -6,7 +6,7 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
-
+var sCont:SceneContainer? = null
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
 var whitePawn: Bitmap? = null
@@ -35,6 +35,7 @@ var offsetY = (screenSizeY - chessBoardY) / 2
 
 suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
+    sCont = sceneContainer
     sceneContainer.changeTo { GameScene() }
 }
 
@@ -52,37 +53,6 @@ class GameScene : Scene() {
         loadPictures()
         addAllPieces(chessboard)
 
-        /*// Add the shadow and play button
-        val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
-            position(offsetX, offsetY)
-            visible = true
-        }
-        val title: Text = text("Chess") {
-            textSize = 50.0
-            centerXOnStage()
-            y = 20.0
-            color = Colors.WHITE
-        }
-
-        roundRect(Size(title.width + 20, title.height + 20), RectCorners(10), Colors["#3b7d88"]) {
-            this.zIndex(-1)
-        }.centerOn(title)
-        val playButtonBackground = roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
-            centerOn(chessboard)
-        }
-
-        text("Play") {
-            color = Colors.WHITE
-            textSize = 40.0
-            centerOn(playButtonBackground)
-
-            onClick {
-                shadow.visible = false
-                playButtonBackground.visible = false
-                this.visible = false
-                addAllPieces(chessboard)
-            }
-        }*/
     }
 
 

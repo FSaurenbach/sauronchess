@@ -39,6 +39,10 @@ fun addAllPieces(chessboard: Container) {
     chessboard.piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
+
+    for (piece in pieces) {
+        movePiece(piece, piece.cx, piece.cy)
+    }
 }
 
 /**Load bitmaps of the pieces.*/

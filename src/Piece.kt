@@ -37,8 +37,9 @@ class Piece(
     lateinit var pImage: Image
 
     init {
-        loadImages()
 
+        loadImages()
+       // this.size = Size(64, 64)
         pieces.add(this)
 
         movePiece(this, cx, cy)
@@ -436,7 +437,7 @@ class Piece(
                 PieceKind.BlackKing -> blackKing!!
             },
         )
-        pImage.size(Size(64, 64))
+        pImage.size(Size(64*0.85, 64*0.85))
     }
 
 
