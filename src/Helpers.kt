@@ -105,8 +105,13 @@ class MoveIndicator : Container()  {
         circle.zIndex = 2.0
     }
     fun markRed() {
-        circle.color = Colors["#ff000081"]
-        circle.radius = 15.0
+        circle.color = Colors["#cccccc"]
+
+        circle.fill = Colors.TRANSPARENT
+        circle.stroke = Colors.RED
+        circle.strokeThickness = 6.5
+        //circle.alpha = 5.0
+        circle.radius = 25.0
         isRed = true
     }
 
@@ -125,6 +130,6 @@ class MoveIndicator : Container()  {
     }
 
     fun markWhite() {
-        if (isRed) circle.color = Colors.BLACK else circle.color = Colors["#bdb9ae"]
+        circle.color = Colors.WHITE
     }
 }
