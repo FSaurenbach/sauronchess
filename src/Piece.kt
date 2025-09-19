@@ -1,9 +1,7 @@
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
-import korlibs.korge.view.filter.*
 import korlibs.math.geom.*
 import kotlin.math.*
 
@@ -14,6 +12,8 @@ enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
 
+val circles = ArrayList<MoveIndicator>()
+val whiteCircles = ArrayList<MoveIndicator>()
 inline fun Container.piece(
     kind: PieceKind,
     color: RGBA,
@@ -45,7 +45,7 @@ class Piece(
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var error: Boolean
-        val circles = ArrayList<Circle>()
+
         this.draggableCloseable(
 
             onMouseDrag {
@@ -53,6 +53,16 @@ class Piece(
                     (this.globalMousePos.x - offsetX).toInt() / 64,
                     (this.globalMousePos.y - offsetY).toInt() / 64,
                 )
+                for (whiteCircle in whiteCircles) whiteCircle.markGrey()
+                for (circle in circles) {
+
+                    if (circle.cx == newPosition!!.first && circle.cy == newPosition!!.second) {
+                        circle.markWhite()
+
+                        whiteCircles.add(circle)
+                    }
+
+                }
             }, autoMove = false
         ) { info ->
             if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
@@ -66,8 +76,7 @@ class Piece(
             if (info.start) {
                 // init vars
                 currentPos = Pair(this.cx, this.cy)
-                println(this.zIndex)
-                this.zIndex = 1.0
+                this.zIndex = 3.0
                 this.scale(1.2, 1.2)
                 castleAttempt = false
 
@@ -75,21 +84,27 @@ class Piece(
                 for (x in 0..7) {
                     for (y in 0..7) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            //println("the move from $cx, $cy -> $x, $y is possible")
+                            //println("the move from $cx, $cy -> $x, $y iss possible")
                             val cell = findCell(x, y)
-                            var color = Colors["#3b3b3b81"]
-                            var multiplier = 1.0
-                            if (findPiece(x, y) != null) {
-                                color = Colors["#ff000081"]
-                                multiplier = 1.5
-                            }
-                            val circle = Circle(10 * multiplier, fill = color)
-                            circle.addFilter(BlurFilter(multiplier * 1))
+                            if (cell != null) {
+                                //this.parent!!.solidRect(100,100, Colors.RED)
+                                //moveIndicator(cell)
+                                val circle = this.parent!!.moveIndicator()
+                                circle.cx = x
+                                circle.cy = y
 
-                            circle.addTo(this.parent!!)
-                            circle.pos = cell!!.pos
-                            circle.centerOn(cell.cell)
-                            circles.add(circle)
+                                if (findPiece(x, y) != null) {
+                                    circle.markRed()
+                                } else {
+                                    circle.markGrey()
+                                }
+                                circle.centerOn(cell)
+                                circles.add(circle)
+                                println("adding circle")
+
+                            }
+
+
                         }
                     }
                 }
@@ -261,7 +276,7 @@ class Piece(
             if (pieceOnNewPos == null) {
                 return true
             }
-        } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1) ) {
+        } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1)) {
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
             if ((isWhite && newPos.second > oldPos.second) || (!isWhite && newPos.second < oldPos.second)) return false
 
@@ -445,11 +460,10 @@ fun checkForGameEnd(): Boolean {
 
     println("No moves left for white / black!")
 
-    if (whiteTurn){
+    if (whiteTurn) {
         if (whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
         println("Black won the game!")
-    }
-    else {
+    } else {
         if (blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
         println("White won the game!")
     }

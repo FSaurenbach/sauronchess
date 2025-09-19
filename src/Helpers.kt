@@ -2,12 +2,17 @@ import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
+import korlibs.korge.view.Circle
+import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import korlibs.math.geom.shape.*
+import korlibs.math.geom.vector.*
 
 fun removePiece(piece: Piece) {
     pieces.remove(piece)
     piece.removeFromParent()
 }
+
 fun addAllPieces(chessboard: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
@@ -37,7 +42,7 @@ fun addAllPieces(chessboard: Container) {
 }
 
 /**Load bitmaps of the pieces.*/
-suspend fun loadPictures(){
+suspend fun loadPictures() {
     // Load pictures
     whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
     whiteRook = resourcesVfs["w_rook.png"].readBitmap()
@@ -56,12 +61,10 @@ suspend fun loadPictures(){
 
 /** Simulates a move for showing available moves.*/
 fun simulateMove(
-    oldPos: Pair<Int, Int>,
-    newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
+    oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
 ): Boolean {
     if (!calledFromKing) if (!piece.moveChecker(
-            Pair(oldPos.first, oldPos.second),
-            Pair(newPos.first, newPos.second)
+            Pair(oldPos.first, oldPos.second), Pair(newPos.first, newPos.second)
         )
     ) {
         return false
@@ -87,3 +90,41 @@ fun simulateMove(
     return !stillInCheck
 }
 
+fun Container.moveIndicator(callback: @ViewDslMarker (MoveIndicator.() -> Unit) = {}): MoveIndicator = MoveIndicator().addTo(this, callback)
+class MoveIndicator : Container()  {
+    var cx = 0
+    var cy = 0
+   // private var outline: Circle = circle()
+    private var circle:Circle = circle()
+    private var isRed: Boolean = false
+
+    init {
+
+
+        markGrey()
+        circle.zIndex = 2.0
+    }
+    fun markRed() {
+        circle.color = Colors["#ff000081"]
+        circle.radius = 15.0
+        isRed = true
+    }
+
+    fun markGrey() {
+
+        if (isRed) {
+            markRed()
+            return
+        }
+        circle.color = Colors["#3b3b3b81"]
+        circle.radius = 10.0
+        circle.stroke = Colors.BLACK
+        circle.strokeThickness =2.0
+        isRed = false
+
+    }
+
+    fun markWhite() {
+        if (isRed) circle.color = Colors.BLACK else circle.color = Colors["#bdb9ae"]
+    }
+}

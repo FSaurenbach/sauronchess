@@ -50,9 +50,9 @@ class GameScene : Scene() {
         }
         initializeBoard(chessboard)
         loadPictures()
+        addAllPieces(chessboard)
 
-
-        // Add the shadow and play button
+        /*// Add the shadow and play button
         val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
             position(offsetX, offsetY)
             visible = true
@@ -82,7 +82,7 @@ class GameScene : Scene() {
                 this.visible = false
                 addAllPieces(chessboard)
             }
-        }
+        }*/
     }
 
 

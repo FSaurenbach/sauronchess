@@ -10,19 +10,14 @@ fun initializeBoard(chessboard: Container) {
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
-            val cellColor = if (d.isEven) Colors.WHITE else Colors["#964d22"]
-            val cl = chessboard.cell(cellColor, cx, cy)
-            // add location to cell like a1 or h8
+            val cellColor = if (d.isEven) Colors["#ebecd0"] else Colors["#964d22"]
             val text = "${'a' + cx}${8 - cy}"
 
+            val cl = chessboard.cell(cellColor, cx, cy, text, d.isEven)
+
+
             cells.add(cl)
-            Text(
-                text,
-                textSize = 16.0,
-                alignment = TextAlignment.TOP_LEFT,
-                color = Colors.BLACK,
-            ).position(Point(cx * 64.0 + offsetX, cy * 64.0 + offsetY)).addTo(chessboard)
-            cl.text(text)
+
             d++
         }
         d++
@@ -44,10 +39,3 @@ fun movePiece(
     piece.cy = newY
 }
 
-fun moveCell(
-    cell: View,
-    newX: Int,
-    newY: Int,
-) {
-    cell.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
-}
