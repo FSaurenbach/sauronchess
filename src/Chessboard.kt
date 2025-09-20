@@ -1,8 +1,6 @@
-import korlibs.image.color.*
-import korlibs.image.text.*
 import korlibs.korge.view.*
+import korlibs.korge.view.align.*
 import korlibs.math.*
-import korlibs.math.geom.*
 
 fun initializeBoard(chessboard: Container) {
     // set the position of the cells RELATIVE to the container
@@ -10,19 +8,10 @@ fun initializeBoard(chessboard: Container) {
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
-            val cellColor = if (d.isEven) Colors.WHITE else Colors["#964d22"]
-            val cl = chessboard.cell(cellColor, cx, cy)
-            // add location to cell like a1 or h8
             val text = "${'a' + cx}${8 - cy}"
 
-            cells.add(cl)
-            Text(
-                text,
-                textSize = 16.0,
-                alignment = TextAlignment.TOP_LEFT,
-                color = Colors.BLACK,
-            ).position(Point(cx * 64.0 + offsetX, cy * 64.0 + offsetY)).addTo(chessboard)
-            cl.text(text)
+            cells.add(chessboard.cell(d.isEven, cx, cy, text))
+
             d++
         }
         d++
@@ -38,16 +27,11 @@ fun movePiece(
     newX: Int,
     newY: Int,
 ) {
-    piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+    //piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+
+    findCell(newX, newY)?.let { piece.centerOn(it) }
 
     piece.cx = newX
     piece.cy = newY
 }
 
-fun moveCell(
-    cell: View,
-    newX: Int,
-    newY: Int,
-) {
-    cell.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
-}
