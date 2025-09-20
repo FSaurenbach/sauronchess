@@ -7,6 +7,7 @@ import korlibs.korge.view.*
 import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import kotlin.properties.*
 
 fun removePiece(piece: Piece) {
     pieces.remove(piece)
@@ -46,7 +47,7 @@ fun addAllPieces(chessboard: Container) {
 }
 
 /**Load bitmaps of the pieces.*/
-suspend fun loadPictures() {
+suspend fun reloadPictures() {
     // Load pictures
     whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2, 2.0).render()
     whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0, 2.0).render()
@@ -147,22 +148,30 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     return this
 }
 
+var settingsContainer: Container? = null
+var settingsInForeground = false
 fun showSettings() {
-    val settingsContainer = sCont.container()
-    val shadow =
-        settingsContainer.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6)) {
-            centerOnStage()
-        }
-    Settings().addTo(settingsContainer).centerOnStage()
+    settingsContainer = sCont.container()
+
+    settingsContainer!!.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6))
+        .centerOnStage()
+    Settings().addTo(settingsContainer!!).centerOnStage()
+    settingsInForeground = true
 }
 
+data class Options(var darkMode: Boolean = false)
+
+
 class Settings : Container() {
-    val amountOfOptions = 2
+    val amountOfOptions = 3
     var currentNo = 1
+    var background: RoundRect by Delegates.notNull()
 
     inner class SettingsButton(private val settingsKind: SettingsKind) : Container() {
+        private var baseButton: RoundRect by Delegates.notNull()
+
         init {
-            val baseButton =
+            baseButton =
                 roundRect(Size(200, 50), radius = RectCorners(10), fill = Colors.DARKGRAY).centerXOn(this@Settings)
                     .centerYBetween(
                         this@Settings.y + this@Settings.width / (1 + amountOfOptions) * currentNo,
@@ -170,8 +179,13 @@ class Settings : Container() {
                     )
 
             when (settingsKind) {
-                SettingsKind.DarkMode -> text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
+                SettingsKind.DarkMode -> {
+                    text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
+                    baseButton.colorMul(Colors.RED)
+                }
+
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
+                SettingsKind.Exit -> text("Exit", 30, Colors.BLACK).centerOn(baseButton)
 
             }
 
@@ -179,6 +193,7 @@ class Settings : Container() {
                 when (settingsKind) {
                     SettingsKind.DarkMode -> handleDarkModeClick()
                     SettingsKind.About -> handleAboutClick()
+                    SettingsKind.Exit -> handleExitClick()
                 }
             }
 
@@ -187,32 +202,50 @@ class Settings : Container() {
 
         }
 
+
         private fun handleDarkModeClick() {
-            // TODO
+
+            user_settings.darkMode = !user_settings.darkMode
+            reloadCells()
+            if (user_settings.darkMode) {
+
+                background.colorMul(white_mode_cellColorBlack)
+                baseButton.colorMul(Colors.GREEN)
+            } else {
+                background.colorMul(white_mode_cellColorWhite)
+                baseButton.colorMul(Colors.RED)
+            }
         }
 
         private fun handleAboutClick() {
-            // TODO
+            // TODO: Show Credits
 
+        }
+
+        private fun handleExitClick() {
+            settingsInForeground = false
+            settingsContainer?.removeFromParent()
         }
 
     }
 
     enum class SettingsKind {
-        DarkMode, About
+        DarkMode, About, Exit
     }
 
     init {
 
         // Background
-        roundRect(
-            Size(chessBoardWidth / 1.5, chessBoardHeight / 1.5), radius = RectCorners(15), fill = cellColorWhite
+        background = roundRect(
+            Size(chessBoardWidth / 1.5, chessBoardHeight / 1.5),
+            radius = RectCorners(15),
+            fill = white_mode_cellColorWhite
         )
 
         // Dark mode button
-        println("THIS.HEIGHT = $height")
         SettingsButton(SettingsKind.DarkMode).addTo(this)
         SettingsButton(SettingsKind.About).addTo(this)
+        SettingsButton(SettingsKind.Exit).addTo(this)
 
 
     }

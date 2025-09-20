@@ -33,26 +33,29 @@ var blackKingInCheck = false
 var whiteTurn = true
 var screenWidth = 900
 var screenHeight = 900
-const val defaultScale = 0.64
 var userScale = 0.74
 var chessBoardWidth = screenWidth * userScale
 var chessBoardHeight = screenHeight * userScale
 var offsetX = (screenWidth - chessBoardWidth) / 2
 var offsetY = (screenHeight - chessBoardHeight) / 2
-var cellColorWhite = Colors["#ebecd0"]
-var cellColorBlack = Colors["#964d22"]
+val white_mode_cellColorWhite = Colors["#ebecd0"]
+val white_mode_cellColorBlack = Colors["#964d22"]
+val dark_mode_cellColorWhite = Colors["#9a9c7c"]
+val dark_mode_cellColorBlack = Colors["#7a3a15"]
 suspend fun main() = Korge(windowSize = Size(screenWidth, screenHeight), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
     sCont = sceneContainer
     sceneContainer.changeTo { GameScene() }
 }
 
+var user_settings = Options()
+
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
-        solidRect(chessBoardWidth + 18, chessBoardHeight + 18, color = cellColorBlack).centerOnStage()
+        solidRect(chessBoardWidth + 18, chessBoardHeight + 18, color = white_mode_cellColorBlack).centerOnStage()
 
-        solidRect(chessBoardWidth + 10, chessBoardHeight + 10, color = cellColorWhite).centerOnStage()
+        solidRect(chessBoardWidth + 10, chessBoardHeight + 10, color = white_mode_cellColorWhite).centerOnStage()
         solidRect(chessBoardWidth + 1, chessBoardHeight + 1, color = Colors.BLACK).centerOnStage()
 
         val chessboard = container {
@@ -62,19 +65,17 @@ class GameScene : Scene() {
         }
         val settingsButton = image(resourcesVfs["settings.svg"].readSVG().scaled(1, 1).render()) {
             zIndex(3)
-            position(screenWidth*0.8, offsetY / 2)
+            position(screenWidth * 0.8, offsetY / 2)
 
             scale(0.15)
             onClick {
-                //simpleAnimator.scaleBy(this, 0.5*0.15)
-                showSettings()
-
+                if (!settingsInForeground) showSettings()
             }
         }
 
         settingsButton.centerYBetween(offsetY, 0.0)
         initializeBoard(chessboard)
-        loadPictures()
+        reloadPictures()
         addAllPieces(chessboard)
 
     }

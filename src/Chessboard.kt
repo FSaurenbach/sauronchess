@@ -8,13 +8,9 @@ fun initializeBoard(chessboard: Container) {
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
-            val cellColor = if (d.isEven) cellColorWhite else cellColorBlack
             val text = "${'a' + cx}${8 - cy}"
 
-            val cl = chessboard.cell(cellColor, cx, cy, text)
-
-
-            cells.add(cl)
+            cells.add(chessboard.cell(d.isEven, cx, cy, text))
 
             d++
         }

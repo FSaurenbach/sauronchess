@@ -37,7 +37,7 @@ class Piece(
 
     init {
 
-        loadImages()
+        reloadImages()
         // this.size = Size(64, 64)
         pieces.add(this)
 
@@ -411,12 +411,12 @@ class Piece(
     private fun promoteTo(newPieceKind: PieceKind) {
         println("Promoting to $newPieceKind")
         this.kind = newPieceKind
-        loadImages()
+        reloadImages()
 
 
     }
 
-    private fun loadImages() {
+    private fun reloadImages() {
         if (::pImage.isInitialized) {
             pImage.removeFromParent()
         }
