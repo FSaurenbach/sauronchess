@@ -49,8 +49,8 @@ class Piece(
         this.draggableCloseable(
             onMouseDrag {
                 newPosition = Pair(
-                    (this.globalMousePos.x - offsetX).toInt() / cellHeight.toInt(),
-                    (this.globalMousePos.y - offsetY).toInt() / cellWidth.toInt(),
+                    (this.globalMousePos.x - offsetX).toInt() / cellWidth.toInt(),
+                    (this.globalMousePos.y - offsetY).toInt() / cellHeight.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
