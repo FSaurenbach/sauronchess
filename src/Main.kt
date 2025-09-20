@@ -130,7 +130,8 @@ fun doMove(
     inCheck(pieces)
     val pieceOnNewPos = findPiece(
         newPos.first, newPos.second
-    )/*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
+    )
+    /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
 
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
