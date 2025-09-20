@@ -4,20 +4,21 @@ import korlibs.math.geom.*
 import kotlin.properties.*
 
 
-
 inline fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
 ): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
+
 val cellHeight get() = chessBoardHeight / 8
 val cellWidth get() = chessBoardWidth / 8
+
 class Cell(
-    private var isWhite:Boolean,
+    private var isWhite: Boolean,
     var cx: Int,
     var cy: Int,
     text: String,
 
-) : Container() {
-    private var color:RGBA by Delegates.notNull()
+    ) : Container() {
+    private var color: RGBA by Delegates.notNull()
 
     // Retrieve the cell from the board based on the coordinates
     private val cell: SolidRect = solidRect(cellWidth, cellHeight)
@@ -27,19 +28,21 @@ class Cell(
         colorCell()
         // add location to cell like a1 or h8
 
-        this.text(text, color =Colors.BLACK)
+        this.text(text, color = Colors.BLACK)
 
     }
-    fun colorCell(){
 
-        if (isWhite){
+    fun colorCell() {
+
+        if (isWhite) {
             color = if (user_settings.darkMode) dark_mode_cellColorWhite else white_mode_cellColorWhite
         }
-        if (!isWhite){
+        if (!isWhite) {
             color = if (user_settings.darkMode) dark_mode_cellColorBlack else white_mode_cellColorBlack
         }
         cell.color = color
     }
+
     private fun moveCell(
         newX: Int,
         newY: Int,
@@ -56,8 +59,9 @@ fun findCell(cx: Int, cy: Int): Cell? {
     }
     return null
 }
-fun reloadCells(){
-    for (cell in cells){
+
+fun reloadCells() {
+    for (cell in cells) {
         cell.colorCell()
     }
 }
