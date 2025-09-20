@@ -1,11 +1,11 @@
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.korge.*
-import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+
 var sCont:SceneContainer? = null
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
@@ -32,7 +32,8 @@ var chessBoardX = 512.0
 var chessBoardY = 512.0
 var offsetX = (screenSizeX - chessBoardX) / 2
 var offsetY = (screenSizeY - chessBoardY) / 2
-
+var cellColorWhite = Colors["#ebecd0"]
+var cellColorBlack = Colors["#964d22"]
 suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
     sCont = sceneContainer
@@ -42,12 +43,15 @@ suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgrou
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
+        solidRect(chessBoardX+18, chessBoardY+18, color = cellColorBlack).centerOnStage()
+
+        solidRect(chessBoardX+10, chessBoardY+10, color = cellColorWhite).centerOnStage()
+        solidRect(chessBoardX+1, chessBoardY+1, color = Colors.BLACK).centerOnStage()
 
         val chessboard = container {
             position(offsetX, offsetY)
             width = chessBoardX
             height = chessBoardY
-
         }
         initializeBoard(chessboard)
         loadPictures()

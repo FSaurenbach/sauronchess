@@ -2,11 +2,6 @@ import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
-import korlibs.korge.view.Circle
-import korlibs.korge.view.align.*
-import korlibs.math.geom.*
-import korlibs.math.geom.shape.*
-import korlibs.math.geom.vector.*
 
 fun removePiece(piece: Piece) {
     pieces.remove(piece)
@@ -94,12 +89,15 @@ fun simulateMove(
     return !stillInCheck
 }
 
-fun Container.moveIndicator(callback: @ViewDslMarker (MoveIndicator.() -> Unit) = {}): MoveIndicator = MoveIndicator().addTo(this, callback)
-class MoveIndicator : Container()  {
+fun Container.moveIndicator(callback: @ViewDslMarker (MoveIndicator.() -> Unit) = {}): MoveIndicator =
+    MoveIndicator().addTo(this, callback)
+
+class MoveIndicator : Container() {
     var cx = 0
     var cy = 0
-   // private var outline: Circle = circle()
-    private var circle:Circle = circle()
+
+    // private var outline: Circle = circle()
+    private var circle: Circle = circle()
     private var isRed: Boolean = false
 
     init {
@@ -108,6 +106,7 @@ class MoveIndicator : Container()  {
         markGrey()
         circle.zIndex = 2.0
     }
+
     fun markRed() {
         circle.color = Colors["#cccccc"]
 
@@ -128,7 +127,7 @@ class MoveIndicator : Container()  {
         circle.color = Colors["#3b3b3b81"]
         circle.radius = 10.0
         circle.stroke = Colors.BLACK
-        circle.strokeThickness =2.0
+        circle.strokeThickness = 2.0
         isRed = false
 
     }
