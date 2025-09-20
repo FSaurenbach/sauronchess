@@ -1,9 +1,7 @@
 import korlibs.image.color.*
-import korlibs.image.vector.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
-import korlibs.math.geom.*
 import kotlin.math.*
 
 

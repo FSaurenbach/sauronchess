@@ -1,9 +1,12 @@
 import korlibs.image.color.*
-import korlibs.image.format.*
 import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
+import korlibs.korge.input.*
 import korlibs.korge.view.*
+import korlibs.korge.view.Circle
+import korlibs.korge.view.align.*
+import korlibs.math.geom.*
 
 fun removePiece(piece: Piece) {
     pieces.remove(piece)
@@ -45,19 +48,19 @@ fun addAllPieces(chessboard: Container) {
 /**Load bitmaps of the pieces.*/
 suspend fun loadPictures() {
     // Load pictures
-    whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2,2.0).render()
-    whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0,2.0).render()
-    whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_nlt45.svg"].readSVG().scaled(2.0,2.0).render()
-    whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0,2.0).render()
-    whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0,2.0).render()
-    whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2, 2.0).render()
+    whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_nlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0, 2.0).render()
 
-    blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.2,2.0).render()
-    blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0,2.0).render()
-    blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_ndt45.svg"].readSVG().scaled(2.0,2.0).render()
-    blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0,2.0).render()
-    blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0,2.0).render()
-    blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.2, 2.0).render()
+    blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_ndt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0, 2.0).render()
 }
 
 /** Simulates a move for showing available moves.*/
@@ -116,7 +119,7 @@ class MoveIndicator : Container() {
         circle.stroke = Colors.RED
         circle.strokeThickness = 6.5
         //circle.alpha = 5.0
-        circle.radius = userScale*39
+        circle.radius = userScale * 39
         isRed = true
     }
 
@@ -127,14 +130,90 @@ class MoveIndicator : Container() {
             return
         }
         circle.color = Colors["#3b3b3b81"]
-        circle.radius = userScale*15
+        circle.radius = userScale * 15
         circle.stroke = Colors.BLACK
-        circle.strokeThickness = userScale*3.1
+        circle.strokeThickness = userScale * 3.1
         isRed = false
 
     }
 
     fun markWhite() {
         circle.color = Colors.WHITE
+    }
+}
+
+fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
+    this.y = (y2 + y1 - this.scaledHeight) / 2
+    return this
+}
+
+fun showSettings() {
+    val settingsContainer = sCont.container()
+    val shadow =
+        settingsContainer.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6)) {
+            centerOnStage()
+        }
+    Settings().addTo(settingsContainer).centerOnStage()
+}
+
+class Settings : Container() {
+    val amountOfOptions = 2
+    var currentNo = 1
+
+    inner class SettingsButton(private val settingsKind: SettingsKind) : Container() {
+        init {
+            val baseButton =
+                roundRect(Size(200, 50), radius = RectCorners(10), fill = Colors.DARKGRAY).centerXOn(this@Settings)
+                    .centerYBetween(
+                        this@Settings.y + this@Settings.width / (1 + amountOfOptions) * currentNo,
+                        this@Settings.y + this@Settings.width / (1 + amountOfOptions) * currentNo
+                    )
+
+            when (settingsKind) {
+                SettingsKind.DarkMode -> text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
+                SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
+
+            }
+
+            onClick {
+                when (settingsKind) {
+                    SettingsKind.DarkMode -> handleDarkModeClick()
+                    SettingsKind.About -> handleAboutClick()
+                }
+            }
+
+
+            currentNo++
+
+        }
+
+        private fun handleDarkModeClick() {
+            // TODO
+        }
+
+        private fun handleAboutClick() {
+            // TODO
+
+        }
+
+    }
+
+    enum class SettingsKind {
+        DarkMode, About
+    }
+
+    init {
+
+        // Background
+        roundRect(
+            Size(chessBoardWidth / 1.5, chessBoardHeight / 1.5), radius = RectCorners(15), fill = cellColorWhite
+        )
+
+        // Dark mode button
+        println("THIS.HEIGHT = $height")
+        SettingsButton(SettingsKind.DarkMode).addTo(this)
+        SettingsButton(SettingsKind.About).addTo(this)
+
+
     }
 }

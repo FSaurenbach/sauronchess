@@ -1,12 +1,17 @@
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
+import korlibs.image.vector.*
+import korlibs.image.vector.format.*
+import korlibs.io.file.std.*
 import korlibs.korge.*
+import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import kotlin.properties.*
 
-var sCont: SceneContainer? = null
+var sCont: SceneContainer by Delegates.notNull()
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
 var whitePawn: NativeImage? = null
@@ -30,10 +35,10 @@ var screenWidth = 900
 var screenHeight = 900
 const val defaultScale = 0.64
 var userScale = 0.74
-var chessBoardWidth = screenWidth*userScale
-var chessBoardHeight = screenHeight*userScale
-var offsetX = (screenWidth - chessBoardWidth)/2
-var offsetY = (screenHeight - chessBoardHeight)/2
+var chessBoardWidth = screenWidth * userScale
+var chessBoardHeight = screenHeight * userScale
+var offsetX = (screenWidth - chessBoardWidth) / 2
+var offsetY = (screenHeight - chessBoardHeight) / 2
 var cellColorWhite = Colors["#ebecd0"]
 var cellColorBlack = Colors["#964d22"]
 suspend fun main() = Korge(windowSize = Size(screenWidth, screenHeight), backgroundColor = Colors["#4b3621"]) {
@@ -55,6 +60,19 @@ class GameScene : Scene() {
             width = chessBoardWidth
             height = chessBoardWidth
         }
+        val settingsButton = image(resourcesVfs["settings.svg"].readSVG().scaled(1, 1).render()) {
+            zIndex(3)
+            position(screenWidth*0.8, offsetY / 2)
+
+            scale(0.15)
+            onClick {
+                //simpleAnimator.scaleBy(this, 0.5*0.15)
+                showSettings()
+
+            }
+        }
+
+        settingsButton.centerYBetween(offsetY, 0.0)
         initializeBoard(chessboard)
         loadPictures()
         addAllPieces(chessboard)
@@ -110,10 +128,8 @@ fun doMove(
 
     inCheck(pieces)
     val pieceOnNewPos = findPiece(
-        newPos.first,
-        newPos.second
-    )
-    /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
+        newPos.first, newPos.second
+    )/*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
 
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
