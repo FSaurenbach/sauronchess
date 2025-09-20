@@ -82,7 +82,7 @@ class Piece(
                 for (x in 0..7) {
                     for (y in 0..7) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            //println("the move from $cx, $cy -> $x, $y iss possible")
+                            //println("the move from $cx, $cy -> $x, $y is possible")
                             val cell = findCell(x, y)
                             if (cell != null) {
                                 //this.parent!!.solidRect(100,100, Colors.RED)
