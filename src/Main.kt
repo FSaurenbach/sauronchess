@@ -26,15 +26,17 @@ var blackKing: NativeImage? = null
 var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
-var screenSizeX = 800
-var screenSizeY = 800
-var chessBoardX = 512.0
-var chessBoardY = 512.0
-var offsetX = (screenSizeX - chessBoardX) / 2
-var offsetY = (screenSizeY - chessBoardY) / 2
+var screenWidth = 900
+var screenHeight = 900
+const val defaultScale = 0.64
+var userScale = 0.74
+var chessBoardWidth = screenWidth*userScale
+var chessBoardHeight = screenHeight*userScale
+var offsetX = (screenWidth - chessBoardWidth)/2
+var offsetY = (screenHeight - chessBoardHeight)/2
 var cellColorWhite = Colors["#ebecd0"]
 var cellColorBlack = Colors["#964d22"]
-suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
+suspend fun main() = Korge(windowSize = Size(screenWidth, screenHeight), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
     sCont = sceneContainer
     sceneContainer.changeTo { GameScene() }
@@ -43,15 +45,15 @@ suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgrou
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
-        solidRect(chessBoardX + 18, chessBoardY + 18, color = cellColorBlack).centerOnStage()
+        solidRect(chessBoardWidth + 18, chessBoardHeight + 18, color = cellColorBlack).centerOnStage()
 
-        solidRect(chessBoardX + 10, chessBoardY + 10, color = cellColorWhite).centerOnStage()
-        solidRect(chessBoardX + 1, chessBoardY + 1, color = Colors.BLACK).centerOnStage()
+        solidRect(chessBoardWidth + 10, chessBoardHeight + 10, color = cellColorWhite).centerOnStage()
+        solidRect(chessBoardWidth + 1, chessBoardHeight + 1, color = Colors.BLACK).centerOnStage()
 
         val chessboard = container {
             position(offsetX, offsetY)
-            width = chessBoardX
-            height = chessBoardY
+            width = chessBoardWidth
+            height = chessBoardWidth
         }
         initializeBoard(chessboard)
         loadPictures()

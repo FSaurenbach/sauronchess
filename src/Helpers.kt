@@ -51,6 +51,7 @@ suspend fun loadPictures() {
     whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0,2.0).render()
     whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0,2.0).render()
     whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0,2.0).render()
+
     blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.2,2.0).render()
     blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0,2.0).render()
     blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_ndt45.svg"].readSVG().scaled(2.0,2.0).render()
@@ -115,7 +116,7 @@ class MoveIndicator : Container() {
         circle.stroke = Colors.RED
         circle.strokeThickness = 6.5
         //circle.alpha = 5.0
-        circle.radius = 25.0
+        circle.radius = userScale*39
         isRed = true
     }
 
@@ -126,9 +127,9 @@ class MoveIndicator : Container() {
             return
         }
         circle.color = Colors["#3b3b3b81"]
-        circle.radius = 10.0
+        circle.radius = userScale*15
         circle.stroke = Colors.BLACK
-        circle.strokeThickness = 2.0
+        circle.strokeThickness = userScale*3.1
         isRed = false
 
     }

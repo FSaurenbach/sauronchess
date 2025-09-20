@@ -52,8 +52,8 @@ class Piece(
 
             onMouseDrag {
                 newPosition = Pair(
-                    (this.globalMousePos.x - offsetX).toInt() / 64,
-                    (this.globalMousePos.y - offsetY).toInt() / 64,
+                    (this.globalMousePos.x - offsetX).toInt() / cellHeight.toInt(),
+                    (this.globalMousePos.y - offsetY).toInt() / cellWidth.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
@@ -440,7 +440,7 @@ class Piece(
             },
         )
 
-        pImage.scale = 0.8
+        pImage.scale = userScale
 
     }
 
