@@ -1,4 +1,5 @@
 import korlibs.image.color.*
+import korlibs.image.vector.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
@@ -421,6 +422,7 @@ class Piece(
         if (::pImage.isInitialized) {
             pImage.removeFromParent()
         }
+
         this.pImage = image(
             when (kind) {
                 PieceKind.WhitePawn -> whitePawn!!
@@ -437,7 +439,11 @@ class Piece(
                 PieceKind.BlackKing -> blackKing!!
             },
         )
-        pImage.size(Size(64 * 0.85, 64 * 0.85))
+
+        //pImage.scale = 0.85
+        pImage.size(Size(64, 64))
+        pImage.scale = 0.7
+
     }
 
 

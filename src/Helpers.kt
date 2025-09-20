@@ -1,5 +1,7 @@
 import korlibs.image.color.*
 import korlibs.image.format.*
+import korlibs.image.vector.*
+import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
 
@@ -43,19 +45,18 @@ fun addAllPieces(chessboard: Container) {
 /**Load bitmaps of the pieces.*/
 suspend fun loadPictures() {
     // Load pictures
-    whitePawn = resourcesVfs["w_pawn.png"].readBitmap()
-    whiteRook = resourcesVfs["w_rook.png"].readBitmap()
-    whiteKnight = resourcesVfs["w_knight.png"].readBitmap()
-    whiteBishop = resourcesVfs["w_bishop.png"].readBitmap()
-    whiteQueen = resourcesVfs["w_queen.png"].readBitmap()
-    whiteKing = resourcesVfs["w_king.png"].readBitmap()
-
-    blackPawn = resourcesVfs["b_pawn.png"].readBitmap()
-    blackRook = resourcesVfs["b_rook.png"].readBitmap()
-    blackKnight = resourcesVfs["b_knight.png"].readBitmap()
-    blackBishop = resourcesVfs["b_bishop.png"].readBitmap()
-    blackQueen = resourcesVfs["b_queen.png"].readBitmap()
-    blackKing = resourcesVfs["b_king.png"].readBitmap()
+    whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0,2.0).render()
+    whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0,2.0).render()
+    blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0,2.0).render()
 }
 
 /** Simulates a move for showing available moves.*/

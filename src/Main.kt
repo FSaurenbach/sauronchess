@@ -6,23 +6,23 @@ import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 
-var sCont:SceneContainer? = null
+var sCont: SceneContainer? = null
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
-var whitePawn: Bitmap? = null
-var whiteRook: Bitmap? = null
-var whiteKnight: Bitmap? = null
-var whiteBishop: Bitmap? = null
-var whiteQueen: Bitmap? = null
-var whiteKing: Bitmap? = null
+var whitePawn: NativeImage? = null
+var whiteRook: NativeImage? = null
+var whiteKnight: NativeImage? = null
+var whiteBishop: NativeImage? = null
+var whiteQueen: NativeImage? = null
+var whiteKing: NativeImage? = null
 var whiteCastlingLegal = true
 var blackCastlingLegal = true
-var blackPawn: Bitmap? = null
-var blackRook: Bitmap? = null
-var blackKnight: Bitmap? = null
-var blackBishop: Bitmap? = null
-var blackQueen: Bitmap? = null
-var blackKing: Bitmap? = null
+var blackPawn: NativeImage? = null
+var blackRook: NativeImage? = null
+var blackKnight: NativeImage? = null
+var blackBishop: NativeImage? = null
+var blackQueen: NativeImage? = null
+var blackKing: NativeImage? = null
 var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
@@ -43,10 +43,10 @@ suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgrou
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
-        solidRect(chessBoardX+18, chessBoardY+18, color = cellColorBlack).centerOnStage()
+        solidRect(chessBoardX + 18, chessBoardY + 18, color = cellColorBlack).centerOnStage()
 
-        solidRect(chessBoardX+10, chessBoardY+10, color = cellColorWhite).centerOnStage()
-        solidRect(chessBoardX+1, chessBoardY+1, color = Colors.BLACK).centerOnStage()
+        solidRect(chessBoardX + 10, chessBoardY + 10, color = cellColorWhite).centerOnStage()
+        solidRect(chessBoardX + 1, chessBoardY + 1, color = Colors.BLACK).centerOnStage()
 
         val chessboard = container {
             position(offsetX, offsetY)
@@ -61,9 +61,10 @@ class GameScene : Scene() {
 
 
 }
+
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
-fun inCheck(piecesList: ArrayList<Piece>, fromCastling:Boolean = false): Boolean {
+fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
 
