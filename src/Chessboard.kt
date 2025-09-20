@@ -1,4 +1,3 @@
-import korlibs.image.color.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.*
@@ -12,7 +11,7 @@ fun initializeBoard(chessboard: Container) {
             val cellColor = if (d.isEven) cellColorWhite else cellColorBlack
             val text = "${'a' + cx}${8 - cy}"
 
-            val cl = chessboard.cell(cellColor, cx, cy, text, d.isEven)
+            val cl = chessboard.cell(cellColor, cx, cy, text)
 
 
             cells.add(cl)

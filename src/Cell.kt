@@ -4,7 +4,7 @@ import korlibs.math.geom.*
 
 
 inline fun Container.cell(
-    color: RGBA, cx: Int, cy: Int, text:String, isWhite: Boolean,  callback: @ViewDslMarker Cell.() -> Unit = {}
+    color: RGBA, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
 ): Cell = Cell(color, cx, cy, text).addTo(this, callback)
 var cellHeight = chessBoardHeight/8
 var cellWidth = chessBoardWidth/8
