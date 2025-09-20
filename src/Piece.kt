@@ -36,8 +36,8 @@ class Piece(
     lateinit var pImage: Image
 
     init {
-
         reloadImages()
+
         // this.size = Size(64, 64)
         pieces.add(this)
 
@@ -47,7 +47,6 @@ class Piece(
         var error: Boolean
 
         this.draggableCloseable(
-
             onMouseDrag {
                 newPosition = Pair(
                     (this.globalMousePos.x - offsetX).toInt() / cellHeight.toInt(),
@@ -66,10 +65,9 @@ class Piece(
             }, autoMove = false
         ) { info ->
             if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
-                info.view.x = info.viewNextXY.x
-                info.view.y = info.viewNextXY.y
-            } else {
-                return@draggableCloseable
+
+                x = info.viewNextX
+                y = info.viewNextY
             }
             error = false
             // Dragging start
@@ -100,7 +98,6 @@ class Piece(
                                 }
                                 circle.centerOn(cell)
                                 circles.add(circle)
-                                println("adding circle")
 
                             }
 

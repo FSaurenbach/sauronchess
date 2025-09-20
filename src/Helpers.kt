@@ -181,7 +181,7 @@ class Settings : Container() {
             when (settingsKind) {
                 SettingsKind.DarkMode -> {
                     text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.colorMul(Colors.RED)
+                    baseButton.color = if (user_settings.darkMode) Colors.GREEN else Colors.RED
                 }
 
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
@@ -208,12 +208,16 @@ class Settings : Container() {
             user_settings.darkMode = !user_settings.darkMode
             reloadCells()
             if (user_settings.darkMode) {
+                background.reset()
+                background.color = (white_mode_cellColorBlack)
+                baseButton.color = (Colors.GREEN)
 
-                background.colorMul(white_mode_cellColorBlack)
-                baseButton.colorMul(Colors.GREEN)
             } else {
-                background.colorMul(white_mode_cellColorWhite)
-                baseButton.colorMul(Colors.RED)
+                background.reset()
+
+                background.color = (white_mode_cellColorWhite)
+                baseButton.color = (Colors.RED)
+
             }
         }
 
@@ -239,8 +243,8 @@ class Settings : Container() {
         background = roundRect(
             Size(chessBoardWidth / 1.5, chessBoardHeight / 1.5),
             radius = RectCorners(15),
-            fill = white_mode_cellColorWhite
         )
+        background.color = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite
 
         // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
