@@ -440,9 +440,7 @@ class Piece(
             },
         )
 
-        //pImage.scale = 0.85
-        pImage.size(Size(64, 64))
-        pImage.scale = 0.7
+        pImage.scale = 0.8
 
     }
 
