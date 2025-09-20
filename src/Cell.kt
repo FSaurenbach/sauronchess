@@ -8,8 +8,8 @@ import kotlin.properties.*
 inline fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
 ): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
-var cellHeight = chessBoardHeight/8
-var cellWidth = chessBoardWidth/8
+val cellHeight get() = chessBoardHeight / 8
+val cellWidth get() = chessBoardWidth / 8
 class Cell(
     private var isWhite:Boolean,
     var cx: Int,
