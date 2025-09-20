@@ -44,7 +44,7 @@ class Cell(
         newX: Int,
         newY: Int,
     ) {
-        this.pos = Point(newX * cellHeight + offsetX, newY * cellHeight + offsetY)
+        this.pos = Point(newX * cellWidth + offsetX, newY * cellHeight + offsetY)
     }
 
 }
