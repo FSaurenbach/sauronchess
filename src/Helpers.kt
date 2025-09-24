@@ -1,4 +1,5 @@
 import korlibs.image.color.*
+import korlibs.image.format.*
 import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
@@ -62,6 +63,7 @@ suspend fun reloadPictures() {
     blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0, 2.0).render()
     blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0, 2.0).render()
     blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    creditsSvg = resourcesVfs["credits.png"].readBitmap()
 }
 
 /** Simulates a move for showing available moves.*/
@@ -148,14 +150,15 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     return this
 }
 
-var settingsContainer: Container? = null
+var settingsContainer: Container by Delegates.notNull()
 var settingsInForeground = false
+var aboutPageInForeground = false
 fun showSettings() {
     settingsContainer = sCont.container()
 
-    settingsContainer!!.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6))
+    settingsContainer.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6))
         .centerOnStage()
-    Settings().addTo(settingsContainer!!).centerOnStage()
+    Settings().addTo(settingsContainer).centerOnStage()
     settingsInForeground = true
 }
 
@@ -167,6 +170,27 @@ class Settings : Container() {
     var currentNo = 1
     var background: RoundRect by Delegates.notNull()
 
+    inner class AboutPage:Container(){
+
+        init {
+            val background = roundRect(Size((chessBoardWidth / 2)*1.7, (chessBoardHeight / 3)*1.7), radius = RectCorners(10)){
+                fill = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite
+            }
+            val bg = roundRect(Size(500, background.height-30), RectCorners(10), Colors.LIGHTGRAY){
+                centerOn(background)
+            }
+
+            image(creditsSvg!!).scale(0.5).centerOn(bg)
+            var exitButton = SettingsButton(SettingsKind.About)
+            exitButton.centerXOn(bg)
+            exitButton.positionY(bg.y+bg.height/4)
+            exitButton.zIndex(33)
+            exitButton.addTo(this@Settings)
+
+
+
+        }
+    }
     inner class SettingsButton(private val settingsKind: SettingsKind) : Container() {
         private var baseButton: RoundRect by Delegates.notNull()
 
@@ -208,13 +232,10 @@ class Settings : Container() {
             user_settings.darkMode = !user_settings.darkMode
             reloadCells()
             if (user_settings.darkMode) {
-                background.reset()
                 background.color = (white_mode_cellColorBlack)
                 baseButton.color = (Colors.GREEN)
 
             } else {
-                background.reset()
-
                 background.color = (white_mode_cellColorWhite)
                 baseButton.color = (Colors.RED)
 
@@ -222,7 +243,15 @@ class Settings : Container() {
         }
 
         private fun handleAboutClick() {
-            // TODO: Show Credits
+            // TODO Show Credits
+            if (aboutPageInForeground) {
+                settingsContainer.findViewByName("AboutPage")?.removeFromParent()
+                aboutPageInForeground = false
+                return
+            }
+            solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
+            AboutPage().name("AboutPage").addTo(settingsContainer!!).centerOnStage()
+            aboutPageInForeground = true
 
         }
 

@@ -20,6 +20,7 @@ var whiteKnight: NativeImage? = null
 var whiteBishop: NativeImage? = null
 var whiteQueen: NativeImage? = null
 var whiteKing: NativeImage? = null
+var creditsSvg: Bitmap? = null
 var whiteCastlingLegal = true
 var blackCastlingLegal = true
 var blackPawn: NativeImage? = null

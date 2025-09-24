@@ -69,6 +69,7 @@ class Piece(
                 x = info.viewNextX
                 y = info.viewNextY
             }
+            else return@draggableCloseable
             error = false
             // Dragging start
             if (info.start) {
