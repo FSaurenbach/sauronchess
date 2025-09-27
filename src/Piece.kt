@@ -1,7 +1,6 @@
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
 import korlibs.korge.view.filter.*
 import korlibs.math.geom.*
