@@ -4,13 +4,13 @@ import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
     // set the position of the cells RELATIVE to the container
-    println("Container position: $offsetX, $offsetY")
+    println("Container position: ${DisplayConfig.offsetX}, ${DisplayConfig.offsetY}")
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
             val text = "${'a' + cx}${8 - cy}"
 
-            cells.add(chessboard.cell(d.isEven, cx, cy, text))
+            GameState.cells.add(chessboard.cell(d.isEven, cx, cy, text))
 
             d++
         }
@@ -19,7 +19,7 @@ fun initializeBoard(chessboard: Container) {
 }
 
 fun findPiece(x: Int, y: Int): Piece? {
-    return pieces.find { it.cx == x && it.cy == y }
+    return GameState.pieces.find { it.cx == x && it.cy == y }
 }
 
 fun movePiece(
