@@ -21,7 +21,7 @@ fun initializeBoard(chessboard: Container) {
                 textSize = 16.0,
                 alignment = TextAlignment.TOP_LEFT,
                 color = Colors.BLACK,
-            ).position(Point(cx * 64.0 + offsetX, cy * 64.0 + offsetY)).addTo(chessboard)
+            ).position(Point(cx * CELL_SIZE.toDouble() + offsetX, cy * CELL_SIZE.toDouble() + offsetY)).addTo(chessboard)
             cl.text(text)
             d++
         }
@@ -34,11 +34,11 @@ fun findPiece(x: Int, y: Int): Piece? {
 }
 
 fun movePiece(piece: Piece, newX: Int, newY: Int) {
-    piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
+    piece.position(Point(newX * CELL_SIZE.toDouble() + offsetX, newY * CELL_SIZE.toDouble() + offsetY))
     piece.cx = newX
     piece.cy = newY
 }
 
 fun moveCell(cell: View, newX: Int, newY: Int) {
-    cell.pos = Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY)
+    cell.pos = Point(newX * CELL_SIZE.toDouble() + offsetX, newY * CELL_SIZE.toDouble() + offsetY)
 }

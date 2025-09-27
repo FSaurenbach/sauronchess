@@ -10,7 +10,7 @@ class Cell(
     var cx: Int,
     var cy: Int,
 ) : Container() {
-    val cell: SolidRect = solidRect(64, 64)
+    val cell: SolidRect = solidRect(CELL_SIZE, CELL_SIZE)
 
     init {
         moveCell(this, cx, cy)

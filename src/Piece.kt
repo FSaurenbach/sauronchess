@@ -37,172 +37,197 @@ class Piece(
 
     init {
         loadImages()
-
         pieces.add(this)
-
         movePiece(this, cx, cy)
+        setupDragAndDrop()
+    }
+
+    private fun setupDragAndDrop() {
         var newPosition: Pair<Int, Int>? = null
         var currentPos: Pair<Int, Int>? = null
         var error: Boolean
         val circles = ArrayList<Circle>()
+        
         this.draggableCloseable(
-
             onMouseDrag {
                 newPosition = Pair(
-                    (this.globalMousePos.x - offsetX).toInt() / 64,
-                    (this.globalMousePos.y - offsetY).toInt() / 64,
+                    (this.globalMousePos.x - offsetX).toInt() / CELL_SIZE,
+                    (this.globalMousePos.y - offsetY).toInt() / CELL_SIZE,
                 )
             }, autoMove = false
         ) { info ->
-            if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
-                info.view.x = info.viewNextXY.x
-                info.view.y = info.viewNextXY.y
-            } else {
-                return@draggableCloseable
-            }
+            if (!isPlayerTurn()) return@draggableCloseable
+            
+            info.view.x = info.viewNextXY.x
+            info.view.y = info.viewNextXY.y
             error = false
-            // Dragging start
+
             if (info.start) {
+                handleDragStart(currentPos, circles)
                 currentPos = Pair(this.cx, this.cy)
-                this.zIndex = 1.0
-                this.scale(1.2, 1.2)
-                castleAttempt = false
-
-                // Show available moves
-                for (x in 0..7) {
-                    for (y in 0..7) {
-                        if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            val cell = findCell(x, y)
-                            var color = Colors["#3b3b3b81"]
-                            var multiplier = 1.0
-                            if (findPiece(x, y) != null) {
-                                color = Colors["#ff000081"]
-                                multiplier = 1.5
-                            }
-                            val circle = Circle(10 * multiplier, fill = color)
-                            circle.addFilter(BlurFilter(multiplier * 1))
-
-                            circle.addTo(this.parent!!)
-                            circle.pos = cell!!.pos
-                            circle.centerOn(cell.cell)
-                            circles.add(circle)
-                        }
-                    }
-                }
             }
-            // Dragging end
 
             if (info.end) {
-                this.zIndex = 0.0
-                this.scale(1.0, 1.0)
-                // Check if newPosition is within the game board
-                if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
-                    error = true
-                }
-                val oldPos = currentPos
-                val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
-                if (pieceOnNewPos?.color == color) error = true
-                // Perform the move if no error
-                if (!error) {
-                    inCheck(pieces)
-                    if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
-                        if (doMove(this, currentPos!!, newPosition!!)) {
-                            whiteTurn = !whiteTurn
-                            pieceOnNewPos?.let { removePiece(it) }
-                        }
-
-                    } else if (moveChecker(
-                            currentPos!!,
-                            newPosition!!,
-                        ) && !blackKingInCheck && !whiteKingInCheck
-                    ) {
-
-                        /** Pawn promotion.*/
-                        if (this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) {
-                            val newKind: PieceKind = PieceKind.WhiteQueen
-                            promoteTo(newKind)
-                        }
-                        if (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7) {
-                            val newKind: PieceKind = PieceKind.BlackQueen
-                            promoteTo(newKind)
-                        }
-
-                        // If rook or king move outside of castling, deny castling
-                        if (!castleAttempt) {
-                            when (this.kind) {
-                                PieceKind.WhiteRook, PieceKind.WhiteKing -> whiteCastlingLegal = false
-                                PieceKind.BlackRook, PieceKind.BlackKing -> blackCastlingLegal = false
-                                else -> {}
-                            }
-                        }
-
-                        // Castling
-                        if (whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && castleAttempt) {
-                            when {
-                                newPosition!!.first == 6 && newPosition!!.second == 7 -> {
-                                    val rook = findPiece(7, 7)
-                                    movePiece(rook!!, 5, 7)
-                                    movePiece(this, 6, 7)
-
-                                    whiteTurn = !whiteTurn
-                                    whiteCastlingLegal = false
-
-                                }
-
-                                newPosition!!.first == 2 && newPosition!!.second == 7 -> {
-                                    val rook = findPiece(0, 7)
-                                    movePiece(rook!!, 3, 7)
-                                    movePiece(this, 2, 7)
-
-                                    whiteTurn = !whiteTurn
-                                    whiteCastlingLegal = false
-                                }
-                            }
-                        } else if (blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
-                            when {
-                                newPosition!!.first == 6 && newPosition!!.second == 0 -> {
-                                    val rook = findPiece(7, 0)
-                                    movePiece(rook!!, 5, 0)
-                                    movePiece(this, 6, 0)
-
-                                    blackCastlingLegal = false
-                                    whiteTurn = !whiteTurn
-                                }
-
-                                newPosition!!.first == 2 && newPosition!!.second == 0 -> {
-                                    val rook = findPiece(0, 0)
-                                    movePiece(rook!!, 3, 0)
-                                    movePiece(this, 2, 0)
-                                    whiteTurn = !whiteTurn
-                                    blackCastlingLegal = false
-                                }
-                            }
-                        } else if (doMove(this, currentPos!!, newPosition!!)) {
-                            whiteTurn = !whiteTurn
-                            pieceOnNewPos?.let { removePiece(it) }
-
-                        }
-                    } else {
-                        movePiece(this, oldPos!!.first, oldPos.second)
-
-                    }
-
-                    newPosition = null
-                    currentPos = null
-                    error = false
-                } else movePiece(this, oldPos!!.first, oldPos.second)
-                error = false
-
-                // Reset variables
-                newPosition = null
-                currentPos = null
-                for (circle in circles) {
-                    circle.removeFromParent()
-                }
-                checkForGameEnd()
-
+                handleDragEnd(newPosition, currentPos, error, circles)
+                resetDragVariables(newPosition, currentPos, circles)
             }
         }
+    }
+
+    private fun isPlayerTurn(): Boolean = (whiteTurn && isWhite) || (!whiteTurn && !isWhite)
+
+    private fun handleDragStart(currentPos: Pair<Int, Int>?, circles: ArrayList<Circle>) {
+        this.zIndex = 1.0
+        this.scale(1.2, 1.2)
+        castleAttempt = false
+        showAvailableMoves(circles)
+    }
+
+    private fun showAvailableMoves(circles: ArrayList<Circle>) {
+        for (x in 0..7) {
+            for (y in 0..7) {
+                if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
+                    val cell = findCell(x, y)
+                    val isCapture = findPiece(x, y) != null
+                    val color = if (isCapture) Colors["#ff000081"] else Colors["#3b3b3b81"]
+                    val multiplier = if (isCapture) 1.5 else 1.0
+                    
+                    val circle = Circle(10 * multiplier, fill = color)
+                    circle.addFilter(BlurFilter(multiplier))
+                    circle.addTo(this.parent!!)
+                    circle.pos = cell!!.pos
+                    circle.centerOn(cell.cell)
+                    circles.add(circle)
+                }
+            }
+        }
+    }
+    private fun handleDragEnd(
+        newPosition: Pair<Int, Int>?, 
+        currentPos: Pair<Int, Int>?, 
+        error: Boolean, 
+        circles: ArrayList<Circle>
+    ) {
+        this.zIndex = 0.0
+        this.scale(1.0, 1.0)
+        
+        var moveError = error
+        if (newPosition != null && !isValidBoardPosition(newPosition)) {
+            moveError = true
+        }
+        
+        val pieceOnNewPos = newPosition?.let { findPiece(it.first, it.second) }
+        if (pieceOnNewPos?.color == color) moveError = true
+        
+        if (!moveError && newPosition != null && currentPos != null) {
+            executeMoveIfValid(currentPos, newPosition, pieceOnNewPos)
+        } else {
+            currentPos?.let { movePiece(this, it.first, it.second) }
+        }
+        
+        checkForGameEnd()
+    }
+
+    private fun isValidBoardPosition(pos: Pair<Int, Int>): Boolean {
+        return pos.first in 0..<8 && pos.second in 0..<8
+    }
+
+    private fun executeMoveIfValid(
+        currentPos: Pair<Int, Int>, 
+        newPosition: Pair<Int, Int>, 
+        pieceOnNewPos: Piece?
+    ) {
+        inCheck(pieces)
+        val isInCheck = (!whiteTurn && (blackKingInCheck || whiteKingInCheck))
+        
+        if (isInCheck) {
+            if (doMove(this, currentPos, newPosition)) {
+                completeMoveAndSwitchTurn(pieceOnNewPos)
+            }
+        } else if (moveChecker(currentPos, newPosition) && !blackKingInCheck && !whiteKingInCheck) {
+            handlePawnPromotion(newPosition)
+            updateCastlingRights()
+            
+            if (castleAttempt) {
+                executeCastling(currentPos, newPosition)
+            } else if (doMove(this, currentPos, newPosition)) {
+                completeMoveAndSwitchTurn(pieceOnNewPos)
+            }
+        } else {
+            movePiece(this, currentPos.first, currentPos.second)
+        }
+    }
+
+    private fun completeMoveAndSwitchTurn(pieceOnNewPos: Piece?) {
+        whiteTurn = !whiteTurn
+        pieceOnNewPos?.let { removePiece(it) }
+    }
+
+    private fun handlePawnPromotion(newPosition: Pair<Int, Int>) {
+        when {
+            kind == PieceKind.WhitePawn && newPosition.second == 0 -> 
+                promoteTo(PieceKind.WhiteQueen)
+            kind == PieceKind.BlackPawn && newPosition.second == 7 -> 
+                promoteTo(PieceKind.BlackQueen)
+        }
+    }
+
+    private fun updateCastlingRights() {
+        if (!castleAttempt) {
+            when (kind) {
+                PieceKind.WhiteRook, PieceKind.WhiteKing -> whiteCastlingLegal = false
+                PieceKind.BlackRook, PieceKind.BlackKing -> blackCastlingLegal = false
+                else -> {}
+            }
+        }
+    }
+
+    private fun executeCastling(currentPos: Pair<Int, Int>, newPosition: Pair<Int, Int>) {
+        when {
+            // White kingside castling
+            whiteCastlingLegal && isWhite && currentPos == Pair(4, 7) && newPosition == Pair(6, 7) -> {
+                val rook = findPiece(7, 7)
+                movePiece(rook!!, 5, 7)
+                movePiece(this, 6, 7)
+                whiteCastlingLegal = false
+                whiteTurn = !whiteTurn
+            }
+            // White queenside castling
+            whiteCastlingLegal && isWhite && currentPos == Pair(4, 7) && newPosition == Pair(2, 7) -> {
+                val rook = findPiece(0, 7)
+                movePiece(rook!!, 3, 7)
+                movePiece(this, 2, 7)
+                whiteCastlingLegal = false
+                whiteTurn = !whiteTurn
+            }
+            // Black kingside castling
+            blackCastlingLegal && !isWhite && currentPos == Pair(4, 0) && newPosition == Pair(6, 0) -> {
+                val rook = findPiece(7, 0)
+                movePiece(rook!!, 5, 0)
+                movePiece(this, 6, 0)
+                blackCastlingLegal = false
+                whiteTurn = !whiteTurn
+            }
+            // Black queenside castling
+            blackCastlingLegal && !isWhite && currentPos == Pair(4, 0) && newPosition == Pair(2, 0) -> {
+                val rook = findPiece(0, 0)
+                movePiece(rook!!, 3, 0)
+                movePiece(this, 2, 0)
+                blackCastlingLegal = false
+                whiteTurn = !whiteTurn
+            }
+        }
+    }
+
+    private fun resetDragVariables(
+        newPosition: Pair<Int, Int>?, 
+        currentPos: Pair<Int, Int>?, 
+        circles: ArrayList<Circle>
+    ) {
+        for (circle in circles) {
+            circle.removeFromParent()
+        }
+        circles.clear()
     }
 
 
@@ -387,23 +412,24 @@ class Piece(
         if (::pImage.isInitialized) {
             pImage.removeFromParent()
         }
-        this.pImage = image(
-            when (kind) {
-                PieceKind.WhitePawn -> whitePawn!!
-                PieceKind.WhiteRook -> whiteRook!!
-                PieceKind.WhiteKnight -> whiteKnight!!
-                PieceKind.WhiteBishop -> whiteBishop!!
-                PieceKind.WhiteQueen -> whiteQueen!!
-                PieceKind.WhiteKing -> whiteKing!!
-                PieceKind.BlackPawn -> blackPawn!!
-                PieceKind.BlackRook -> blackRook!!
-                PieceKind.BlackKnight -> blackKnight!!
-                PieceKind.BlackBishop -> blackBishop!!
-                PieceKind.BlackQueen -> blackQueen!!
-                PieceKind.BlackKing -> blackKing!!
-            },
-        )
-        pImage.size(Size(64, 64))
+        
+        val bitmap = when (kind) {
+            PieceKind.WhitePawn -> whitePawn!!
+            PieceKind.WhiteRook -> whiteRook!!
+            PieceKind.WhiteKnight -> whiteKnight!!
+            PieceKind.WhiteBishop -> whiteBishop!!
+            PieceKind.WhiteQueen -> whiteQueen!!
+            PieceKind.WhiteKing -> whiteKing!!
+            PieceKind.BlackPawn -> blackPawn!!
+            PieceKind.BlackRook -> blackRook!!
+            PieceKind.BlackKnight -> blackKnight!!
+            PieceKind.BlackBishop -> blackBishop!!
+            PieceKind.BlackQueen -> blackQueen!!
+            PieceKind.BlackKing -> blackKing!!
+        }
+        
+        this.pImage = image(bitmap)
+        pImage.size(Size(CELL_SIZE, CELL_SIZE))
     }
 
 

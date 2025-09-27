@@ -7,6 +7,14 @@ import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 
+// Display constants
+const val SCREEN_SIZE_X = 800
+const val SCREEN_SIZE_Y = 800
+const val CHESS_BOARD_SIZE = 512.0
+const val CELL_SIZE = 64
+val offsetX = (SCREEN_SIZE_X - CHESS_BOARD_SIZE) / 2
+val offsetY = (SCREEN_SIZE_Y - CHESS_BOARD_SIZE) / 2
+
 // Game state variables
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
@@ -30,15 +38,7 @@ var blackBishop: Bitmap? = null
 var blackQueen: Bitmap? = null
 var blackKing: Bitmap? = null
 
-// Display constants
-var screenSizeX = 800
-var screenSizeY = 800
-var chessBoardX = 512.0
-var chessBoardY = 512.0
-var offsetX = (screenSizeX - chessBoardX) / 2
-var offsetY = (screenSizeY - chessBoardY) / 2
-
-suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
+suspend fun main() = Korge(windowSize = Size(SCREEN_SIZE_X, SCREEN_SIZE_Y), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
     sceneContainer.changeTo { GameScene() }
 }
@@ -47,14 +47,14 @@ class GameScene : Scene() {
     override suspend fun SContainer.sceneMain() {
         val chessboard = container {
             position(offsetX, offsetY)
-            width = chessBoardX
-            height = chessBoardY
+            width = CHESS_BOARD_SIZE
+            height = CHESS_BOARD_SIZE
         }
         initializeBoard(chessboard)
         loadPictures()
 
         // Add the shadow and play button
-        val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
+        val shadow = solidRect(CHESS_BOARD_SIZE, CHESS_BOARD_SIZE, Colors["#000000"].withAd(0.5)) {
             position(offsetX, offsetY)
             visible = true
         }
