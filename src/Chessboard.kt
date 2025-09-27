@@ -3,15 +3,11 @@ import korlibs.korge.view.align.*
 import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
-    // set the position of the cells RELATIVE to the container
-    println("Container position: ${DisplayConfig.offsetX}, ${DisplayConfig.offsetY}")
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
             val text = "${'a' + cx}${8 - cy}"
-
             GameState.cells.add(chessboard.cell(d.isEven, cx, cy, text))
-
             d++
         }
         d++
@@ -27,10 +23,7 @@ fun movePiece(
     newX: Int,
     newY: Int,
 ) {
-    //piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
-
     findCell(newX, newY)?.let { piece.centerOn(it) }
-
     piece.cx = newX
     piece.cy = newY
 }

@@ -16,20 +16,15 @@ class Cell(
     var cx: Int,
     var cy: Int,
     text: String,
-
-    ) : Container() {
+) : Container() {
     private var color: RGBA by Delegates.notNull()
 
-    // Retrieve the cell from the board based on the coordinates
     private val cell: SolidRect = solidRect(cellWidth, cellHeight)
 
     init {
         moveCell(cx, cy)
         colorCell()
-        // add location to cell like a1 or h8
-
         this.text(text, color = Colors.BLACK)
-
     }
 
     fun colorCell() {

@@ -112,8 +112,6 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
             if (enemyPiece.moveChecker(enemyPos, whiteKingPosition)) {
-                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition)
                 GameState.whiteKingInCheck = true
                 return true
             }
@@ -121,8 +119,6 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (GameState.whiteTurn && !fromCastling) return false
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
             if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
-                println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                println(blackKingPosition)
                 GameState.blackKingInCheck = true
                 return true
             }
@@ -152,7 +148,6 @@ fun doMove(
         return false
     }
     inCheck(GameState.pieces)
-    println("Doing move: ${piece.cx}, ${piece.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
     piece.cx = newPos.first
     piece.cy = newPos.second
     pieceOnNewPos?.disabled = false

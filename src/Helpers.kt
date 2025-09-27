@@ -16,8 +16,6 @@ fun removePiece(piece: Piece) {
 }
 
 fun addAllPieces(chessboard: Container) {
-    // Add all pieces in right order and add them to the pieces list (white pieces are at the
-    // bottom)
     for (i in 0 until 8) {
         chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
     }
@@ -49,7 +47,6 @@ fun addAllPieces(chessboard: Container) {
 
 /**Load bitmaps of the pieces.*/
 suspend fun reloadPictures() {
-    // Load pictures
     PieceImages.whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2, 2.0).render()
     PieceImages.whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0, 2.0).render()
     PieceImages.whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_nlt45.svg"].readSVG().scaled(2.0, 2.0).render()
@@ -80,18 +77,18 @@ fun simulateMove(
     inCheck(GameState.pieces, calledFromKing)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     if (piece.color == pieceOnNewPos?.color) return false
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(GameState.pieces)} , pieceonnewpos $pieceOnNewPos")
     if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
     if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
+    
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
+    
     if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
         movePiece(piece, oldPos.first, oldPos.second)
-        println("move is not possible")
         return false
     }
+    
     val stillInCheck = inCheck(GameState.pieces, calledFromKing)
-    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
     return !stillInCheck
@@ -104,40 +101,33 @@ class MoveIndicator : Container() {
     var cx = 0
     var cy = 0
 
-    // private var outline: Circle = circle()
     private var circle: Circle = circle()
     private var isRed: Boolean = false
 
     init {
-
-
         markGrey()
         circle.zIndex = 2.0
     }
 
     fun markRed() {
         circle.color = Colors["#cccccc"]
-
         circle.fill = Colors.TRANSPARENT
         circle.stroke = Colors.RED
         circle.strokeThickness = 6.5
-        //circle.alpha = 5.0
-        circle.radius = userScale * 39
+        circle.radius = DisplayConfig.userScale * 39
         isRed = true
     }
 
     fun markGrey() {
-
         if (isRed) {
             markRed()
             return
         }
         circle.color = Colors["#3b3b3b81"]
-        circle.radius = userScale * 15
+        circle.radius = DisplayConfig.userScale * 15
         circle.stroke = Colors.BLACK
-        circle.strokeThickness = userScale * 3.1
+        circle.strokeThickness = DisplayConfig.userScale * 3.1
         isRed = false
-
     }
 
     fun markWhite() {
@@ -240,7 +230,6 @@ class Settings : Container() {
         }
 
         private fun handleAboutClick() {
-            // TODO Show Credits
             if (aboutPageInForeground) {
                 settingsContainer.findViewByName("AboutPage")?.removeFromParent()
                 aboutPageInForeground = false
@@ -249,7 +238,6 @@ class Settings : Container() {
             solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
             AboutPage().name("AboutPage").addTo(settingsContainer!!).centerOnStage()
             aboutPageInForeground = true
-
         }
 
         private fun handleExitClick() {
@@ -264,15 +252,12 @@ class Settings : Container() {
     }
 
     init {
-
-        // Background
         background = roundRect(
             Size(DisplayConfig.chessBoardWidth / 1.5, DisplayConfig.chessBoardHeight / 1.5),
             radius = RectCorners(15),
         )
         background.color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
 
-        // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
         SettingsButton(SettingsKind.About).addTo(this)
         SettingsButton(SettingsKind.Exit).addTo(this)

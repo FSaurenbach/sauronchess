@@ -82,11 +82,8 @@ class Piece(
                 for (x in 0..7) {
                     for (y in 0..7) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            //println("the move from $cx, $cy -> $x, $y is possible")
                             val cell = findCell(x, y)
                             if (cell != null) {
-                                //this.parent!!.solidRect(100,100, Colors.RED)
-                                //moveIndicator(cell)
                                 val circle = this.parent!!.moveIndicator()
                                 circle.cx = x
                                 circle.cy = y
@@ -116,21 +113,16 @@ class Piece(
                     error = true
                 }
                 val oldPos = currentPos
-                println("currentPos $currentPos , new Pos $newPosition")
                 val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
                 if (pieceOnNewPos?.color == color) error = true
                 // Perform the move if no error
                 if (!error) {
-                    println("currentPos $currentPos , new Pos $newPosition, whiteTurn ${GameState.whiteTurn}")
-
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
-                        println("in check")
                         if (doMove(this, currentPos!!, newPosition!!)) {
                             GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
                         }
-
                     } else if (moveChecker(
                             currentPos!!,
                             newPosition!!,
@@ -139,12 +131,10 @@ class Piece(
 
                         /** Pawn promotion.*/
                         if (this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) {
-                            println("promote")
                             val newKind: PieceKind = PieceKind.WhiteQueen
                             promoteTo(newKind)
                         }
                         if (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7) {
-                            println("promoting black")
                             val newKind: PieceKind = PieceKind.BlackQueen
                             promoteTo(newKind)
                         }
@@ -221,8 +211,6 @@ class Piece(
                 for (circle in circles) {
                     circle.removeFromParent()
                 }
-                println()
-                println()
                 checkForGameEnd()
 
             }
@@ -404,11 +392,8 @@ class Piece(
     }
 
     private fun promoteTo(newPieceKind: PieceKind) {
-        println("Promoting to $newPieceKind")
         this.kind = newPieceKind
         reloadImages()
-
-
     }
 
     private fun reloadImages() {
@@ -447,7 +432,6 @@ fun checkForGameEnd(): Boolean {
         for (x in 0..7) {
             for (y in 0..7) {
                 if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
-                    println("the move from ${piece.cx}, ${piece.cy} -> $x, $y is possible")
                     return true
                 }
             }
