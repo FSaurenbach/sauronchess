@@ -1,95 +1,92 @@
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
+import korlibs.image.vector.*
+import korlibs.image.vector.format.*
+import korlibs.io.file.std.*
 import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import kotlin.properties.*
 
+var sCont: SceneContainer by Delegates.notNull()
 var cells = ArrayList<Cell>()
 var pieces = ArrayList<Piece>()
-var whitePawn: Bitmap? = null
-var whiteRook: Bitmap? = null
-var whiteKnight: Bitmap? = null
-var whiteBishop: Bitmap? = null
-var whiteQueen: Bitmap? = null
-var whiteKing: Bitmap? = null
+var whitePawn: NativeImage? = null
+var whiteRook: NativeImage? = null
+var whiteKnight: NativeImage? = null
+var whiteBishop: NativeImage? = null
+var whiteQueen: NativeImage? = null
+var whiteKing: NativeImage? = null
+var creditsSvg: Bitmap? = null
 var whiteCastlingLegal = true
 var blackCastlingLegal = true
-var blackPawn: Bitmap? = null
-var blackRook: Bitmap? = null
-var blackKnight: Bitmap? = null
-var blackBishop: Bitmap? = null
-var blackQueen: Bitmap? = null
-var blackKing: Bitmap? = null
+var blackPawn: NativeImage? = null
+var blackRook: NativeImage? = null
+var blackKnight: NativeImage? = null
+var blackBishop: NativeImage? = null
+var blackQueen: NativeImage? = null
+var blackKing: NativeImage? = null
 var whiteKingInCheck = false
 var blackKingInCheck = false
 var whiteTurn = true
-var screenSizeX = 800
-var screenSizeY = 800
-var chessBoardX = 512.0
-var chessBoardY = 512.0
-var offsetX = (screenSizeX - chessBoardX) / 2
-var offsetY = (screenSizeY - chessBoardY) / 2
-
-suspend fun main() = Korge(windowSize = Size(screenSizeX, screenSizeY), backgroundColor = Colors["#4b3621"]) {
+var screenWidth = 900
+var screenHeight = 900
+var userScale = 0.74
+var chessBoardWidth = screenWidth * userScale
+var chessBoardHeight = screenHeight * userScale
+var offsetX = (screenWidth - chessBoardWidth) / 2
+var offsetY = (screenHeight - chessBoardHeight) / 2
+val white_mode_cellColorWhite = Colors["#ebecd0"]
+val white_mode_cellColorBlack = Colors["#964d22"]
+val dark_mode_cellColorWhite = Colors["#9a9c7c"]
+val dark_mode_cellColorBlack = Colors["#7a3a15"]
+suspend fun main() = Korge(windowSize = Size(screenWidth, screenHeight), backgroundColor = Colors["#4b3621"]) {
     val sceneContainer = sceneContainer()
+    sCont = sceneContainer
     sceneContainer.changeTo { GameScene() }
 }
+
+var user_settings = Options()
 
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
+        solidRect(chessBoardWidth + 18, chessBoardHeight + 18, color = white_mode_cellColorBlack).centerOnStage()
+
+        solidRect(chessBoardWidth + 10, chessBoardHeight + 10, color = white_mode_cellColorWhite).centerOnStage()
+        solidRect(chessBoardWidth + 1, chessBoardHeight + 1, color = Colors.BLACK).centerOnStage()
 
         val chessboard = container {
             position(offsetX, offsetY)
-            width = chessBoardX
-            height = chessBoardY
-
+            width = chessBoardWidth
+            height = chessBoardWidth
         }
-        initializeBoard(chessboard)
-        loadPictures()
+        val settingsButton = image(resourcesVfs["settings.svg"].readSVG().scaled(1, 1).render()) {
+            zIndex(3)
+            position(screenWidth * 0.8, offsetY / 2)
 
-
-        // Add the shadow and play button
-        val shadow = solidRect(chessBoardX, chessBoardY, Colors["#000000"].withAd(0.5)) {
-            position(offsetX, offsetY)
-            visible = true
-        }
-        val title: Text = text("Chess") {
-            textSize = 50.0
-            centerXOnStage()
-            y = 20.0
-            color = Colors.WHITE
-        }
-
-        roundRect(Size(title.width + 20, title.height + 20), RectCorners(10), Colors["#3b7d88"]) {
-            this.zIndex(-1)
-        }.centerOn(title)
-        val playButtonBackground = roundRect(Size(200, 80), RectCorners(20), Colors["#3b7d88"]) {
-            centerOn(chessboard)
-        }
-
-        text("Play") {
-            color = Colors.WHITE
-            textSize = 40.0
-            centerOn(playButtonBackground)
-
+            scale(0.15)
             onClick {
-                shadow.visible = false
-                playButtonBackground.visible = false
-                this.visible = false
-                addAllPieces(chessboard)
+                if (!settingsInForeground) showSettings()
             }
         }
+
+        settingsButton.centerYBetween(offsetY, 0.0)
+        initializeBoard(chessboard)
+        reloadPictures()
+        addAllPieces(chessboard)
+
     }
 
 
 }
+
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
-fun inCheck(piecesList: ArrayList<Piece>, fromCastling:Boolean = false): Boolean {
+fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolean {
     whiteKingInCheck = false
     blackKingInCheck = false
 
@@ -133,8 +130,7 @@ fun doMove(
 
     inCheck(pieces)
     val pieceOnNewPos = findPiece(
-        newPos.first,
-        newPos.second
+        newPos.first, newPos.second
     )
     /*println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")*/
 

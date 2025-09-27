@@ -1,24 +1,55 @@
 import korlibs.image.color.*
 import korlibs.korge.view.*
+import korlibs.math.geom.*
+import kotlin.properties.*
 
 
 inline fun Container.cell(
-    color: RGBA, cx: Int, cy: Int, callback: @ViewDslMarker Cell.() -> Unit = {}
-): Cell = Cell(color, cx, cy).addTo(this, callback)
+    isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
+): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
+
+val cellHeight get() = chessBoardHeight / 8
+val cellWidth get() = chessBoardWidth / 8
 
 class Cell(
-    color: RGBA,
+    private var isWhite: Boolean,
     var cx: Int,
     var cy: Int,
-) : Container() {
+    text: String,
+
+    ) : Container() {
+    private var color: RGBA by Delegates.notNull()
+
     // Retrieve the cell from the board based on the coordinates
-    val cell: SolidRect = solidRect(64, 64)
+    private val cell: SolidRect = solidRect(cellWidth, cellHeight)
 
     init {
-        moveCell(this, cx, cy)
-        cell.color = color
+        moveCell(cx, cy)
+        colorCell()
+        // add location to cell like a1 or h8
+
+        this.text(text, color = Colors.BLACK)
 
     }
+
+    fun colorCell() {
+
+        if (isWhite) {
+            color = if (user_settings.darkMode) dark_mode_cellColorWhite else white_mode_cellColorWhite
+        }
+        if (!isWhite) {
+            color = if (user_settings.darkMode) dark_mode_cellColorBlack else white_mode_cellColorBlack
+        }
+        cell.color = color
+    }
+
+    private fun moveCell(
+        newX: Int,
+        newY: Int,
+    ) {
+        this.pos = Point(newX * cellWidth + offsetX, newY * cellHeight + offsetY)
+    }
+
 }
 
 
@@ -27,4 +58,10 @@ fun findCell(cx: Int, cy: Int): Cell? {
         if (cell.cx == cx && cell.cy == cy) return cell
     }
     return null
+}
+
+fun reloadCells() {
+    for (cell in cells) {
+        cell.colorCell()
+    }
 }
