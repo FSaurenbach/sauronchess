@@ -1,11 +1,8 @@
 import korlibs.image.color.*
-import korlibs.image.format.*
-import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import kotlin.properties.*
@@ -16,23 +13,23 @@ fun removePiece(piece: Piece) {
 }
 
 fun addAllPieces(chessboard: Container) {
-    for (i in 0 until 8) {
+    for (i in 0 until DisplayConfig.boardSize) {
         chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
     }
-    chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, isWhite = true)
-    chessboard.piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, isWhite = true)
+    chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 0, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, DisplayConfig.boardSize - 1, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 6, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteBishop, Colors.WHITE, 2, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteBishop, Colors.WHITE, 5, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteQueen, Colors.WHITE, 3, DisplayConfig.boardSize - 1, isWhite = true)
+    chessboard.piece(PieceKind.WhiteKing, Colors.WHITE, 4, DisplayConfig.boardSize - 1, isWhite = true)
 
-    for (i in 0 until 8) {
+    for (i in 0 until DisplayConfig.boardSize) {
         chessboard.piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, isWhite = false)
     }
     chessboard.piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, isWhite = false)
-    chessboard.piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, isWhite = false)
+    chessboard.piece(PieceKind.BlackRook, Colors.BLACK, DisplayConfig.boardSize - 1, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, isWhite = false)

@@ -1,10 +1,8 @@
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
-import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.*
-import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
@@ -48,6 +46,11 @@ object DisplayConfig {
     val chessBoardHeight = screenHeight * userScale
     val offsetX = (screenWidth - chessBoardWidth) / 2
     val offsetY = (screenHeight - chessBoardHeight) / 2
+    
+    // Board constants
+    const val boardSize = 8
+    const val pawnPromotionRankWhite = 0
+    const val pawnPromotionRankBlack = 7
 }
 
 // Theme Colors

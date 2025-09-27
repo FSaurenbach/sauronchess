@@ -79,8 +79,8 @@ class Piece(
                 castleAttempt = false
 
                 // Show available moves
-                for (x in 0..7) {
-                    for (y in 0..7) {
+                for (x in 0 until DisplayConfig.boardSize) {
+                    for (y in 0 until DisplayConfig.boardSize) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
                             val cell = findCell(x, y)
                             if (cell != null) {
@@ -109,7 +109,7 @@ class Piece(
                 this.zIndex = 0.0
                 this.scale(1.0, 1.0)
                 // Check if newPosition is within the game board
-                if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
+                if (newPosition!!.first !in 0 until DisplayConfig.boardSize || newPosition.second < 0 || newPosition.second >= DisplayConfig.boardSize) {
                     error = true
                 }
                 val oldPos = currentPos
@@ -130,11 +130,11 @@ class Piece(
                     ) {
 
                         /** Pawn promotion.*/
-                        if (this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) {
+                        if (this.kind == PieceKind.WhitePawn && newPosition!!.second == DisplayConfig.pawnPromotionRankWhite) {
                             val newKind: PieceKind = PieceKind.WhiteQueen
                             promoteTo(newKind)
                         }
-                        if (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7) {
+                        if (this.kind == PieceKind.BlackPawn && newPosition!!.second == DisplayConfig.pawnPromotionRankBlack) {
                             val newKind: PieceKind = PieceKind.BlackQueen
                             promoteTo(newKind)
                         }
@@ -429,8 +429,8 @@ fun checkForGameEnd(): Boolean {
     val whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     val blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
-        for (x in 0..7) {
-            for (y in 0..7) {
+        for (x in 0 until DisplayConfig.boardSize) {
+            for (y in 0 until DisplayConfig.boardSize) {
                 if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
                     return true
                 }

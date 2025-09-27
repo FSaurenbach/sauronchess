@@ -1,12 +1,11 @@
 import korlibs.korge.view.*
-import korlibs.korge.view.align.*
 import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
     var d = 0
-    for (cx in 0 until 8) {
-        for (cy in 0 until 8) {
-            val text = "${'a' + cx}${8 - cy}"
+    for (cx in 0 until DisplayConfig.boardSize) {
+        for (cy in 0 until DisplayConfig.boardSize) {
+            val text = "${'a' + cx}${DisplayConfig.boardSize - cy}"
             GameState.cells.add(chessboard.cell(d.isEven, cx, cy, text))
             d++
         }

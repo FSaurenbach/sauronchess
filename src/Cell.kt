@@ -8,8 +8,8 @@ inline fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
 ): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
 
-val cellHeight get() = DisplayConfig.chessBoardHeight / 8
-val cellWidth get() = DisplayConfig.chessBoardWidth / 8
+val cellHeight get() = DisplayConfig.chessBoardHeight / DisplayConfig.boardSize
+val cellWidth get() = DisplayConfig.chessBoardWidth / DisplayConfig.boardSize
 
 class Cell(
     private var isWhite: Boolean,
