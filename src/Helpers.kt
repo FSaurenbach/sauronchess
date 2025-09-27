@@ -170,7 +170,7 @@ class Settings : Container() {
     var currentNo = 1
     var background: RoundRect by Delegates.notNull()
 
-    inner class AboutPage:Container(){
+    inner class AboutPage : Container() {
 
         init {
             val background = roundRect(Size((chessBoardWidth / 2)*1.7, (chessBoardHeight / 3)*1.7), radius = RectCorners(10)){
@@ -181,16 +181,16 @@ class Settings : Container() {
             }
 
             image(creditsSvg!!).scale(0.5).centerOn(bg)
-            var exitButton = SettingsButton(SettingsKind.About)
+            val exitButton = SettingsButton(SettingsKind.About)
             exitButton.centerXOn(bg)
-            exitButton.positionY(bg.y+bg.height/4)
+            exitButton.positionY(bg.y + bg.height / 4)
             exitButton.zIndex(33)
             exitButton.addTo(this@Settings)
 
 
-
         }
     }
+
     inner class SettingsButton(private val settingsKind: SettingsKind) : Container() {
         private var baseButton: RoundRect by Delegates.notNull()
 
@@ -250,14 +250,14 @@ class Settings : Container() {
                 return
             }
             solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
-            AboutPage().name("AboutPage").addTo(settingsContainer!!).centerOnStage()
+            AboutPage().name("AboutPage").addTo(settingsContainer).centerOnStage()
             aboutPageInForeground = true
 
         }
 
         private fun handleExitClick() {
             settingsInForeground = false
-            settingsContainer?.removeFromParent()
+            settingsContainer.removeFromParent()
         }
 
     }
@@ -281,5 +281,42 @@ class Settings : Container() {
         SettingsButton(SettingsKind.Exit).addTo(this)
 
 
+    }
+}
+
+class Popup(var isWhite:Boolean) : Container(){
+    private val queen:Image
+    private val rook:Image
+    private val knight:Image
+    private val bishop: Image
+    init {
+        val bg = roundRect(
+            Size(360, 80),
+            fill = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite,
+            radius = RectCorners(10)
+        )
+        queen = image(
+            if (isWhite) whiteQueen!! else blackQueen!!
+        ).alignLeftToLeftOf(bg).centerYOn(bg)
+        rook = image(
+            if (isWhite) whiteRook!! else blackRook!!
+        ).alignLeftToRightOf(queen).centerYOn(bg)
+        knight = image(
+            if (isWhite) whiteKnight!! else blackKnight!!
+        ).alignLeftToRightOf(rook).centerYOn(bg)
+        bishop = image(
+            if (isWhite) whiteBishop!! else blackBishop!!
+        ).alignLeftToRightOf(knight).centerYOn(bg)
+
+
+
+    }
+    fun getChoice(): PieceKind {
+        var choice: PieceKind by Delegates.notNull()
+        queen.onClick {
+            choice =  if(isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen
+
+        }
+        return choice
     }
 }
