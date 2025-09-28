@@ -6,7 +6,6 @@ import kotlinx.coroutines.*
 import kotlin.math.*
 
 
-var castleAttempt = false
 
 enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
@@ -34,7 +33,6 @@ class Piece(
     private val isWhite: Boolean
 ) : Container() {
 
-    // Set the images
     lateinit var pImage: Image
 
     init {
@@ -76,7 +74,7 @@ class Piece(
                 currentPos = Pair(this.cx, this.cy)
                 this.zIndex = 3.0
                 this.scale(1.2, 1.2)
-                castleAttempt = false
+                GameState.castleAttempt = false
 
                 // Show available moves
                 for (x in 0..7) {
@@ -152,7 +150,7 @@ class Piece(
                         }
 
                         // If rook or king move outside of castling, deny castling
-                        if (!castleAttempt) {
+                        if (!GameState.castleAttempt) {
                             when (this.kind) {
                                 PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
                                 PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
@@ -161,7 +159,7 @@ class Piece(
                         }
 
                         // Castling
-                        if (GameState.whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && castleAttempt) {
+                        if (GameState.whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && GameState.castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 7 -> {
                                     val rook = findPiece(7, 7)
@@ -182,7 +180,7 @@ class Piece(
                                     GameState.whiteCastlingLegal = false
                                 }
                             }
-                        } else if (GameState.blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
+                        } else if (GameState.blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && GameState.castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 0 -> {
                                     val rook = findPiece(7, 0)
@@ -365,7 +363,7 @@ class Piece(
                     // Check if king (will) be/is in check
                     if (!simulateMove(oldPos, newPos, this, true)) return false
 
-                    castleAttempt = true
+                    GameState.castleAttempt = true
                     return true
                 }
 
@@ -374,7 +372,7 @@ class Piece(
                     if (findPiece(1, 7) != null || findPiece(2, 7) != null) return false
                     if (!simulateMove(oldPos, newPos, this, true)) return false
 
-                    castleAttempt = true
+                    GameState.castleAttempt = true
                     return true
                 }
             }
@@ -385,7 +383,7 @@ class Piece(
                     if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
                     if (!simulateMove(oldPos, newPos, this, true)) return false
 
-                    castleAttempt = true
+                    GameState.castleAttempt = true
                     return true
                 }
 
@@ -394,7 +392,7 @@ class Piece(
 
                     if (!simulateMove(oldPos, newPos, this, true)) return false
 
-                    castleAttempt = true
+                    GameState.castleAttempt = true
                     return true
                 }
             }

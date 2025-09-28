@@ -21,6 +21,7 @@ object GameState {
     var blackKingInCheck = false
     var whiteTurn = true
     var promotionActive = false
+    var castleAttempt = false
 }
 
 object PieceImages {
