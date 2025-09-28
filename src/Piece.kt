@@ -6,7 +6,6 @@ import kotlinx.coroutines.*
 import kotlin.math.*
 
 
-
 enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
@@ -436,7 +435,6 @@ class Piece(
         pImage.scale = DisplayConfig.userScale
     }
 
-    /** Execute move after it has been verified by moveChecker, returns false if a king will be in check after move!*/
     private fun doMove(
         oldPos: Pair<Int, Int>,
         newPos: Pair<Int, Int>,
