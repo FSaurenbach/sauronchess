@@ -471,7 +471,6 @@ fun checkForGameEnd(): Boolean {
         for (x in 0..7) {
             for (y in 0..7) {
                 if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
-                    println("the move from ${piece.cx}, ${piece.cy} -> $x, $y is possible")
                     return true
                 }
             }

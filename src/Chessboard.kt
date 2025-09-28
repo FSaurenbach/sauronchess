@@ -27,8 +27,6 @@ fun movePiece(
     newX: Int,
     newY: Int,
 ) {
-    //piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
-
     findCell(newX, newY)?.let { piece.centerOn(it) }
 
     piece.cx = newX
