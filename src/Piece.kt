@@ -24,7 +24,6 @@ inline fun Container.piece(
     callback: @ViewDslMarker Piece.() -> Unit = {}
 ): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this, callback)
 
-var promotionActive = false
 
 class Piece(
     var kind: PieceKind,
@@ -66,7 +65,7 @@ class Piece(
                 }
             }, autoMove = false
         ) { info ->
-            if ((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite) && !promotionActive) {
+            if (((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite)) && !GameState.promotionActive) {
                 x = info.viewNextX
                 y = info.viewNextY
             } else return@draggableCloseable
@@ -142,11 +141,11 @@ class Piece(
                             popup.addTo(GameState.sceneContainer)
 
                             GameState.sceneContainer.launch {
-                                promotionActive = true
+                                GameState.promotionActive = true
                                 newKind = popup.getChoice()
                                 promoteTo(newKind)
                                 popup.removeFromParent()
-                                promotionActive = false
+                                GameState.promotionActive = false
                             }
 
 

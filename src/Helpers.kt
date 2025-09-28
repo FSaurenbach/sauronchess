@@ -20,10 +20,9 @@ fun removePiece(piece: Piece) {
 fun addAllPieces(chessboard: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
-    for (i in 0 until 7) {
+    for (i in 0 until 8) {
         chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
     }
-    chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, 3, 2, isWhite = true)
     chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
     chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
     chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)

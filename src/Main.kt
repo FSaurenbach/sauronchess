@@ -20,6 +20,7 @@ object GameState {
     var whiteKingInCheck = false
     var blackKingInCheck = false
     var whiteTurn = true
+    var promotionActive = false
 }
 
 object PieceImages {
