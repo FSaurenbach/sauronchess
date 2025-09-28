@@ -6,7 +6,7 @@ import kotlin.properties.*
 
 inline fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
-): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
+) = Cell(isWhite, cx, cy, text).addTo(this, callback)
 
 val cellHeight get() = DisplayConfig.chessBoardHeight / 8
 val cellWidth get() = DisplayConfig.chessBoardWidth / 8
@@ -26,9 +26,7 @@ class Cell(
     init {
         moveCell(cx, cy)
         colorCell()
-        // add location to cell like a1 or h8
-
-        this.text(text, color = Colors.BLACK)
+        text(text, color = Colors.BLACK)
 
     }
 

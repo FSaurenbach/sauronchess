@@ -105,8 +105,7 @@ class GameScene : Scene() {
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
         reloadPictures()
-        addAllPieces(chessboard)
-
+        chessboard.addAllPieces()
     }
 
 

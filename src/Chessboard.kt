@@ -18,9 +18,7 @@ fun initializeBoard(chessboard: Container) {
     }
 }
 
-fun findPiece(x: Int, y: Int): Piece? {
-    return GameState.pieces.find { it.cx == x && it.cy == y }
-}
+fun findPiece(x: Int, y: Int): Piece? = GameState.pieces.find { it.cx == x && it.cy == y }
 
 fun movePiece(
     piece: Piece,
