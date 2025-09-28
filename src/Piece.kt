@@ -31,6 +31,7 @@ class Piece(
     var disabled: Boolean = false,
     private val isWhite: Boolean
 ) : Container() {
+    val cxy get() = Pair(cx, cy)
 
     lateinit var pImage: Image
 
@@ -398,9 +399,6 @@ class Piece(
         return false
     }
 
-    fun cxy(): Pair<Int, Int> {
-        return Pair(cx, cy)
-    }
 
     private fun promoteTo(newPieceKind: PieceKind) {
         println("Promoting to $newPieceKind")

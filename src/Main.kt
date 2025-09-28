@@ -62,7 +62,8 @@ object ThemeColors {
 
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
-    backgroundColor = Colors["#4b3621"], quality = GameWindow.Quality.QUALITY
+    backgroundColor = Colors["#4b3621"],
+    quality = GameWindow.Quality.QUALITY
 ) {
     val sceneContainer = sceneContainer()
     GameState.sceneContainer = sceneContainer
@@ -76,20 +77,14 @@ class GameScene : Scene() {
     override suspend fun SContainer.sceneMain() {
         // Chessboard backgrounds
         solidRect(
-            DisplayConfig.chessBoardWidth + 18,
-            DisplayConfig.chessBoardHeight + 18,
-            color = ThemeColors.whiteModeBlack
+            DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, color = ThemeColors.whiteModeBlack
         ).centerOnStage()
 
         solidRect(
-            DisplayConfig.chessBoardWidth + 10,
-            DisplayConfig.chessBoardHeight + 10,
-            color = ThemeColors.whiteModeWhite
+            DisplayConfig.chessBoardWidth + 10, DisplayConfig.chessBoardHeight + 10, color = ThemeColors.whiteModeWhite
         ).centerOnStage()
         solidRect(
-            DisplayConfig.chessBoardWidth + 1,
-            DisplayConfig.chessBoardHeight + 1,
-            color = Colors.BLACK
+            DisplayConfig.chessBoardWidth + 1, DisplayConfig.chessBoardHeight + 1, color = Colors.BLACK
         ).centerOnStage()
 
         val chessboard = container {
@@ -123,8 +118,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     GameState.whiteKingInCheck = false
     GameState.blackKingInCheck = false
 
-    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.cxy()
-    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy()
+    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.cxy
+    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy
     for (enemyPiece in piecesList) {
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
