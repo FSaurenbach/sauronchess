@@ -9,6 +9,7 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import korlibs.render.*
 import kotlin.properties.*
 
 object GameState {
@@ -61,7 +62,7 @@ object ThemeColors {
 
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
-    backgroundColor = Colors["#4b3621"]
+    backgroundColor = Colors["#4b3621"], quality = GameWindow.Quality.QUALITY
 ) {
     val sceneContainer = sceneContainer()
     GameState.sceneContainer = sceneContainer
@@ -73,7 +74,7 @@ var userSettings = Options()
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
-        // Chessboard background(s)
+        // Chessboard backgrounds
         solidRect(
             DisplayConfig.chessBoardWidth + 18,
             DisplayConfig.chessBoardHeight + 18,
@@ -151,29 +152,3 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     return false
 }
 
-/** Execute move after it has been verified by moveChecker, returns false if a king will be in check after move!*/
-fun doMove(
-    piece: Piece,
-    oldPos: Pair<Int, Int>,
-    newPos: Pair<Int, Int>,
-): Boolean {
-    if ((GameState.whiteTurn && piece.color == Colors.BLACK) || (!GameState.whiteTurn && piece.color == Colors.WHITE)) return false
-
-    inCheck(GameState.pieces)
-    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
-
-    movePiece(piece, newPos.first, newPos.second)
-    pieceOnNewPos?.disabled = true
-    inCheck(GameState.pieces)
-    if ((piece.color == Colors.BLACK && GameState.blackKingInCheck) || (piece.color == Colors.WHITE && GameState.whiteKingInCheck)) {
-        movePiece(piece, oldPos.first, oldPos.second)
-        println("King will (still) be in check after this move!")
-        return false
-    }
-    inCheck(GameState.pieces)
-    println("Doing move: ${piece.cx}, ${piece.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
-    piece.cx = newPos.first
-    piece.cy = newPos.second
-    pieceOnNewPos?.disabled = false
-    return true
-}

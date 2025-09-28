@@ -101,8 +101,6 @@ class Piece(
                     }
                 }
             }
-            // Dragging end
-
             if (info.end) {
                 this.zIndex = 0.0
                 this.scale(1.0, 1.0)
@@ -121,7 +119,7 @@ class Piece(
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
                         println("in check")
-                        if (doMove(this, currentPos!!, newPosition!!)) {
+                        if (doMove(currentPos!!, newPosition!!)) {
                             GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
                         }
@@ -200,7 +198,7 @@ class Piece(
                                 }
                             }
 
-                        } else if (doMove(this, currentPos!!, newPosition!!)) {
+                        } else if (doMove(currentPos!!, newPosition!!)) {
                             GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
 
@@ -436,6 +434,32 @@ class Piece(
         )
 
         pImage.scale = DisplayConfig.userScale
+    }
+
+    /** Execute move after it has been verified by moveChecker, returns false if a king will be in check after move!*/
+    private fun doMove(
+        oldPos: Pair<Int, Int>,
+        newPos: Pair<Int, Int>,
+    ): Boolean {
+        if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
+
+        inCheck(GameState.pieces)
+        val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+
+        movePiece(this, newPos.first, newPos.second)
+        pieceOnNewPos?.disabled = true
+        inCheck(GameState.pieces)
+        if ((this.color == Colors.BLACK && GameState.blackKingInCheck) || (this.color == Colors.WHITE && GameState.whiteKingInCheck)) {
+            movePiece(this, oldPos.first, oldPos.second)
+            println("King will (still) be in check after this move!")
+            return false
+        }
+        inCheck(GameState.pieces)
+        println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
+        this.cx = newPos.first
+        this.cy = newPos.second
+        pieceOnNewPos?.disabled = false
+        return true
     }
 
 
