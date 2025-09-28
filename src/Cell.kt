@@ -8,8 +8,8 @@ inline fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
 ): Cell = Cell(isWhite, cx, cy, text).addTo(this, callback)
 
-val cellHeight get() = chessBoardHeight / 8
-val cellWidth get() = chessBoardWidth / 8
+val cellHeight get() = DisplayConfig.chessBoardHeight / 8
+val cellWidth get() = DisplayConfig.chessBoardWidth / 8
 
 class Cell(
     private var isWhite: Boolean,
@@ -33,12 +33,11 @@ class Cell(
     }
 
     fun colorCell() {
-
         if (isWhite) {
-            color = if (user_settings.darkMode) dark_mode_cellColorWhite else white_mode_cellColorWhite
+            color = if (userSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
         }
         if (!isWhite) {
-            color = if (user_settings.darkMode) dark_mode_cellColorBlack else white_mode_cellColorBlack
+            color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
         }
         cell.color = color
     }
@@ -47,21 +46,21 @@ class Cell(
         newX: Int,
         newY: Int,
     ) {
-        this.pos = Point(newX * cellWidth + offsetX, newY * cellHeight + offsetY)
+        this.pos = Point(newX * cellWidth + DisplayConfig.offsetX, newY * cellHeight + DisplayConfig.offsetY)
     }
 
 }
 
 
 fun findCell(cx: Int, cy: Int): Cell? {
-    for (cell in cells) {
+    for (cell in GameState.cells) {
         if (cell.cx == cx && cell.cy == cy) return cell
     }
     return null
 }
 
 fun reloadCells() {
-    for (cell in cells) {
+    for (cell in GameState.cells) {
         cell.colorCell()
     }
 }

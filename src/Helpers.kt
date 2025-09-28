@@ -8,19 +8,22 @@ import korlibs.korge.view.*
 import korlibs.korge.view.Circle
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.*
 import kotlin.properties.*
 
 fun removePiece(piece: Piece) {
-    pieces.remove(piece)
+    GameState.pieces.remove(piece)
     piece.removeFromParent()
 }
 
 fun addAllPieces(chessboard: Container) {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the
     // bottom)
-    for (i in 0 until 8) {
+    for (i in 0 until 7) {
         chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
     }
+    chessboard.piece(PieceKind.WhitePawn, Colors.WHITE, 3, 2, isWhite = true)
     chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
     chessboard.piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
     chessboard.piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)
@@ -42,7 +45,7 @@ fun addAllPieces(chessboard: Container) {
     chessboard.piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, isWhite = false)
     chessboard.piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
 
-    for (piece in pieces) {
+    for (piece in GameState.pieces) {
         movePiece(piece, piece.cx, piece.cy)
     }
 }
@@ -50,20 +53,20 @@ fun addAllPieces(chessboard: Container) {
 /**Load bitmaps of the pieces.*/
 suspend fun reloadPictures() {
     // Load pictures
-    whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2, 2.0).render()
-    whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_nlt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.whitePawn = resourcesVfs["wikipedia/white_pieces/Chess_plt45.svg"].readSVG().scaled(2.2, 2.0).render()
+    PieceImages.whiteRook = resourcesVfs["wikipedia/white_pieces/Chess_rlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.whiteKnight = resourcesVfs["wikipedia/white_pieces/Chess_nlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.whiteBishop = resourcesVfs["wikipedia/white_pieces/Chess_blt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.whiteQueen = resourcesVfs["wikipedia/white_pieces/Chess_qlt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.whiteKing = resourcesVfs["wikipedia/white_pieces/Chess_klt45.svg"].readSVG().scaled(2.0, 2.0).render()
 
-    blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.2, 2.0).render()
-    blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_ndt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0, 2.0).render()
-    creditsSvg = resourcesVfs["credits.png"].readBitmap()
+    PieceImages.blackPawn = resourcesVfs["wikipedia/black_pieces/Chess_pdt45.svg"].readSVG().scaled(2.2, 2.0).render()
+    PieceImages.blackRook = resourcesVfs["wikipedia/black_pieces/Chess_rdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.blackKnight = resourcesVfs["wikipedia/black_pieces/Chess_ndt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.blackBishop = resourcesVfs["wikipedia/black_pieces/Chess_bdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.blackQueen = resourcesVfs["wikipedia/black_pieces/Chess_qdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0, 2.0).render()
+    PieceImages.creditsSvg = resourcesVfs["credits.png"].readBitmap()
 }
 
 /** Simulates a move for showing available moves.*/
@@ -77,20 +80,20 @@ fun simulateMove(
         return false
     }
 
-    inCheck(pieces, calledFromKing)
+    inCheck(GameState.pieces, calledFromKing)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     if (piece.color == pieceOnNewPos?.color) return false
-    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(pieces)} , pieceonnewpos $pieceOnNewPos")
-    if (whiteTurn && piece.color == Colors.BLACK) return false
-    if (!whiteTurn && piece.color == Colors.WHITE) return false
+    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(GameState.pieces)} , pieceonnewpos $pieceOnNewPos")
+    if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
+    if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
     movePiece(piece, newPos.first, newPos.second)
     pieceOnNewPos?.disabled = true
-    if ((piece.color == Colors.WHITE && blackKingInCheck) || (piece.color == Colors.BLACK && whiteKingInCheck)) {
+    if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
         movePiece(piece, oldPos.first, oldPos.second)
         println("move is not possible")
         return false
     }
-    val stillInCheck = inCheck(pieces, calledFromKing)
+    val stillInCheck = inCheck(GameState.pieces, calledFromKing)
     println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
     movePiece(piece, oldPos.first, oldPos.second)
     pieceOnNewPos?.disabled = false
@@ -122,7 +125,7 @@ class MoveIndicator : Container() {
         circle.stroke = Colors.RED
         circle.strokeThickness = 6.5
         //circle.alpha = 5.0
-        circle.radius = userScale * 39
+        circle.radius = DisplayConfig.userScale * 39
         isRed = true
     }
 
@@ -133,9 +136,9 @@ class MoveIndicator : Container() {
             return
         }
         circle.color = Colors["#3b3b3b81"]
-        circle.radius = userScale * 15
+        circle.radius = DisplayConfig.userScale * 15
         circle.stroke = Colors.BLACK
-        circle.strokeThickness = userScale * 3.1
+        circle.strokeThickness = DisplayConfig.userScale * 3.1
         isRed = false
 
     }
@@ -154,10 +157,11 @@ var settingsContainer: Container by Delegates.notNull()
 var settingsInForeground = false
 var aboutPageInForeground = false
 fun showSettings() {
-    settingsContainer = sCont.container()
+    settingsContainer = GameState.sceneContainer.container()
 
-    settingsContainer.solidRect(chessBoardWidth + 18, chessBoardHeight + 18, Colors["#000000"].withAd(0.6))
-        .centerOnStage()
+    settingsContainer.solidRect(
+        DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
+    ).centerOnStage()
     Settings().addTo(settingsContainer).centerOnStage()
     settingsInForeground = true
 }
@@ -173,14 +177,17 @@ class Settings : Container() {
     inner class AboutPage : Container() {
 
         init {
-            val background = roundRect(Size((chessBoardWidth / 2)*1.7, (chessBoardHeight / 3)*1.7), radius = RectCorners(10)){
-                fill = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite
+            val background = roundRect(
+                Size((DisplayConfig.chessBoardWidth / 2) * 1.7, (DisplayConfig.chessBoardHeight / 3) * 1.7),
+                radius = RectCorners(10)
+            ) {
+                fill = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
             }
-            val bg = roundRect(Size(500, background.height-30), RectCorners(10), Colors.LIGHTGRAY){
+            val bg = roundRect(Size(500, background.height - 30), RectCorners(10), Colors.LIGHTGRAY) {
                 centerOn(background)
             }
 
-            image(creditsSvg!!).scale(0.5).centerOn(bg)
+            image(PieceImages.creditsSvg!!).scale(0.5).centerOn(bg)
             val exitButton = SettingsButton(SettingsKind.About)
             exitButton.centerXOn(bg)
             exitButton.positionY(bg.y + bg.height / 4)
@@ -205,7 +212,7 @@ class Settings : Container() {
             when (settingsKind) {
                 SettingsKind.DarkMode -> {
                     text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (user_settings.darkMode) Colors.GREEN else Colors.RED
+                    baseButton.color = if (userSettings.darkMode) Colors.GREEN else Colors.RED
                 }
 
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
@@ -228,22 +235,18 @@ class Settings : Container() {
 
 
         private fun handleDarkModeClick() {
-
-            user_settings.darkMode = !user_settings.darkMode
+            userSettings.darkMode = !userSettings.darkMode
             reloadCells()
-            if (user_settings.darkMode) {
-                background.color = (white_mode_cellColorBlack)
+            if (userSettings.darkMode) {
+                background.color = (ThemeColors.darkModeBlack)
                 baseButton.color = (Colors.GREEN)
-
             } else {
-                background.color = (white_mode_cellColorWhite)
+                background.color = (ThemeColors.whiteModeWhite)
                 baseButton.color = (Colors.RED)
-
             }
         }
 
         private fun handleAboutClick() {
-            // TODO Show Credits
             if (aboutPageInForeground) {
                 settingsContainer.findViewByName("AboutPage")?.removeFromParent()
                 aboutPageInForeground = false
@@ -270,53 +273,64 @@ class Settings : Container() {
 
         // Background
         background = roundRect(
-            Size(chessBoardWidth / 1.5, chessBoardHeight / 1.5),
+            Size(DisplayConfig.chessBoardWidth / 1.5, DisplayConfig.chessBoardHeight / 1.5),
             radius = RectCorners(15),
         )
-        background.color = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite
+        background.color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
 
         // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
         SettingsButton(SettingsKind.About).addTo(this)
         SettingsButton(SettingsKind.Exit).addTo(this)
-
-
     }
 }
 
-class Popup(var isWhite:Boolean) : Container(){
-    private val queen:Image
-    private val rook:Image
-    private val knight:Image
+class Popup(private var isWhite: Boolean) : Container() {
+    private val queen: Image
+    private val rook: Image
+    private val knight: Image
     private val bishop: Image
+
     init {
         val bg = roundRect(
             Size(360, 80),
-            fill = if (user_settings.darkMode) white_mode_cellColorBlack else white_mode_cellColorWhite,
+            fill = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite,
             radius = RectCorners(10)
         )
+        this.centerXBetween(DisplayConfig.screenWidth/2,DisplayConfig.screenWidth/2)
+
         queen = image(
-            if (isWhite) whiteQueen!! else blackQueen!!
+            if (isWhite) PieceImages.whiteQueen!! else PieceImages.blackQueen!!
         ).alignLeftToLeftOf(bg).centerYOn(bg)
         rook = image(
-            if (isWhite) whiteRook!! else blackRook!!
+            if (isWhite) PieceImages.whiteRook!! else PieceImages.blackRook!!
         ).alignLeftToRightOf(queen).centerYOn(bg)
         knight = image(
-            if (isWhite) whiteKnight!! else blackKnight!!
+            if (isWhite) PieceImages.whiteKnight!! else PieceImages.blackKnight!!
         ).alignLeftToRightOf(rook).centerYOn(bg)
         bishop = image(
-            if (isWhite) whiteBishop!! else blackBishop!!
+            if (isWhite) PieceImages.whiteBishop!! else PieceImages.blackBishop!!
         ).alignLeftToRightOf(knight).centerYOn(bg)
 
 
-
     }
-    fun getChoice(): PieceKind {
-        var choice: PieceKind by Delegates.notNull()
-        queen.onClick {
-            choice =  if(isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen
 
+    suspend fun getChoice(): PieceKind = suspendCancellableCoroutine { coroutine ->
+        queen.onDown {
+            val choice = if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen
+            coroutine.resume(choice)
         }
-        return choice
+        bishop.onDown {
+            val choice = if (isWhite) PieceKind.WhiteBishop else PieceKind.BlackBishop
+            coroutine.resume(choice)
+        }
+        rook.onDown {
+            val choice = if (isWhite) PieceKind.WhiteRook else PieceKind.BlackRook
+            coroutine.resume(choice)
+        }
+        knight.onDown {
+            val choice = if (isWhite) PieceKind.WhiteKnight else PieceKind.BlackKnight
+            coroutine.resume(choice)
+        }
     }
 }

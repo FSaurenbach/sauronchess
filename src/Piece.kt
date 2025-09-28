@@ -2,6 +2,7 @@ import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
+import kotlinx.coroutines.*
 import kotlin.math.*
 
 
@@ -23,6 +24,8 @@ inline fun Container.piece(
     callback: @ViewDslMarker Piece.() -> Unit = {}
 ): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this, callback)
 
+var promotionActive = false
+
 class Piece(
     var kind: PieceKind,
     val color: RGBA,
@@ -38,8 +41,7 @@ class Piece(
     init {
         reloadImages()
 
-        // this.size = Size(64, 64)
-        pieces.add(this)
+        GameState.pieces.add(this)
 
         movePiece(this, cx, cy)
         var newPosition: Pair<Int, Int>? = null
@@ -49,8 +51,8 @@ class Piece(
         this.draggableCloseable(
             onMouseDrag {
                 newPosition = Pair(
-                    (this.globalMousePos.x - offsetX).toInt() / cellWidth.toInt(),
-                    (this.globalMousePos.y - offsetY).toInt() / cellHeight.toInt(),
+                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / cellWidth.toInt(),
+                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / cellHeight.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
@@ -64,12 +66,10 @@ class Piece(
                 }
             }, autoMove = false
         ) { info ->
-            if ((whiteTurn && this.isWhite) || (!whiteTurn && !this.isWhite)) {
-
+            if ((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite) && !promotionActive) {
                 x = info.viewNextX
                 y = info.viewNextY
-            }
-            else return@draggableCloseable
+            } else return@draggableCloseable
             error = false
             // Dragging start
             if (info.start) {
@@ -83,11 +83,8 @@ class Piece(
                 for (x in 0..7) {
                     for (y in 0..7) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            //println("the move from $cx, $cy -> $x, $y is possible")
                             val cell = findCell(x, y)
                             if (cell != null) {
-                                //this.parent!!.solidRect(100,100, Colors.RED)
-                                //moveIndicator(cell)
                                 val circle = this.parent!!.moveIndicator()
                                 circle.cx = x
                                 circle.cy = y
@@ -122,54 +119,58 @@ class Piece(
                 if (pieceOnNewPos?.color == color) error = true
                 // Perform the move if no error
                 if (!error) {
-                    println("currentPos $currentPos , new Pos $newPosition, whiteTurn $whiteTurn")
+                    println("currentPos $currentPos , new Pos $newPosition, whiteTurn ${GameState.whiteTurn}")
 
-                    inCheck(pieces)
-                    if (!whiteTurn && (blackKingInCheck || whiteKingInCheck)) {
+                    inCheck(GameState.pieces)
+                    if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
                         println("in check")
                         if (doMove(this, currentPos!!, newPosition!!)) {
-                            whiteTurn = !whiteTurn
+                            GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
-
                         }
 
                     } else if (moveChecker(
                             currentPos!!,
                             newPosition!!,
-                        ) && !blackKingInCheck && !whiteKingInCheck
+                        ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                     ) {
-
                         /** Pawn promotion.*/
-                        if (this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) {
-                            println("promote")
-                            var newKind: PieceKind = PieceKind.WhiteQueen
-                            promoteTo(newKind)
-                        }
-                        if (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7) {
-                            println("promoting black")
-                            var newKind: PieceKind = PieceKind.BlackQueen
-                            promoteTo(newKind)
+                        if ((this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) || (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7)) {
+                            var newKind: PieceKind
+                            val popup = Popup(isWhite)
+
+                            popup.addTo(GameState.sceneContainer)
+
+                            GameState.sceneContainer.launch {
+                                promotionActive = true
+                                newKind = popup.getChoice()
+                                promoteTo(newKind)
+                                popup.removeFromParent()
+                                promotionActive = false
+                            }
+
+
                         }
 
                         // If rook or king move outside of castling, deny castling
                         if (!castleAttempt) {
                             when (this.kind) {
-                                PieceKind.WhiteRook, PieceKind.WhiteKing -> whiteCastlingLegal = false
-                                PieceKind.BlackRook, PieceKind.BlackKing -> blackCastlingLegal = false
+                                PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
+                                PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
                                 else -> {}
                             }
                         }
 
                         // Castling
-                        if (whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && castleAttempt) {
+                        if (GameState.whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 7 -> {
                                     val rook = findPiece(7, 7)
                                     movePiece(rook!!, 5, 7)
                                     movePiece(this, 6, 7)
 
-                                    whiteTurn = !whiteTurn
-                                    whiteCastlingLegal = false
+                                    GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.whiteCastlingLegal = false
 
                                 }
 
@@ -178,34 +179,36 @@ class Piece(
                                     movePiece(rook!!, 3, 7)
                                     movePiece(this, 2, 7)
 
-                                    whiteTurn = !whiteTurn
-                                    whiteCastlingLegal = false
+                                    GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.whiteCastlingLegal = false
                                 }
                             }
-                        } else if (blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
+                        } else if (GameState.blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 0 -> {
                                     val rook = findPiece(7, 0)
                                     movePiece(rook!!, 5, 0)
                                     movePiece(this, 6, 0)
 
-                                    blackCastlingLegal = false
-                                    whiteTurn = !whiteTurn
+                                    GameState.blackCastlingLegal = false
+                                    GameState.whiteTurn = !GameState.whiteTurn
                                 }
 
                                 newPosition!!.first == 2 && newPosition!!.second == 0 -> {
                                     val rook = findPiece(0, 0)
                                     movePiece(rook!!, 3, 0)
                                     movePiece(this, 2, 0)
-                                    whiteTurn = !whiteTurn
-                                    blackCastlingLegal = false
+                                    GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.blackCastlingLegal = false
                                 }
                             }
+
                         } else if (doMove(this, currentPos!!, newPosition!!)) {
-                            whiteTurn = !whiteTurn
+                            GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
 
                         }
+
                     } else {
                         movePiece(this, oldPos!!.first, oldPos.second)
 
@@ -355,8 +358,7 @@ class Piece(
             return true
         }
         // Castling
-        //println("whiteCastlingLegal: $whiteCastlingLegal, blackCastlingLegal: $blackCastlingLegal isWhite = $isWhite,  ")
-        if (whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
+        if (GameState.whiteCastlingLegal && isWhite && oldPos.first == 4 && oldPos.second == 7) {
             when {
                 newPos.first == 6 && newPos.second == 7 -> {
                     // If something is in the way of the castling return false
@@ -378,7 +380,7 @@ class Piece(
                 }
             }
         }
-        if (blackCastlingLegal && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
+        if (GameState.blackCastlingLegal && !isWhite && oldPos.first == 4 && oldPos.second == 0) {
             when {
                 newPos.first == 6 && newPos.second == 0 -> {
                     if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
@@ -421,23 +423,22 @@ class Piece(
 
         this.pImage = image(
             when (kind) {
-                PieceKind.WhitePawn -> whitePawn!!
-                PieceKind.WhiteRook -> whiteRook!!
-                PieceKind.WhiteKnight -> whiteKnight!!
-                PieceKind.WhiteBishop -> whiteBishop!!
-                PieceKind.WhiteQueen -> whiteQueen!!
-                PieceKind.WhiteKing -> whiteKing!!
-                PieceKind.BlackPawn -> blackPawn!!
-                PieceKind.BlackRook -> blackRook!!
-                PieceKind.BlackKnight -> blackKnight!!
-                PieceKind.BlackBishop -> blackBishop!!
-                PieceKind.BlackQueen -> blackQueen!!
-                PieceKind.BlackKing -> blackKing!!
+                PieceKind.WhitePawn -> PieceImages.whitePawn!!
+                PieceKind.WhiteRook -> PieceImages.whiteRook!!
+                PieceKind.WhiteKnight -> PieceImages.whiteKnight!!
+                PieceKind.WhiteBishop -> PieceImages.whiteBishop!!
+                PieceKind.WhiteQueen -> PieceImages.whiteQueen!!
+                PieceKind.WhiteKing -> PieceImages.whiteKing!!
+                PieceKind.BlackPawn -> PieceImages.blackPawn!!
+                PieceKind.BlackRook -> PieceImages.blackRook!!
+                PieceKind.BlackKnight -> PieceImages.blackKnight!!
+                PieceKind.BlackBishop -> PieceImages.blackBishop!!
+                PieceKind.BlackQueen -> PieceImages.blackQueen!!
+                PieceKind.BlackKing -> PieceImages.blackKing!!
             },
         )
 
-        pImage.scale = userScale
-
+        pImage.scale = DisplayConfig.userScale
     }
 
 
@@ -445,15 +446,14 @@ class Piece(
 
 
 fun checkForGameEnd(): Boolean {
-    val whitePieces = pieces.filter { it.color == Colors.WHITE }
-    val blackPieces = pieces.filter { it.color == Colors.BLACK }
-    for (piece in if (whiteTurn) whitePieces else blackPieces) {
+    val whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
+    val blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
                 if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
                     println("the move from ${piece.cx}, ${piece.cy} -> $x, $y is possible")
                     return true
-
                 }
             }
         }
@@ -461,11 +461,11 @@ fun checkForGameEnd(): Boolean {
 
     println("No moves left for white / black!")
 
-    if (whiteTurn) {
-        if (whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
+    if (GameState.whiteTurn) {
+        if (GameState.whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
         println("Black won the game!")
     } else {
-        if (blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
+        if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
         println("White won the game!")
     }
     return false
