@@ -1,3 +1,5 @@
+package de.fsaurenbach.sauronchess
+
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*

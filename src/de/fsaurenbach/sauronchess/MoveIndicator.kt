@@ -1,3 +1,5 @@
+package de.fsaurenbach.sauronchess
+
 import korlibs.image.color.Colors
 import korlibs.korge.view.*
 
@@ -23,7 +25,6 @@ class MoveIndicator : Container() {
         circle.fill = Colors.TRANSPARENT
         circle.stroke = Colors.RED
         circle.strokeThickness = 6.5
-        //circle.alpha = 5.0
         circle.radius = DisplayConfig.userScale * 39
         isRed = true
     }

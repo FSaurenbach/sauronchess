@@ -1,3 +1,5 @@
+package de.fsaurenbach.sauronchess
+
 import korlibs.korge.input.onDown
 import korlibs.korge.view.Container
 import korlibs.korge.view.Image

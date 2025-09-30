@@ -1,3 +1,4 @@
+package de.fsaurenbach.sauronchess
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.image.vector.*
@@ -11,8 +12,8 @@ fun removePiece(piece: Piece) {
     piece.removeFromParent()
 }
 
-fun <chessboard : Container> chessboard.addAllPieces() {
-
+//fun <chessboard : Container> chessboard.addAllPieces() {
+fun Container.addAllPieces() {
     // Add all pieces in right order and add them to the pieces list (white pieces are at the bottom
     for (i in 0 until 8) {
         piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
@@ -92,7 +93,6 @@ fun simulateMove(
     pieceOnNewPos?.disabled = false
     return !stillInCheck
 }
-
 
 
 fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
