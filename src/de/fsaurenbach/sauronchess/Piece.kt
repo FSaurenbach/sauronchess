@@ -478,7 +478,7 @@ fun checkForGameEnd(): Boolean {
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(Pair(piece.cx, piece.cy), Pair(x, y), piece)) {
+                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) {
                     return true
                 }
             }

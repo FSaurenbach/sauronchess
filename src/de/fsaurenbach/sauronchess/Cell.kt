@@ -52,10 +52,7 @@ class Cell(
 
 
 fun findCell(cx: Int, cy: Int): Cell? {
-    for (cell in GameState.cells) {
-        if (cell.cx == cx && cell.cy == cy) return cell
-    }
-    return null
+    return GameState.cells.find{it.cx == cx && it.cy == cy}
 }
 
 fun reloadCells() {

@@ -11,9 +11,9 @@ import korlibs.math.geom.Size
 import kotlin.properties.Delegates
 
 class Settings : Container() {
-    val amountOfOptions = 4
-    var currentNo = 1
-    var background: RoundRect by Delegates.notNull()
+    internal val amountOfOptions = 4
+    internal var currentNo = 1
+    internal var background: RoundRect by Delegates.notNull()
 
     inner class AboutPage : Container() {
 
@@ -143,6 +143,6 @@ fun showSettings() {
     settingsContainer.solidRect(
         DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
     ).centerOnStage()
-    Settings().addTo(settingsContainer).centerOnStage()
+    Settings().addTo(settingsContainer).centerOnStage().amountOfOptions
     settingsInForeground = true
 }

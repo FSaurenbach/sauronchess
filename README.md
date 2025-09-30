@@ -81,4 +81,4 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 ---
 
-#### This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been manually verified.
+### This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been manually verified
