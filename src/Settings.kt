@@ -58,7 +58,7 @@ class Settings : Container() {
                 SettingsKind.Exit -> text("Exit", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.AutoPromote -> {
                     text("Auto promote", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (userSettings.darkMode) Colors.GREEN else Colors.RED
+                    baseButton.color = if (userSettings.autoPromote) Colors.GREEN else Colors.RED
                 }
 
             }
