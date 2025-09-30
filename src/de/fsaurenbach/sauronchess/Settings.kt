@@ -143,6 +143,6 @@ fun showSettings() {
     settingsContainer.solidRect(
         DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
     ).centerOnStage()
-    Settings().addTo(settingsContainer).centerOnStage().amountOfOptions
+    Settings().addTo(settingsContainer).centerOnStage()
     settingsInForeground = true
 }
