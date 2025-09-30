@@ -16,32 +16,34 @@ A modern, cross-platform chess game built with Kotlin and KorGE game engine.
 
 ## 🎯 Implementation Status
 
-| Feature | Status | Description |
-|---------|--------|-------------|
-| **Basic Movement** | ✅ Complete | All pieces move according to chess rules |
-| **Capture Mechanics** | ✅ Complete | Pieces can capture opponent pieces |
-| **Check Detection** | ✅ Complete | Detects when kings are in check |
-| **Checkmate Logic** | 🔄 In Progress | Game ending conditions need implementation |
-| **Castling** | ✅ Complete | Both kingside and queenside castling |
-| **Pawn Promotion** | ✅ Complete | Pawns promote to Queen automatically |
-| **Turn Management** | ✅ Complete | Proper turn-based gameplay |
-| **Move Validation** | ✅ Complete | Prevents illegal moves |
-| **Visual Interface** | ✅ Complete | Full drag-and-drop interface |
-| **Cross-Platform** | ✅ Complete | JVM, JS, and Android builds |
-| **En Passant** | 🔄 In Progress | Special pawn capture rule |
-| **Stalemate Detection** | 🔄 In Progress | Draw condition detection |
-| **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape |
-| **AI Opponent** | 📋 Planned | Computer player implementation |
+| Feature                 | Status         | Description                                                                     |
+|-------------------------|----------------|---------------------------------------------------------------------------------|
+| **Basic Movement**      | ✅ Complete     | All pieces move according to chess rules                                        |
+| **Capture Mechanics**   | ✅ Complete     | Pieces can capture opponent pieces                                              |
+| **Check Detection**     | ✅ Complete     | Detects when kings are in check                                                 |
+| **Checkmate Logic**     | 🔄 In Progress | Game ending conditions need implementation                                      |
+| **Castling**            | ✅ Complete     | Both kingside and queenside castling                                            |
+| **Pawn Promotion**      | ✅ Complete     | Pawns can promote to Queen automatically or user chooses his new piece manually |
+| **Turn Management**     | ✅ Complete     | Proper turn-based gameplay                                                      |
+| **Move Validation**     | ✅ Complete     | Prevents illegal moves                                                          |
+| **Visual Interface**    | ✅ Complete     | Full drag-and-drop interface                                                    |
+| **Cross-Platform**      | ✅ Complete     | JVM, JS, and Android builds                                                     |
+| **En Passant**          | 🔄 In Progress | Special pawn capture rule                                                       |
+| **Stalemate Detection** | 🔄 In Progress | Draw condition detection                                                        |
+| **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape                                             |
+| **AI Opponent**         | 📋 Planned     | Computer player implementation                                                  |
 
 ---
 
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - **Java 21+** (Required for KorGE 6.0.0)
 - **Git** for cloning the repository
 
 ### 🏃‍♂️ Run Instantly
+
 ```bash
 git clone https://github.com/FSaurenbach/sauronchess.git
 cd sauronchess
@@ -50,11 +52,11 @@ cd sauronchess
 
 ### 🌐 Platform Support
 
-| Platform | Command |
-|----------|---------|
-| **Desktop (JVM)** | `./gradlew runJvm` |
-| **Web (JS)** | `./gradlew runJs` |
-| **Android** | `./gradlew runAndroid` | 
+| Platform          | Command                |
+|-------------------|------------------------|
+| **Desktop (JVM)** | `./gradlew runJvm`     |
+| **Web (JS)**      | `./gradlew runJs`      |
+| **Android**       | `./gradlew runAndroid` | 
 
 ---
 
@@ -68,7 +70,8 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 - **[KorGE Team](https://korge.org/)** - Amazing Kotlin game engine
 - **[Kotlin](https://kotlinlang.org/)** - Outstanding language and ecosystem
-- **[Cburnett](https://commons.wikimedia.org/wiki/User:Cburnett)** - for the awesome chess pieces - see [LICENSE](LICENSE) for details
+- **[Cburnett](https://commons.wikimedia.org/wiki/User:Cburnett)** - for the awesome chess pieces -
+  see [LICENSE](LICENSE) for details
 
 ---
 
@@ -80,6 +83,7 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 ---
 
-<sub>This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been manually verified.</sub>
+<sub>This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been
+manually verified.</sub>
 
 </div>

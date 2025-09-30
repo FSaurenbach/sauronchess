@@ -131,19 +131,27 @@ class Piece(
                     ) {
                         /** Pawn promotion.*/
                         if ((this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) || (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7)) {
-                            var newKind: PieceKind
-                            val popup = Popup(isWhite)
 
-                            popup.addTo(GameState.sceneContainer)
+                            GameState.promotionActive = true
 
-                            GameState.sceneContainer.launch {
-                                GameState.promotionActive = true
-                                newKind = popup.getChoice()
-                                promoteTo(newKind)
-                                popup.removeFromParent()
+                            if (userSettings.autoPromote) {
+                                if (this.isWhite) promoteTo(PieceKind.WhiteQueen)
+                                else promoteTo(PieceKind.BlackQueen)
                                 GameState.promotionActive = false
-                            }
 
+                            } else {
+                                var newKind: PieceKind
+                                val popup = Popup(isWhite)
+                                popup.addTo(GameState.sceneContainer)
+
+                                GameState.sceneContainer.launch {
+                                    newKind = popup.getChoice()
+                                    promoteTo(newKind)
+                                    GameState.promotionActive = false
+                                    popup.removeFromParent()
+
+                                }
+                            }
 
                         }
 

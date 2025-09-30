@@ -105,6 +105,6 @@ var settingsInForeground = false
 var aboutPageInForeground = false
 
 
-data class Options(var darkMode: Boolean = false)
+data class Options(var darkMode: Boolean = false, var autoPromote: Boolean = false)
 
 

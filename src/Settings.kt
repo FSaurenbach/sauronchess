@@ -9,7 +9,7 @@ import korlibs.math.geom.Size
 import kotlin.properties.Delegates
 
 class Settings : Container() {
-    val amountOfOptions = 3
+    val amountOfOptions = 4
     var currentNo = 1
     var background: RoundRect by Delegates.notNull()
 
@@ -56,6 +56,10 @@ class Settings : Container() {
 
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.Exit -> text("Exit", 30, Colors.BLACK).centerOn(baseButton)
+                SettingsKind.AutoPromote -> {
+                    text("Auto promote", 30, Colors.BLACK).centerOn(baseButton)
+                    baseButton.color = if (userSettings.darkMode) Colors.GREEN else Colors.RED
+                }
 
             }
 
@@ -63,13 +67,20 @@ class Settings : Container() {
                 when (settingsKind) {
                     SettingsKind.DarkMode -> handleDarkModeClick()
                     SettingsKind.About -> handleAboutClick()
+                    SettingsKind.AutoPromote -> handleAutoPromoteClick()
                     SettingsKind.Exit -> handleExitClick()
+
                 }
             }
 
 
             currentNo++
 
+        }
+
+        private fun handleAutoPromoteClick() {
+            userSettings.autoPromote = !userSettings.autoPromote
+            if (userSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
         }
 
 
@@ -105,7 +116,7 @@ class Settings : Container() {
     }
 
     enum class SettingsKind {
-        DarkMode, About, Exit
+        DarkMode, About, AutoPromote, Exit
     }
 
     init {
@@ -120,6 +131,7 @@ class Settings : Container() {
         // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
         SettingsButton(SettingsKind.About).addTo(this)
+        SettingsButton(SettingsKind.AutoPromote).addTo(this)
         SettingsButton(SettingsKind.Exit).addTo(this)
     }
 }
