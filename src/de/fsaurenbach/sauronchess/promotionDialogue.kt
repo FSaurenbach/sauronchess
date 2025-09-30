@@ -14,7 +14,7 @@ import korlibs.math.geom.Size
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
-class Popup(private var isWhite: Boolean) : Container() {
+class PromotionDialogue(private var isWhite: Boolean) : Container() {
     private val queen: Image
     private val rook: Image
     private val knight: Image

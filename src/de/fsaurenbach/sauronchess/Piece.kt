@@ -55,7 +55,7 @@ class Piece(
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
-
+                    println("$circle, cx: ${circle.cx}, cy: ${circle.cy}")
                     if (circle.cx == newPosition!!.first && circle.cy == newPosition!!.second) {
                         circle.markWhite()
 
@@ -82,19 +82,13 @@ class Piece(
                 for (x in 0..7) {
                     for (y in 0..7) {
                         if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
-                            val cell = findCell(x, y)
-                            if (cell != null) {
-                                val circle = this.parent!!.moveIndicator()
-                                circle.cx = x
-                                circle.cy = y
+                            findCell(x, y).also {
+                                parent!!.moveIndicator(x, y).apply {
+                                    if (findPiece(x, y) != null) markRed() else markGrey()
+                                    addTo(circles)
+                                    centerOn(it)
 
-                                if (findPiece(x, y) != null) {
-                                    circle.markRed()
-                                } else {
-                                    circle.markGrey()
                                 }
-                                circle.centerOn(cell)
-                                circles.add(circle)
 
                             }
 
@@ -104,15 +98,16 @@ class Piece(
                 }
             }
             if (info.end) {
-                this.zIndex = 0.0
-                this.scale(1.0, 1.0)
+                zIndex = 0.0
+                scale(1.0, 1.0)
+                val (currentX, currentY) = currentPos!!
+                val (newX, newY) = newPosition!!
                 // Check if newPosition is within the game board
-                if (newPosition!!.first !in 0..<8 || newPosition!!.second < 0 || newPosition!!.second >= 8) {
-                    error = true
-                }
+                if (newX and newY !in 0..<8) error = true
+
                 val oldPos = currentPos
                 println("currentPos $currentPos , new Pos $newPosition")
-                val pieceOnNewPos = findPiece(newPosition!!.first, newPosition!!.second)
+                val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
                 // Perform the move if no error
                 if (!error) {
@@ -132,25 +127,20 @@ class Piece(
                         ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                     ) {
                         /** Pawn promotion.*/
-                        if ((this.kind == PieceKind.WhitePawn && newPosition!!.second == 0) || (this.kind == PieceKind.BlackPawn && newPosition!!.second == 7)) {
+                        if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
 
                             GameState.promotionActive = true
 
                             if (userSettings.autoPromote) {
-                                if (this.isWhite) promoteTo(PieceKind.WhiteQueen)
-                                else promoteTo(PieceKind.BlackQueen)
+                                promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
                                 GameState.promotionActive = false
 
                             } else {
-                                var newKind: PieceKind
-                                val popup = Popup(isWhite)
-                                popup.addTo(GameState.sceneContainer)
-
+                                val promotionDialogue = PromotionDialogue(isWhite).addTo(GameState.sceneContainer)
                                 GameState.sceneContainer.launch {
-                                    newKind = popup.getChoice()
-                                    promoteTo(newKind)
+                                    promoteTo(promotionDialogue.getChoice())
                                     GameState.promotionActive = false
-                                    popup.removeFromParent()
+                                    promotionDialogue.removeFromParent()
 
                                 }
                             }
@@ -167,7 +157,7 @@ class Piece(
                         }
 
                         // Castling
-                        if (GameState.whiteCastlingLegal && isWhite && currentPos!!.first == 4 && currentPos!!.second == 7 && GameState.castleAttempt) {
+                        if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
                             when {
                                 newPosition!!.first == 6 && newPosition!!.second == 7 -> {
                                     val rook = findPiece(7, 7)
@@ -179,7 +169,7 @@ class Piece(
 
                                 }
 
-                                newPosition!!.first == 2 && newPosition!!.second == 7 -> {
+                               newX  == 2 && newY == 7 -> {
                                     val rook = findPiece(0, 7)
                                     movePiece(rook!!, 3, 7)
                                     movePiece(this, 2, 7)
@@ -190,7 +180,7 @@ class Piece(
                             }
                         } else if (GameState.blackCastlingLegal && !isWhite && currentPos!!.first == 4 && currentPos!!.second == 0 && GameState.castleAttempt) {
                             when {
-                                newPosition!!.first == 6 && newPosition!!.second == 0 -> {
+                                newX == 6 && newY== 0 -> {
                                     val rook = findPiece(7, 0)
                                     movePiece(rook!!, 5, 0)
                                     movePiece(this, 6, 0)
@@ -199,7 +189,7 @@ class Piece(
                                     GameState.whiteTurn = !GameState.whiteTurn
                                 }
 
-                                newPosition!!.first == 2 && newPosition!!.second == 0 -> {
+                                newX == 2 && newY == 0 -> {
                                     val rook = findPiece(0, 0)
                                     movePiece(rook!!, 3, 0)
                                     movePiece(this, 2, 0)
@@ -228,9 +218,8 @@ class Piece(
                 // Reset variables
                 newPosition = null
                 currentPos = null
-                for (circle in circles) {
-                    circle.removeFromParent()
-                }
+                circles.forEach { it.removeFromParent() }
+
                 println()
                 println()
                 checkForGameEnd()

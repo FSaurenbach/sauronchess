@@ -1,49 +1,45 @@
 package de.fsaurenbach.sauronchess
 
-import korlibs.image.color.Colors
+import korlibs.image.color.*
 import korlibs.korge.view.*
 
-fun Container.moveIndicator(): MoveIndicator =
-    MoveIndicator().addTo(this)
-class MoveIndicator : Container() {
-    var cx = 0
-    var cy = 0
+fun Container.moveIndicator(cx: Int, cy: Int): MoveIndicator = MoveIndicator(cx, cy).addTo(this)
+
+class MoveIndicator(var cx: Int, var cy: Int) : Container() {
 
     private var circle: Circle = circle()
     private var isRed: Boolean = false
 
     init {
-
-
         markGrey()
         circle.zIndex = 2.0
     }
 
     fun markRed() {
-        circle.color = Colors["#cccccc"]
-
-        circle.fill = Colors.TRANSPARENT
-        circle.stroke = Colors.RED
-        circle.strokeThickness = 6.5
-        circle.radius = DisplayConfig.userScale * 39
+        circle.apply {
+            color = Colors["#cccccc"]
+            fill = Colors.TRANSPARENT
+            stroke = Colors.RED
+            strokeThickness = 6.5
+            radius = DisplayConfig.userScale * 39
+        }
         isRed = true
     }
 
     fun markGrey() {
+        if (isRed) return markRed()
 
-        if (isRed) {
-            markRed()
-            return
+        circle.apply {
+            color = Colors["#3b3b3b81"]
+            radius = DisplayConfig.userScale * 15
+            stroke = Colors.BLACK
+            strokeThickness = DisplayConfig.userScale * 3.1
         }
-        circle.color = Colors["#3b3b3b81"]
-        circle.radius = DisplayConfig.userScale * 15
-        circle.stroke = Colors.BLACK
-        circle.strokeThickness = DisplayConfig.userScale * 3.1
         isRed = false
 
     }
 
-    fun markWhite() {
-        circle.color = Colors.WHITE
-    }
+    fun markWhite() = circle.apply { color = Colors.WHITE }
+
+
 }

@@ -5,9 +5,9 @@ import korlibs.math.geom.*
 import kotlin.properties.*
 
 
-inline fun Container.cell(
-    isWhite: Boolean, cx: Int, cy: Int, text: String, callback: @ViewDslMarker (Cell.() -> Unit) = {}
-) = Cell(isWhite, cx, cy, text).addTo(this, callback)
+fun Container.cell(
+    isWhite: Boolean, cx: Int, cy: Int, text: String
+) = Cell(isWhite, cx, cy, text).addTo(this)
 
 val cellHeight get() = DisplayConfig.chessBoardHeight / 8
 val cellWidth get() = DisplayConfig.chessBoardWidth / 8
@@ -19,8 +19,6 @@ class Cell(
     text: String,
 
     ) : Container() {
-    private var color: RGBA by Delegates.notNull()
-
     // Retrieve the cell from the board based on the coordinates
     private val cell: SolidRect = solidRect(cellWidth, cellHeight)
 
@@ -32,31 +30,30 @@ class Cell(
     }
 
     fun colorCell() {
-        if (isWhite) {
-            color = if (userSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
+        cell.color = if (isWhite) {
+            if (userSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
+        } else {
+            if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
         }
-        if (!isWhite) {
-            color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
-        }
-        cell.color = color
     }
+
 
     private fun moveCell(
         newX: Int,
         newY: Int,
     ) {
-        this.pos = Point(newX * cellWidth + DisplayConfig.offsetX, newY * cellHeight + DisplayConfig.offsetY)
+        pos = Point(newX * cellWidth + DisplayConfig.offsetX, newY * cellHeight + DisplayConfig.offsetY)
     }
 
 }
 
 
-fun findCell(cx: Int, cy: Int): Cell? {
-    return GameState.cells.find{it.cx == cx && it.cy == cy}
+fun findCell(cx: Int, cy: Int): Cell {
+    return GameState.cells.find{it.cx == cx && it.cy == cy}!!
 }
 
 fun reloadCells() {
-    for (cell in GameState.cells) {
-        cell.colorCell()
+    GameState.cells.forEach {
+        it.colorCell()
     }
 }

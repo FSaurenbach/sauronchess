@@ -1,4 +1,5 @@
 package de.fsaurenbach.sauronchess
+
 import korlibs.image.color.*
 import korlibs.image.format.*
 import korlibs.image.vector.*
@@ -108,3 +109,12 @@ var aboutPageInForeground = false
 data class Options(var darkMode: Boolean = false, var autoPromote: Boolean = false)
 
 
+fun <T : View> T.addTo(parent: Container): T {
+    parent += this
+    return this
+}
+
+fun <T : View> T.addTo(parent: MutableList<in T>) {
+    parent.add(this)
+
+}
