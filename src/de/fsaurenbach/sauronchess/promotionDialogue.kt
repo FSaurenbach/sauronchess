@@ -1,18 +1,11 @@
 package de.fsaurenbach.sauronchess
 
-import korlibs.korge.input.onDown
-import korlibs.korge.view.Container
-import korlibs.korge.view.Image
-import korlibs.korge.view.align.alignLeftToLeftOf
-import korlibs.korge.view.align.alignLeftToRightOf
-import korlibs.korge.view.align.centerXBetween
-import korlibs.korge.view.align.centerYOn
-import korlibs.korge.view.image
-import korlibs.korge.view.roundRect
-import korlibs.math.geom.RectCorners
-import korlibs.math.geom.Size
-import kotlinx.coroutines.suspendCancellableCoroutine
-import kotlin.coroutines.resume
+import korlibs.korge.input.*
+import korlibs.korge.view.*
+import korlibs.korge.view.align.*
+import korlibs.math.geom.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.*
 
 class PromotionDialogue(private var isWhite: Boolean) : Container() {
     private val queen: Image

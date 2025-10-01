@@ -68,9 +68,9 @@ suspend fun main() = Korge(
     backgroundColor = Colors["#4b3621"],
     quality = GameWindow.Quality.QUALITY
 ) {
-    val sceneContainer = sceneContainer()
-    GameState.sceneContainer = sceneContainer
-    sceneContainer.changeTo { GameScene() }
+    sceneContainer().apply{
+    GameState.sceneContainer = this
+    this.changeTo { GameScene() }}
 }
 
 var userSettings = Options()
@@ -127,7 +127,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (!GameState.whiteTurn && !fromCastling) return false
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
-            if (enemyPiece.moveChecker(enemyPos, whiteKingPosition)) {
+            if (enemyPiece.moveChecker(whiteKingPosition)) {
                 println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
                 println(whiteKingPosition)
                 GameState.whiteKingInCheck = true
@@ -137,7 +137,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (GameState.whiteTurn && !fromCastling) return false
             val enemyPos = Pair(enemyPiece.cx, enemyPiece.cy)
 
-            if (enemyPiece.moveChecker(enemyPos, blackKingPosition)) {
+            if (enemyPiece.moveChecker(blackKingPosition)) {
                 println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                 println(blackKingPosition)
                 GameState.blackKingInCheck = true

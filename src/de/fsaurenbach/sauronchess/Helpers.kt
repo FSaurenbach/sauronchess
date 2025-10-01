@@ -69,7 +69,7 @@ fun simulateMove(
     oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
 ): Boolean {
     if (!calledFromKing) if (!piece.moveChecker(
-            Pair(oldPos.first, oldPos.second), Pair(newPos.first, newPos.second)
+            Pair(newPos.first, newPos.second)
         )
     ) {
         return false
