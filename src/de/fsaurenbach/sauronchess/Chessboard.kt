@@ -6,7 +6,7 @@ import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
     // set the position of the cells RELATIVE to the container
-    println("Container position: ${DisplayConfig.offsetX}, ${DisplayConfig.offsetY}")
+//    println("Container position: ${DisplayConfig.offsetX}, ${DisplayConfig.offsetY}")
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {

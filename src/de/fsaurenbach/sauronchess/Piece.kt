@@ -49,8 +49,6 @@ class Piece(
 
         movePiece(this, cx, cy)
         currentPos = Pair(cx, cy)
-        //var newPosition: Pair<Int, Int>? = null
-        //var currentPos: Pair<Int, Int>? = null
         var error: Boolean
 
         this.draggableCloseable(
@@ -78,7 +76,6 @@ class Piece(
             // Dragging start
             if (info.start) {
                 // init vars
-                currentPos = Pair(this.cx, this.cy)
                 this.zIndex = 3.0
                 this.scale(1.2, 1.2)
                 GameState.castleAttempt = false
@@ -219,6 +216,7 @@ class Piece(
                 // Reset variables
 //                newPos = null
                 circles.forEach { it.removeFromParent() }
+                circles.clear()
 
                 println()
                 println()
@@ -339,7 +337,7 @@ class Piece(
 
                 newX == 2 && newY == 7 -> {
 
-                    if (findPiece(1, 7) != null || findPiece(2, 7) != null) return false
+                    if (findPiece(1, 7) != null || findPiece(2, 7) != null || findPiece(3, 7) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
@@ -360,7 +358,7 @@ class Piece(
 
                 newX == 2 && newY == 0 -> {
 
-                    if (findPiece(1, 0) != null || findPiece(2, 0) != null) return false
+                    if (findPiece(1, 0) != null || findPiece(2, 0) != null || findPiece(3, 0) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true

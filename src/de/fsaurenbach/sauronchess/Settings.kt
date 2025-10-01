@@ -46,8 +46,8 @@ class Settings : Container() {
             baseButton =
                 roundRect(Size(200, 50), radius = RectCorners(10), fill = Colors.DARKGRAY).centerXOn(this@Settings)
                     .centerYBetween(
-                        this@Settings.y + this@Settings.width / (1 + amountOfOptions) * currentNo,
-                        this@Settings.y + this@Settings.width / (1 + amountOfOptions) * currentNo
+                        this@Settings.y + this@Settings.height / (1 + amountOfOptions) * currentNo,
+                        this@Settings.y + this@Settings.height / (1 + amountOfOptions) * currentNo
                     )
 
             when (settingsKind) {
