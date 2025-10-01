@@ -107,7 +107,7 @@ class Piece(
                 zIndex = 0.0
                 scale(1.0, 1.0)
                 // Check if newPosition is within the game board
-                if (newX and newY !in 0..<8) error = true
+                if (newX !in 0..<8 || newY !in 0..<8) error = true
 
                 val currentPos = currentPos
                 println("currentPos $currentPos , new Pos $newPos")
