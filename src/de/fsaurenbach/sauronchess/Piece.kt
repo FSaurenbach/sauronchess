@@ -436,9 +436,8 @@ fun checkForGameEnd(): Boolean {
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) {
-                    return true
-                }
+                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) return true
+
             }
         }
     }
@@ -447,10 +446,8 @@ fun checkForGameEnd(): Boolean {
 
     if (GameState.whiteTurn) {
         if (GameState.whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
-        println("Black won the game!")
     } else {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
-        println("White won the game!")
     }
     return false
 }
