@@ -35,31 +35,33 @@ class Piece(
 ) : Container() {
     val cxy get() = Pair(cx, cy)
     lateinit var pImage: Image
-    private lateinit var currentPos: Pair<Int, Int>
+    private var currentPos get() = Pair(cx,cy)
     private lateinit var newPos: Pair<Int, Int>
-    val oldX get() = currentPos.first
-    val oldY get() = currentPos.second
-    val newX get() = newPos.first
-    val newY get() = newPos.second
+    private val currentX get() = currentPos.first
+    private val currentY get() = currentPos.second
+    private val newX get() = newPos.first
+    private val newY get() = newPos.second
+
     init {
         reloadImages()
 
         GameState.pieces.add(this)
 
         movePiece(this, cx, cy)
-        var newPosition: Pair<Int, Int>? = null
-        var currentPos: Pair<Int, Int>? = null
+        currentPos = Pair(cx, cy)
+        //var newPosition: Pair<Int, Int>? = null
+        //var currentPos: Pair<Int, Int>? = null
         var error: Boolean
 
         this.draggableCloseable(
             onMouseDrag {
-                newPosition = Pair(
+                newPos = Pair(
                     (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / cellWidth.toInt(),
                     (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / cellHeight.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
-                    if (circle.cx == newPosition!!.first && circle.cy == newPosition!!.second) {
+                    if (circle.cx == newX && circle.cy == newY) {
                         circle.markWhite()
 
                         whiteCircles.add(circle)
@@ -84,7 +86,8 @@ class Piece(
                 // Show available moves
                 for (x in 0..7) {
                     for (y in 0..7) {
-                        if (simulateMove(Pair(cx, cy), Pair(x, y), this)) {
+                        newPos = Pair(x,y)
+                        if (simulateMove(Pair(currentX, currentY), Pair(x, y), this)) {
                             findCell(x, y).also {
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
@@ -103,29 +106,27 @@ class Piece(
             if (info.end) {
                 zIndex = 0.0
                 scale(1.0, 1.0)
-                val (currentX, currentY) = currentPos!!
-                val (newX, newY) = newPosition!!
                 // Check if newPosition is within the game board
                 if (newX and newY !in 0..<8) error = true
 
                 val oldPos = currentPos
-                println("currentPos $currentPos , new Pos $newPosition")
+                println("currentPos $currentPos , new Pos $newPos")
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
                 // Perform the move if no error
                 if (!error) {
-                    println("currentPos $currentPos , new Pos $newPosition, whiteTurn ${GameState.whiteTurn}")
+                    println("currentPos $currentPos , new Pos $newPos, whiteTurn ${GameState.whiteTurn}")
 
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
                         println("in check")
-                        if (doMove(newPosition!!)) {
+                        if (doMove(newPos)) {
                             GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
                         }
 
                     } else if (moveChecker(
-                            newPosition!!,
+                            newPos,
                         ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                     ) {
                         /** Pawn promotion.*/
@@ -161,7 +162,7 @@ class Piece(
                         // Castling
                         if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
                             when {
-                                newPosition!!.first == 6 && newPosition!!.second == 7 -> {
+                                newX == 6 && newY == 7 -> {
                                     val rook = findPiece(7, 7)
                                     movePiece(rook!!, 5, 7)
                                     movePiece(this, 6, 7)
@@ -199,25 +200,24 @@ class Piece(
                                 }
                             }
 
-                        } else if (doMove(newPosition!!)) {
+                        } else if (doMove(newPos)) {
                             GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
 
                         }
 
                     } else {
-                        movePiece(this, oldPos!!.first, oldPos.second)
+                        movePiece(this, oldPos.first, oldPos.second)
                     }
 
-                    newPosition = null
-                    currentPos = null
+//                    newPos = null
+//                    currentPos = null
                     error = false
-                } else movePiece(this, oldPos!!.first, oldPos.second)
+                } else movePiece(this, oldPos.first, oldPos.second)
                 error = false
 
                 // Reset variables
-                newPosition = null
-                currentPos = null
+//                newPos = null
                 circles.forEach { it.removeFromParent() }
 
                 println()
@@ -229,47 +229,41 @@ class Piece(
     }
 
 
-    /**
-     * Checks if the move of the piece is valid.
-     *
-     * @param newPos The new position of the piece.
-     * @return true if the move is valid, false otherwise.
-     */
+
     fun moveChecker(
-        newPos: Pair<Int, Int>,
+        newPos2: Pair<Int, Int>,
     ): Boolean {
-        val oldPos = Pair(cx, cy)
+        newPos = newPos2
+
         return when (kind) {
-            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn(oldPos, newPos)
-            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(oldPos, newPos)
-            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(oldPos, newPos)
-            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(oldPos, newPos)
-            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(oldPos, newPos)
-            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(oldPos, newPos)
+            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
+            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook(currentPos, newPos)
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight(currentPos, newPos)
+            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop(currentPos, newPos)
+            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen(currentPos, newPos)
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing(currentPos, newPos)
         }
     }
 
-    private fun movePawn(
-        oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>
-    ): Boolean {
+    private fun movePawn(): Boolean {
         val pieceOnNewPos = findPiece(newPos.first, newPos.second)
         val isPawnMoveForward = if (isWhite) {
-            newPos.second - oldPos.second == -1 && oldPos.first == newPos.first
+            newPos.second - currentPos.second == -1 && currentPos.first == newPos.first
         } else {
-            newPos.second - oldPos.second == 1 && oldPos.first == newPos.first
+            newPos.second - currentPos.second == 1 && currentPos.first == newPos.first
         }
         val isInitialPawnMove = if (isWhite) {
-            oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
+            currentPos.second == 6 && newPos.second == 4 && currentPos.first == newPos.first
         } else {
-            oldPos.second == 1 && newPos.second == 3 && oldPos.first == newPos.first
+            currentPos.second == 1 && newPos.second == 3 && currentPos.first == newPos.first
         }
         if (isPawnMoveForward || isInitialPawnMove) {
             if (pieceOnNewPos == null) {
                 return true
             }
-        } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1)) {
+        } else if ((abs(newPos.second - currentPos.second) == 1 && abs(newPos.first - currentPos.first) == 1)) {
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
-            if ((isWhite && newPos.second > oldPos.second) || (!isWhite && newPos.second < oldPos.second)) return false
+            if ((isWhite && newPos.second > currentPos.second) || (!isWhite && newPos.second < currentPos.second)) return false
 
             if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
                 return true
