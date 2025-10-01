@@ -1,16 +1,18 @@
+package de.fsaurenbach.sauronchess
+
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
     // set the position of the cells RELATIVE to the container
-    println("Container position: $offsetX, $offsetY")
+//    println("Container position: ${DisplayConfig.offsetX}, ${DisplayConfig.offsetY}")
     var d = 0
     for (cx in 0 until 8) {
         for (cy in 0 until 8) {
             val text = "${'a' + cx}${8 - cy}"
 
-            cells.add(chessboard.cell(d.isEven, cx, cy, text))
+            GameState.cells.add(chessboard.cell(d.isEven, cx, cy, text))
 
             d++
         }
@@ -18,17 +20,13 @@ fun initializeBoard(chessboard: Container) {
     }
 }
 
-fun findPiece(x: Int, y: Int): Piece? {
-    return pieces.find { it.cx == x && it.cy == y }
-}
+fun findPiece(x: Int, y: Int): Piece? = GameState.pieces.find { it.cx == x && it.cy == y }
 
 fun movePiece(
     piece: Piece,
     newX: Int,
     newY: Int,
 ) {
-    //piece.position(Point(newX * 64.0 + offsetX, newY * 64.0 + offsetY))
-
     findCell(newX, newY)?.let { piece.centerOn(it) }
 
     piece.cx = newX
