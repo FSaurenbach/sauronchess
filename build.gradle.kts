@@ -12,7 +12,7 @@ korge {
     targetAndroid()
     icon = File(rootDir,"icon.png")
     serializationJson()
-    jvmMainClassName = "MainKt"
+    jvmMainClassName = "de.fsaurenbach.sauronchess.MainKt"
     version = "1.0.0"
     versionCode = 1
 
