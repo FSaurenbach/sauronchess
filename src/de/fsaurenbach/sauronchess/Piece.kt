@@ -1,7 +1,5 @@
 package de.fsaurenbach.sauronchess
 
-import de.fsaurenbach.sauronchess.DisplayConfig.cellHeight
-import de.fsaurenbach.sauronchess.DisplayConfig.cellWidth
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
@@ -56,8 +54,8 @@ class Piece(
         this.draggableCloseable(
             onMouseDrag {
                 newPos = Pair(
-                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / cellWidth.toInt(),
-                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / cellHeight.toInt(),
+                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
+                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {

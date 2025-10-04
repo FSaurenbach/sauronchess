@@ -1,6 +1,5 @@
 package de.fsaurenbach.sauronchess
 
-import de.fsaurenbach.sauronchess.GameState.settingsInForeground
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.vector.*
@@ -106,7 +105,7 @@ class GameScene : Scene() {
 
             scale(0.15)
             onClick {
-                if (!settingsInForeground) showSettings()
+                if (!GameState.settingsInForeground) showSettings()
             }
         }
 

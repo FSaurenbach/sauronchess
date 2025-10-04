@@ -1,17 +1,11 @@
 package de.fsaurenbach.sauronchess
 
-import de.fsaurenbach.sauronchess.GameState.aboutPageInForeground
-import de.fsaurenbach.sauronchess.GameState.settingsContainer
-import de.fsaurenbach.sauronchess.GameState.settingsInForeground
-import korlibs.image.color.Colors
-import korlibs.korge.input.onClick
+import korlibs.image.color.*
+import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.align.centerOn
-import korlibs.korge.view.align.centerOnStage
-import korlibs.korge.view.align.centerXOn
-import korlibs.math.geom.RectCorners
-import korlibs.math.geom.Size
-import kotlin.properties.Delegates
+import korlibs.korge.view.align.*
+import korlibs.math.geom.*
+import kotlin.properties.*
 
 class Settings : Container() {
     internal val amountOfOptions = 4
@@ -102,20 +96,20 @@ class Settings : Container() {
         }
 
         private fun handleAboutClick() {
-            if (aboutPageInForeground) {
-                settingsContainer.findViewByName("AboutPage")?.removeFromParent()
-                aboutPageInForeground = false
+            if (GameState.aboutPageInForeground) {
+                GameState.settingsContainer.findViewByName("AboutPage")?.removeFromParent()
+                GameState.aboutPageInForeground = false
                 return
             }
             solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
-            AboutPage().name("AboutPage").addTo(settingsContainer).centerOnStage()
-            aboutPageInForeground = true
+            AboutPage().name("AboutPage").addTo(GameState.settingsContainer).centerOnStage()
+            GameState.aboutPageInForeground = true
 
         }
 
         private fun handleExitClick() {
-            settingsInForeground = false
-            settingsContainer.removeFromParent()
+            GameState.settingsInForeground = false
+            GameState.settingsContainer.removeFromParent()
         }
 
     }
@@ -140,12 +134,13 @@ class Settings : Container() {
         SettingsButton(SettingsKind.Exit).addTo(this)
     }
 }
-fun showSettings() {
-    settingsContainer = GameState.sceneContainer.container()
 
-    settingsContainer.solidRect(
+fun showSettings() {
+    GameState.settingsContainer = GameState.sceneContainer.container()
+
+    GameState.settingsContainer.solidRect(
         DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
     ).centerOnStage()
-    Settings().addTo(settingsContainer).centerOnStage()
-    settingsInForeground = true
+    Settings().addTo(GameState.settingsContainer).centerOnStage()
+    GameState.settingsInForeground = true
 }
