@@ -22,16 +22,16 @@ class PromotionDialogue(private var isWhite: Boolean) : Container() {
         this.centerXBetween(DisplayConfig.screenWidth / 2, DisplayConfig.screenWidth / 2)
 
         queen = image(
-            if (isWhite) PieceImages.whiteQueen!! else PieceImages.blackQueen!!
+            if (isWhite) Images.whiteQueen!! else Images.blackQueen!!
         ).alignLeftToLeftOf(bg).centerYOn(bg)
         rook = image(
-            if (isWhite) PieceImages.whiteRook!! else PieceImages.blackRook!!
+            if (isWhite) Images.whiteRook!! else Images.blackRook!!
         ).alignLeftToRightOf(queen).centerYOn(bg)
         knight = image(
-            if (isWhite) PieceImages.whiteKnight!! else PieceImages.blackKnight!!
+            if (isWhite) Images.whiteKnight!! else Images.blackKnight!!
         ).alignLeftToRightOf(rook).centerYOn(bg)
         bishop = image(
-            if (isWhite) PieceImages.whiteBishop!! else PieceImages.blackBishop!!
+            if (isWhite) Images.whiteBishop!! else Images.blackBishop!!
         ).alignLeftToRightOf(knight).centerYOn(bg)
 
 
