@@ -262,7 +262,7 @@ class Piece(
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
             if ((isWhite && newY > currentY) || (!isWhite && newY < currentY)) return false
 
-            if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
+            if (pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
                 return true
             }
         }
