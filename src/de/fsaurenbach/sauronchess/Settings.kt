@@ -28,7 +28,7 @@ class Settings : Container() {
                 centerOn(background)
             }
 
-            image(PieceImages.creditsSvg!!).scale(0.5).centerOn(bg)
+            image(Images.creditsSvg!!).scale(0.5).centerOn(bg)
             val exitButton = SettingsButton(SettingsKind.About)
             exitButton.centerXOn(bg)
             exitButton.positionY(bg.y + bg.height / 4)
