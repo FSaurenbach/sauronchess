@@ -1,5 +1,6 @@
 package de.fsaurenbach.sauronchess
 
+import de.fsaurenbach.sauronchess.GameState.settingsInForeground
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.vector.*
@@ -25,6 +26,9 @@ object GameState {
     var whiteTurn = true
     var promotionActive = false
     var castleAttempt = false
+    var settingsInForeground = false
+    var aboutPageInForeground = false
+    var settingsContainer: Container by Delegates.notNull()
 }
 
 object Images {

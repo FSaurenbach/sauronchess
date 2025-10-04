@@ -1,5 +1,8 @@
 package de.fsaurenbach.sauronchess
 
+import de.fsaurenbach.sauronchess.GameState.aboutPageInForeground
+import de.fsaurenbach.sauronchess.GameState.settingsContainer
+import de.fsaurenbach.sauronchess.GameState.settingsInForeground
 import korlibs.image.color.Colors
 import korlibs.korge.input.onClick
 import korlibs.korge.view.*

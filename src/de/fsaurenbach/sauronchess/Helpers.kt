@@ -102,9 +102,6 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     return this
 }
 
-var settingsContainer: Container by Delegates.notNull()
-var settingsInForeground = false
-var aboutPageInForeground = false
 
 
 data class Options(var darkMode: Boolean = false, var autoPromote: Boolean = false)
