@@ -386,18 +386,18 @@ class Piece(
 
         this.pImage = image(
             when (kind) {
-                PieceKind.WhitePawn -> PieceImages.whitePawn!!
-                PieceKind.WhiteRook -> PieceImages.whiteRook!!
-                PieceKind.WhiteKnight -> PieceImages.whiteKnight!!
-                PieceKind.WhiteBishop -> PieceImages.whiteBishop!!
-                PieceKind.WhiteQueen -> PieceImages.whiteQueen!!
-                PieceKind.WhiteKing -> PieceImages.whiteKing!!
-                PieceKind.BlackPawn -> PieceImages.blackPawn!!
-                PieceKind.BlackRook -> PieceImages.blackRook!!
-                PieceKind.BlackKnight -> PieceImages.blackKnight!!
-                PieceKind.BlackBishop -> PieceImages.blackBishop!!
-                PieceKind.BlackQueen -> PieceImages.blackQueen!!
-                PieceKind.BlackKing -> PieceImages.blackKing!!
+                PieceKind.WhitePawn -> Images.whitePawn!!
+                PieceKind.WhiteRook -> Images.whiteRook!!
+                PieceKind.WhiteKnight -> Images.whiteKnight!!
+                PieceKind.WhiteBishop -> Images.whiteBishop!!
+                PieceKind.WhiteQueen -> Images.whiteQueen!!
+                PieceKind.WhiteKing -> Images.whiteKing!!
+                PieceKind.BlackPawn -> Images.blackPawn!!
+                PieceKind.BlackRook -> Images.blackRook!!
+                PieceKind.BlackKnight -> Images.blackKnight!!
+                PieceKind.BlackBishop -> Images.blackBishop!!
+                PieceKind.BlackQueen -> Images.blackQueen!!
+                PieceKind.BlackKing -> Images.blackKing!!
             },
         )
 

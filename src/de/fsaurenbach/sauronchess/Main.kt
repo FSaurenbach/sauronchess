@@ -10,7 +10,6 @@ import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
-import korlibs.korge.view.align.centerYBetween
 import korlibs.math.geom.*
 import korlibs.render.*
 import kotlin.properties.*
@@ -28,7 +27,7 @@ object GameState {
     var castleAttempt = false
 }
 
-object PieceImages {
+object Images {
     var whitePawn: NativeImage? = null
     var whiteRook: NativeImage? = null
     var whiteKnight: NativeImage? = null
@@ -52,7 +51,9 @@ object DisplayConfig {
     val chessBoardWidth = screenWidth * userScale
     val chessBoardHeight = screenHeight * userScale
     val offsetX = (screenWidth - chessBoardWidth) / 2
-    val offsetY = (screenHeight - chessBoardHeight) / 2
+    val offsetY get() =  (screenHeight - chessBoardHeight) / 2
+    val cellHeight get() = chessBoardHeight / 8
+    val cellWidth get() = chessBoardWidth / 8
 }
 
 // Theme Colors

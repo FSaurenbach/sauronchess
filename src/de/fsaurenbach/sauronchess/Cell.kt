@@ -1,5 +1,7 @@
 package de.fsaurenbach.sauronchess
 
+import de.fsaurenbach.sauronchess.DisplayConfig.cellHeight
+import de.fsaurenbach.sauronchess.DisplayConfig.cellWidth
 import korlibs.image.color.*
 import korlibs.korge.view.*
 import korlibs.math.geom.*
@@ -9,8 +11,6 @@ fun Container.cell(
     isWhite: Boolean, cx: Int, cy: Int, text: String
 ) = Cell(isWhite, cx, cy, text).addTo(this)
 
-val cellHeight get() = DisplayConfig.chessBoardHeight / 8
-val cellWidth get() = DisplayConfig.chessBoardWidth / 8
 
 class Cell(
     private var isWhite: Boolean,
