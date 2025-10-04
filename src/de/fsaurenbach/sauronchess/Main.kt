@@ -67,6 +67,10 @@ object ThemeColors {
     val darkModeBlack = Colors["#7a3a15"]
 }
 
+object UserSettings {
+    var darkMode: Boolean = false
+    var autoPromote: Boolean = false
+}
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
@@ -77,7 +81,6 @@ suspend fun main() = Korge(
     this.changeTo { GameScene() }}
 }
 
-var userSettings = Options()
 
 class GameScene : Scene() {
 

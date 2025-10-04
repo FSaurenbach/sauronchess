@@ -16,7 +16,7 @@ class PromotionDialogue(private var isWhite: Boolean) : Container() {
     init {
         val bg = roundRect(
             Size(360, 80),
-            fill = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite,
+            fill = if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite,
             radius = RectCorners(10)
         )
         this.centerXBetween(DisplayConfig.screenWidth / 2, DisplayConfig.screenWidth / 2)

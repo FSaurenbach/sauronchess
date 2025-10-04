@@ -101,9 +101,6 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
 }
 
 
-data class Options(var darkMode: Boolean = false, var autoPromote: Boolean = false)
-
-
 fun <T : View> T.addTo(parent: Container): T {
     parent += this
     return this

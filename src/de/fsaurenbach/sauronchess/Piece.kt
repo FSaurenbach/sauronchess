@@ -131,7 +131,7 @@ class Piece(
 
                             GameState.promotionActive = true
 
-                            if (userSettings.autoPromote) {
+                            if (UserSettings.autoPromote) {
                                 promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
                                 GameState.promotionActive = false
 

@@ -31,9 +31,9 @@ class Cell(
 
     fun colorCell() {
         cell.color = if (isWhite) {
-            if (userSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
+            if (UserSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
         } else {
-            if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
+            if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
         }
     }
 

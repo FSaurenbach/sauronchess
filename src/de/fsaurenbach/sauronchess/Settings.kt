@@ -19,7 +19,7 @@ class Settings : Container() {
                 Size((DisplayConfig.chessBoardWidth / 2) * 1.7, (DisplayConfig.chessBoardHeight / 3) * 1.7),
                 radius = RectCorners(10)
             ) {
-                fill = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
+                fill = if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
             }
             val bg = roundRect(Size(500, background.height - 30), RectCorners(10), Colors.LIGHTGRAY) {
                 centerOn(background)
@@ -50,14 +50,14 @@ class Settings : Container() {
             when (settingsKind) {
                 SettingsKind.DarkMode -> {
                     text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (userSettings.darkMode) Colors.GREEN else Colors.RED
+                    baseButton.color = if (UserSettings.darkMode) Colors.GREEN else Colors.RED
                 }
 
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.Exit -> text("Exit", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.AutoPromote -> {
                     text("Auto promote", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (userSettings.autoPromote) Colors.GREEN else Colors.RED
+                    baseButton.color = if (UserSettings.autoPromote) Colors.GREEN else Colors.RED
                 }
 
             }
@@ -78,15 +78,15 @@ class Settings : Container() {
         }
 
         private fun handleAutoPromoteClick() {
-            userSettings.autoPromote = !userSettings.autoPromote
-            if (userSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
+            UserSettings.autoPromote = !UserSettings.autoPromote
+            if (UserSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
         }
 
 
         private fun handleDarkModeClick() {
-            userSettings.darkMode = !userSettings.darkMode
+            UserSettings.darkMode = !UserSettings.darkMode
             reloadCells()
-            if (userSettings.darkMode) {
+            if (UserSettings.darkMode) {
                 background.color = (ThemeColors.darkModeBlack)
                 baseButton.color = (Colors.GREEN)
             } else {
@@ -125,7 +125,7 @@ class Settings : Container() {
             Size(DisplayConfig.chessBoardWidth / 1.5, DisplayConfig.chessBoardHeight / 1.5),
             radius = RectCorners(15),
         )
-        background.color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
+        background.color = if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
 
         // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
