@@ -28,6 +28,7 @@ object GameState {
     var settingsInForeground = false
     var aboutPageInForeground = false
     var settingsContainer: Container by Delegates.notNull()
+    var enPassantVictim:Piece? = null
 }
 
 object Images {

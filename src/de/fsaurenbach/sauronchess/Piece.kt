@@ -41,6 +41,7 @@ class Piece(
     private val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
+    private var enPassantLegal = false
 
     init {
         reloadImages()
@@ -156,6 +157,10 @@ class Piece(
                             }
                         }
 
+                        GameState.enPassantVictim.let {
+                            it?.removeFromParent()
+                        }
+
                         // Castling
                         if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
                             when {
@@ -215,6 +220,7 @@ class Piece(
 
                 // Reset variables
 //                newPos = null
+                GameState.enPassantVictim = null
                 circles.forEach { it.removeFromParent() }
                 circles.clear()
 
@@ -254,7 +260,13 @@ class Piece(
         } else {
             currentY == 1 && newY == 3 && currentX == newX
         }
+        val isEnPassant = if (isWhite) {
+            newY - currentY == -1 && abs(newX - currentX) == 1
+        } else {
+            newY - currentY == 1 && abs(currentX - newX) == 1
+        }
         if (isPawnMoveForward || isInitialPawnMove) {
+            enPassantLegal = isInitialPawnMove
             if (pieceOnNewPos == null) {
                 return true
             }
@@ -263,6 +275,16 @@ class Piece(
             if ((isWhite && newY > currentY) || (!isWhite && newY < currentY)) return false
 
             if (pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
+                return true
+            }
+        }
+
+        val pawnToTake = findPiece(newX, currentY)
+
+        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite) {
+
+            if (pawnToTake.enPassantLegal) {
+                GameState.enPassantVictim = pawnToTake
                 return true
             }
         }
