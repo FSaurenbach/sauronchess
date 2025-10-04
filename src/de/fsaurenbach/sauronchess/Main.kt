@@ -52,6 +52,8 @@ object DisplayConfig {
     val chessBoardHeight = screenHeight * userScale
     val offsetX = (screenWidth - chessBoardWidth) / 2
     val offsetY get() =  (screenHeight - chessBoardHeight) / 2
+    val cellHeight get() = chessBoardHeight / 8
+    val cellWidth get() = chessBoardWidth / 8
 }
 
 // Theme Colors
