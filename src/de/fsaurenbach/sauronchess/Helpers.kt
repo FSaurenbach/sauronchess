@@ -6,8 +6,6 @@ import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
-import korlibs.korge.view.align.*
-import kotlin.properties.*
 
 fun removePiece(piece: Piece) {
     GameState.pieces.remove(piece)
@@ -101,13 +99,6 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     this.y = (y2 + y1 - this.scaledHeight) / 2
     return this
 }
-
-var settingsContainer: Container by Delegates.notNull()
-var settingsInForeground = false
-var aboutPageInForeground = false
-
-
-data class Options(var darkMode: Boolean = false, var autoPromote: Boolean = false)
 
 
 fun <T : View> T.addTo(parent: Container): T {

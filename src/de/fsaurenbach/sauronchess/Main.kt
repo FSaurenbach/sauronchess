@@ -25,6 +25,10 @@ object GameState {
     var whiteTurn = true
     var promotionActive = false
     var castleAttempt = false
+    var settingsInForeground = false
+    var aboutPageInForeground = false
+    var settingsContainer: Container by Delegates.notNull()
+    var enPassantVictim:Piece? = null
 }
 
 object Images {
@@ -64,6 +68,10 @@ object ThemeColors {
     val darkModeBlack = Colors["#7a3a15"]
 }
 
+object UserSettings {
+    var darkMode: Boolean = false
+    var autoPromote: Boolean = false
+}
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
@@ -74,7 +82,6 @@ suspend fun main() = Korge(
     this.changeTo { GameScene() }}
 }
 
-var userSettings = Options()
 
 class GameScene : Scene() {
 
@@ -102,7 +109,7 @@ class GameScene : Scene() {
 
             scale(0.15)
             onClick {
-                if (!settingsInForeground) showSettings()
+                if (!GameState.settingsInForeground) showSettings()
             }
         }
 

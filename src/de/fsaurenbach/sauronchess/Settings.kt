@@ -1,14 +1,11 @@
 package de.fsaurenbach.sauronchess
 
-import korlibs.image.color.Colors
-import korlibs.korge.input.onClick
+import korlibs.image.color.*
+import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.align.centerOn
-import korlibs.korge.view.align.centerOnStage
-import korlibs.korge.view.align.centerXOn
-import korlibs.math.geom.RectCorners
-import korlibs.math.geom.Size
-import kotlin.properties.Delegates
+import korlibs.korge.view.align.*
+import korlibs.math.geom.*
+import kotlin.properties.*
 
 class Settings : Container() {
     internal val amountOfOptions = 4
@@ -22,7 +19,7 @@ class Settings : Container() {
                 Size((DisplayConfig.chessBoardWidth / 2) * 1.7, (DisplayConfig.chessBoardHeight / 3) * 1.7),
                 radius = RectCorners(10)
             ) {
-                fill = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
+                fill = if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
             }
             val bg = roundRect(Size(500, background.height - 30), RectCorners(10), Colors.LIGHTGRAY) {
                 centerOn(background)
@@ -53,14 +50,14 @@ class Settings : Container() {
             when (settingsKind) {
                 SettingsKind.DarkMode -> {
                     text("Dark mode", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (userSettings.darkMode) Colors.GREEN else Colors.RED
+                    baseButton.color = if (UserSettings.darkMode) Colors.GREEN else Colors.RED
                 }
 
                 SettingsKind.About -> text("About", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.Exit -> text("Exit", 30, Colors.BLACK).centerOn(baseButton)
                 SettingsKind.AutoPromote -> {
                     text("Auto promote", 30, Colors.BLACK).centerOn(baseButton)
-                    baseButton.color = if (userSettings.autoPromote) Colors.GREEN else Colors.RED
+                    baseButton.color = if (UserSettings.autoPromote) Colors.GREEN else Colors.RED
                 }
 
             }
@@ -81,15 +78,15 @@ class Settings : Container() {
         }
 
         private fun handleAutoPromoteClick() {
-            userSettings.autoPromote = !userSettings.autoPromote
-            if (userSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
+            UserSettings.autoPromote = !UserSettings.autoPromote
+            if (UserSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
         }
 
 
         private fun handleDarkModeClick() {
-            userSettings.darkMode = !userSettings.darkMode
+            UserSettings.darkMode = !UserSettings.darkMode
             reloadCells()
-            if (userSettings.darkMode) {
+            if (UserSettings.darkMode) {
                 background.color = (ThemeColors.darkModeBlack)
                 baseButton.color = (Colors.GREEN)
             } else {
@@ -99,20 +96,20 @@ class Settings : Container() {
         }
 
         private fun handleAboutClick() {
-            if (aboutPageInForeground) {
-                settingsContainer.findViewByName("AboutPage")?.removeFromParent()
-                aboutPageInForeground = false
+            if (GameState.aboutPageInForeground) {
+                GameState.settingsContainer.findViewByName("AboutPage")?.removeFromParent()
+                GameState.aboutPageInForeground = false
                 return
             }
             solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
-            AboutPage().name("AboutPage").addTo(settingsContainer).centerOnStage()
-            aboutPageInForeground = true
+            AboutPage().name("AboutPage").addTo(GameState.settingsContainer).centerOnStage()
+            GameState.aboutPageInForeground = true
 
         }
 
         private fun handleExitClick() {
-            settingsInForeground = false
-            settingsContainer.removeFromParent()
+            GameState.settingsInForeground = false
+            GameState.settingsContainer.removeFromParent()
         }
 
     }
@@ -128,7 +125,7 @@ class Settings : Container() {
             Size(DisplayConfig.chessBoardWidth / 1.5, DisplayConfig.chessBoardHeight / 1.5),
             radius = RectCorners(15),
         )
-        background.color = if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
+        background.color = if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeWhite
 
         // Dark mode button
         SettingsButton(SettingsKind.DarkMode).addTo(this)
@@ -137,12 +134,13 @@ class Settings : Container() {
         SettingsButton(SettingsKind.Exit).addTo(this)
     }
 }
-fun showSettings() {
-    settingsContainer = GameState.sceneContainer.container()
 
-    settingsContainer.solidRect(
+fun showSettings() {
+    GameState.settingsContainer = GameState.sceneContainer.container()
+
+    GameState.settingsContainer.solidRect(
         DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
     ).centerOnStage()
-    Settings().addTo(settingsContainer).centerOnStage()
-    settingsInForeground = true
+    Settings().addTo(GameState.settingsContainer).centerOnStage()
+    GameState.settingsInForeground = true
 }

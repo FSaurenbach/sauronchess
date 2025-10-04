@@ -28,7 +28,7 @@ A modern, cross-platform chess game built with Kotlin and KorGE game engine.
 | **Move Validation**     | ✅ Complete     | Prevents illegal moves                                                          |
 | **Visual Interface**    | ✅ Complete     | Full drag-and-drop interface                                                    |
 | **Cross-Platform**      | ✅ Complete     | JVM, JS, and Android builds                                                     |
-| **En Passant**          | 🔄 In Progress | Special pawn capture rule                                                       |
+| **En Passant**          | ✅ Complete     | Special pawn capture rule                                                       |
 | **Stalemate Detection** | 🔄 In Progress | Draw condition detection                                                        |
 | **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape                                             |
 | **AI Opponent**         | 📋 Planned     | Computer player implementation                                                  |
