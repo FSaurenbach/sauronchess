@@ -19,7 +19,6 @@ class Cell(
     text: String,
 
     ) : Container() {
-    // Retrieve the cell from the board based on the coordinates
     private val cell: SolidRect = solidRect(cellWidth, cellHeight)
 
     init {
@@ -31,9 +30,9 @@ class Cell(
 
     fun colorCell() {
         cell.color = if (isWhite) {
-            if (userSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
+            if (UserSettings.darkMode) ThemeColors.darkModeWhite else ThemeColors.whiteModeWhite
         } else {
-            if (userSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
+            if (UserSettings.darkMode) ThemeColors.darkModeBlack else ThemeColors.whiteModeBlack
         }
     }
 
@@ -52,8 +51,5 @@ fun findCell(cx: Int, cy: Int): Cell {
     return GameState.cells.find { it.cx == cx && it.cy == cy }!!
 }
 
-fun reloadCells() {
-    GameState.cells.forEach {
-        it.colorCell()
-    }
-}
+fun reloadCells() = GameState.cells.forEach { it.colorCell() }
+

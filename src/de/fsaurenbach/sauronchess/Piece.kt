@@ -1,7 +1,5 @@
 package de.fsaurenbach.sauronchess
 
-import de.fsaurenbach.sauronchess.DisplayConfig.cellHeight
-import de.fsaurenbach.sauronchess.DisplayConfig.cellWidth
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
@@ -43,6 +41,7 @@ class Piece(
     private val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
+    private var enPassantLegal = false
 
     init {
         reloadImages()
@@ -56,8 +55,8 @@ class Piece(
         this.draggableCloseable(
             onMouseDrag {
                 newPos = Pair(
-                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / cellWidth.toInt(),
-                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / cellHeight.toInt(),
+                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
+                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
                 for (whiteCircle in whiteCircles) whiteCircle.markGrey()
                 for (circle in circles) {
@@ -133,7 +132,7 @@ class Piece(
 
                             GameState.promotionActive = true
 
-                            if (userSettings.autoPromote) {
+                            if (UserSettings.autoPromote) {
                                 promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
                                 GameState.promotionActive = false
 
@@ -156,6 +155,10 @@ class Piece(
                                 PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
                                 else -> {}
                             }
+                        }
+
+                        GameState.enPassantVictim.let {
+                            it?.removeFromParent()
                         }
 
                         // Castling
@@ -217,6 +220,7 @@ class Piece(
 
                 // Reset variables
 //                newPos = null
+                GameState.enPassantVictim = null
                 circles.forEach { it.removeFromParent() }
                 circles.clear()
 
@@ -256,7 +260,13 @@ class Piece(
         } else {
             currentY == 1 && newY == 3 && currentX == newX
         }
+        val isEnPassant = if (isWhite) {
+            newY - currentY == -1 && abs(newX - currentX) == 1
+        } else {
+            newY - currentY == 1 && abs(currentX - newX) == 1
+        }
         if (isPawnMoveForward || isInitialPawnMove) {
+            enPassantLegal = isInitialPawnMove
             if (pieceOnNewPos == null) {
                 return true
             }
@@ -264,7 +274,17 @@ class Piece(
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
             if ((isWhite && newY > currentY) || (!isWhite && newY < currentY)) return false
 
-            if (pieceOnNewPos != null && pieceOnNewPos.color != if (isWhite) Colors.WHITE else Colors.BLACK) {
+            if (pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
+                return true
+            }
+        }
+
+        val pawnToTake = findPiece(newX, currentY)
+
+        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite) {
+
+            if (pawnToTake.enPassantLegal) {
+                GameState.enPassantVictim = pawnToTake
                 return true
             }
         }
