@@ -29,6 +29,8 @@ object GameState {
     var aboutPageInForeground = false
     var settingsContainer: Container by Delegates.notNull()
     var enPassantVictim:Piece? = null
+    val circles = ArrayList<MoveIndicator>()
+    val whiteCircles = ArrayList<MoveIndicator>()
 }
 
 object Images {

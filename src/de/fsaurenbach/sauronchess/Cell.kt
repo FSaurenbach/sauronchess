@@ -13,7 +13,7 @@ fun Container.cell(
 
 
 class Cell(
-    private var isWhite: Boolean,
+    var isWhite: Boolean,
     var cx: Int,
     var cy: Int,
     text: String,
