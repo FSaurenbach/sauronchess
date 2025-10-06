@@ -12,8 +12,7 @@ enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
 
-val circles = ArrayList<MoveIndicator>()
-val whiteCircles = ArrayList<MoveIndicator>()
+
 inline fun Container.piece(
     kind: PieceKind,
     color: RGBA,
@@ -26,12 +25,7 @@ inline fun Container.piece(
 
 
 class Piece(
-    var kind: PieceKind,
-    val color: RGBA,
-    var cx: Int,
-    var cy: Int,
-    var disabled: Boolean = false,
-    private val isWhite: Boolean
+    var kind: PieceKind, val color: RGBA, var cx: Int, var cy: Int, var disabled: Boolean = false, val isWhite: Boolean
 ) : Container() {
     val cxy get() = Pair(cx, cy)
     lateinit var pImage: Image
@@ -58,12 +52,12 @@ class Piece(
                     (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
                     (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
-                for (whiteCircle in whiteCircles) whiteCircle.markGrey()
-                for (circle in circles) {
+                for (whiteCircle in GameState.whiteCircles) whiteCircle.markGrey()
+                for (circle in GameState.circles) {
                     if (circle.cx == newX && circle.cy == newY) {
                         circle.markWhite()
 
-                        whiteCircles.add(circle)
+                        GameState.whiteCircles.add(circle)
                     }
 
                 }
@@ -89,14 +83,11 @@ class Piece(
                             findCell(x, y).also {
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
-                                    addTo(circles)
+                                    addTo(GameState.circles)
                                     centerOn(it)
-
                                 }
 
                             }
-
-
                         }
                     }
                 }
@@ -221,8 +212,8 @@ class Piece(
                 // Reset variables
 //                newPos = null
                 GameState.enPassantVictim = null
-                circles.forEach { it.removeFromParent() }
-                circles.clear()
+                GameState.circles.forEach { it.removeFromParent() }
+                GameState.circles.clear()
 
                 println()
                 println()
@@ -281,12 +272,9 @@ class Piece(
 
         val pawnToTake = findPiece(newX, currentY)
 
-        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite) {
-
-            if (pawnToTake.enPassantLegal) {
-                GameState.enPassantVictim = pawnToTake
-                return true
-            }
+        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite && pawnToTake.enPassantLegal) {
+            GameState.enPassantVictim = pawnToTake
+            return true
         }
         return false
     }
@@ -451,15 +439,39 @@ class Piece(
 
 
 fun checkForGameEnd(): Boolean {
-    val whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
-    val blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
+    var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    // Check for Draw
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) return true
-
+                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) print("")//TODO
             }
         }
+    }
+    // Check for insufficient material rule (no pawns left at all is a hard req)
+    if (GameState.pieces.none { it.kind == PieceKind.WhitePawn || it.kind == PieceKind.BlackPawn }) {
+        whitePieces =
+            GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.WhiteKing || !it.isWhite }.toSet()
+        blackPieces =
+            GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.BlackKing || it.isWhite }.toSet()
+
+        if (whitePieces.count() > 1 && blackPieces.count() > 1) return false
+        var whiteLegal = false
+        var blackLegal = false
+        var whiteBishopOnWhite: Boolean? = null
+        var blackBishopOnWhite: Boolean? = null
+        for (piece in whitePieces + blackPieces) {
+            if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
+            else if (piece.kind == PieceKind.WhiteBishop) {
+                whiteBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
+            } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
+            else if (piece.kind == PieceKind.BlackBishop) {
+                blackBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
+            }
+        }
+        if (whiteLegal || blackLegal) return true
+        if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return true
     }
 
     println("No moves left for white / black!")

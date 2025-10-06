@@ -28,7 +28,9 @@ object GameState {
     var settingsInForeground = false
     var aboutPageInForeground = false
     var settingsContainer: Container by Delegates.notNull()
-    var enPassantVictim:Piece? = null
+    var enPassantVictim: Piece? = null
+    val circles = ArrayList<MoveIndicator>()
+    val whiteCircles = ArrayList<MoveIndicator>()
 }
 
 object Images {
@@ -55,7 +57,7 @@ object DisplayConfig {
     val chessBoardWidth = screenWidth * userScale
     val chessBoardHeight = screenHeight * userScale
     val offsetX = (screenWidth - chessBoardWidth) / 2
-    val offsetY get() =  (screenHeight - chessBoardHeight) / 2
+    val offsetY get() = (screenHeight - chessBoardHeight) / 2
     val cellHeight get() = chessBoardHeight / 8
     val cellWidth get() = chessBoardWidth / 8
 }
@@ -72,14 +74,16 @@ object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
 }
+
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
     quality = GameWindow.Quality.QUALITY
 ) {
-    sceneContainer().apply{
-    GameState.sceneContainer = this
-    this.changeTo { GameScene() }}
+    sceneContainer().apply {
+        GameState.sceneContainer = this
+        this.changeTo { GameScene() }
+    }
 }
 
 
