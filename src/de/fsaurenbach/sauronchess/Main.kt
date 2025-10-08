@@ -116,6 +116,17 @@ class GameScene : Scene() {
                 if (!GameState.settingsInForeground) showSettings()
             }
         }
+        val resignButton = image(resourcesVfs["resign.svg"].readSVG().scaled(1,1).render()){
+            zIndex(3)
+            scale (0.5,0.5)
+
+            centered.position(DisplayConfig.screenWidth * 0.7, DisplayConfig.offsetY / 2)
+            onClick {
+                println("resign")
+            }
+        }
+
+
 
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
