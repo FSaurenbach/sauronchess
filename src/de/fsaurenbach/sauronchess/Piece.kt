@@ -1,10 +1,13 @@
 package de.fsaurenbach.sauronchess
 
 import korlibs.image.color.*
+import korlibs.io.async.*
+import korlibs.io.serialization.json.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import kotlinx.coroutines.*
+import kotlinx.serialization.json.*
 import kotlin.math.*
 
 
@@ -428,8 +431,26 @@ class Piece(
         }
         inCheck(GameState.pieces)
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
+        GameState.sceneContainer.launch {
+            // var string = Position(cx, cy, newX, newY)
+            var map = mapOf(
+                "cx" to currentX,
+                "cy" to currentY,
+                "newX" to newX,
+                "newY" to newY)
+//            var json = Json
+//            var el = json.encodeToJsonElement(Position(cx,cy, newX, newY))
+            println("cx: $currentX, cy: $currentY, newX, $cx, newY: $newY")
+
+            println("SENDING :${map.toJson()}")
+            wsClient.send(map.toJson())
+
+        }
+
+
         this.cx = newX
         this.cy = newY
+
         pieceOnNewPos?.disabled = false
         return true
     }

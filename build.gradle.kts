@@ -21,3 +21,8 @@ korge {
 repositories {
     mavenCentral()
 }
+tasks.register("runMain") {
+    dependsOn("runJvm") // the root run task
+    group = "application"
+    description = "Runs only the main project"
+}

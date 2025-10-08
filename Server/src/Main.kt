@@ -1,43 +1,32 @@
 import korlibs.io.net.http.*
 import kotlinx.coroutines.*
-import java.util.concurrent.atomic.*
+var users = mutableListOf<HttpServer.WsRequest>()
+fun requestHandler(request: HttpServer.WsRequest) {
+    users.add(request)
+    println("Opening connection...")
+    request.onStringMessage {
+        println(it)
 
-suspend fun main(){
-
-    var webSocket = HttpServer().listen(port = 9999).websocketHandler {
-        handler -> requestHandler(handler)
+        for (user in users-request) {
+            user.sendSafe(it)
+        }
     }
+    request.sendSafe("testMessage")
+}
+
+fun main() {
+    println("Starting server...")
+
+    val webSocket = HttpServer()
+    runBlocking {
+        webSocket.listen(port = 9999).websocketHandler { handler ->
+            requestHandler(handler)
+        }
 
 
-    /*.allHandler {
-        println("$it")
-    }*/
-    while (true) {
-        delay(1000)
     }
 }
 
-suspend fun requestHandler(request: HttpServer.WsRequest) {
-    request.accept(Http.Headers.build {  })
-    request.send("af")
-
-    /*request.write("a\n")
-    println(request.headers)
-    request.end()*/
-}
 
 
-class PlayerConnection() {
-    companion object {
-        val ID = AtomicInteger()
-    }
 
-    private val id = ID.getAndIncrement()
-
-    var player = Player(id)
-
-    override fun toString(): String {
-        return "PlayerConnection(id=$id)"
-    }
-}
-data class Player(val id:Int)

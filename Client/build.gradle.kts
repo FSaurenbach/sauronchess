@@ -11,3 +11,6 @@ korge {
     targetJvm()
     jvmMainClassName = "MainKt"
 }
+tasks.named("runJvm") {
+    enabled = false
+}

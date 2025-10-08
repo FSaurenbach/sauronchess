@@ -5,6 +5,8 @@ import korlibs.image.color.*
 import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
+import korlibs.io.net.ws.*
+import korlibs.io.serialization.json.*
 import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
@@ -75,6 +77,7 @@ object UserSettings {
     var autoPromote: Boolean = false
 }
 
+lateinit var wsClient: WebSocketClient
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
@@ -116,23 +119,46 @@ class GameScene : Scene() {
                 if (!GameState.settingsInForeground) showSettings()
             }
         }
-        val resignButton = image(resourcesVfs["resign.svg"].readSVG().scaled(1,1).render()){
+        val resignButton = image(resourcesVfs["resign.svg"].readSVG().scaled(1, 1).render()) {
             zIndex(3)
-            scale (0.5,0.5)
+            scale(0.5, 0.5)
 
             centered.position(DisplayConfig.screenWidth * 0.7, DisplayConfig.offsetY / 2)
             onClick {
                 println("resign")
             }
         }
-
-
-
+        wsClient = WebSocketClient("ws://127.0.0.1:9999")
+        wsClient.onOpen {
+            println("open")
+        }
+        wsClient.onStringMessage {
+            listener(it)
+        }
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
         reloadPictures()
         chessboard.addAllPieces()
     }
+
+
+}
+
+fun listener(message: String) {
+    println("INCOMING MESSAGE: $message")
+//    fun String.fromJson(): Position? = Json.parse(this) as Position?
+    var pos = message.fromJson() as Map<String, Int>
+
+    println("pos $pos")
+    println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
+    var piece = findPiece(4,6)
+   // var piece = findPiece(4,4)
+    println("piece: piece")
+    println("cx: ${piece?.cxy}")
+    movePiece(piece!!, pos["newX"]!!, pos["newY"]!!)
+
+
+
 
 
 }
