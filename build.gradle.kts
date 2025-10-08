@@ -1,4 +1,5 @@
 import korlibs.korge.gradle.*
+import korlibs.korge.gradle.targets.jvm.*
 
 plugins { alias(libs.plugins.korge)}
 
@@ -9,6 +10,7 @@ korge {
     fullscreen = false
     targetJvm()
     targetJs()
+    webBindPort = 8989
     targetAndroid()
     icon = File(rootDir,"icon.png")
     serializationJson()

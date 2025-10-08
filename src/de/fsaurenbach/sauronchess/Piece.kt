@@ -1,13 +1,11 @@
 package de.fsaurenbach.sauronchess
 
 import korlibs.image.color.*
-import korlibs.io.async.*
 import korlibs.io.serialization.json.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import kotlinx.coroutines.*
-import kotlinx.serialization.json.*
 import kotlin.math.*
 
 
@@ -32,7 +30,7 @@ class Piece(
 ) : Container() {
     val cxy get() = Pair(cx, cy)
     lateinit var pImage: Image
-    private var currentPos get() = Pair(cx, cy)
+    private var currentPos: Pair<Int, Int>
     private lateinit var newPos: Pair<Int, Int>
     private val currentX get() = currentPos.first
     private val currentY get() = currentPos.second
@@ -101,7 +99,6 @@ class Piece(
                 // Check if newPosition is within the game board
                 if (newX !in 0..<8 || newY !in 0..<8) error = true
 
-                val currentPos = currentPos
                 println("currentPos $currentPos , new Pos $newPos")
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
@@ -113,7 +110,6 @@ class Piece(
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
                         println("in check")
                         if (doMove()) {
-                            GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
                         }
 
@@ -197,9 +193,7 @@ class Piece(
                             }
 
                         } else if (doMove()) {
-                            GameState.whiteTurn = !GameState.whiteTurn
                             pieceOnNewPos?.let { removePiece(it) }
-
                         }
 
                     } else {
@@ -415,9 +409,16 @@ class Piece(
         pImage.scale = DisplayConfig.userScale
     }
 
-    private fun doMove(): Boolean {
-        if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
+    fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
+        println("runnn: ")
 
+
+        if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
+        val oldX = currentX
+        val oldY = currentY
+        println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
+        this.newPos = Pair(newX, newY)
+        println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
         inCheck(GameState.pieces)
         val pieceOnNewPos = findPiece(newX, newY)
 
@@ -433,25 +434,34 @@ class Piece(
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
         GameState.sceneContainer.launch {
             // var string = Position(cx, cy, newX, newY)
-            var map = mapOf(
-                "cx" to currentX,
-                "cy" to currentY,
-                "newX" to newX,
-                "newY" to newY)
-//            var json = Json
-//            var el = json.encodeToJsonElement(Position(cx,cy, newX, newY))
-            println("cx: $currentX, cy: $currentY, newX, $cx, newY: $newY")
 
-            println("SENDING :${map.toJson()}")
-            wsClient.send(map.toJson())
+            if (!receiver) {
+                var map = mapOf(
+                    "cx" to oldX,
+                    "cy" to oldY,
+                    "newX" to cx,
+                    "newY" to cy
+                )
+                println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
+                println("SENDING :${map.toJson()}")
+                wsClient.send(map.toJson())
+            }
+
+            this@Piece.cx = newX
+            this@Piece.cy = newY
+            println("CURRENT POSITION BEFORE CHANGE: $currentPos")
+            currentPos = Pair(newX, newY)
+            println("CURRENT POSITION AFTER CHANGE: $currentPos")
+
+            pieceOnNewPos?.disabled = false
+            GameState.whiteTurn = !GameState.whiteTurn
+            pieceOnNewPos?.let { removePiece(it) }
         }
 
 
-        this.cx = newX
-        this.cy = newY
 
-        pieceOnNewPos?.disabled = false
+
         return true
     }
 

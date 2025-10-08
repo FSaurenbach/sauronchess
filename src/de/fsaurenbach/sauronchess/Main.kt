@@ -147,15 +147,15 @@ class GameScene : Scene() {
 fun listener(message: String) {
     println("INCOMING MESSAGE: $message")
 //    fun String.fromJson(): Position? = Json.parse(this) as Position?
-    var pos = message.fromJson() as Map<String, Int>
+    val pos = message.fromJson() as Map<String, Int?>
 
     println("pos $pos")
     println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
-    var piece = findPiece(4,6)
+    var piece = findPiece(pos["cx"]!!,pos["cy"]!!)
    // var piece = findPiece(4,4)
     println("piece: piece")
     println("cx: ${piece?.cxy}")
-    movePiece(piece!!, pos["newX"]!!, pos["newY"]!!)
+    piece?.doMove(pos["newX"]!!, pos["newY"]!!, true)
 
 
 
