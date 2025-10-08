@@ -1,6 +1,6 @@
 import korlibs.korge.gradle.*
 
-plugins { alias(libs.plugins.korge) }
+plugins { alias(libs.plugins.korge)}
 
 korge {
     id = "de.fsaurenbach.sauronchess"
