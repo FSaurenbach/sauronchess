@@ -435,13 +435,14 @@ class Piece(
         GameState.sceneContainer.launch {
 
             if (!receiver) {
-                var map = mapOf(
+                val map = mutableMapOf(
                     "id" to randomID,
-                    "cx" to oldX,
-                    "cy" to oldY,
-                    "newX" to cx,
-                    "newY" to cy
+                    "cx" to oldX.toString(),
+                    "cy" to oldY.toString(),
+                    "newX" to cx.toString(),
+                    "newY" to cy.toString()
                 )
+                map.putAll(uniqueIdentifier!!)
                 println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
                 println("SENDING :${map.toJson()}")

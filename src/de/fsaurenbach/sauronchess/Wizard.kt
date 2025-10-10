@@ -1,5 +1,6 @@
 package de.fsaurenbach.sauronchess
 
+import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
@@ -7,35 +8,68 @@ import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import kotlinx.coroutines.*
 
-class Wizard() : Scene() {
+class Slot(var roundRect: RoundRect, var number: Int) : Container(){
+    init {
+        roundRect.addTo(this)
+    }
+}
+class Wizard : Scene() {
+
+    private var maxSlots = 4
+    private var slots: MutableList<Slot> = mutableListOf()
+    private fun updateColors() {
+        for (rr in slots) {
+            rr.roundRect.color = if (GameState.currentSlot == rr.number) Colors.GREEN else Colors.RED
+
+        }
+    }
+
     override suspend fun SContainer.sceneMain() {
         val backgroundSize = Size(100, 100)
         val corners = RectCorners(10)
         reloadPictures()
 
 
+        for (integer in 0..maxSlots) {
+            Slot(RoundRect(backgroundSize, corners, ThemeColors.whiteModeWhite), integer)
+                .apply {
+                    addTo(this@sceneMain)
+                    addTo(slots)
+                    positionX((DisplayConfig.screenWidth / 5) * integer)
+                    positionY(DisplayConfig.screenHeight / 4)
+                    zIndex(5)
+                    updateColors()
+                }
+
+
+        }
+        for (slot in slots) {
+            slot.onClick {
+                GameState.currentSlot = slot.number
+                updateColors()
+            }
+        }
+
         val whiteQueen = image(Images.whiteQueen!!)
 
-        roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite)
-            .apply {
-                addTo(this@sceneMain)
-                centerYOnStage()
-                positionX(DisplayConfig.screenWidth / 3)
-                whiteQueen.centerOn(this).zIndex(3)
-                onClick { changeScene(true) }
+        roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+            addTo(this@sceneMain)
+            centerYOnStage()
+            positionX(DisplayConfig.screenWidth / 3)
+            whiteQueen.centerOn(this).zIndex(3)
+            onClick { changeScene(true) }
 
-            }
+        }
 
         val blackQueen = image(Images.blackQueen!!)
-        roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite)
-            .apply {
-                addTo(this@sceneMain)
-                centerYOnStage()
-                positionX(DisplayConfig.screenWidth / 3 + DisplayConfig.screenWidth / 3)
-                blackQueen.centerOn(this).zIndex(3)
-                onClick { changeScene(false) }
+        roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+            addTo(this@sceneMain)
+            centerYOnStage()
+            positionX(DisplayConfig.screenWidth / 3 + DisplayConfig.screenWidth / 3)
+            blackQueen.centerOn(this).zIndex(3)
+            onClick { changeScene(false) }
 
-            }
+        }
 
     }
 

@@ -37,6 +37,7 @@ object GameState {
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
     var userIsWhite = true
+    var currentSlot = 0
 }
 
 object Images {
@@ -94,7 +95,7 @@ suspend fun main() = Korge(
 }
 
 var randomID = Random[1, 1000].toString()
-
+var uniqueIdentifier: Map<String, String>? = null
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
@@ -134,14 +135,13 @@ class GameScene : Scene() {
             }
         }
         wsClient = WebSocketClient("ws://127.0.0.1:9999")
-
         println("Opened socket")
-        val uniqueIdentifier = mapOf(
+        uniqueIdentifier = mapOf(
             "id" to randomID,
-            "color" to GameState.userIsWhite.toString()
+            "color" to GameState.userIsWhite.toString(),
+            "slot" to GameState.currentSlot.toString()
         )
-
-        launch { wsClient.send(uniqueIdentifier.toJson()) }
+        launch { wsClient.send(uniqueIdentifier!!.toJson()) }
 
         wsClient.onStringMessage {
             listener(it)
@@ -158,15 +158,24 @@ class GameScene : Scene() {
 fun listener(message: String) {
     println("INCOMING MESSAGE: $message")
 //    fun String.fromJson(): Position? = Json.parse(this) as Position?
-    val pos = message.fromJson() as Map<String, Int?>
+    val pos: Map<String, *>
+    try {
+        pos = message.fromJson() as Map<String, String>
+    }
+    catch (e: Exception){
+        return
+    }
+
 
     println("pos $pos")
     println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
-    var piece = findPiece(pos["cx"]!!, pos["cy"]!!)
+
+    if(pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
+    val piece = findPiece(pos["cx"]!!.toInt(), pos["cy"]!!.toInt())
     // var piece = findPiece(4,4)
     println("piece: piece")
     println("cx: ${piece?.cxy}")
-    piece?.doMove(pos["newX"]!!, pos["newY"]!!, true)
+    piece?.doMove(pos["newX"]!!.toInt(), pos["newY"]!!.toInt(), true)
 
 
 }
