@@ -433,10 +433,10 @@ class Piece(
         inCheck(GameState.pieces)
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
         GameState.sceneContainer.launch {
-            // var string = Position(cx, cy, newX, newY)
 
             if (!receiver) {
                 var map = mapOf(
+                    "id" to randomID,
                     "cx" to oldX,
                     "cy" to oldY,
                     "newX" to cx,

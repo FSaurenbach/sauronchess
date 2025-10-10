@@ -13,8 +13,11 @@ import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import korlibs.math.random.*
 import korlibs.render.*
+import kotlinx.coroutines.*
 import kotlin.properties.*
+import kotlin.random.*
 
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
@@ -33,6 +36,7 @@ object GameState {
     var enPassantVictim: Piece? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
+    var userIsWhite = true
 }
 
 object Images {
@@ -85,10 +89,11 @@ suspend fun main() = Korge(
 ) {
     sceneContainer().apply {
         GameState.sceneContainer = this
-        this.changeTo { GameScene() }
+        this.changeTo { Wizard() }
     }
 }
 
+var randomID = Random[1, 1000].toString()
 
 class GameScene : Scene() {
 
@@ -129,9 +134,15 @@ class GameScene : Scene() {
             }
         }
         wsClient = WebSocketClient("ws://127.0.0.1:9999")
-        wsClient.onOpen {
-            println("open")
-        }
+
+        println("Opened socket")
+        val uniqueIdentifier = mapOf(
+            "id" to randomID,
+            "color" to GameState.userIsWhite.toString()
+        )
+
+        launch { wsClient.send(uniqueIdentifier.toJson()) }
+
         wsClient.onStringMessage {
             listener(it)
         }
@@ -151,14 +162,11 @@ fun listener(message: String) {
 
     println("pos $pos")
     println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
-    var piece = findPiece(pos["cx"]!!,pos["cy"]!!)
-   // var piece = findPiece(4,4)
+    var piece = findPiece(pos["cx"]!!, pos["cy"]!!)
+    // var piece = findPiece(4,4)
     println("piece: piece")
     println("cx: ${piece?.cxy}")
     piece?.doMove(pos["newX"]!!, pos["newY"]!!, true)
-
-
-
 
 
 }
