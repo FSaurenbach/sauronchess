@@ -5,14 +5,19 @@ import korlibs.image.color.*
 import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
+import korlibs.io.net.ws.*
+import korlibs.io.serialization.json.*
 import korlibs.korge.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.geom.*
+import korlibs.math.random.*
 import korlibs.render.*
+import kotlinx.coroutines.*
 import kotlin.properties.*
+import kotlin.random.*
 
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
@@ -31,6 +36,9 @@ object GameState {
     var enPassantVictim: Piece? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
+    var userIsWhite = true
+    var currentSlot = 0
+    var onlinePlay = false
 }
 
 object Images {
@@ -75,6 +83,7 @@ object UserSettings {
     var autoPromote: Boolean = false
 }
 
+var wsClient: WebSocketClient? = null
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
@@ -82,10 +91,12 @@ suspend fun main() = Korge(
 ) {
     sceneContainer().apply {
         GameState.sceneContainer = this
-        this.changeTo { GameScene() }
+        this.changeTo { Wizard() }
     }
 }
 
+var randomID = Random[1, 1000].toString()
+var uniqueIdentifier: Map<String, String>? = null
 
 class GameScene : Scene() {
 
@@ -116,12 +127,62 @@ class GameScene : Scene() {
                 if (!GameState.settingsInForeground) showSettings()
             }
         }
+        val resignButton = image(resourcesVfs["resign.svg"].readSVG().scaled(1, 1).render()) {
+            zIndex(3)
+            scale(0.5, 0.5)
+
+            centered.position(DisplayConfig.screenWidth * 0.7, DisplayConfig.offsetY / 2)
+            onClick {
+                println("resign")
+            }
+        }
+
+
+        if (GameState.onlinePlay) {
+            wsClient = WebSocketClient("ws://127.0.0.1:9999")
+            println("Opened socket")
+            uniqueIdentifier = mapOf(
+                "id" to randomID,
+                "color" to GameState.userIsWhite.toString(),
+                "slot" to GameState.currentSlot.toString()
+            )
+            println("sending: ${uniqueIdentifier!!.toJson()}")
+            launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
+
+            wsClient!!.onStringMessage {
+                listener(it)
+            }
+        }
 
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
         reloadPictures()
         chessboard.addAllPieces()
     }
+
+
+}
+
+fun listener(message: String) {
+    println("INCOMING MESSAGE: $message")
+//    fun String.fromJson(): Position? = Json.parse(this) as Position?
+    val pos: Map<String, *>
+    try {
+        pos = message.fromJson() as Map<String, String>
+    } catch (e: Exception) {
+        return
+    }
+
+
+    println("pos $pos")
+    println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
+
+    if (pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
+    val piece = findPiece(pos["cx"]!!.toInt(), pos["cy"]!!.toInt())
+    // var piece = findPiece(4,4)
+    println("piece: piece")
+    println("cx: ${piece?.cxy}")
+    piece?.doMove(pos["newX"]!!.toInt(), pos["newY"]!!.toInt(), true)
 
 
 }

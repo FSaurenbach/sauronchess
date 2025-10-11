@@ -22,6 +22,7 @@ buildscript {
     }
 }
 
+include(":Server")
 apply(plugin = "com.soywiz.korge.settings")
 
 rootProject.name = "sauronchess"

@@ -68,10 +68,11 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 ## Acknowledgments
 
-- **[KorGE Team](https://korge.org/)** - Amazing Kotlin game engine
+- **[KorGE](https://korge.org/)** - Amazing Kotlin game engine
 - **[Kotlin](https://kotlinlang.org/)** - Outstanding language and ecosystem
 - **[Cburnett](https://commons.wikimedia.org/wiki/User:Cburnett)** - for the awesome chess pieces -
   see [LICENSE](LICENSE) for details
+- **[Kietyo]("https://github.com/Kietyo")** Inspiration for the Server
 
 ---
 

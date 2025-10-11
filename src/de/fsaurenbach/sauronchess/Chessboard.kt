@@ -3,6 +3,7 @@ package de.fsaurenbach.sauronchess
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.*
+import kotlinx.serialization.Serializable
 
 fun initializeBoard(chessboard: Container) {
     var d = 0
@@ -30,4 +31,5 @@ fun movePiece(
     piece.cx = newX
     piece.cy = newY
 }
-
+@Serializable
+data class Position(var cx: Int, var cy: Int, var newX: Int, var newY: Int)

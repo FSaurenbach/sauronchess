@@ -9,8 +9,9 @@ korge {
     fullscreen = false
     targetJvm()
     targetJs()
+    webBindPort = 8989
     targetAndroid()
-    icon = File(rootDir,"icon.png")
+    icon = File(rootDir, "icon.png")
     serializationJson()
     jvmMainClassName = "de.fsaurenbach.sauronchess.MainKt"
     version = "1.0.0"
@@ -20,4 +21,9 @@ korge {
 
 repositories {
     mavenCentral()
+}
+tasks.register("runMain") {
+    dependsOn("runJvm") // the root run task
+    group = "application"
+    description = "Runs only the main project"
 }
