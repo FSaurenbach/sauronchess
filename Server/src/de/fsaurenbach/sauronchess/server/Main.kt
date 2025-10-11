@@ -25,47 +25,38 @@ fun requestHandler(request: HttpServer.WsRequest) {
             users.add(newUser)
             user = newUser
         }
-        var establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
-        if (establishedSlot == null) {
-            if (input["color"] == "true") {
-                establishedSlot = Slot(input["slot"]!!.toInt(), user, null)
-                slots.add(establishedSlot)
+        val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
 
-            } else {
-                establishedSlot = Slot(input["slot"]!!.toInt(), null, user)
-                slots.add(establishedSlot)
-            }
-        } else {
-            if (establishedSlot.player2 == null) establishedSlot.player2 = user
-            else if (establishedSlot.player1 == null) establishedSlot.player1 = user
+        if (establishedSlot?.player2 == null && !user!!.color) establishedSlot?.player2 = user
+        else if (establishedSlot?.player1 == null && user!!.color) establishedSlot?.player1 = user
 
+
+        if (establishedSlot?.player1 == user) {
+            establishedSlot?.player2?.request?.sendSafe(message)
         }
-        if (establishedSlot.player1 == user) {
-            establishedSlot.player2?.request?.sendSafe(message)
-        }
-        if (establishedSlot.player2 == user) {
-
-            establishedSlot.player1?.request?.sendSafe(message)
+        if (establishedSlot?.player2 == user) {
+            establishedSlot?.player1?.request?.sendSafe(message)
         }
 
 
     }
-    request.onClose {
+    // TODO: Handle closing properly
+    /*request.onClose {
         val closedConnection = users.find { it.request == request }
         for (slot in slots) {
             if (slot.player1 == closedConnection) {
+                println("CLOSED CONNECTION")
                 slot.player1 = null
             } else if (slot.player2 == closedConnection) {
                 slot.player2 = null
             }
         }
-    }
+    }*/
 }
 
 fun main() {
     println("Starting server...")
-
-
+    for (i in 0..4) slots.add(Slot(i, null, null))
     runBlocking {
         val httpServer = HttpServer().listen(port = 9999)
         httpServer.websocketHandler { request ->
@@ -82,17 +73,15 @@ suspend fun httpHandler(request: HttpServer.Request) {
     println("GOT HTTP REQUEST:")
     println(request.path)
     if (request.path.startsWith("/get_slot")) {
+        request.addHeader("Access-Control-Allow-Origin", "*")
         val no = request.path.last().toString().toInt()
 
         println("i want slot no: $no")
         val slot = slots[no]
-        val map: Map<String,Int?> = mapOf(
-            "id" to slot.id,
-            "player1" to slot.player1?.id,
-            "player2" to slot.player2?.id
+        val map: Map<String, Int?> = mapOf(
+            "id" to slot.id, "player1" to slot.player1?.id, "player2" to slot.player2?.id
         )
         request.end(map.toJson())
-//        request.end(slots[no].associate { "id" to it.id.toString(); "player1" to it.player1; "player2" to it.player2 }.toJson())
 
     } else if (request.path == "/check") {
         request.addHeader("Access-Control-Allow-Origin", "*")

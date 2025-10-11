@@ -21,6 +21,11 @@ class Wizard : Scene() {
 
     private var maxSlots = 4
     private var slots: MutableList<Slot> = mutableListOf()
+    private var whiteFree = true
+    private var blackFree = true
+    private lateinit var whiteQueen: RoundRect
+    private lateinit var blackQueen: RoundRect
+
     private fun updateColors() {
         for (rr in slots) {
             rr.roundRect.color = if (GameState.currentSlot == rr.number) Colors.GREEN else Colors.RED
@@ -69,46 +74,49 @@ class Wizard : Scene() {
                         updateColors()
                         launch {
                             val response = HttpClient().endpoint("http://127.0.0.1:9999")
-                                .request(Http.Method.GET, "get_slots")
-
+                                .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
+                            println("repossnse: $response")
                             val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
-                            if (map["player1"] !=null){
-
+                            println("map: $map")
+                            whiteQueen.visible = true
+                            blackQueen.visible = true
+                            if (map["player1"] !=  null ) {
+                                println("player1 is already used " + map["player1"])
+                                whiteFree = false; whiteQueen.visible = false
                             }
+                            if (map["player2"] !=null) {
+                                println("player2 is already used " + map["player2"])
 
-
+                                blackFree = false; blackQueen.visible = false
+                            }
+//                            *********
                         }
 
                     }
                 }
             }
-        }
-
-        fun updateColorChooser(){
-            val whiteQueen = image(Images.whiteQueen!!)
-
-            roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+            whiteQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
                 addTo(this@sceneMain)
                 centerYOnStage()
                 positionX(DisplayConfig.screenWidth / 3)
-                whiteQueen.centerOn(this).zIndex(3)
+                addChild(Image(Images.whiteQueen!!).centerOn(this))
                 onClick { changeScene(true) }
 
             }
 
-            val blackQueen = image(Images.blackQueen!!)
-            roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+
+            blackQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
                 addTo(this@sceneMain)
                 centerYOnStage()
                 positionX(DisplayConfig.screenWidth / 3 + DisplayConfig.screenWidth / 3)
-                blackQueen.centerOn(this).zIndex(3)
+                addChild(Image(Images.blackQueen!!).centerOn(this))
                 onClick { changeScene(false) }
-
             }
         }
 
 
     }
+
 
     private fun changeScene(isWhite: Boolean) {
         GameState.userIsWhite = isWhite
