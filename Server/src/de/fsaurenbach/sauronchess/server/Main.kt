@@ -1,4 +1,5 @@
 package de.fsaurenbach.sauronchess.server
+
 import korlibs.io.net.http.*
 import korlibs.io.serialization.json.*
 import kotlinx.coroutines.*
@@ -51,11 +52,10 @@ fun requestHandler(request: HttpServer.WsRequest) {
     }
     request.onClose {
         val closedConnection = users.find { it.request == request }
-        for (slot in slots){
-            if (slot.player1 == closedConnection){
+        for (slot in slots) {
+            if (slot.player1 == closedConnection) {
                 slot.player1 = null
-            }
-            else if (slot.player2 == closedConnection){
+            } else if (slot.player2 == closedConnection) {
                 slot.player2 = null
             }
         }
@@ -81,11 +81,19 @@ fun main() {
 suspend fun httpHandler(request: HttpServer.Request) {
     println("GOT HTTP REQUEST:")
     println(request.path)
-    if (request.path == "/get_slots") {
-        for (slot in slots) {
-            println("slot: $slot")
-        }
-        request.end()
+    if (request.path.startsWith("/get_slot")) {
+        val no = request.path.last().toString().toInt()
+
+        println("i want slot no: $no")
+        val slot = slots[no]
+        val map: Map<String,Int?> = mapOf(
+            "id" to slot.id,
+            "player1" to slot.player1?.id,
+            "player2" to slot.player2?.id
+        )
+        request.end(map.toJson())
+//        request.end(slots[no].associate { "id" to it.id.toString(); "player1" to it.player1; "player2" to it.player2 }.toJson())
+
     } else if (request.path == "/check") {
         request.addHeader("Access-Control-Allow-Origin", "*")
         request.end("SUCCESS")
