@@ -1,7 +1,6 @@
 import korlibs.korge.gradle.*
-import korlibs.korge.gradle.targets.jvm.*
 
-plugins { alias(libs.plugins.korge)}
+plugins { alias(libs.plugins.korge) }
 
 korge {
     id = "de.fsaurenbach.sauronchess"
@@ -12,7 +11,7 @@ korge {
     targetJs()
     webBindPort = 8989
     targetAndroid()
-    icon = File(rootDir,"icon.png")
+    icon = File(rootDir, "icon.png")
     serializationJson()
     jvmMainClassName = "de.fsaurenbach.sauronchess.MainKt"
     version = "1.0.0"

@@ -38,6 +38,7 @@ object GameState {
     val whiteCircles = ArrayList<MoveIndicator>()
     var userIsWhite = true
     var currentSlot = 0
+    var onlinePlay = false
 }
 
 object Images {
@@ -82,7 +83,7 @@ object UserSettings {
     var autoPromote: Boolean = false
 }
 
-lateinit var wsClient: WebSocketClient
+var wsClient: WebSocketClient? = null
 suspend fun main() = Korge(
     windowSize = Size(DisplayConfig.screenWidth, DisplayConfig.screenHeight),
     backgroundColor = Colors["#4b3621"],
@@ -96,6 +97,7 @@ suspend fun main() = Korge(
 
 var randomID = Random[1, 1000].toString()
 var uniqueIdentifier: Map<String, String>? = null
+
 class GameScene : Scene() {
 
     override suspend fun SContainer.sceneMain() {
@@ -134,18 +136,24 @@ class GameScene : Scene() {
                 println("resign")
             }
         }
-        wsClient = WebSocketClient("ws://127.0.0.1:9999")
-        println("Opened socket")
-        uniqueIdentifier = mapOf(
-            "id" to randomID,
-            "color" to GameState.userIsWhite.toString(),
-            "slot" to GameState.currentSlot.toString()
-        )
-        launch { wsClient.send(uniqueIdentifier!!.toJson()) }
 
-        wsClient.onStringMessage {
-            listener(it)
+
+        if (GameState.onlinePlay) {
+            wsClient = WebSocketClient("ws://127.0.0.1:9999")
+            println("Opened socket")
+            uniqueIdentifier = mapOf(
+                "id" to randomID,
+                "color" to GameState.userIsWhite.toString(),
+                "slot" to GameState.currentSlot.toString()
+            )
+            println("sending: ${uniqueIdentifier!!.toJson()}")
+            launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
+
+            wsClient!!.onStringMessage {
+                listener(it)
+            }
         }
+
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
         reloadPictures()
@@ -161,8 +169,7 @@ fun listener(message: String) {
     val pos: Map<String, *>
     try {
         pos = message.fromJson() as Map<String, String>
-    }
-    catch (e: Exception){
+    } catch (e: Exception) {
         return
     }
 
@@ -170,7 +177,7 @@ fun listener(message: String) {
     println("pos $pos")
     println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
 
-    if(pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
+    if (pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
     val piece = findPiece(pos["cx"]!!.toInt(), pos["cy"]!!.toInt())
     // var piece = findPiece(4,4)
     println("piece: piece")

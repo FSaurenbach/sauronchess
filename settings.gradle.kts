@@ -21,8 +21,8 @@ buildscript {
         classpath("com.soywiz.korge.settings:com.soywiz.korge.settings.gradle.plugin:$version")
     }
 }
+
 include(":Server")
-include(":Client")
 apply(plugin = "com.soywiz.korge.settings")
 
 rootProject.name = "sauronchess"

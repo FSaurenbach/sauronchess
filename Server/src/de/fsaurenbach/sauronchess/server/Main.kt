@@ -1,3 +1,4 @@
+package de.fsaurenbach.sauronchess.server
 import korlibs.io.net.http.*
 import korlibs.io.serialization.json.*
 import kotlinx.coroutines.*
@@ -23,19 +24,40 @@ fun requestHandler(request: HttpServer.WsRequest) {
             users.add(newUser)
             user = newUser
         }
-        for (opponent in users - user) {
-            opponent?.request?.sendSafe(message)
-
-        }
-        val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
+        var establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
         if (establishedSlot == null) {
             if (input["color"] == "true") {
-                slots.add(Slot(input["slot"]!!.toInt(), user, null))
+                establishedSlot = Slot(input["slot"]!!.toInt(), user, null)
+                slots.add(establishedSlot)
+
             } else {
-                slots.add(Slot(input["slot"]!!.toInt(), null, user))
+                establishedSlot = Slot(input["slot"]!!.toInt(), null, user)
+                slots.add(establishedSlot)
             }
         } else {
-            establishedSlot.player2 = user
+            if (establishedSlot.player2 == null) establishedSlot.player2 = user
+            else if (establishedSlot.player1 == null) establishedSlot.player1 = user
+
+        }
+        if (establishedSlot.player1 == user) {
+            establishedSlot.player2?.request?.sendSafe(message)
+        }
+        if (establishedSlot.player2 == user) {
+
+            establishedSlot.player1?.request?.sendSafe(message)
+        }
+
+
+    }
+    request.onClose {
+        val closedConnection = users.find { it.request == request }
+        for (slot in slots){
+            if (slot.player1 == closedConnection){
+                slot.player1 = null
+            }
+            else if (slot.player2 == closedConnection){
+                slot.player2 = null
+            }
         }
     }
 }
@@ -53,7 +75,6 @@ fun main() {
             httpHandler(request)
         }
 
-
     }
 }
 
@@ -65,6 +86,9 @@ suspend fun httpHandler(request: HttpServer.Request) {
             println("slot: $slot")
         }
         request.end()
+    } else if (request.path == "/check") {
+        request.addHeader("Access-Control-Allow-Origin", "*")
+        request.end("SUCCESS")
     }
 }
 

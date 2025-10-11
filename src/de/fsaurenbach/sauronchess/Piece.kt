@@ -410,8 +410,6 @@ class Piece(
     }
 
     fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
-        println("runnn: ")
-
 
         if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
         val oldX = currentX
@@ -434,7 +432,7 @@ class Piece(
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
         GameState.sceneContainer.launch {
 
-            if (!receiver) {
+            if (!receiver && GameState.onlinePlay) {
                 val map = mutableMapOf(
                     "id" to randomID,
                     "cx" to oldX.toString(),
@@ -446,7 +444,7 @@ class Piece(
                 println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
                 println("SENDING :${map.toJson()}")
-                wsClient.send(map.toJson())
+                wsClient!!.send(map.toJson())
             }
 
             this@Piece.cx = newX

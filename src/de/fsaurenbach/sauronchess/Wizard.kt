@@ -1,6 +1,8 @@
 package de.fsaurenbach.sauronchess
 
 import korlibs.image.color.*
+import korlibs.io.net.http.*
+import korlibs.io.stream.*
 import korlibs.korge.input.*
 import korlibs.korge.scene.*
 import korlibs.korge.view.*
@@ -8,11 +10,12 @@ import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import kotlinx.coroutines.*
 
-class Slot(var roundRect: RoundRect, var number: Int) : Container(){
+class Slot(var roundRect: RoundRect, var number: Int) : Container() {
     init {
         roundRect.addTo(this)
     }
 }
+
 class Wizard : Scene() {
 
     private var maxSlots = 4
@@ -49,6 +52,27 @@ class Wizard : Scene() {
                 updateColors()
             }
         }
+        println("Trying to connect to server")
+        launch {
+            val client = HttpClient()
+            try {
+                println("Trying to connect to server")
+                val response = client.endpoint("http://127.0.0.1:9999")
+                    .request(Http.Method.GET, "check")
+                println("Server response: ${response.content.readAll().decodeToString()}")
+                GameState.onlinePlay = true
+                println("Online play enabled!")
+                cancel()
+
+            } catch (e: Throwable) {
+                GameState.onlinePlay = false
+                println("Server offline, disabling online play: $e")
+                cancel()
+            }
+        }.invokeOnCompletion {
+            println("FINISHED")
+        }
+
 
         val whiteQueen = image(Images.whiteQueen!!)
 
