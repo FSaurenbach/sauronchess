@@ -41,17 +41,19 @@ fun requestHandler(request: HttpServer.WsRequest) {
 
     }
     // TODO: Handle closing properly
-    /*request.onClose {
+    request.onClose {
         val closedConnection = users.find { it.request == request }
         for (slot in slots) {
             if (slot.player1 == closedConnection) {
                 println("CLOSED CONNECTION")
                 slot.player1 = null
             } else if (slot.player2 == closedConnection) {
+                println("CLOSED CONNECTION")
+
                 slot.player2 = null
             }
         }
-    }*/
+    }
 }
 
 fun main() {

@@ -11,6 +11,3 @@ korge {
     targetJvm()
     jvmMainClassName = "de.fsaurenbach.sauronchess.server.MainKt"
 }
-tasks.named("runJvm") {
-    //enabled = false
-}

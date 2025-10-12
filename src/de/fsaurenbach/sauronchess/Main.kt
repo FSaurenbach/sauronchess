@@ -165,7 +165,6 @@ class GameScene : Scene() {
 
 fun listener(message: String) {
     println("INCOMING MESSAGE: $message")
-//    fun String.fromJson(): Position? = Json.parse(this) as Position?
     val pos: Map<String, *>
     try {
         pos = message.fromJson() as Map<String, String>

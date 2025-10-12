@@ -65,6 +65,9 @@ class Piece(
             }, autoMove = false
         ) { info ->
             if (((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite)) && !GameState.promotionActive) {
+                if (GameState.onlinePlay){
+                    if (GameState.userIsWhite != isWhite)return@draggableCloseable
+                }
                 x = info.viewNextX
                 y = info.viewNextY
             } else return@draggableCloseable
