@@ -105,6 +105,9 @@ class Wizard : Scene() {
                 GameState.onlinePlay = false
                 println("Server offline, disabling online play: $e")
                 onlinePlayButton.color = Colors.RED
+                whiteQueen.visible = false
+                blackQueen.visible = false
+                offlinePlayButton.visible = true
                 removeSlots()
             }
         }.invokeOnCompletion {

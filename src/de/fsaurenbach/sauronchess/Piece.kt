@@ -489,7 +489,7 @@ fun checkForGameEnd(): Boolean {
         blackPieces =
             GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.BlackKing || it.isWhite }.toSet()
 
-        if (whitePieces.count() > 1 && blackPieces.count() > 1) return false
+        if (whitePieces.count() > 1 && blackPieces.count() > 1) return true
         var whiteLegal = false
         var blackLegal = false
         var whiteBishopOnWhite: Boolean? = null
@@ -505,7 +505,7 @@ fun checkForGameEnd(): Boolean {
         }
         if (whiteLegal || blackLegal) return true
         if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return true
-    }
+    } else return true
 
     println("No moves left for white / black!")
 
