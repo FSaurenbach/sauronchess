@@ -28,6 +28,7 @@ class Wizard : Scene() {
     private val backgroundSize = Size(100, 100)
     private val corners = RectCorners(10)
     private lateinit var onlinePlayButton: RoundRect
+    private lateinit var offlinePlayButton: RoundRect
     private fun updateColors() {
         for (rr in slots) {
             rr.roundRect.color = if (GameState.currentSlot == rr.number) Colors.GREEN else Colors.RED
@@ -38,8 +39,28 @@ class Wizard : Scene() {
     override suspend fun SContainer.sceneMain() {
 
         reloadPictures()
+        offlinePlayButton = roundRect(Size(200, 100), corners, ThemeColors.whiteModeWhite).centerOnStage()
+        offlinePlayButton.onClick {
+            changeScene(true)
+        }
+        text("Play Offline", 40, ThemeColors.whiteModeBlack).addTo(offlinePlayButton).centerOn(offlinePlayButton)
 
-        GameState.onlinePlay = false
+        whiteQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+            centerYOnStage()
+            positionX(DisplayConfig.screenWidth / 3)
+            addChild(Image(Images.whiteQueen!!).centerOn(this))
+            onClick { changeScene(true) }
+            visible = false
+        }.addTo(this)
+        blackQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
+            centerYOnStage()
+            positionX(DisplayConfig.screenWidth / 3 + DisplayConfig.screenWidth / 3)
+            addChild(Image(Images.blackQueen!!).centerOn(this))
+            onClick { changeScene(false) }
+            visible = false
+        }.addTo(this)
+
+
         onlinePlayButton = roundRect(backgroundSize, corners)
         text("Play\nOnline", 30).centerOn(onlinePlayButton)
         onlinePlayButton.color = Colors.RED
@@ -48,10 +69,16 @@ class Wizard : Scene() {
                 onlinePlayButton.color = Colors.RED
                 GameState.onlinePlay = false
                 removeSlots()
+                offlinePlayButton.visible(true)
+                whiteQueen.visible = false
+                blackQueen.visible = false
             } else {
                 onlinePlayButton.color = Colors.GREEN
                 GameState.onlinePlay = true
                 updateOnline()
+                offlinePlayButton.visible(false)
+                whiteQueen.visible = true
+                blackQueen.visible = true
             }
         }
 
@@ -65,7 +92,7 @@ class Wizard : Scene() {
 
 
     private fun Container.updateOnline() {
-        sceneContainer.launch {
+        launch {
             println("Trying to connect to server")
             val client = HttpClient()
             try {
@@ -119,23 +146,6 @@ class Wizard : Scene() {
 
                     }
                 }
-            }
-            whiteQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
-                addTo(this@updateOnline)
-                centerYOnStage()
-                positionX(DisplayConfig.screenWidth / 3)
-                addChild(Image(Images.whiteQueen!!).centerOn(this))
-                onClick { changeScene(true) }
-
-            }
-
-
-            blackQueen = roundRect(backgroundSize, corners, ThemeColors.whiteModeWhite).apply {
-                addTo(this@updateOnline)
-                centerYOnStage()
-                positionX(DisplayConfig.screenWidth / 3 + DisplayConfig.screenWidth / 3)
-                addChild(Image(Images.blackQueen!!).centerOn(this))
-                onClick { changeScene(false) }
             }
         }
     }

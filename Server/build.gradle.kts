@@ -11,3 +11,8 @@ korge {
     targetJvm()
     jvmMainClassName = "de.fsaurenbach.sauronchess.server.MainKt"
 }
+tasks.register("runServer") {
+    dependsOn("runJvm")
+    group = "application"
+    description = "Run the server"
+}
