@@ -61,25 +61,25 @@ class Wizard : Scene() {
         }.addTo(this)
 
 
-        onlinePlayButton = roundRect(backgroundSize, corners)
-        text("Play\nOnline", 30).centerOn(onlinePlayButton)
-        onlinePlayButton.color = Colors.RED
+        onlinePlayButton = roundRect(backgroundSize, corners).apply { color = Colors.RED }
+
+
+
+        text("Play\nOnline", 30).zIndex(5).centerOn(onlinePlayButton)
+
         onlinePlayButton.onClick {
             if (onlinePlayButton.color == Colors.GREEN) {
                 onlinePlayButton.color = Colors.RED
                 GameState.onlinePlay = false
                 removeSlots()
-                offlinePlayButton.visible(true)
-                whiteQueen.visible = false
-                blackQueen.visible = false
             } else {
                 onlinePlayButton.color = Colors.GREEN
                 GameState.onlinePlay = true
                 updateOnline()
-                offlinePlayButton.visible(false)
-                whiteQueen.visible = true
-                blackQueen.visible = true
             }
+            whiteQueen.visible = GameState.onlinePlay
+            blackQueen.visible = GameState.onlinePlay
+            offlinePlayButton.visible = !GameState.onlinePlay
         }
 
 
@@ -96,9 +96,8 @@ class Wizard : Scene() {
             println("Trying to connect to server")
             val client = HttpClient()
             try {
-                val response = client.endpoint("http://127.0.0.1:9999")
-                    .request(Http.Method.GET, "check")
-                println("Server response: ${response.decode()}")
+                // This fails if the server is down
+                client.endpoint("http://127.0.0.1:9999").request(Http.Method.GET, "check")
                 GameState.onlinePlay = true
                 println("Online play enabled!")
 
@@ -109,43 +108,44 @@ class Wizard : Scene() {
                 removeSlots()
             }
         }.invokeOnCompletion {
-            println("FINISHED")
             if (GameState.onlinePlay) {
                 for (integer in 0..maxSlots) {
-                    Slot(RoundRect(backgroundSize, corners), integer)
-                        .apply {
-                            addTo(this@updateOnline)
-                            addTo(slots)
-                            positionX((DisplayConfig.screenWidth / 5) * integer)
-                            positionY(DisplayConfig.screenHeight / 4)
-                            zIndex(5)
-                            updateColors()
-                        }
-                }
-                for (slot in slots) {
-                    slot.onClick {
-                        GameState.currentSlot = slot.number
+                    Slot(RoundRect(backgroundSize, corners), integer).apply {
+                        addTo(this@updateOnline)
+                        addTo(slots)
+                        positionX((DisplayConfig.screenWidth / 5) * integer)
+                        positionY(DisplayConfig.screenHeight / 4)
+                        zIndex(5)
                         updateColors()
-                        launch {
-                            val response = HttpClient().endpoint("http://127.0.0.1:9999")
-                                .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
-                            println("repossnse: $response")
-                            val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
-                            println("map: $map")
-                            whiteQueen.visible = true
-                            blackQueen.visible = true
-                            if (map["player1"] != null) {
-                                println("player1 is already used " + map["player1"])
-                                whiteFree = false; whiteQueen.visible = false
-                            }
-                            if (map["player2"] != null) {
-                                println("player2 is already used " + map["player2"])
-                                blackFree = false; blackQueen.visible = false
-                            }
-                        }
-
                     }
                 }
+                for (slot in slots) {
+                    updateSlots()
+                    slot.onClick {
+                        GameState.currentSlot = slot.number
+                        updateSlots()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun updateSlots() {
+        updateColors()
+        launch {
+            val response = HttpClient().endpoint("http://127.0.0.1:9999")
+                .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
+            val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
+            println("Slot map (Slot: ${GameState.currentSlot}): $map")
+            whiteQueen.visible = true
+            blackQueen.visible = true
+            if (map["player1"] != null) {
+                println("player1 is already used " + map["player1"])
+                whiteFree = false; whiteQueen.visible = false
+            }
+            if (map["player2"] != null) {
+                println("player2 is already used " + map["player2"])
+                blackFree = false; blackQueen.visible = false
             }
         }
     }
