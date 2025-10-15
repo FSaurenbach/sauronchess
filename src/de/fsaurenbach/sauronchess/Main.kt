@@ -81,7 +81,16 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
+    var debugMode: Boolean = false
 }
+const val DEFAULT_PORT = 9999
+const val DEFAULT_SERVER = "127.0.0.1"
+const val DEBUG_PORT = 9999
+const val DEBUG_SERVER = "127.0.0.1"
+
+val serverPort get() = if (UserSettings.debugMode) DEBUG_PORT else DEFAULT_PORT
+val serverAddress get() = if (UserSettings.debugMode) DEBUG_SERVER else DEFAULT_SERVER
+
 
 var wsClient: WebSocketClient? = null
 suspend fun main() = Korge(
@@ -139,7 +148,7 @@ class GameScene : Scene() {
 
 
         if (GameState.onlinePlay) {
-            wsClient = WebSocketClient("ws://127.0.0.1:9999")
+            wsClient = WebSocketClient("ws://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
                 "id" to randomID,
