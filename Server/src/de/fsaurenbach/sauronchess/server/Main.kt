@@ -60,7 +60,7 @@ fun main() {
     println("Starting server...")
     for (i in 0..4) slots.add(Slot(i, null, null))
     runBlocking {
-        val httpServer = HttpServer().listen(port = 9999)
+        val httpServer = HttpServer().listen(port = 9999, "0.0.0.0")
         httpServer.websocketHandler { request ->
             requestHandler(request)
         }
