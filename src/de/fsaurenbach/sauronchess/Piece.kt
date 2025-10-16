@@ -65,8 +65,8 @@ class Piece(
             }, autoMove = false
         ) { info ->
             if (((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite)) && !GameState.promotionActive) {
-                if (GameState.onlinePlay){
-                    if (GameState.userIsWhite != isWhite)return@draggableCloseable
+                if (GameState.onlinePlay) {
+                    if (GameState.userIsWhite != isWhite) return@draggableCloseable
                 }
                 x = info.viewNextX
                 y = info.viewNextY
@@ -437,7 +437,7 @@ class Piece(
 
             if (!receiver && GameState.onlinePlay) {
                 val map = mutableMapOf(
-                    "id" to randomID,
+                    "id" to clientID,
                     "cx" to oldX.toString(),
                     "cy" to oldY.toString(),
                     "newX" to cx.toString(),

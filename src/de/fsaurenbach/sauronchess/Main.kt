@@ -104,7 +104,7 @@ suspend fun main() = Korge(
     }
 }
 
-var randomID = Random[1, 1000].toString()
+var clientID = Random[1, 1000].toString()
 var uniqueIdentifier: Map<String, String>? = null
 
 class GameScene : Scene() {
@@ -151,7 +151,7 @@ class GameScene : Scene() {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
-                "id" to randomID,
+                "id" to clientID,
                 "color" to GameState.userIsWhite.toString(),
                 "slot" to GameState.currentSlot.toString()
             )
@@ -188,7 +188,6 @@ fun listener(message: String) {
     if (pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
     val piece = findPiece(pos["cx"]!!.toInt(), pos["cy"]!!.toInt())
     // var piece = findPiece(4,4)
-    println("piece: piece")
     println("cx: ${piece?.cxy}")
     piece?.doMove(pos["newX"]!!.toInt(), pos["newY"]!!.toInt(), true)
 

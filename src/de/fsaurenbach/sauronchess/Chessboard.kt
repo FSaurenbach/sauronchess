@@ -31,5 +31,3 @@ fun movePiece(
     piece.cx = newX
     piece.cy = newY
 }
-@Serializable
-data class Position(var cx: Int, var cy: Int, var newX: Int, var newY: Int)
