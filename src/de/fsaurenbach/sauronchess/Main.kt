@@ -83,8 +83,8 @@ object UserSettings {
     var autoPromote: Boolean = false
     var debugMode: Boolean = false
 }
-const val DEFAULT_PORT = 9999
-const val DEFAULT_SERVER = "192.168.178.69"
+const val DEFAULT_PORT = 443
+const val DEFAULT_SERVER = "chessapi.fsrb.de"
 const val DEBUG_PORT = 9999
 const val DEBUG_SERVER = "127.0.0.1"
 
@@ -148,7 +148,7 @@ class GameScene : Scene() {
 
 
         if (GameState.onlinePlay) {
-            wsClient = WebSocketClient("ws://$serverAddress:$serverPort")
+            wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
                 "id" to randomID,

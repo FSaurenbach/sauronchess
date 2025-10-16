@@ -97,7 +97,7 @@ class Wizard : Scene() {
             val client = HttpClient()
             try {
                 // This fails if the server is down
-                client.endpoint("http://$serverAddress:$serverPort").request(Http.Method.GET, "check")
+                client.endpoint("https://$serverAddress:$serverPort").request(Http.Method.GET, "check")
                 GameState.onlinePlay = true
                 println("Online play enabled!")
 
@@ -136,7 +136,7 @@ class Wizard : Scene() {
     private fun updateSlots() {
         updateColors()
         launch {
-            val response = HttpClient().endpoint("http://$serverAddress:$serverPort")
+            val response = HttpClient().endpoint("https://$serverAddress:$serverPort")
                 .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
             val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
             println("Slot map (Slot: ${GameState.currentSlot}): $map")
