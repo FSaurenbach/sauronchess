@@ -12,18 +12,18 @@ Chess game made with KorGE and Kotlin as a hobby project.
 
 ## Implementation Status
 
-| Feature                 | Status       | Description                                                                     |
-|-------------------------|--------------|---------------------------------------------------------------------------------|
-| **Basic Chess**         | ✅ Complete   | All pieces move according to chess rules                                        |
-| **Check detection**     | ✅ Complete   | Detect when the king is in check                                                |
-| **Castling**            | ✅ Complete   | Both kingside and queenside castling                                            |
-| **Pawn Promotion**      | ✅ Complete   | Pawns can promote to Queen automatically or user chooses his new piece manually | 
-| **En Passant**          | ✅ Complete   | Special pawn capture rule                                                       |
-| **Online play**         | ✅ Complete   | Play against other players online!                                              |
-| **Checkmate Logic**     | 🔄 Partly    | Game ending conditions need implementation                                      |
-| **Stalemate Detection** | 🔄 Partly    | Draw condition detection                                                        |
-| **Checkmate Detection** | 🔄 Partly    | Game ending when king cannot escape                                             |
-| **AI Opponent**         | 📋 Planned   | Computer player implementation                                                  |
+| Feature                 | Status        | Description                                                                     |
+|-------------------------|---------------|---------------------------------------------------------------------------------|
+| **Basic Chess**         | ✅ Complete    | All pieces move according to chess rules                                        |
+| **Check detection**     | ✅ Complete    | Detect when the king is in check                                                |
+| **Castling**            | ✅ Complete    | Both kingside and queenside castling                                            |
+| **Pawn Promotion**      | ✅ Complete    | Pawns can promote to Queen automatically or user chooses his new piece manually | 
+| **En Passant**          | ✅ Complete    | Special pawn capture rule                                                       |
+| **Online play**         | ✅ Complete    | Play against other players online!                                              |
+| **Checkmate Logic**     | 🔄 Partly     | Game ending conditions need implementation                                      |
+| **Stalemate Detection** | 🔄 Partly     | Draw condition detection                                                        |
+| **Checkmate Detection** | 🔄 Partly     | Game ending when king cannot escape                                             |
+| **AI Opponent**         | 📋 Planned    | Computer player implementation                                                  |
 
 ## 📄 License
 
