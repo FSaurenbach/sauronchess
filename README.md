@@ -11,28 +11,20 @@ Chess game made with KorGE and Kotlin as a hobby project.
 
 ## **[Play Now!](https://fsaurenbach.github.io/sauronchess)**
 
-
-
 ## Implementation Status
 
-| Feature                 | Status         | Description                                                                     |
-|-------------------------|----------------|---------------------------------------------------------------------------------|
-| **Basic Movement**      | ✅ Complete     | All pieces move according to chess rules                                        |
-| **Capture Mechanics**   | ✅ Complete     | Pieces can capture opponent pieces                                              |
-| **Check Detection**     | ✅ Complete     | Detects when kings are in check                                                 |
-| **Checkmate Logic**     | 🔄 In Progress | Game ending conditions need implementation                                      |
-| **Castling**            | ✅ Complete     | Both kingside and queenside castling                                            |
-| **Pawn Promotion**      | ✅ Complete     | Pawns can promote to Queen automatically or user chooses his new piece manually |
-| **Turn Management**     | ✅ Complete     | Proper turn-based gameplay                                                      |
-| **Move Validation**     | ✅ Complete     | Prevents illegal moves                                                          |
-| **Visual Interface**    | ✅ Complete     | Full drag-and-drop interface                                                    |
-| **Cross-Platform**      | ✅ Complete     | JVM, JS, and Android builds                                                     |
-| **En Passant**          | ✅ Complete     | Special pawn capture rule                                                       |
-| **Stalemate Detection** | 🔄 In Progress | Draw condition detection                                                        |
-| **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape                                             |
-| **Online play**         | ✅ Complete     | Play against other players online!                                              |
-| **AI Opponent**         | 📋 Planned     | Computer player implementation                                                  |
-
+| Feature                 | Status     | Description                                                                     |
+|-------------------------|------------|---------------------------------------------------------------------------------|
+| **Basic Chess**         | ✅ Complete | All pieces move according to chess rules                                        |
+| **Check detection**     | ✅ Complete | Detect when the king is in check                                                |
+| **Castling**            | ✅ Complete | Both kingside and queenside castling                                            |
+| **Pawn Promotion**      | ✅ Complete | Pawns can promote to Queen automatically or user chooses his new piece manually | 
+| **En Passant**          | ✅ Complete | Special pawn capture rule                                                       |
+| **Online play**         | ✅ Complete | Play against other players online!                                              |
+| **Checkmate Logic**     | 🔄 Partly  | Game ending conditions need implementation                                      |
+| **Stalemate Detection** | 🔄 Partly  | Draw condition detection                                                        |
+| **Checkmate Detection** | 🔄 Partly  | Game ending when king cannot escape                                             |
+| **AI Opponent**         | 📋 Planned | Computer player implementation                                                  |
 
 ## 📄 License
 
