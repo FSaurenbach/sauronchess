@@ -9,7 +9,7 @@
 
 Chess game made with KorGE and Kotlin as a hobby project.
 
-## 🎮 **[Play Now!](https://fsaurenbach.github.io/sauronchess)** 🎮
+## **[Play Now!](https://fsaurenbach.github.io/sauronchess)**
 
 
 
