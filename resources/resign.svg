@@ -1,19 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 130" width="450" height="450" role="img" aria-label="Schmal flatternde Flagge an einem Stab - Outline">
-  <!-- Fahnenmast -->
-  <line x1="0" y1="0" x2="0" y2="110" stroke="#000" stroke-width="7"/>
-
-  <!-- Flatternde Flagge -->
-  <path d="M0,0
-           C20,8 40,-5 60,8
-           C80,20 100,-5 120,8
-           L120,60
-           C100,45 80,70 60,60
-           C40,45 20,65 0,50
-           Z"
-        fill="none"
-        stroke="#000"
-        stroke-width="7"
-        stroke-linejoin="round"
-        stroke-linecap="round"/>
+<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" width="450" height="450" viewBox="0 0 130 130" role="img" aria-labelledby="title-desc">
+    <title id="title-desc">Bold letter X</title>
+    <line x1="20" y1="20" x2="110" y2="110" stroke="#000" stroke-width="20" stroke-linecap="round"/>
+    <line x1="110" y1="20" x2="20" y2="110" stroke="#000" stroke-width="20" stroke-linecap="round"/>
 </svg>
-
