@@ -1,5 +1,5 @@
-<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400">
-    <g id="svgg">
+<svg id="svg" version="1.1" xmlns="http://www.w3.org/2000/svg" width="450" height="450" viewBox="0 0 130 130">
+    <g id="svgg" transform="scale(0.325)">
         <path id="path0"
               d="M150.625 12.753 C 144.609 15.275,128.732 21.885,115.342 27.442 C 86.800 39.287,90.226 37.152,91.449 42.328
                  C 94.840 56.680,95.921 61.371,99.397 76.796 L 103.253 93.904 98.658 98.548
