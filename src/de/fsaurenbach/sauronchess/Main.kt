@@ -83,6 +83,7 @@ object UserSettings {
     var autoPromote: Boolean = false
     var debugMode: Boolean = false
 }
+
 const val DEFAULT_PORT = 443
 const val DEFAULT_SERVER = "chessapi.fsrb.de"
 const val DEBUG_PORT = 9999
@@ -127,25 +128,24 @@ class GameScene : Scene() {
             width = DisplayConfig.chessBoardWidth
             height = DisplayConfig.chessBoardWidth
         }
-        val settingsButton = image(resourcesVfs["settings.svg"].readSVG().scaled(1, 1).render()) {
+        val settingsButton =image(resourcesVfs["settings.svg"].readSVG().scaled(0.5).render()) {
             zIndex(3)
-            position(DisplayConfig.screenWidth * 0.8, DisplayConfig.offsetY / 2)
 
-            scale(0.15)
+            position(DisplayConfig.screenWidth * 0.8, 26)
             onClick {
                 if (!GameState.settingsInForeground) showSettings()
             }
         }
-        val resignButton = image(resourcesVfs["resign.svg"].readSVG().scaled(1, 1).render()) {
+
+        image(resourcesVfs["resign.svg"].readSVG().scaled(0.5).render()) {
+            alignRightToLeftOf(settingsButton)
+
             zIndex(3)
-            scale(0.5, 0.5)
-
-            centered.position(DisplayConfig.screenWidth * 0.7, DisplayConfig.offsetY / 2)
             onClick {
-                println("resign")
+                sendResign()
             }
-        }
 
+        }.positionY(26)
 
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
@@ -159,7 +159,7 @@ class GameScene : Scene() {
             launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
 
             wsClient!!.onStringMessage {
-                listener(it)
+                webSockerListener(it)
             }
         }
 
@@ -172,26 +172,35 @@ class GameScene : Scene() {
 
 }
 
-fun listener(message: String) {
+fun webSockerListener(message: String) {
     println("INCOMING MESSAGE: $message")
-    val pos: Map<String, *>
+    val map: Map<String, *>
     try {
-        pos = message.fromJson() as Map<String, String>
+        map = message.fromJson() as Map<String, String>
     } catch (e: Exception) {
         return
     }
+    if (map.containsKey("gameOver")) {
+        handleGameEnd(resign = map["resign"].toString().toBoolean())
+        return
+    }
 
+    println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 
-    println("pos $pos")
-    println("cx: ${pos["cx"]}, cy: ${pos["cy"]}, newX, ${pos["newX"]}, newY: ${pos["newY"]}")
-
-    if (pos["cx"] == null || pos["cy"] == null || pos["newX"] == null || pos["newY"] == null) return
-    val piece = findPiece(pos["cx"]!!.toInt(), pos["cy"]!!.toInt())
+    if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
+    val piece = findPiece(map["cx"]!!.toInt(), map["cy"]!!.toInt())
     // var piece = findPiece(4,4)
     println("cx: ${piece?.cxy}")
-    piece?.doMove(pos["newX"]!!.toInt(), pos["newY"]!!.toInt(), true)
+    piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
 
 
+}
+
+fun handleGameEnd(resign: Boolean) {
+    println("ENDING GAME")
+
+    val text = GameState.sceneContainer.text("GAME END\nBecause of resign?\n$resign", 50, Colors.RED)
+    text.centerOnStage()
 }
 
 /** Check if a piece could take a king from the current position
@@ -227,3 +236,19 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     return false
 }
 
+fun sendResign() {
+    val map = uniqueIdentifier!!.toMutableMap()
+    map["gameOver"] = "true"
+    map["resign"] = "true"
+
+    GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+}
+
+
+fun sendGameOver() {
+    val map = uniqueIdentifier!!.toMutableMap()
+    map["gameOver"] = "true"
+    map["resign"] = "false"
+
+    GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+}

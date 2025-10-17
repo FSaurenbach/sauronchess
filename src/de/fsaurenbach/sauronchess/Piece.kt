@@ -30,7 +30,7 @@ class Piece(
 ) : Container() {
     val cxy get() = Pair(cx, cy)
     lateinit var pImage: Image
-    private var currentPos: Pair<Int, Int>
+    var currentPos: Pair<Int, Int>
     private lateinit var newPos: Pair<Int, Int>
     private val currentX get() = currentPos.first
     private val currentY get() = currentPos.second
@@ -105,6 +105,7 @@ class Piece(
                 println("currentPos $currentPos , new Pos $newPos")
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
+                val newSave = newPos
                 // Perform the move if no error
                 if (!error) {
                     println("currentPos $currentPos , new Pos $newPos, whiteTurn ${GameState.whiteTurn}")
@@ -120,6 +121,7 @@ class Piece(
                             newPos,
                         ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                     ) {
+                        newPos = newSave // move checker modifies newPos sometimes....
                         /** Pawn promotion.*/
                         if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
 
@@ -140,7 +142,6 @@ class Piece(
                             }
 
                         }
-
                         // If rook or king move outside of castling, deny castling
                         if (!GameState.castleAttempt) {
                             when (this.kind) {
@@ -149,7 +150,6 @@ class Piece(
                                 else -> {}
                             }
                         }
-
                         GameState.enPassantVictim.let {
                             it?.removeFromParent()
                         }
@@ -203,21 +203,17 @@ class Piece(
                         movePiece(this, currentX, currentY)
                     }
 
-//                    newPos = null
-//                    currentPos = null
                     error = false
                 } else movePiece(this, currentX, currentY)
                 error = false
 
-                // Reset variables
-//                newPos = null
                 GameState.enPassantVictim = null
                 GameState.circles.forEach { it.removeFromParent() }
                 GameState.circles.clear()
 
                 println()
                 println()
-                checkForGameEnd()
+                checkGameLegal()
 
             }
         }
@@ -471,7 +467,7 @@ class Piece(
 }
 
 
-fun checkForGameEnd(): Boolean {
+fun checkGameLegal(): Boolean {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
     // Check for Draw
@@ -508,7 +504,6 @@ fun checkForGameEnd(): Boolean {
     } else return true
 
     println("No moves left for white / black!")
-
     if (GameState.whiteTurn) {
         if (GameState.whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
     } else {
