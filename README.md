@@ -1,4 +1,4 @@
-# 🏰 SauronChess ♟️
+# Sauronchess
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/09437976fa054f2cb7ad3f32504b4132)](https://app.codacy.com/gh/FSaurenbach/sauronchess/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-purple?style=flat-square&logo=kotlin)
@@ -13,7 +13,7 @@ Chess game made with KorGE and Kotlin as a hobby project.
 
 
 
-## 🎯 Implementation Status
+## Implementation Status
 
 | Feature                 | Status         | Description                                                                     |
 |-------------------------|----------------|---------------------------------------------------------------------------------|
