@@ -1,18 +1,17 @@
 # 🏰 SauronChess ♟️
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/09437976fa054f2cb7ad3f32504b4132)](https://app.codacy.com/gh/FSaurenbach/sauronchess/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![License](https://img.shields.io/github/license/FSaurenbach/sauronchess?style=flat-square)](LICENSE)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-purple?style=flat-square&logo=kotlin)](https://kotlinlang.org/)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-purple?style=flat-square&logo=kotlin)
 [![KorGE](https://img.shields.io/badge/KorGE-6.0.0-blue?style=flat-square)](https://korge.org/)
-[![Platform](https://img.shields.io/badge/Platform-JVM%20%7C%20JS%20%7C%20Android-green?style=flat-square)](#platform-support)
+![Platform](https://img.shields.io/badge/Platform-JVM%20%7C%20JS%20%7C%20Android-green?style=flat-square)
 ![GitHub last commit](https://img.shields.io/github/last-commit/FSaurenbach/sauronchess?style=flat-square)
 ![GitHub stars](https://img.shields.io/github/stars/FSaurenbach/sauronchess?style=social)
 
-A modern, cross-platform chess game built with Kotlin and KorGE game engine.
+Chess game made with KorGE and Kotlin as a hobby project.
 
 ## 🎮 **[Play Now!](https://fsaurenbach.github.io/sauronchess)** 🎮
 
----
+
 
 ## 🎯 Implementation Status
 
@@ -31,34 +30,9 @@ A modern, cross-platform chess game built with Kotlin and KorGE game engine.
 | **En Passant**          | ✅ Complete     | Special pawn capture rule                                                       |
 | **Stalemate Detection** | 🔄 In Progress | Draw condition detection                                                        |
 | **Checkmate Detection** | 🔄 In Progress | Game ending when king cannot escape                                             |
+| **Online play**         | ✅ Complete     | Play against other players online!                                              |
 | **AI Opponent**         | 📋 Planned     | Computer player implementation                                                  |
 
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Java 21+** (Required for KorGE 6.0.0)
-- **Git** for cloning the repository
-
-### 🏃‍♂️ Run Instantly
-
-```bash
-git clone https://github.com/FSaurenbach/sauronchess.git
-cd sauronchess
-./gradlew runJvm
-```
-
-### 🌐 Platform Support
-
-| Platform          | Command                |
-|-------------------|------------------------|
-| **Desktop (JVM)** | `./gradlew runJvm`     |
-| **Web (JS)**      | `./gradlew runJs`      |
-| **Android**       | `./gradlew runAndroid` | 
-
----
 
 ## 📄 License
 
@@ -68,18 +42,7 @@ This project is licensed under the **BSD 2-Clause License** - see the [LICENSE](
 
 ## Acknowledgments
 
-- **[KorGE](https://korge.org/)** - Amazing Kotlin game engine
-- **[Kotlin](https://kotlinlang.org/)** - Outstanding language and ecosystem
+- **[KorGE](https://korge.org/)** - The best kotlin Game Engine
 - **[Cburnett](https://commons.wikimedia.org/wiki/User:Cburnett)** - for the awesome chess pieces -
   see [LICENSE](LICENSE) for details
-- **[Kietyo](https://github.com/Kietyo)** Inspiration for the Server
-
----
-
-**⭐ If you enjoy SauronChess, please consider giving it a star! ⭐**
-
-*Built with ❤️ using Kotlin & KorGE*
-
----
-
-### This README was generated entirely with AI GitHub Copilot. Information may contain inaccuracies and has not been manually verified
+- **[Kietyo](https://github.com/Kietyo)** - Inspiration for the chess server
