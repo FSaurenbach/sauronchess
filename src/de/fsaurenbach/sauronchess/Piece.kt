@@ -14,15 +14,14 @@ enum class PieceKind {
 }
 
 
-inline fun Container.piece(
+fun Container.piece(
     kind: PieceKind,
     color: RGBA,
     cx: Int,
     cy: Int,
     disabled: Boolean = false,
-    isWhite: Boolean,
-    callback: @ViewDslMarker Piece.() -> Unit = {}
-): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this, callback)
+    isWhite: Boolean
+): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this)
 
 
 class Piece(
