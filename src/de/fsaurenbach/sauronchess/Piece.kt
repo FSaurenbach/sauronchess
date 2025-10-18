@@ -32,8 +32,8 @@ class Piece(
     lateinit var pImage: Image
     var currentPos: Pair<Int, Int>
     private lateinit var newPos: Pair<Int, Int>
-    private val currentX get() = currentPos.first
-    private val currentY get() = currentPos.second
+    val currentX get() = currentPos.first
+    val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
     private var enPassantLegal = false
@@ -106,16 +106,22 @@ class Piece(
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
                 val newSave = newPos
+                val currentSave = currentPos
                 // Perform the move if no error
                 if (!error) {
                     println("currentPos $currentPos , new Pos $newPos, whiteTurn ${GameState.whiteTurn}")
 
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
-                        println("in check")
+                        println("in check     sent from line 116")
                         if (doMove()) {
                             pieceOnNewPos?.let { removePiece(it) }
+                        } else {
+                            currentPos = currentSave
+                            movePiece(this, currentX, currentY)
                         }
+                        inCheck(GameState.pieces)
+                        checkGameLegal()
 
                     } else if (moveChecker(
                             newPos,
@@ -200,11 +206,16 @@ class Piece(
                         }
 
                     } else {
+                        currentPos = currentSave
                         movePiece(this, currentX, currentY)
                     }
 
                     error = false
-                } else movePiece(this, currentX, currentY)
+                } else {
+                    currentPos = currentSave
+
+                    movePiece(this, currentX, currentY)
+                }
                 error = false
 
                 GameState.enPassantVictim = null
@@ -409,7 +420,6 @@ class Piece(
     }
 
     fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
-
         if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
         val oldX = currentX
         val oldY = currentY
@@ -429,47 +439,70 @@ class Piece(
         }
         inCheck(GameState.pieces)
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
-        GameState.sceneContainer.launch {
 
-            if (!receiver && GameState.onlinePlay) {
-                val map = mutableMapOf(
-                    "id" to clientID,
-                    "cx" to oldX.toString(),
-                    "cy" to oldY.toString(),
-                    "newX" to cx.toString(),
-                    "newY" to cy.toString()
-                )
-                map.putAll(uniqueIdentifier!!)
-                println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
-                println("SENDING :${map.toJson()}")
-                wsClient!!.send(map.toJson())
-            }
+        if (!receiver && GameState.onlinePlay) {
+            val map = mutableMapOf(
+                "id" to clientID,
+                "cx" to oldX.toString(),
+                "cy" to oldY.toString(),
+                "newX" to cx.toString(),
+                "newY" to cy.toString()
+            )
+            map.putAll(uniqueIdentifier!!)
+            println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
-            this@Piece.cx = newX
-            this@Piece.cy = newY
-            println("CURRENT POSITION BEFORE CHANGE: $currentPos")
-            currentPos = Pair(newX, newY)
-            println("CURRENT POSITION AFTER CHANGE: $currentPos")
-
-            pieceOnNewPos?.disabled = false
-            GameState.whiteTurn = !GameState.whiteTurn
-            pieceOnNewPos?.let { removePiece(it) }
+            println("SENDING :${map.toJson()}")
+            GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
         }
 
+        this@Piece.cx = newX
+        this@Piece.cy = newY
+        currentPos = Pair(newX, newY)
+
+        pieceOnNewPos?.disabled = false
+        GameState.whiteTurn = !GameState.whiteTurn
+        pieceOnNewPos?.let { removePiece(it) }
 
 
+
+        inCheck(GameState.pieces)
+        checkGameLegal()
 
         return true
+
     }
 
 
 }
 
 
-fun checkGameLegal(): Boolean {
+fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    if ((GameState.whiteKingInCheck && GameState.whiteTurn) || (GameState.blackKingInCheck && !GameState.whiteTurn)) {
+        println("someone is in check")
+        var legal = false
+        for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
+            for (x in 0..7) {
+                for (y in 0..7) {
+                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
+                        legal = true
+                    }
+
+                }
+            }
+        }
+        println("GAME IS LEGAL: $legal")
+        if (!legal) {
+            GameState.sceneContainer.launch { sendGameOver() }
+        }
+    }
+
+
+    // advanced rules
+
+
     // Check for Draw
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
@@ -485,7 +518,7 @@ fun checkGameLegal(): Boolean {
         blackPieces =
             GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.BlackKing || it.isWhite }.toSet()
 
-        if (whitePieces.count() > 1 && blackPieces.count() > 1) return true
+        if (whitePieces.count() > 1 && blackPieces.count() > 1) return
         var whiteLegal = false
         var blackLegal = false
         var whiteBishopOnWhite: Boolean? = null
@@ -499,9 +532,9 @@ fun checkGameLegal(): Boolean {
                 blackBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
             }
         }
-        if (whiteLegal || blackLegal) return true
-        if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return true
-    } else return true
+        if (whiteLegal || blackLegal) return
+        if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return
+    } else return
 
     println("No moves left for white / black!")
     if (GameState.whiteTurn) {
@@ -509,5 +542,5 @@ fun checkGameLegal(): Boolean {
     } else {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
     }
-    return false
+    GameState.sceneContainer.launch { sendGameOver() }
 }
