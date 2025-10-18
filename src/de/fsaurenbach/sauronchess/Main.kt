@@ -240,8 +240,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (!GameState.whiteTurn && !fromCastling) return false
 
             if (enemyPiece.moveChecker(whiteKingPosition)) {
-                println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition)
+                /*println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+                println(whiteKingPosition)*/
                 GameState.whiteKingInCheck = true
                 return true
             }
@@ -249,8 +249,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (GameState.whiteTurn && !fromCastling) return false
 
             if (enemyPiece.moveChecker(blackKingPosition)) {
-                println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                println(blackKingPosition)
+               /* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                println(blackKingPosition)*/
                 GameState.blackKingInCheck = true
                 return true
             }
@@ -265,7 +265,7 @@ suspend fun sendResign() {
     map["gameOver"] = "true"
     map["resign"] = "true"
 
-    GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
     handleGameEnd(resign = true)
 }
 
@@ -275,6 +275,6 @@ suspend fun sendGameOver() {
     map["gameOver"] = "true"
     map["resign"] = "false"
 
-    GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
     handleGameEnd(resign = false)
 }

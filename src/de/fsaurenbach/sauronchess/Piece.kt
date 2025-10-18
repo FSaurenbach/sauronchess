@@ -106,15 +106,20 @@ class Piece(
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
                 val newSave = newPos
+                val currentSave = currentPos
                 // Perform the move if no error
                 if (!error) {
                     println("currentPos $currentPos , new Pos $newPos, whiteTurn ${GameState.whiteTurn}")
 
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
-                        println("in check")
+                        println("in check     sent from line 116")
                         if (doMove()) {
                             pieceOnNewPos?.let { removePiece(it) }
+                        }
+                        else {
+                            currentPos = currentSave
+                            movePiece(this, currentX, currentY)
                         }
 
                     } else if (moveChecker(
@@ -200,11 +205,16 @@ class Piece(
                         }
 
                     } else {
+                        currentPos = currentSave
                         movePiece(this, currentX, currentY)
                     }
 
                     error = false
-                } else movePiece(this, currentX, currentY)
+                } else {
+                    currentPos = currentSave
+
+                    movePiece(this, currentX, currentY)
+                }
                 error = false
 
                 GameState.enPassantVictim = null
@@ -467,7 +477,7 @@ class Piece(
 }
 
 
-fun checkGameLegal(): Boolean {
+fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
     // Check for Draw
@@ -485,7 +495,7 @@ fun checkGameLegal(): Boolean {
         blackPieces =
             GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.BlackKing || it.isWhite }.toSet()
 
-        if (whitePieces.count() > 1 && blackPieces.count() > 1) return true
+        if (whitePieces.count() > 1 && blackPieces.count() > 1) return
         var whiteLegal = false
         var blackLegal = false
         var whiteBishopOnWhite: Boolean? = null
@@ -499,9 +509,9 @@ fun checkGameLegal(): Boolean {
                 blackBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
             }
         }
-        if (whiteLegal || blackLegal) return true
-        if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return true
-    } else return true
+        if (whiteLegal || blackLegal) return
+        if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return
+    } else return
 
     println("No moves left for white / black!")
     if (GameState.whiteTurn) {
@@ -509,5 +519,5 @@ fun checkGameLegal(): Boolean {
     } else {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
     }
-    return false
+    GameState.sceneContainer.launch {sendGameOver()}
 }
