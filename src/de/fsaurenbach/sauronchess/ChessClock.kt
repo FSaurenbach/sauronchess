@@ -127,7 +127,8 @@ class ChessClock : Container() {
         val totalSeconds = time.seconds.toInt()
         val minutes = totalSeconds / 60
         val seconds = totalSeconds % 60
-        return "%d:%02d".format(minutes, seconds)
+        val secondsStr = if (seconds < 10) "0$seconds" else "$seconds"
+        return "$minutes:$secondsStr"
     }
     
     private suspend fun handleTimeExpired(isWhite: Boolean) {
