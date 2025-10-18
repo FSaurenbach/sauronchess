@@ -39,6 +39,25 @@ object GameState {
     var userIsWhite = true
     var currentSlot = 0
     var onlinePlay = false
+    fun reset() {
+        cells.clear()
+        pieces.clear()
+        whiteCastlingLegal = true
+        blackCastlingLegal = true
+        whiteKingInCheck = false
+        blackKingInCheck = false
+        whiteTurn = true
+        promotionActive = false
+        castleAttempt = false
+        settingsInForeground = false
+        aboutPageInForeground = false
+        enPassantVictim = null
+        circles.clear()
+        whiteCircles.clear()
+        userIsWhite = true
+        currentSlot = 0
+        onlinePlay = false
+    }
 }
 
 object Images {
@@ -128,7 +147,7 @@ class GameScene : Scene() {
             width = DisplayConfig.chessBoardWidth
             height = DisplayConfig.chessBoardWidth
         }
-        val settingsButton =image(resourcesVfs["settings.svg"].readSVG().scaled(0.5).render()) {
+        val settingsButton = image(resourcesVfs["settings.svg"].readSVG().scaled(0.5).render()) {
             zIndex(3)
 
             position(DisplayConfig.screenWidth * 0.8, 26)
@@ -142,7 +161,7 @@ class GameScene : Scene() {
 
             zIndex(3)
             onClick {
-                sendResign()
+                launch { sendResign() }
             }
 
         }.positionY(26)
@@ -159,7 +178,7 @@ class GameScene : Scene() {
             launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
 
             wsClient!!.onStringMessage {
-                webSockerListener(it)
+                launch { webSockerListener(it) }
             }
         }
 
@@ -172,7 +191,7 @@ class GameScene : Scene() {
 
 }
 
-fun webSockerListener(message: String) {
+suspend fun webSockerListener(message: String) {
     println("INCOMING MESSAGE: $message")
     val map: Map<String, *>
     try {
@@ -196,11 +215,16 @@ fun webSockerListener(message: String) {
 
 }
 
-fun handleGameEnd(resign: Boolean) {
-    println("ENDING GAME")
-
+suspend fun handleGameEnd(resign: Boolean) {
     val text = GameState.sceneContainer.text("GAME END\nBecause of resign?\n$resign", 50, Colors.RED)
     text.centerOnStage()
+    delay(4000)
+    GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
+        text.removeFromParent()
+        wsClient?.close()
+        GameState.reset()
+    }
+
 }
 
 /** Check if a piece could take a king from the current position
@@ -236,12 +260,13 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     return false
 }
 
-fun sendResign() {
+suspend fun sendResign() {
     val map = uniqueIdentifier!!.toMutableMap()
     map["gameOver"] = "true"
     map["resign"] = "true"
 
     GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+    handleGameEnd(resign = true)
 }
 
 
