@@ -32,8 +32,8 @@ class Piece(
     lateinit var pImage: Image
     var currentPos: Pair<Int, Int>
     private lateinit var newPos: Pair<Int, Int>
-    val currentX get() = currentPos.first
-    val currentY get() = currentPos.second
+    private val currentX get() = currentPos.first
+    private val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
     private var enPassantLegal = false
@@ -482,7 +482,7 @@ fun checkGameLegal() {
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
     var draw = false
     var checkMate = false
-    var insufficientMaterial = false
+    val insufficientMaterial: Boolean
     if ((GameState.whiteKingInCheck && GameState.whiteTurn) || (GameState.blackKingInCheck && !GameState.whiteTurn)) {
         println("someone is in check")
         for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
