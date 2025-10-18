@@ -480,27 +480,10 @@ class Piece(
 fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
-    if (GameState.whiteKingInCheck && GameState.whiteTurn) {
-        println("whitein check")
+    if ((GameState.whiteKingInCheck && GameState.whiteTurn) || (GameState.blackKingInCheck && !GameState.whiteTurn)) {
+        println("someone is in check")
         var legal = false
-        for (piece in whitePieces) {
-            for (x in 0..7) {
-                for (y in 0..7) {
-                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
-                        legal = true
-                    }
-
-                }
-            }
-        }
-        println("GAME IS LEGAL: $legal")
-        if (!legal) {
-            GameState.sceneContainer.launch { sendGameOver() }
-        }
-    } else if (GameState.blackKingInCheck && !GameState.whiteTurn) {
-        println("blackin check")
-        var legal = false
-        for (piece in blackPieces) {
+        for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
             for (x in 0..7) {
                 for (y in 0..7) {
                     if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
@@ -515,6 +498,7 @@ fun checkGameLegal() {
             GameState.sceneContainer.launch { sendGameOver() }
         }
     }
+
 
     // advanced rules
 
