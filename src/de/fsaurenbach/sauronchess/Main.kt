@@ -270,7 +270,7 @@ suspend fun sendResign() {
 }
 
 
-suspend fun sendGameOver() {
+suspend fun sendGameOver(draw:Boolean) {
     if (GameState.onlinePlay){
         val map = uniqueIdentifier!!.toMutableMap()
         map["gameOver"] = "true"

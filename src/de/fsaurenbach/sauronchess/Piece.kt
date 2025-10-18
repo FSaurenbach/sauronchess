@@ -480,23 +480,25 @@ class Piece(
 fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    var draw = false
+    var checkMate = false
+    var insufficientMaterial = false
     if ((GameState.whiteKingInCheck && GameState.whiteTurn) || (GameState.blackKingInCheck && !GameState.whiteTurn)) {
         println("someone is in check")
-        var legal = false
         for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
             for (x in 0..7) {
                 for (y in 0..7) {
                     if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
-                        legal = true
+                        return
                     }
 
                 }
             }
         }
-        println("GAME IS LEGAL: $legal")
-        if (!legal) {
-            GameState.sceneContainer.launch { sendGameOver() }
-        }
+        println("GAME IS LEGAL: false")
+        checkMate = true
+        GameState.sceneContainer.launch { sendGameOver(draw = false) }
+
     }
 
 
@@ -507,9 +509,11 @@ fun checkGameLegal() {
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) print("")//TODO
+                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) return
             }
         }
+        draw = true
+        GameState.sceneContainer.launch { sendGameOver(!checkMate) }
     }
     // Check for insufficient material rule (no pawns left at all is a hard req)
     if (GameState.pieces.none { it.kind == PieceKind.WhitePawn || it.kind == PieceKind.BlackPawn }) {
@@ -534,6 +538,8 @@ fun checkGameLegal() {
         }
         if (whiteLegal || blackLegal) return
         if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return
+        insufficientMaterial = true
+        GameState.sceneContainer.launch { sendGameOver(!checkMate) }
     } else return
 
     println("No moves left for white / black!")
@@ -542,5 +548,6 @@ fun checkGameLegal() {
     } else {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
     }
-    GameState.sceneContainer.launch { sendGameOver() }
+    println("insuffmat: $insufficientMaterial, checkmate: $checkMate, draw: $draw")
+
 }
