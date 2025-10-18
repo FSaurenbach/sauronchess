@@ -8,7 +8,7 @@ import korlibs.math.geom.*
 import kotlin.properties.*
 
 class Settings : Container() {
-    internal val amountOfOptions = 4
+    internal val amountOfOptions = 5
     internal var currentNo = 1
     internal var background: RoundRect by Delegates.notNull()
 
@@ -59,6 +59,10 @@ class Settings : Container() {
                     text("Auto promote", 30, Colors.BLACK).centerOn(baseButton)
                     baseButton.color = if (UserSettings.autoPromote) Colors.GREEN else Colors.RED
                 }
+                SettingsKind.EnableClock -> {
+                    text("Chess clock", 30, Colors.BLACK).centerOn(baseButton)
+                    baseButton.color = if (GameState.clockEnabled) Colors.GREEN else Colors.RED
+                }
 
             }
 
@@ -68,6 +72,7 @@ class Settings : Container() {
                     SettingsKind.About -> handleAboutClick()
                     SettingsKind.AutoPromote -> handleAutoPromoteClick()
                     SettingsKind.Exit -> handleExitClick()
+                    SettingsKind.EnableClock -> handleEnableClockClick()
 
                 }
             }
@@ -80,6 +85,11 @@ class Settings : Container() {
         private fun handleAutoPromoteClick() {
             UserSettings.autoPromote = !UserSettings.autoPromote
             if (UserSettings.autoPromote) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
+        }
+
+        private fun handleEnableClockClick() {
+            GameState.clockEnabled = !GameState.clockEnabled
+            if (GameState.clockEnabled) baseButton.color = (Colors.GREEN) else baseButton.color = Colors.RED
         }
 
 
@@ -115,7 +125,7 @@ class Settings : Container() {
     }
 
     enum class SettingsKind {
-        DarkMode, About, AutoPromote, Exit
+        DarkMode, About, AutoPromote, Exit, EnableClock
     }
 
     init {
@@ -131,6 +141,7 @@ class Settings : Container() {
         SettingsButton(SettingsKind.DarkMode).addTo(this)
         SettingsButton(SettingsKind.About).addTo(this)
         SettingsButton(SettingsKind.AutoPromote).addTo(this)
+        SettingsButton(SettingsKind.EnableClock).addTo(this)
         SettingsButton(SettingsKind.Exit).addTo(this)
     }
 }

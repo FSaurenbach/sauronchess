@@ -15,6 +15,7 @@ import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import korlibs.math.random.*
 import korlibs.render.*
+import korlibs.time.*
 import kotlinx.coroutines.*
 import kotlin.properties.*
 import kotlin.random.*
@@ -39,6 +40,8 @@ object GameState {
     var userIsWhite = true
     var currentSlot = 0
     var onlinePlay = false
+    var chessClock: ChessClock? = null
+    var clockEnabled = false
     fun reset() {
         cells.clear()
         pieces.clear()
@@ -57,6 +60,8 @@ object GameState {
         userIsWhite = true
         currentSlot = 0
         onlinePlay = false
+        chessClock?.stop()
+        chessClock = null
     }
 }
 
@@ -101,6 +106,7 @@ object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
     var debugMode: Boolean = false
+    var clockTimeMinutes: Int = 10 // Default 10 minutes per player
 }
 
 const val DEFAULT_PORT = 443
@@ -165,6 +171,16 @@ class GameScene : Scene() {
             }
 
         }.positionY(26)
+
+        // Add chess clock if enabled
+        if (GameState.clockEnabled) {
+            GameState.chessClock = ChessClock().apply {
+                addTo(this@sceneMain)
+                position(20, DisplayConfig.screenHeight / 2 - 65)
+                initialize(TimeSpan((UserSettings.clockTimeMinutes * 60 * 1000).toDouble()))
+                start()
+            }
+        }
 
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")

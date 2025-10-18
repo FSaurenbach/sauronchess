@@ -168,6 +168,7 @@ class Piece(
                                     movePiece(rook!!, 5, 7)
                                     movePiece(this, 6, 7)
                                     GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.chessClock?.switchTurn()
                                     GameState.whiteCastlingLegal = false
 
                                 }
@@ -178,6 +179,7 @@ class Piece(
                                     movePiece(this, 2, 7)
 
                                     GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.chessClock?.switchTurn()
                                     GameState.whiteCastlingLegal = false
                                 }
                             }
@@ -190,6 +192,7 @@ class Piece(
 
                                     GameState.blackCastlingLegal = false
                                     GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.chessClock?.switchTurn()
                                 }
 
                                 newX == 2 && newY == 0 -> {
@@ -197,6 +200,7 @@ class Piece(
                                     movePiece(rook!!, 3, 0)
                                     movePiece(this, 2, 0)
                                     GameState.whiteTurn = !GameState.whiteTurn
+                                    GameState.chessClock?.switchTurn()
                                     GameState.blackCastlingLegal = false
                                 }
                             }
@@ -462,6 +466,7 @@ class Piece(
 
         pieceOnNewPos?.disabled = false
         GameState.whiteTurn = !GameState.whiteTurn
+        GameState.chessClock?.switchTurn()
         pieceOnNewPos?.let { removePiece(it) }
 
 
