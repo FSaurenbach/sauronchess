@@ -32,8 +32,8 @@ class Piece(
     lateinit var pImage: Image
     var currentPos: Pair<Int, Int>
     private lateinit var newPos: Pair<Int, Int>
-    private val currentX get() = currentPos.first
-    private val currentY get() = currentPos.second
+    val currentX get() = currentPos.first
+    val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
     private var enPassantLegal = false
@@ -116,11 +116,12 @@ class Piece(
                         println("in check     sent from line 116")
                         if (doMove()) {
                             pieceOnNewPos?.let { removePiece(it) }
-                        }
-                        else {
+                        } else {
                             currentPos = currentSave
                             movePiece(this, currentX, currentY)
                         }
+                        inCheck(GameState.pieces)
+                        checkGameLegal()
 
                     } else if (moveChecker(
                             newPos,
@@ -419,7 +420,6 @@ class Piece(
     }
 
     fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
-
         if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
         val oldX = currentX
         val oldY = currentY
@@ -439,38 +439,38 @@ class Piece(
         }
         inCheck(GameState.pieces)
         println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
-        GameState.sceneContainer.launch {
 
-            if (!receiver && GameState.onlinePlay) {
-                val map = mutableMapOf(
-                    "id" to clientID,
-                    "cx" to oldX.toString(),
-                    "cy" to oldY.toString(),
-                    "newX" to cx.toString(),
-                    "newY" to cy.toString()
-                )
-                map.putAll(uniqueIdentifier!!)
-                println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
-                println("SENDING :${map.toJson()}")
-                wsClient!!.send(map.toJson())
-            }
+        if (!receiver && GameState.onlinePlay) {
+            val map = mutableMapOf(
+                "id" to clientID,
+                "cx" to oldX.toString(),
+                "cy" to oldY.toString(),
+                "newX" to cx.toString(),
+                "newY" to cy.toString()
+            )
+            map.putAll(uniqueIdentifier!!)
+            println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
 
-            this@Piece.cx = newX
-            this@Piece.cy = newY
-            println("CURRENT POSITION BEFORE CHANGE: $currentPos")
-            currentPos = Pair(newX, newY)
-            println("CURRENT POSITION AFTER CHANGE: $currentPos")
-
-            pieceOnNewPos?.disabled = false
-            GameState.whiteTurn = !GameState.whiteTurn
-            pieceOnNewPos?.let { removePiece(it) }
+            println("SENDING :${map.toJson()}")
+            GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
         }
 
+        this@Piece.cx = newX
+        this@Piece.cy = newY
+        currentPos = Pair(newX, newY)
+
+        pieceOnNewPos?.disabled = false
+        GameState.whiteTurn = !GameState.whiteTurn
+        pieceOnNewPos?.let { removePiece(it) }
 
 
+
+        inCheck(GameState.pieces)
+        checkGameLegal()
 
         return true
+
     }
 
 
@@ -480,6 +480,45 @@ class Piece(
 fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
+    if (GameState.whiteKingInCheck && GameState.whiteTurn) {
+        println("whitein check")
+        var legal = false
+        for (piece in whitePieces) {
+            for (x in 0..7) {
+                for (y in 0..7) {
+                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
+                        legal = true
+                    }
+
+                }
+            }
+        }
+        println("GAME IS LEGAL: $legal")
+        if (!legal) {
+            GameState.sceneContainer.launch { sendGameOver() }
+        }
+    } else if (GameState.blackKingInCheck && !GameState.whiteTurn) {
+        println("blackin check")
+        var legal = false
+        for (piece in blackPieces) {
+            for (x in 0..7) {
+                for (y in 0..7) {
+                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
+                        legal = true
+                    }
+
+                }
+            }
+        }
+        println("GAME IS LEGAL: $legal")
+        if (!legal) {
+            GameState.sceneContainer.launch { sendGameOver() }
+        }
+    }
+
+    // advanced rules
+
+
     // Check for Draw
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
@@ -519,5 +558,5 @@ fun checkGameLegal() {
     } else {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
     }
-    GameState.sceneContainer.launch {sendGameOver()}
+    GameState.sceneContainer.launch { sendGameOver() }
 }

@@ -271,10 +271,13 @@ suspend fun sendResign() {
 
 
 suspend fun sendGameOver() {
-    val map = uniqueIdentifier!!.toMutableMap()
-    map["gameOver"] = "true"
-    map["resign"] = "false"
+    if (GameState.onlinePlay){
+        val map = uniqueIdentifier!!.toMutableMap()
+        map["gameOver"] = "true"
+        map["resign"] = "false"
 
-    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
+        GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
+    }
+
     handleGameEnd(resign = false)
 }
