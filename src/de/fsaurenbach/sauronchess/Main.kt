@@ -270,10 +270,11 @@ suspend fun sendResign() {
 }
 
 
-fun sendGameOver() {
+suspend fun sendGameOver() {
     val map = uniqueIdentifier!!.toMutableMap()
     map["gameOver"] = "true"
     map["resign"] = "false"
 
     GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+    handleGameEnd(resign = false)
 }
