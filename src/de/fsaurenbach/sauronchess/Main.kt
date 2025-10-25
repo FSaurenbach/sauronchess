@@ -203,7 +203,7 @@ suspend fun webSockerListener(message: String) {
         handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
         return
     }
-
+    if (map.containsKey("castling")) GameState.castleAttempt = true
     println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 
     if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
