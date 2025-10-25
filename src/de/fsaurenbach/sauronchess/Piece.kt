@@ -101,14 +101,12 @@ class Piece(
                 // Check if newPosition is within the game board
                 if (newX !in 0..<8 || newY !in 0..<8) error = true
 
-                println("currentPos $currentPos , new Pos $newPos")
                 val pieceOnNewPos = findPiece(newX, newY)
                 if (pieceOnNewPos?.color == color) error = true
                 val newSave = newPos
                 val currentSave = currentPos
                 // Perform the move if no error
                 if (!error) {
-                    println("currentPos $currentPos , new Pos $newPos, whiteTurn ${GameState.whiteTurn}")
 
                     inCheck(GameState.pieces)
                     if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
@@ -148,7 +146,6 @@ class Piece(
 
                 println()
                 println()
-                checkGameLegal()
 
             }
         }
@@ -349,7 +346,6 @@ class Piece(
         val oldY = currentY
         this.newPos = Pair(newX, newY)
 
-        println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
         inCheck(GameState.pieces)
         val pieceOnNewPos = findPiece(newX, newY)
 
@@ -423,8 +419,7 @@ class Piece(
             return false
         }
         inCheck(GameState.pieces)
-        println("Doing move: ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
-
+        println("Doing move: $oldX, $oldY ---> ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
 
         if (!receiver && GameState.onlinePlay) {
             val map = mutableMapOf(
@@ -459,6 +454,7 @@ class Piece(
         }
 
         inCheck(GameState.pieces)
+
         checkGameLegal()
 
         return true
@@ -481,6 +477,7 @@ fun checkGameLegal() {
             for (x in 0..7) {
                 for (y in 0..7) {
                     if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
+                        println("there is still hope")
                         return
                     }
 
