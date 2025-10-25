@@ -200,7 +200,7 @@ suspend fun webSockerListener(message: String) {
         return
     }
     if (map.containsKey("gameOver")) {
-        handleGameEnd(resign = map["resign"].toString().toBoolean())
+        handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
         return
     }
 
@@ -215,17 +215,6 @@ suspend fun webSockerListener(message: String) {
 
 }
 
-suspend fun handleGameEnd(resign: Boolean) {
-    val text = GameState.sceneContainer.text("GAME END\nBecause of resign?\n$resign", 50, Colors.RED)
-    text.centerOnStage()
-    delay(4000)
-    GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
-        text.removeFromParent()
-        wsClient?.close()
-        GameState.reset()
-    }
-
-}
 
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
@@ -239,8 +228,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {
-                /*println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+            if (enemyPiece.moveChecker(whiteKingPosition)) {/*println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
                 println(whiteKingPosition)*/
                 GameState.whiteKingInCheck = true
                 return true
@@ -248,9 +236,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
             if (GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(blackKingPosition)) {
-               /* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                println(blackKingPosition)*/
+            if (enemyPiece.moveChecker(blackKingPosition)) {/* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                 println(blackKingPosition)*/
                 GameState.blackKingInCheck = true
                 return true
             }
@@ -260,24 +247,37 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     return false
 }
 
+suspend fun handleGameEnd(resign: Boolean, draw: Boolean) {
+    val text = GameState.sceneContainer.text("GAME END\nBecause of resign?\n$resign\nDraw?\n$draw", 50, Colors.RED)
+    text.centerOnStage()
+    delay(4000)
+    GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
+        text.removeFromParent()
+        wsClient?.close()
+        GameState.reset()
+    }
+
+}
+
 suspend fun sendResign() {
     val map = uniqueIdentifier!!.toMutableMap()
     map["gameOver"] = "true"
     map["resign"] = "true"
 
     GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
-    handleGameEnd(resign = true)
+    handleGameEnd(resign = true, draw = false)
 }
 
 
-suspend fun sendGameOver() {
-    if (GameState.onlinePlay){
+suspend fun sendGameOver(draw: Boolean) {
+    if (GameState.onlinePlay) {
         val map = uniqueIdentifier!!.toMutableMap()
         map["gameOver"] = "true"
         map["resign"] = "false"
+        map["draw"] = draw.toString()
 
         GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
     }
 
-    handleGameEnd(resign = false)
+    handleGameEnd(resign = false, draw = draw)
 }
