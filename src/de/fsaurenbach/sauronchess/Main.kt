@@ -228,16 +228,18 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {/*println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition)*/
+            if (enemyPiece.moveChecker(whiteKingPosition)) {
+                /* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+                println(whiteKingPosition) */
                 GameState.whiteKingInCheck = true
                 return true
             }
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
             if (GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(blackKingPosition)) {/* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                 println(blackKingPosition)*/
+            if (enemyPiece.moveChecker(blackKingPosition)) {
+                /* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                 println(blackKingPosition) */
                 GameState.blackKingInCheck = true
                 return true
             }

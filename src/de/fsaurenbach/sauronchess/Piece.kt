@@ -15,12 +15,7 @@ enum class PieceKind {
 
 
 fun Container.piece(
-    kind: PieceKind,
-    color: RGBA,
-    cx: Int,
-    cy: Int,
-    disabled: Boolean = false,
-    isWhite: Boolean
+    kind: PieceKind, color: RGBA, cx: Int, cy: Int, disabled: Boolean = false, isWhite: Boolean
 ): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this)
 
 
