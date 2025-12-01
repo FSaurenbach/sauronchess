@@ -15,6 +15,7 @@ import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import korlibs.math.random.*
 import korlibs.render.*
+import korlibs.time.*
 import kotlinx.coroutines.*
 import kotlin.properties.*
 import kotlin.random.*
@@ -166,6 +167,10 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
+        var timer = ChessClock(2.seconds, 3.seconds).Timer(10.seconds)
+            solidRect(100, 100, color = ThemeColors.whiteModeBlack).centerOnStage().onClick {
+            timer.toggle()
+        }
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
             println("Opened socket")
