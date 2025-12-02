@@ -167,10 +167,8 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        var timer = ChessClock(2.seconds, 3.seconds).Timer(10.seconds)
-            solidRect(100, 100, color = ThemeColors.whiteModeBlack).centerOnStage().onClick {
-            timer.toggle()
-        }
+        ChessClock(100.seconds, 90.seconds).addTo(this)
+
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
             println("Opened socket")
@@ -233,8 +231,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {
-                /* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+            if (enemyPiece.moveChecker(whiteKingPosition)) {/* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
                 println(whiteKingPosition) */
                 GameState.whiteKingInCheck = true
                 return true
@@ -242,8 +239,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
             if (GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(blackKingPosition)) {
-                /* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+            if (enemyPiece.moveChecker(blackKingPosition)) {/* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                  println(blackKingPosition) */
                 GameState.blackKingInCheck = true
                 return true
