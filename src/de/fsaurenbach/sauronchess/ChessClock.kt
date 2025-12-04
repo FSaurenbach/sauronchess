@@ -10,11 +10,12 @@ import kotlinx.coroutines.*
 import kotlin.time.*
 
 
-class ChessClock(var whiteStartingTime: Duration, var blackStartingTime: Duration) : Container() {
-    inner class Timer(var duration: Duration, var color: String) : Container() {
+class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Container() {
+    inner class Timer(private var duration: Duration, var color: String) : Container() {
         private val timeSource = TimeSource.Monotonic
         private var counting = false
         private var mark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
+        private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var stop = timeSource.markNow()
         private var elapsed: Double = 0.0
         private var timeLeft: Duration = duration
@@ -27,10 +28,17 @@ class ChessClock(var whiteStartingTime: Duration, var blackStartingTime: Duratio
                 toggle()
             }
             val counter = text("", color = Colors.BLACK).centerOn(button)
-            button.addUpdater {
-                counter.text = "$timeLeft"
+            button.addFixedUpdater(10.milliseconds) {
+                counter.text =
+                    "${timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1).toDuration(DurationUnit.SECONDS)}"
+                if (counting) {
+                    stop = timeSource.markNow()
+                    val difference = (stop - lastMark).inWholeMilliseconds
+                    timeLeft -= difference.toDuration(DurationUnit.MILLISECONDS)
+                    lastMark = timeSource.markNow()
+                    elapsed = 0.0
+                }
             }
-
 
 
             resetTimer()
@@ -44,20 +52,18 @@ class ChessClock(var whiteStartingTime: Duration, var blackStartingTime: Duratio
 
         private fun toggle() {
             if (counting) {
-                stop = timeSource.markNow()
-                val difference = (stop - mark).seconds.roundDecimalPlaces(1)
-                println(color + "stopped, elapsed: " + difference)
-                elapsed += (difference)
-                timeLeft -= elapsed.seconds
-                println("$color elapsed: $elapsed")
                 counting = false
+                stop = timeSource.markNow()
+                val difference = (stop - mark).milliseconds
+                println("$color stopped; elapsed: $difference ms")
+                elapsed += (difference)
+                timeLeft -= elapsed.milliseconds
                 elapsed = 0.0
             } else {
-
-                println(color + "starting ")
+                println("$color starting ")
                 mark = timeSource.markNow()
+                lastMark = timeSource.markNow()
                 counting = true
-
             }
 
         }
