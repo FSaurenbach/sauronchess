@@ -431,6 +431,14 @@ class Piece(
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
         }
+        if (GameState.firstMove) {
+            GameState.chessClock.whiteTimer.toggle()
+            GameState.firstMove = false
+        } else {
+
+            GameState.chessClock.whiteTimer.toggle()
+            GameState.chessClock.blackTimer.toggle()
+        }
 
         this@Piece.cx = newX
         this@Piece.cy = newY

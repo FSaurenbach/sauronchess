@@ -37,6 +37,8 @@ object GameState {
     var enPassantVictim: Piece? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
+    lateinit var chessClock: ChessClock
+    var firstMove = true
     var userIsWhite = true
     var currentSlot = 0
     var onlinePlay = false
@@ -167,7 +169,7 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        ChessClock(100.seconds, 90.seconds).addTo(this)
+         GameState.chessClock = ChessClock(100.seconds, 90.seconds).addTo(this)
 
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")

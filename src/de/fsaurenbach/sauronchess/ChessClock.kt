@@ -10,7 +10,11 @@ import kotlin.time.*
 
 
 class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Container() {
-    inner class Timer(private var duration: Duration, var color: String) : Container() {
+
+    val whiteTimer = Timer(whiteStartingTime).addTo(this)
+    val blackTimer = Timer(blackStartingTime).addTo(this).alignLeftToRightOf(whiteTimer)
+
+    inner class Timer(duration: Duration) : Container() {
         private val timeSource = TimeSource.Monotonic
         private var counting = false
         private var mark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
@@ -39,7 +43,7 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
         }
 
 
-        private fun toggle() {
+        fun toggle() {
             if (counting) {
                 counting = false
                 stop = timeSource.markNow()
@@ -53,10 +57,4 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
 
     }
 
-    init {
-        val whiteTimer = Timer(whiteStartingTime, color = "WHITE").addTo(this)
-        val blackTimer = Timer(blackStartingTime, color = "BLACK").addTo(this)
-
-        blackTimer.alignLeftToRightOf(whiteTimer)
-    }
 }
