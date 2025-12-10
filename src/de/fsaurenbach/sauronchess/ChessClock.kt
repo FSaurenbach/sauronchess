@@ -6,7 +6,6 @@ import korlibs.korge.view.*
 import korlibs.korge.view.align.*
 import korlibs.math.*
 import korlibs.time.*
-import kotlinx.coroutines.*
 import kotlin.time.*
 
 
@@ -17,7 +16,6 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
         private var mark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var stop = timeSource.markNow()
-        private var elapsed: Double = 0.0
         private var timeLeft: Duration = duration
         private var button = solidRect(100, 100, color = ThemeColors.whiteModeWhite)
 
@@ -29,38 +27,23 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
             }
             val counter = text("", color = Colors.BLACK).centerOn(button)
             button.addFixedUpdater(10.milliseconds) {
-                counter.text =
-                    "${timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1).toDuration(DurationUnit.SECONDS)}"
+                counter.text = "${timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1)}"
                 if (counting) {
                     stop = timeSource.markNow()
-                    val difference = (stop - lastMark).inWholeMilliseconds
-                    timeLeft -= difference.toDuration(DurationUnit.MILLISECONDS)
+                    val difference = (stop - lastMark).seconds
+                    timeLeft -= difference.toDuration(DurationUnit.SECONDS)
                     lastMark = timeSource.markNow()
-                    elapsed = 0.0
                 }
             }
 
-
-            resetTimer()
         }
 
-        private fun resetTimer() {
-            GameState.sceneContainer.launch {
-                timeLeft = duration
-            }
-        }
 
         private fun toggle() {
             if (counting) {
                 counting = false
                 stop = timeSource.markNow()
-                val difference = (stop - mark).milliseconds
-                println("$color stopped; elapsed: $difference ms")
-                elapsed += (difference)
-                timeLeft -= elapsed.milliseconds
-                elapsed = 0.0
             } else {
-                println("$color starting ")
                 mark = timeSource.markNow()
                 lastMark = timeSource.markNow()
                 counting = true
@@ -71,7 +54,6 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
     }
 
     init {
-
         val whiteTimer = Timer(whiteStartingTime, color = "WHITE").addTo(this)
         val blackTimer = Timer(blackStartingTime, color = "BLACK").addTo(this)
 
