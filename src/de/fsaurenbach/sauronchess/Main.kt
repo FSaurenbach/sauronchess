@@ -169,8 +169,8 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-         GameState.chessClock = ChessClock(100.seconds, 90.seconds).addTo(this)
-
+        GameState.chessClock = ChessClock(100.seconds, 90.seconds).addTo(this)
+        GameState.chessClock.centerXOnStage()
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
             println("Opened socket")
