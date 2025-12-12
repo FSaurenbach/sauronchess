@@ -9,12 +9,24 @@ import korlibs.time.*
 import kotlin.time.*
 
 // TODO: Handle it online?????????????
-class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Container() {
-    val background = roundRect(Size(250, 100), RectCorners(10), ThemeColors.darkModeBlack)
-    val whiteTimer = Timer(whiteStartingTime, ThemeColors.whiteModeWhite).addTo(this).centerOn(background)
-        .alignLeftToLeftOf(background, 20)
-    val blackTimer = Timer(blackStartingTime, ThemeColors.darkModeWhite).addTo(this).centerOn(background)
-        .alignRightToRightOf(background, 20)
+class ChessClock(val whiteStartingTime: Duration, val blackStartingTime: Duration, var serverClock: Boolean) :
+    Container() {
+    private var background: RoundRect? = null
+
+    val whiteTimer = Timer(whiteStartingTime, ThemeColors.whiteModeWhite)
+    val blackTimer = Timer(blackStartingTime, ThemeColors.darkModeWhite)
+
+    init {
+        if (!serverClock) {
+            background = roundRect(Size(250, 100), RectCorners(10), ThemeColors.darkModeBlack)
+            whiteTimer.centerOn(background!!).addTo(this)
+                .alignLeftToLeftOf(background!!, 20)
+            blackTimer.addTo(this).centerOn(background!!)
+                .alignRightToRightOf(background!!, 20)
+        }
+
+    }
+
 
     inner class Timer(duration: Duration, color: RGBA) : Container() {
         private val timeSource = TimeSource.Monotonic
@@ -23,13 +35,23 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
         private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var stop = timeSource.markNow()
         private var timeLeft: Duration = duration
-        private var button = roundRect(Size(80, 80), RectCorners(10), color)
+        private var counterBackground: Container? = null
 
         init {
-            val counter = text("$duration", color = Colors.BLACK).centerOn(button)
-            button.addFixedUpdater(10.milliseconds) {
+            var counter: Text? = null
+            if (!serverClock) {
+                counterBackground = roundRect(Size(80, 80), RectCorners(10), color)
+                counter = text("$duration", color = Colors.BLACK).scale(1.4).centerOn(counterBackground!!)
+            } else {
+                counterBackground = GameState.sceneContainer
+            }
 
-                counter.text = "${timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1)}"
+
+            counterBackground!!.addFixedUpdater(50.milliseconds) {
+                if (!serverClock) {
+                    counter!!.text = "${timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1)}"
+                }
+                println("timeleft: $timeLeft")
                 if (counting) {
                     stop = timeSource.markNow()
                     val difference = (stop - lastMark).seconds
@@ -52,10 +74,6 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) : Con
             }
 
         }
-
-    }
-
-    init {
 
     }
 }

@@ -19,6 +19,7 @@ import korlibs.time.*
 import kotlinx.coroutines.*
 import kotlin.properties.*
 import kotlin.random.*
+import kotlin.time.*
 
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
@@ -103,17 +104,17 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = false
+    var debugMode: Boolean = false // TODO: Make that configurable in game
 }
 
 const val DEFAULT_PORT = 443
 const val DEFAULT_SERVER = "chessapi.fsrb.de"
 const val DEBUG_PORT = 9999
-const val DEBUG_SERVER = "127.0.0.1"
+const val DEBUG_SERVER = "0.0.0.0"
 
 val serverPort get() = if (UserSettings.debugMode) DEBUG_PORT else DEFAULT_PORT
 val serverAddress get() = if (UserSettings.debugMode) DEBUG_SERVER else DEFAULT_SERVER
-
+val protocolSecurity get() = if (UserSettings.debugMode) "" else "s"
 
 var wsClient: WebSocketClient? = null
 suspend fun main() = Korge(
@@ -169,15 +170,17 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        GameState.chessClock = ChessClock(100.seconds, 90.seconds).addTo(this)
+        GameState.chessClock = ChessClock(100.seconds, 90.seconds, false).addTo(this)
         GameState.chessClock.centerXOnStage()
         if (GameState.onlinePlay) {
-            wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
+            wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
+            val timeLeft = if (GameState.userIsWhite) GameState.chessClock.whiteStartingTime else GameState.chessClock.blackStartingTime
             uniqueIdentifier = mapOf(
                 "id" to clientID,
                 "color" to GameState.userIsWhite.toString(),
-                "slot" to GameState.currentSlot.toString()
+                "slot" to GameState.currentSlot.toString(),
+                "startingTime" to timeLeft.toDouble(DurationUnit.SECONDS).toString()
             )
             println("sending: ${uniqueIdentifier!!.toJson()}")
             launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
