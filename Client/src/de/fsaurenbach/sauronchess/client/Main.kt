@@ -217,14 +217,14 @@ suspend fun webSockerListener(message: String) {
         return
     }
 
-    var whiteTime =  map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
-    var blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+    val whiteTime = map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+    val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
     println("white: $whiteTime")
     println("black: $blackTime")
 
     GameState.chessClock.whiteTimer.override(whiteTime)
     GameState.chessClock.blackTimer.override(blackTime)
-    if (map.containsKey("justTime")){
+    if (map.containsKey("justTime")) {
         return
     }
     println("not jsut timne")

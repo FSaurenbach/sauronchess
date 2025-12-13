@@ -58,8 +58,7 @@ fun requestHandler(request: HttpServer.WsRequest) {
                 establishedSlot?.whitePlayer?.request?.sendSafe(justTime.toJson())
             }
             establishedSlot?.blackPlayer?.request?.sendSafe(input.toJson())
-        }
-        else if (establishedSlot?.blackPlayer == user) {
+        } else if (establishedSlot?.blackPlayer == user) {
 
             if (input.containsKey("newX") && input["newX"] != "null") {
                 establishedSlot?.chessClock?.blackTimer?.toggle()
@@ -91,10 +90,7 @@ fun main() {
     println("Starting server...")
     for (i in 0..4) slots.add(
         Slot(
-            i,
-            null,
-            null,
-            ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
+            i, null, null, ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
         )
     )
 
