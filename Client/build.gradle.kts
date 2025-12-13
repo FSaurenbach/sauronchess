@@ -33,3 +33,9 @@ tasks.register("runMainJs") {
     group = "application"
     description = "Runs only the main project"
 }
+
+tasks.register("ClientBrowserReleaseWebpack") {
+    dependsOn("browserReleaseWebpack")
+    group = "application"
+    description = "Runs only the main project"
+}
