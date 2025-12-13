@@ -33,6 +33,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages  # Target branch
-          folder: build/www  # Directory to deploy
+          folder: Client/build/www  # Directory to deploy
           target-folder: staging
           clean: true  # Removes old files before deployment
