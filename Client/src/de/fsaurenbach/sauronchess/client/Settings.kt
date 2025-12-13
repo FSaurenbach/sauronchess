@@ -1,9 +1,11 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
+import korlibs.korge.view.addTo
 import korlibs.korge.view.align.*
+import korlibs.korge.view.align.centerYBetween
 import korlibs.math.geom.*
 import kotlin.properties.*
 

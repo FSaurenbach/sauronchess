@@ -1,5 +1,6 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.client.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*

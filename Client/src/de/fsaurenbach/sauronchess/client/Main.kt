@@ -1,5 +1,6 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.vector.*
@@ -39,6 +40,7 @@ object GameState {
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
     lateinit var chessClock: ChessClock
+    lateinit var chessClockContainer: ChessClockContainer
     var firstMove = true
     var userIsWhite = true
     var currentSlot = 0
@@ -104,13 +106,13 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = false // TODO: Make that configurable in game
+    var debugMode: Boolean = true // TODO: Make that configurable in game
 }
 
 const val DEFAULT_PORT = 443
 const val DEFAULT_SERVER = "chessapi.fsrb.de"
 const val DEBUG_PORT = 9999
-const val DEBUG_SERVER = "0.0.0.0"
+const val DEBUG_SERVER = "127.0.0.1"
 
 val serverPort get() = if (UserSettings.debugMode) DEBUG_PORT else DEFAULT_PORT
 val serverAddress get() = if (UserSettings.debugMode) DEBUG_SERVER else DEFAULT_SERVER
@@ -170,12 +172,15 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        GameState.chessClock = ChessClock(100.seconds, 90.seconds, false).addTo(this)
-        GameState.chessClock.centerXOnStage()
+        GameState.chessClock = ChessClock(100.seconds, 90.seconds)
+
+        GameState.chessClockContainer = ChessClockContainer().addTo(this)
+        GameState.chessClockContainer.centerXOnStage()
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
-            val timeLeft = if (GameState.userIsWhite) GameState.chessClock.whiteStartingTime else GameState.chessClock.blackStartingTime
+            val timeLeft =
+                if (GameState.userIsWhite) GameState.chessClock.whiteStartingTime else GameState.chessClock.blackStartingTime
             uniqueIdentifier = mapOf(
                 "id" to clientID,
                 "color" to GameState.userIsWhite.toString(),
@@ -211,6 +216,18 @@ suspend fun webSockerListener(message: String) {
         handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
         return
     }
+
+    var whiteTime =  map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+    var blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+    println("white: $whiteTime")
+    println("black: $blackTime")
+
+    GameState.chessClock.whiteTimer.override(whiteTime)
+    GameState.chessClock.blackTimer.override(blackTime)
+    if (map.containsKey("justTime")){
+        return
+    }
+    println("not jsut timne")
     if (map.containsKey("castling")) GameState.castleAttempt = true
     println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 
