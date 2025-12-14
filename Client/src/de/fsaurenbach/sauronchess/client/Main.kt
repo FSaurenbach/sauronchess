@@ -1,5 +1,6 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
 import korlibs.image.vector.*
@@ -15,9 +16,11 @@ import korlibs.korge.view.align.*
 import korlibs.math.geom.*
 import korlibs.math.random.*
 import korlibs.render.*
+import korlibs.time.*
 import kotlinx.coroutines.*
 import kotlin.properties.*
 import kotlin.random.*
+import kotlin.time.*
 
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
@@ -36,6 +39,9 @@ object GameState {
     var enPassantVictim: Piece? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
+    lateinit var chessClock: ChessClock
+    lateinit var chessClockContainer: ChessClockContainer
+    var firstMove = true
     var userIsWhite = true
     var currentSlot = 0
     var onlinePlay = false
@@ -100,7 +106,8 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = false
+    var debugMode: Boolean = false // TODO: Make that configurable in game
+    var autoOnlineMode: Boolean = false
 }
 
 const val DEFAULT_PORT = 443
@@ -110,7 +117,7 @@ const val DEBUG_SERVER = "127.0.0.1"
 
 val serverPort get() = if (UserSettings.debugMode) DEBUG_PORT else DEFAULT_PORT
 val serverAddress get() = if (UserSettings.debugMode) DEBUG_SERVER else DEFAULT_SERVER
-
+val protocolSecurity get() = if (UserSettings.debugMode) "" else "s"
 
 var wsClient: WebSocketClient? = null
 suspend fun main() = Korge(
@@ -166,8 +173,12 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
+        GameState.chessClock = ChessClock(90.seconds, 100.seconds)
+
+        GameState.chessClockContainer = ChessClockContainer().addTo(this)
+        GameState.chessClockContainer.centerXOnStage()
         if (GameState.onlinePlay) {
-            wsClient = WebSocketClient("wss://$serverAddress:$serverPort")
+            wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
                 "id" to clientID,
@@ -203,6 +214,18 @@ suspend fun webSockerListener(message: String) {
         handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
         return
     }
+    if (map.containsKey("whiteTimeLeft")) {
+        val whiteTime = map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+        val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+        println("white: $whiteTime")
+        println("black: $blackTime")
+        GameState.chessClock.whiteTimer.override(whiteTime)
+        GameState.chessClock.blackTimer.override(blackTime)
+    }
+    if (map.containsKey("timeSync")) {
+        return
+    }
+    println("not just timne")
     if (map.containsKey("castling")) GameState.castleAttempt = true
     println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 
@@ -228,8 +251,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {/*println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition)*/
+            if (enemyPiece.moveChecker(whiteKingPosition)) {/* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+                println(whiteKingPosition) */
                 GameState.whiteKingInCheck = true
                 return true
             }
@@ -237,7 +260,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
             if (GameState.whiteTurn && !fromCastling) return false
 
             if (enemyPiece.moveChecker(blackKingPosition)) {/* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                 println(blackKingPosition)*/
+                 println(blackKingPosition) */
                 GameState.blackKingInCheck = true
                 return true
             }

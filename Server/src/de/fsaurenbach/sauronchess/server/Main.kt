@@ -1,14 +1,22 @@
 package de.fsaurenbach.sauronchess.server
 
+import de.fsaurenbach.sauronchess.common.*
 import korlibs.io.net.http.*
 import korlibs.io.serialization.json.*
+import korlibs.time.*
 import kotlinx.coroutines.*
+import kotlin.time.*
 
 var users = mutableListOf<User>()
 var slots = mutableListOf<Slot>()
 
-data class User(var id: Int, var color: Boolean, var opp: Int, var request: HttpServer.WsRequest)
-data class Slot(var id: Int, var player1: User?, var player2: User?)
+data class User(
+    var id: Int, var color: Boolean, var opp: Int, var request: HttpServer.WsRequest, var timeLeft: Duration?
+)
+
+data class Slot(
+    var id: Int, var whitePlayer: User?, var blackPlayer: User?, var chessClock: ChessClock?, var firstTime: Boolean
+)
 
 fun requestHandler(request: HttpServer.WsRequest) {
     var user: User?
@@ -16,26 +24,56 @@ fun requestHandler(request: HttpServer.WsRequest) {
     request.onStringMessage { message ->
         println(message)
         if (!message.contains("id")) request.close()
-        val input = message.fromJson() as Map<String, String>
+        val input = message.fromJson() as MutableMap<String, String>
         user = users.find { it.id == input["id"]?.toInt() }
 
 
         if (user == null) {
-            val newUser = User(input["id"]!!.toInt(), input["color"].toBoolean(), 0, request)
+            val newUser = User(
+                input["id"]!!.toInt(), input["color"].toBoolean(), 0, request, null
+            )
             users.add(newUser)
             user = newUser
         }
         val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
 
-        if (establishedSlot?.player2 == null && !user!!.color) establishedSlot?.player2 = user
-        else if (establishedSlot?.player1 == null && user!!.color) establishedSlot?.player1 = user
-
-
-        if (establishedSlot?.player1 == user) {
-            establishedSlot?.player2?.request?.sendSafe(message)
+        if (establishedSlot?.chessClock == null) {
+            establishedSlot?.chessClock =
+                ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
         }
-        if (establishedSlot?.player2 == user) {
-            establishedSlot?.player1?.request?.sendSafe(message)
+
+        if (establishedSlot?.blackPlayer == null && !user!!.color) establishedSlot?.blackPlayer = user
+        else if (establishedSlot?.whitePlayer == null && user!!.color) establishedSlot?.whitePlayer = user
+
+        println(establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString())
+        input["whiteTimeLeft"] = establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString()
+        input["blackTimeLeft"] = establishedSlot?.chessClock?.blackTimer?.timeLeft?.seconds.toString()
+        val timeSync: MutableMap<String, String> = mutableMapOf(
+            "timeSync" to "true",
+            "whiteTimeLeft" to establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString(),
+            "blackTimeLeft" to establishedSlot?.chessClock?.blackTimer?.timeLeft?.seconds.toString()
+        )
+        if (input.containsKey("newX") && input["newX"] != "null") {
+            if (establishedSlot!!.firstTime) {
+
+                establishedSlot.chessClock?.blackTimer?.toggle()
+                establishedSlot.firstTime = false
+            } else {
+
+                establishedSlot.chessClock?.whiteTimer?.toggle()
+                establishedSlot.chessClock?.blackTimer?.toggle()
+            }
+
+            establishedSlot.whitePlayer?.request?.sendSafe(timeSync.toJson())
+            establishedSlot.blackPlayer?.request?.sendSafe(timeSync.toJson())
+
+        }
+        if (establishedSlot?.whitePlayer == user) {
+
+            establishedSlot?.blackPlayer?.request?.sendSafe(input.toJson())
+        } else if (establishedSlot?.blackPlayer == user) {
+
+            establishedSlot?.whitePlayer?.request?.sendSafe(input.toJson())
         }
 
 
@@ -44,13 +82,18 @@ fun requestHandler(request: HttpServer.WsRequest) {
     request.onClose {
         val closedConnection = users.find { it.request == request }
         for (slot in slots) {
-            if (slot.player1 == closedConnection) {
+            if (slot.whitePlayer == closedConnection) {
                 println("CLOSED CONNECTION")
-                slot.player1 = null
-            } else if (slot.player2 == closedConnection) {
+                slot.whitePlayer = null
+            } else if (slot.blackPlayer == closedConnection) {
                 println("CLOSED CONNECTION")
 
-                slot.player2 = null
+                slot.blackPlayer = null
+            }
+            if (slot.whitePlayer == null && slot.blackPlayer == null) {
+                slot.chessClock?.cancel()
+                slot.chessClock = null
+
             }
         }
     }
@@ -58,7 +101,13 @@ fun requestHandler(request: HttpServer.WsRequest) {
 
 fun main() {
     println("Starting server...")
-    for (i in 0..4) slots.add(Slot(i, null, null))
+    for (i in 0..4) slots.add(
+        Slot(
+            i, null, null, null, true
+        )
+    )
+
+
     runBlocking {
         val httpServer = HttpServer().listen(port = 9999, "0.0.0.0")
         httpServer.websocketHandler { request ->
@@ -81,7 +130,7 @@ suspend fun httpHandler(request: HttpServer.Request) {
         println("i want slot no: $no")
         val slot = slots[no]
         val map: Map<String, Int?> = mapOf(
-            "id" to slot.id, "player1" to slot.player1?.id, "player2" to slot.player2?.id
+            "id" to slot.id, "player1" to slot.whitePlayer?.id, "player2" to slot.blackPlayer?.id
         )
         request.end(map.toJson())
 

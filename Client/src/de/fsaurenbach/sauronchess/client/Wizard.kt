@@ -1,4 +1,4 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
 import korlibs.image.color.*
 import korlibs.io.net.http.*
@@ -67,6 +67,12 @@ class Wizard : Scene() {
 
         text("Play\nOnline", 30).zIndex(5).centerOn(onlinePlayButton)
 
+        if (UserSettings.autoOnlineMode) {
+            onlinePlayButton.color = Colors.GREEN
+            GameState.onlinePlay = true
+            updateOnline()
+        }
+
         onlinePlayButton.onClick {
             if (onlinePlayButton.color == Colors.GREEN) {
                 onlinePlayButton.color = Colors.RED
@@ -77,9 +83,6 @@ class Wizard : Scene() {
                 GameState.onlinePlay = true
                 updateOnline()
             }
-            whiteQueen.visible = GameState.onlinePlay
-            blackQueen.visible = GameState.onlinePlay
-            offlinePlayButton.visible = !GameState.onlinePlay
         }
 
 
@@ -97,7 +100,7 @@ class Wizard : Scene() {
             val client = HttpClient()
             try {
                 // This fails if the server is down
-                client.endpoint("https://$serverAddress:$serverPort").request(Http.Method.GET, "check")
+                client.endpoint("http$protocolSecurity://$serverAddress:$serverPort").request(Http.Method.GET, "check")
                 GameState.onlinePlay = true
                 println("Online play enabled!")
 
@@ -111,6 +114,10 @@ class Wizard : Scene() {
                 removeSlots()
             }
         }.invokeOnCompletion {
+
+            whiteQueen.visible = GameState.onlinePlay
+            blackQueen.visible = GameState.onlinePlay
+            offlinePlayButton.visible = !GameState.onlinePlay
             if (GameState.onlinePlay) {
                 for (integer in 0..maxSlots) {
                     Slot(RoundRect(backgroundSize, corners), integer).apply {
@@ -136,7 +143,7 @@ class Wizard : Scene() {
     private fun updateSlots() {
         updateColors()
         launch {
-            val response = HttpClient().endpoint("https://$serverAddress:$serverPort")
+            val response = HttpClient().endpoint("http$protocolSecurity://$serverAddress:$serverPort")
                 .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
             val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
             println("Slot map (Slot: ${GameState.currentSlot}): $map")

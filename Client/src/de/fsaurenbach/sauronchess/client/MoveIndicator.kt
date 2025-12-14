@@ -1,4 +1,4 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
 import korlibs.image.color.*
 import korlibs.korge.view.*

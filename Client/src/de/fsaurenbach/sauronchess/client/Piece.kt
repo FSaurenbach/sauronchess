@@ -1,4 +1,4 @@
-package de.fsaurenbach.sauronchess
+package de.fsaurenbach.sauronchess.client
 
 import korlibs.image.color.*
 import korlibs.io.serialization.json.*
@@ -15,12 +15,7 @@ enum class PieceKind {
 
 
 fun Container.piece(
-    kind: PieceKind,
-    color: RGBA,
-    cx: Int,
-    cy: Int,
-    disabled: Boolean = false,
-    isWhite: Boolean
+    kind: PieceKind, color: RGBA, cx: Int, cy: Int, disabled: Boolean = false, isWhite: Boolean
 ): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this)
 
 
@@ -435,6 +430,14 @@ class Piece(
 
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+        }
+        if (GameState.firstMove) {
+            GameState.chessClock.blackTimer.toggle()
+            GameState.firstMove = false
+        } else {
+
+            GameState.chessClock.whiteTimer.toggle()
+            GameState.chessClock.blackTimer.toggle()
         }
 
         this@Piece.cx = newX
