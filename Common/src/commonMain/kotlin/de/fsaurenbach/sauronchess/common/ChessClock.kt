@@ -16,10 +16,10 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
         private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var stop = timeSource.markNow()
         var timeLeft: Duration = duration
-
+        var countJob: Job? = null
         init {
 
-            CoroutineScope(Dispatchers.Default).launch {
+            countJob = CoroutineScope(Dispatchers.Default).launch {
                 while (isActive) {
                     var string = ""
                     string = if (isWhite) "white: " else "black: "
@@ -34,6 +34,7 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
                             // TODO: Implement game over here!
                         }
                     }
+
 
 
 
@@ -59,5 +60,10 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
             timeLeft = duration
         }
 
+    }
+
+    fun cancel(){
+        whiteTimer.countJob?.cancel()
+        blackTimer.countJob?.cancel()
     }
 }

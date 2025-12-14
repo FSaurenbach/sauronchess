@@ -92,7 +92,9 @@ fun requestHandler(request: HttpServer.WsRequest) {
                 slot.blackPlayer = null
             }
             if (slot.whitePlayer == null && slot.blackPlayer == null) {
+                slot.chessClock?.cancel()
                 slot.chessClock = null
+
             }
         }
     }
