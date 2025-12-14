@@ -106,8 +106,8 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = true // TODO: Make that configurable in game
-    var autoOnlineMode: Boolean = true
+    var debugMode: Boolean = false // TODO: Make that configurable in game
+    var autoOnlineMode: Boolean = false
 }
 
 const val DEFAULT_PORT = 443
