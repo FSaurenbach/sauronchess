@@ -56,7 +56,7 @@ fun requestHandler(request: HttpServer.WsRequest) {
         if (input.containsKey("newX") && input["newX"] != "null") {
             if (establishedSlot!!.firstTime) {
 
-                establishedSlot.chessClock?.whiteTimer?.toggle()
+                establishedSlot.chessClock?.blackTimer?.toggle()
                 establishedSlot.firstTime = false
             } else {
 

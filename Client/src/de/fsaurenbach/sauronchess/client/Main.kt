@@ -225,7 +225,7 @@ suspend fun webSockerListener(message: String) {
     if (map.containsKey("timeSync")) {
         return
     }
-    println("not jsut timne")
+    println("not just timne")
     if (map.containsKey("castling")) GameState.castleAttempt = true
     println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 

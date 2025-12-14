@@ -2,6 +2,7 @@ package de.fsaurenbach.sauronchess.common
 
 import kotlinx.coroutines.*
 import kotlin.time.*
+import kotlin.time.Duration.Companion.seconds
 
 class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
 
@@ -29,6 +30,9 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
                         val difference = (stop - lastMark).inWholeMilliseconds
                         timeLeft -= difference.toDuration(DurationUnit.MILLISECONDS)
                         lastMark = timeSource.markNow()
+                        if (timeLeft <= 0.seconds) {
+                            // TODO: Implement game over here!
+                        }
                     }
 
 
