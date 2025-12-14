@@ -67,7 +67,6 @@ fun requestHandler(request: HttpServer.WsRequest) {
             establishedSlot.whitePlayer?.request?.sendSafe(timeSync.toJson())
             establishedSlot.blackPlayer?.request?.sendSafe(timeSync.toJson())
 
-            println("toggling white timer")
         }
         if (establishedSlot?.whitePlayer == user) {
 
