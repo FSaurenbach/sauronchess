@@ -67,6 +67,12 @@ class Wizard : Scene() {
 
         text("Play\nOnline", 30).zIndex(5).centerOn(onlinePlayButton)
 
+        if (UserSettings.autoOnlineMode) {
+            onlinePlayButton.color = Colors.GREEN
+            GameState.onlinePlay = true
+            updateOnline()
+        }
+
         onlinePlayButton.onClick {
             if (onlinePlayButton.color == Colors.GREEN) {
                 onlinePlayButton.color = Colors.RED
@@ -77,9 +83,6 @@ class Wizard : Scene() {
                 GameState.onlinePlay = true
                 updateOnline()
             }
-            whiteQueen.visible = GameState.onlinePlay
-            blackQueen.visible = GameState.onlinePlay
-            offlinePlayButton.visible = !GameState.onlinePlay
         }
 
 
@@ -111,6 +114,10 @@ class Wizard : Scene() {
                 removeSlots()
             }
         }.invokeOnCompletion {
+
+            whiteQueen.visible = GameState.onlinePlay
+            blackQueen.visible = GameState.onlinePlay
+            offlinePlayButton.visible = !GameState.onlinePlay
             if (GameState.onlinePlay) {
                 for (integer in 0..maxSlots) {
                     Slot(RoundRect(backgroundSize, corners), integer).apply {

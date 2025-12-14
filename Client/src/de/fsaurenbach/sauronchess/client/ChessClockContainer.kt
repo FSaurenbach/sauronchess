@@ -5,10 +5,8 @@ import korlibs.image.color.*
 import korlibs.korge.view.*
 import korlibs.korge.view.addTo
 import korlibs.korge.view.align.*
-import korlibs.math.*
 import korlibs.math.geom.*
 import korlibs.time.*
-import kotlin.time.*
 
 class ChessClockContainer : Container() {
     private var background: RoundRect? = null
@@ -23,18 +21,17 @@ class ChessClockContainer : Container() {
 
     }
 
-
     inner class Timer(color: RGBA, timer: ChessClock.Timer) : Container() {
 
         private var counterBackground = roundRect(Size(80, 80), RectCorners(10), color)
 
         init {
 
-            val counter = counterBackground.text("${timer.timeLeft}", color = Colors.BLACK)
+            val counter = counterBackground.text("${timer.timeLeft.inWholeSeconds}", color = Colors.BLACK)
             counter.centerOn(counterBackground)
 
             counterBackground.addFixedUpdater(50.milliseconds) {
-                counter.text = "${timer.timeLeft.toDouble(DurationUnit.SECONDS).roundDecimalPlaces(1)}"
+                counter.text = "${timer.timeLeft.inWholeSeconds}"
             }
 
         }

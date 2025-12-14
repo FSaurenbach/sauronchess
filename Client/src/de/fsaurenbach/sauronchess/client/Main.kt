@@ -107,6 +107,7 @@ object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
     var debugMode: Boolean = true // TODO: Make that configurable in game
+    var autoOnlineMode: Boolean = true
 }
 
 const val DEFAULT_PORT = 443
@@ -172,20 +173,17 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        GameState.chessClock = ChessClock(100.seconds, 90.seconds)
+        GameState.chessClock = ChessClock(90.seconds, 100.seconds)
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
         GameState.chessClockContainer.centerXOnStage()
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
-            val timeLeft =
-                if (GameState.userIsWhite) GameState.chessClock.whiteStartingTime else GameState.chessClock.blackStartingTime
             uniqueIdentifier = mapOf(
                 "id" to clientID,
                 "color" to GameState.userIsWhite.toString(),
-                "slot" to GameState.currentSlot.toString(),
-                "startingTime" to timeLeft.toDouble(DurationUnit.SECONDS).toString()
+                "slot" to GameState.currentSlot.toString()
             )
             println("sending: ${uniqueIdentifier!!.toJson()}")
             launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
@@ -216,15 +214,15 @@ suspend fun webSockerListener(message: String) {
         handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
         return
     }
-
-    val whiteTime = map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
-    val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
-    println("white: $whiteTime")
-    println("black: $blackTime")
-
-    GameState.chessClock.whiteTimer.override(whiteTime)
-    GameState.chessClock.blackTimer.override(blackTime)
-    if (map.containsKey("justTime")) {
+    if (map.containsKey("whiteTimeLeft")) {
+        val whiteTime = map["whiteTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+        val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
+        println("white: $whiteTime")
+        println("black: $blackTime")
+        GameState.chessClock.whiteTimer.override(whiteTime)
+        GameState.chessClock.blackTimer.override(blackTime)
+    }
+    if (map.containsKey("timeSync")) {
         return
     }
     println("not jsut timne")

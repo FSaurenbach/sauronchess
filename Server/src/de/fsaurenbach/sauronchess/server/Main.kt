@@ -11,10 +11,12 @@ var users = mutableListOf<User>()
 var slots = mutableListOf<Slot>()
 
 data class User(
-    var id: Int, var color: Boolean, var opp: Int, var request: HttpServer.WsRequest, var timeLeft: Duration
+    var id: Int, var color: Boolean, var opp: Int, var request: HttpServer.WsRequest, var timeLeft: Duration?
 )
 
-data class Slot(var id: Int, var whitePlayer: User?, var blackPlayer: User?, var chessClock: ChessClock)
+data class Slot(
+    var id: Int, var whitePlayer: User?, var blackPlayer: User?, var chessClock: ChessClock?, var firstTime: Boolean
+)
 
 fun requestHandler(request: HttpServer.WsRequest) {
     var user: User?
@@ -28,18 +30,17 @@ fun requestHandler(request: HttpServer.WsRequest) {
 
         if (user == null) {
             val newUser = User(
-                input["id"]!!.toInt(),
-                input["color"].toBoolean(),
-                0,
-                request,
-                input["startingTime"]!!.toDouble().toDuration(
-                    DurationUnit.SECONDS
-                )
+                input["id"]!!.toInt(), input["color"].toBoolean(), 0, request, null
             )
             users.add(newUser)
             user = newUser
         }
         val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
+
+        if (establishedSlot?.chessClock == null) {
+            establishedSlot?.chessClock =
+                ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
+        }
 
         if (establishedSlot?.blackPlayer == null && !user!!.color) establishedSlot?.blackPlayer = user
         else if (establishedSlot?.whitePlayer == null && user!!.color) establishedSlot?.whitePlayer = user
@@ -47,24 +48,32 @@ fun requestHandler(request: HttpServer.WsRequest) {
         println(establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString())
         input["whiteTimeLeft"] = establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString()
         input["blackTimeLeft"] = establishedSlot?.chessClock?.blackTimer?.timeLeft?.seconds.toString()
-        val justTime: MutableMap<String, String> = mutableMapOf(
-            "justTime" to "true",
+        val timeSync: MutableMap<String, String> = mutableMapOf(
+            "timeSync" to "true",
             "whiteTimeLeft" to establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString(),
             "blackTimeLeft" to establishedSlot?.chessClock?.blackTimer?.timeLeft?.seconds.toString()
         )
-        if (establishedSlot?.whitePlayer == user) {
-            if (input.containsKey("newX") && input["newX"] != "null") {
-                establishedSlot?.chessClock?.whiteTimer?.toggle()
-                establishedSlot?.whitePlayer?.request?.sendSafe(justTime.toJson())
+        if (input.containsKey("newX") && input["newX"] != "null") {
+            if (establishedSlot!!.firstTime) {
+
+                establishedSlot.chessClock?.whiteTimer?.toggle()
+                establishedSlot.firstTime = false
+            } else {
+
+                establishedSlot.chessClock?.whiteTimer?.toggle()
+                establishedSlot.chessClock?.blackTimer?.toggle()
             }
+
+            establishedSlot.whitePlayer?.request?.sendSafe(timeSync.toJson())
+            establishedSlot.blackPlayer?.request?.sendSafe(timeSync.toJson())
+
+            println("toggling white timer")
+        }
+        if (establishedSlot?.whitePlayer == user) {
+
             establishedSlot?.blackPlayer?.request?.sendSafe(input.toJson())
         } else if (establishedSlot?.blackPlayer == user) {
 
-            if (input.containsKey("newX") && input["newX"] != "null") {
-                establishedSlot?.chessClock?.blackTimer?.toggle()
-                establishedSlot?.blackPlayer?.request?.sendSafe(justTime.toJson())
-
-            }
             establishedSlot?.whitePlayer?.request?.sendSafe(input.toJson())
         }
 
@@ -82,6 +91,9 @@ fun requestHandler(request: HttpServer.WsRequest) {
 
                 slot.blackPlayer = null
             }
+            if (slot.whitePlayer == null && slot.blackPlayer == null) {
+                slot.chessClock = null
+            }
         }
     }
 }
@@ -90,9 +102,10 @@ fun main() {
     println("Starting server...")
     for (i in 0..4) slots.add(
         Slot(
-            i, null, null, ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
+            i, null, null, null, true
         )
     )
+
 
     runBlocking {
         val httpServer = HttpServer().listen(port = 9999, "0.0.0.0")

@@ -9,6 +9,7 @@ korge {
     name = "Sauronchess Server"
     targetJvm()
     targetJs()
+    webBindPort = 8989
     jvmMainClassName = "de.fsaurenbach.sauronchess.client.MainKt"
 }
 

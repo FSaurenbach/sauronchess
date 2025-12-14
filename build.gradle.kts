@@ -7,9 +7,9 @@ korge {
     name = "Sauronchess"
     exeBaseName = "sauronchess"
     fullscreen = false
+    targetAndroid()
     targetJvm()
     targetJs()
-    webBindPort = 8989
     androidPermission("INTERNET")
     androidManifestChunk(
         "<uses-permission android:name=\"android.permission.INTERNET\" />"

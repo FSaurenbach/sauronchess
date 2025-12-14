@@ -3,18 +3,15 @@ package de.fsaurenbach.sauronchess.common
 import kotlinx.coroutines.*
 import kotlin.time.*
 
-// TODO: Handle it online?????????????
-class ChessClock(var whiteStartingTime: Duration, var blackStartingTime: Duration) {
+class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
 
     val whiteTimer = Timer(whiteStartingTime, true)
     val blackTimer = Timer(blackStartingTime, false)
 
 
-
     inner class Timer(duration: Duration, isWhite: Boolean) {
         private val timeSource = TimeSource.Monotonic
         private var counting = false
-        private var mark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
         private var stop = timeSource.markNow()
         var timeLeft: Duration = duration
@@ -48,13 +45,13 @@ class ChessClock(var whiteStartingTime: Duration, var blackStartingTime: Duratio
                 counting = false
                 stop = timeSource.markNow()
             } else {
-                mark = timeSource.markNow()
                 lastMark = timeSource.markNow()
                 counting = true
             }
 
         }
-        fun override(duration: Duration){
+
+        fun override(duration: Duration) {
             timeLeft = duration
         }
 
