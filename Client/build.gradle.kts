@@ -6,7 +6,7 @@ plugins {
 
 korge {
     id = "de.fsaurenbach.sauronchess.client"
-    name = "Sauronchess Server"
+    name = "Sauronchess Client"
     targetJvm()
     targetJs()
     webBindPort = 8989
