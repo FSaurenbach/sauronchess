@@ -106,7 +106,7 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = false // TODO: Make that configurable in game
+    var debugMode: Boolean = true // TODO: Make that configurable in game
     var autoOnlineMode: Boolean = false
 }
 
@@ -173,7 +173,7 @@ class GameScene : Scene() {
 
         }.positionY(26)
 
-        GameState.chessClock = ChessClock(90.seconds, 100.seconds)
+        GameState.chessClock = ChessClock(10.seconds, 10.seconds, timesUp())
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
         GameState.chessClockContainer.centerXOnStage()
@@ -303,4 +303,12 @@ suspend fun sendGameOver(draw: Boolean) {
     }
 
     handleGameEnd(resign = false, draw = draw)
+}
+
+fun timesUp(): (Boolean) -> Unit = { isWhite ->
+
+    when (isWhite) {
+        true -> println("white ded")
+        false -> println("black ded")
+    }
 }

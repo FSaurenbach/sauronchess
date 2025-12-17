@@ -18,6 +18,15 @@ data class Slot(
     var id: Int, var whitePlayer: User?, var blackPlayer: User?, var chessClock: ChessClock?, var firstTime: Boolean
 )
 
+fun sendGameOver(reason: String, slot:Slot, isWhite: Boolean) {
+    val message: MutableMap<String, String> = mutableMapOf()
+    message["reason"] = reason
+    message["problemPlayer"] = if (isWhite) "white" else "black"
+
+    slot.whitePlayer?.request?.sendSafe(message.toJson())
+    slot.blackPlayer?.request?.sendSafe(message.toJson())
+}
+
 fun requestHandler(request: HttpServer.WsRequest) {
     var user: User?
     println("Opening connection...")
@@ -39,7 +48,13 @@ fun requestHandler(request: HttpServer.WsRequest) {
 
         if (establishedSlot?.chessClock == null) {
             establishedSlot?.chessClock =
-                ChessClock(90.toDuration(DurationUnit.SECONDS), 100.toDuration(DurationUnit.SECONDS))
+                ChessClock(10.toDuration(DurationUnit.SECONDS), 10.toDuration(DurationUnit.SECONDS)) { isWhite ->
+                    when (isWhite) {
+                        true -> println("white ded")
+                        false -> println("black ded")
+                    }
+                }
+
         }
 
         if (establishedSlot?.blackPlayer == null && !user!!.color) establishedSlot?.blackPlayer = user
