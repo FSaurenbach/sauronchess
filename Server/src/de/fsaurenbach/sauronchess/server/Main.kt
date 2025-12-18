@@ -1,10 +1,13 @@
 package de.fsaurenbach.sauronchess.server
 
 import de.fsaurenbach.sauronchess.common.*
+import korlibs.io.async.*
 import korlibs.io.net.http.*
 import korlibs.io.serialization.json.*
 import korlibs.time.*
 import kotlinx.coroutines.*
+import kotlin.coroutines.*
+import kotlin.properties.*
 import kotlin.time.*
 
 var users = mutableListOf<User>()
@@ -18,15 +21,23 @@ data class Slot(
     var id: Int, var whitePlayer: User?, var blackPlayer: User?, var chessClock: ChessClock?, var firstTime: Boolean
 )
 
-fun sendGameOver(reason: String, slot:Slot, isWhite: Boolean) {
+fun sendGameOver(reason: String, slot: Slot, isWhite: Boolean) {
     val message: MutableMap<String, String> = mutableMapOf()
+    message["gameOver"] = "true"
     message["reason"] = reason
     message["problemPlayer"] = if (isWhite) "white" else "black"
 
+    println("starting")
     slot.whitePlayer?.request?.sendSafe(message.toJson())
     slot.blackPlayer?.request?.sendSafe(message.toJson())
+    slot.chessClock = null
+    slot.whitePlayer?.request?.close()
+    slot.blackPlayer?.request?.close()
+
+
 }
 
+var asyncHandler: CoroutineContext by Delegates.notNull()
 fun requestHandler(request: HttpServer.WsRequest) {
     var user: User?
     println("Opening connection...")
@@ -47,13 +58,23 @@ fun requestHandler(request: HttpServer.WsRequest) {
         val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
 
         if (establishedSlot?.chessClock == null) {
-            establishedSlot?.chessClock =
-                ChessClock(10.toDuration(DurationUnit.SECONDS), 10.toDuration(DurationUnit.SECONDS)) { isWhite ->
-                    when (isWhite) {
-                        true -> println("white ded")
-                        false -> println("black ded")
+            establishedSlot?.chessClock = ChessClock(5.seconds, 5.seconds) { isWhite ->
+                when (isWhite) {
+                    true -> {
+                        launchAsap(asyncHandler) {
+                            sendGameOver(
+                                "whiteTimesUpServer", establishedSlot!!, isWhite = true
+                            )
+                        }
+                    }
+
+                    false -> launch(asyncHandler) {
+                        sendGameOver(
+                            "blackTimesUpServer", establishedSlot!!, isWhite = false
+                        )
                     }
                 }
+            }
 
         }
 
@@ -68,13 +89,11 @@ fun requestHandler(request: HttpServer.WsRequest) {
             "whiteTimeLeft" to establishedSlot?.chessClock?.whiteTimer?.timeLeft?.seconds.toString(),
             "blackTimeLeft" to establishedSlot?.chessClock?.blackTimer?.timeLeft?.seconds.toString()
         )
-        if (input.containsKey("newX") && input["newX"] != "null") {
+        if (input["newX"] != null) {
             if (establishedSlot!!.firstTime) {
-
                 establishedSlot.chessClock?.blackTimer?.toggle()
                 establishedSlot.firstTime = false
             } else {
-
                 establishedSlot.chessClock?.whiteTimer?.toggle()
                 establishedSlot.chessClock?.blackTimer?.toggle()
             }
@@ -83,11 +102,9 @@ fun requestHandler(request: HttpServer.WsRequest) {
             establishedSlot.blackPlayer?.request?.sendSafe(timeSync.toJson())
 
         }
-        if (establishedSlot?.whitePlayer == user) {
-
+        if (establishedSlot?.whitePlayer == user && !input.containsKey("gameOver")) {
             establishedSlot?.blackPlayer?.request?.sendSafe(input.toJson())
-        } else if (establishedSlot?.blackPlayer == user) {
-
+        } else if (establishedSlot?.blackPlayer == user && !input.containsKey("gameOver")) {
             establishedSlot?.whitePlayer?.request?.sendSafe(input.toJson())
         }
 
@@ -98,23 +115,24 @@ fun requestHandler(request: HttpServer.WsRequest) {
         val closedConnection = users.find { it.request == request }
         for (slot in slots) {
             if (slot.whitePlayer == closedConnection) {
-                println("CLOSED CONNECTION")
                 slot.whitePlayer = null
-            } else if (slot.blackPlayer == closedConnection) {
-                println("CLOSED CONNECTION")
+                users.remove(closedConnection)
 
+            } else if (slot.blackPlayer == closedConnection) {
                 slot.blackPlayer = null
+                users.remove(closedConnection)
             }
             if (slot.whitePlayer == null && slot.blackPlayer == null) {
                 slot.chessClock?.cancel()
                 slot.chessClock = null
+                slot.firstTime = true
 
             }
         }
     }
 }
 
-fun main() {
+suspend fun main() {
     println("Starting server...")
     for (i in 0..4) slots.add(
         Slot(
@@ -122,7 +140,7 @@ fun main() {
         )
     )
 
-
+    asyncHandler = currentCoroutineContext()
     runBlocking {
         val httpServer = HttpServer().listen(port = 9999, "0.0.0.0")
         httpServer.websocketHandler { request ->
@@ -154,7 +172,5 @@ suspend fun httpHandler(request: HttpServer.Request) {
         request.end("SUCCESS")
     }
 }
-
-
 
 

@@ -9,8 +9,8 @@ import korlibs.time.*
 
 class ChessClockContainer : Container() {
     private var background: RoundRect? = null
-    private val whiteTimer = Timer(ThemeColors.whiteModeWhite, GameState.chessClock.whiteTimer)
-    private val blackTimer = Timer(ThemeColors.darkModeWhite, GameState.chessClock.blackTimer)
+    private val whiteTimer = Timer(ThemeColors.whiteModeWhite, GameState.chessClock!!.whiteTimer)
+    private val blackTimer = Timer(ThemeColors.darkModeWhite, GameState.chessClock!!.blackTimer)
 
     init {
         background = roundRect(Size(250, 100), RectCorners(10), ThemeColors.darkModeBlack)

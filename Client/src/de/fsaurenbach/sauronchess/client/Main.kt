@@ -39,8 +39,8 @@ object GameState {
     var enPassantVictim: Piece? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
-    lateinit var chessClock: ChessClock
-    lateinit var chessClockContainer: ChessClockContainer
+    var chessClock: ChessClock? = null
+    var chessClockContainer: ChessClockContainer? = null
     var firstMove = true
     var userIsWhite = true
     var currentSlot = 0
@@ -63,6 +63,10 @@ object GameState {
         userIsWhite = true
         currentSlot = 0
         onlinePlay = false
+        chessClock = null
+        chessClockContainer = null
+        firstMove = true
+        wsClient?.close(1)
     }
 }
 
@@ -107,7 +111,8 @@ object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
     var debugMode: Boolean = true // TODO: Make that configurable in game..
-    var autoOnlineMode: Boolean = false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
+    var autoOnlineMode: Boolean =
+        false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
 }
 
 const val DEFAULT_PORT = 443
@@ -168,15 +173,15 @@ class GameScene : Scene() {
 
             zIndex(3)
             onClick {
-                launch { sendResign() }
+                launch { sendGameEnd("resign") }
             }
 
         }.positionY(26)
-
-        GameState.chessClock = ChessClock(10.seconds, 10.seconds, timesUp())
+        println("initializing clock")
+        GameState.chessClock = ChessClock(5.seconds, 5.seconds, timesUp())
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
-        GameState.chessClockContainer.centerXOnStage()
+        GameState.chessClockContainer!!.centerXOnStage()
         if (GameState.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
@@ -211,7 +216,7 @@ suspend fun webSockerListener(message: String) {
         return
     }
     if (map.containsKey("gameOver")) {
-        handleGameEnd(resign = map["resign"].toString().toBoolean(), draw = map["draw"].toString().toBoolean())
+        handleGameEnd(map["reason"].toString())
         return
     }
     if (map.containsKey("whiteTimeLeft")) {
@@ -219,13 +224,12 @@ suspend fun webSockerListener(message: String) {
         val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
         println("white: $whiteTime")
         println("black: $blackTime")
-        GameState.chessClock.whiteTimer.override(whiteTime)
-        GameState.chessClock.blackTimer.override(blackTime)
+        GameState.chessClock!!.whiteTimer.override(whiteTime)
+        GameState.chessClock!!.blackTimer.override(blackTime)
     }
     if (map.containsKey("timeSync")) {
         return
     }
-    println("not just timne")
     if (map.containsKey("castling")) GameState.castleAttempt = true
     println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
 
@@ -270,8 +274,18 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     return false
 }
 
-suspend fun handleGameEnd(resign: Boolean, draw: Boolean) {
-    val text = GameState.sceneContainer.text("GAME END\nBecause of resign?\n$resign\nDraw?\n$draw", 50, Colors.RED)
+suspend fun sendGameEnd(reason: String) {
+
+    val map = uniqueIdentifier!!.toMutableMap()
+    map["gameOver"] = "true"
+    map["reason"] = reason
+    println("reasonHere: $reason")
+    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
+    handleGameEnd(reason)
+}
+
+suspend fun handleGameEnd(reason: String) {
+    val text = GameState.sceneContainer.text("GAME END\nBecause of: \n$reason", 50, Colors.RED)
     text.centerOnStage()
     delay(4000)
     GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
@@ -282,33 +296,11 @@ suspend fun handleGameEnd(resign: Boolean, draw: Boolean) {
 
 }
 
-suspend fun sendResign() {
-    val map = uniqueIdentifier!!.toMutableMap()
-    map["gameOver"] = "true"
-    map["resign"] = "true"
-
-    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
-    handleGameEnd(resign = true, draw = false)
-}
-
-
-suspend fun sendGameOver(draw: Boolean) {
-    if (GameState.onlinePlay) {
-        val map = uniqueIdentifier!!.toMutableMap()
-        map["gameOver"] = "true"
-        map["resign"] = "false"
-        map["draw"] = draw.toString()
-
-        GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
-    }
-
-    handleGameEnd(resign = false, draw = draw)
-}
-
 fun timesUp(): (Boolean) -> Unit = { isWhite ->
-
-    when (isWhite) {
-        true -> println("white ded")
-        false -> println("black ded")
+    if (!GameState.onlinePlay) {
+        when (isWhite) {
+            true -> GameState.sceneContainer.launch { sendGameEnd("whiteTime") }
+            false -> GameState.sceneContainer.launch { sendGameEnd("blackTime") }
+        }
     }
 }

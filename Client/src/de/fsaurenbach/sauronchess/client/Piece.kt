@@ -51,7 +51,6 @@ class Piece(
                 for (circle in GameState.circles) {
                     if (circle.cx == newX && circle.cy == newY) {
                         circle.markWhite()
-
                         GameState.whiteCircles.add(circle)
                     }
 
@@ -432,12 +431,11 @@ class Piece(
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
         }
         if (GameState.firstMove) {
-            GameState.chessClock.blackTimer.toggle()
+            GameState.chessClock!!.blackTimer.toggle()
             GameState.firstMove = false
         } else {
-
-            GameState.chessClock.whiteTimer.toggle()
-            GameState.chessClock.blackTimer.toggle()
+            GameState.chessClock!!.whiteTimer.toggle()
+            GameState.chessClock!!.blackTimer.toggle()
         }
 
         this@Piece.cx = newX
@@ -489,7 +487,7 @@ fun checkGameLegal() {
         }
         println("GAME IS LEGAL: false")
         checkMate = true
-        GameState.sceneContainer.launch { sendGameOver(draw = false) }
+        GameState.sceneContainer.launch { sendGameEnd("checkmate") }
 
     }
 
@@ -505,7 +503,7 @@ fun checkGameLegal() {
             }
         }
         draw = true
-        GameState.sceneContainer.launch { sendGameOver(!checkMate) }
+        GameState.sceneContainer.launch { sendGameEnd("draw") }
     }
     // Check for insufficient material rule (no pawns left at all is a hard req)
     if (GameState.pieces.none { it.kind == PieceKind.WhitePawn || it.kind == PieceKind.BlackPawn }) {
@@ -531,7 +529,7 @@ fun checkGameLegal() {
         if (whiteLegal || blackLegal) return
         if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return
         insufficientMaterial = true
-        GameState.sceneContainer.launch { sendGameOver(!checkMate) }
+        GameState.sceneContainer.launch { sendGameEnd("draw") }
     } else return
 
     println("No moves left for white / black!")
