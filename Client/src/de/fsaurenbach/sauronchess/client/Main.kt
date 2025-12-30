@@ -275,12 +275,13 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
 }
 
 suspend fun sendGameEnd(reason: String) {
-
-    val map = uniqueIdentifier!!.toMutableMap()
-    map["gameOver"] = "true"
-    map["reason"] = reason
+    if (GameState.onlinePlay){
+        val map = uniqueIdentifier!!.toMutableMap()
+        map["gameOver"] = "true"
+        map["reason"] = reason
+        GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
+    }
     println("reasonHere: $reason")
-    GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
     handleGameEnd(reason)
 }
 
