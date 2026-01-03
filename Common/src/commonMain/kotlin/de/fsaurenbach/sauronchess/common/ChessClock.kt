@@ -4,13 +4,13 @@ import kotlinx.coroutines.*
 import kotlin.time.*
 import kotlin.time.Duration.Companion.seconds
 
-class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
+class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration, callback: ((Boolean) -> Unit)) {
 
-    val whiteTimer = Timer(whiteStartingTime, true)
-    val blackTimer = Timer(blackStartingTime, false)
+    val whiteTimer = Timer(whiteStartingTime, true, callback)
+    val blackTimer = Timer(blackStartingTime, false, callback)
 
 
-    inner class Timer(duration: Duration, isWhite: Boolean) {
+    inner class Timer(duration: Duration, isWhite: Boolean, callback: (Boolean) -> Unit) {
         private val timeSource = TimeSource.Monotonic
         private var counting = false
         private var lastMark: TimeSource.Monotonic.ValueTimeMark = timeSource.markNow()
@@ -32,6 +32,8 @@ class ChessClock(whiteStartingTime: Duration, blackStartingTime: Duration) {
                         lastMark = timeSource.markNow()
                         if (timeLeft <= 0.seconds) {
                             // TODO: Implement game over here!
+                            callback.invoke(isWhite)
+                            cancel()
                         }
                     }
 
