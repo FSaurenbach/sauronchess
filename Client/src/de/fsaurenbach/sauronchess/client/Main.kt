@@ -110,7 +110,7 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = true // TODO: Make that configurable in game..
+    var debugMode: Boolean = false // TODO: Make that configurable in game..
     var autoOnlineMode: Boolean =
         false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
 }
