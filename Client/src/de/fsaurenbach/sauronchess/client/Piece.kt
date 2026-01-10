@@ -42,17 +42,6 @@ class Piece(
         currentPos = Pair(cx, cy)
         var error: Boolean
 
-//        onUp {
-//
-//            this.zIndex = 3.0
-//            this.scale(1.2, 1.2)
-//            GameState.castleAttempt = false
-//
-//            activeCell = findCell(cx, cy).apply { markActive() }
-//
-//
-//        }
-
         draggableCloseable(
             onMouseDrag {
                 newPos = Pair(
