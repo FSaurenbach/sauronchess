@@ -73,6 +73,10 @@ class Piece(
                 this.scale(1.2, 1.2)
                 GameState.castleAttempt = false
 
+
+                GameState.circles.forEach { it.removeFromParent() }
+                GameState.circles.clear()
+
                 // Show available moves
                 for (x in 0..7) {
                     for (y in 0..7) {
@@ -106,12 +110,6 @@ class Piece(
         //     println("oldXY: $cxy, newPos: $newPos")
         if (newX !in 0..<8 || newY !in 0..<8) error = true
 
-
-        if (wasClicked) {
-
-            println("gonna color activeCell: $activeCell")
-            activeCell = findCell(cx, cy)!!.apply { markActive() }
-        }
         println("ActiveCell:$activeCell")
 
         if (cxy != newPos) {
@@ -171,6 +169,8 @@ class Piece(
         // No dragging happened (== click)
         else {
             activeCell = findCell(cx, cy)!!.apply { markActive() }
+            movePiece(this, currentX, currentY)
+            // TODO: Reset the showAvailable Move circels
         }
     }
 
