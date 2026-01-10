@@ -1,6 +1,5 @@
 # Sauronchess
 
-[![Codacy Badge](https://app.codacy.com/project/badge/Grade/09437976fa054f2cb7ad3f32504b4132)](https://app.codacy.com/gh/FSaurenbach/sauronchess/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.2.0-purple?style=flat-square&logo=kotlin)
 [![KorGE](https://img.shields.io/badge/KorGE-6.0.0-blue?style=flat-square)](https://korge.org/)
 ![GitHub last commit](https://img.shields.io/github/last-commit/FSaurenbach/sauronchess?style=flat-square)
