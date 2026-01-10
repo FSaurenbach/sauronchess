@@ -1,5 +1,6 @@
 package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.client.GameState.activeCell
 import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
@@ -45,6 +46,8 @@ object GameState {
     var userIsWhite = true
     var currentSlot = 0
     var onlinePlay = false
+    var activeCell: Cell? = null
+
     fun reset() {
         cells.clear()
         pieces.clear()
@@ -66,6 +69,7 @@ object GameState {
         chessClock = null
         chessClockContainer = null
         firstMove = true
+        activeCell = null
         wsClient?.close(1)
     }
 }
@@ -178,7 +182,7 @@ class GameScene : Scene() {
 
         }.positionY(26)
         println("initializing clock")
-        GameState.chessClock = ChessClock(5.seconds, 5.seconds, timesUp())
+        GameState.chessClock = ChessClock(90.seconds, 90.seconds, timesUp())
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
         GameState.chessClockContainer!!.centerXOnStage()
@@ -195,6 +199,34 @@ class GameScene : Scene() {
 
             wsClient!!.onStringMessage {
                 launch { webSockerListener(it) }
+            }
+        }
+
+        // Active cell gets colored onUp.
+        // To avoid immediately resetting the cell use onDown to be sure it is a different mouse press
+        onDown {
+            if (activeCell != null) {
+
+                println("Resetting cell $activeCell")
+
+
+                val downPosition = Pair(
+                    (it.downPosStage.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
+                    (it.downPosStage.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
+                )
+
+                val cell = findCell(downPosition.first, downPosition.second)
+                if (cell != null){
+                    val piece = findPiece(activeCell!!.cx, activeCell!!.cy)
+
+                    if (piece != null){
+                        println("starting clickListener")
+                        piece.clickListener(downPosition, wasClicked= true)
+                    }
+                }
+
+                activeCell?.colorCell()
+                activeCell = null
             }
         }
 
@@ -235,7 +267,6 @@ suspend fun webSockerListener(message: String) {
 
     if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
     val piece = findPiece(map["cx"]!!.toInt(), map["cy"]!!.toInt())
-    // var piece = findPiece(4,4)
     println("cx: ${piece?.cxy}")
     piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
 
@@ -275,7 +306,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
 }
 
 suspend fun sendGameEnd(reason: String) {
-    if (GameState.onlinePlay){
+    if (GameState.onlinePlay) {
         val map = uniqueIdentifier!!.toMutableMap()
         map["gameOver"] = "true"
         map["reason"] = reason

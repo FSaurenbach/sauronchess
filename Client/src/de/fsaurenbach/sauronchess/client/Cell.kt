@@ -37,6 +37,10 @@ class Cell(
         }
     }
 
+    fun markActive() {
+        cell.color = Colors.ALICEBLUE
+    }
+
 
     private fun moveCell(
         newX: Int,
@@ -48,8 +52,8 @@ class Cell(
 }
 
 
-fun findCell(cx: Int, cy: Int): Cell {
-    return GameState.cells.find { it.cx == cx && it.cy == cy }!!
+fun findCell(cx: Int, cy: Int): Cell? {
+    return GameState.cells.find { it.cx == cx && it.cy == cy }
 }
 
 fun reloadCells() = GameState.cells.forEach { it.colorCell() }

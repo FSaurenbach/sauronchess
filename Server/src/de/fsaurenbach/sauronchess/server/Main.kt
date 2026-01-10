@@ -58,7 +58,7 @@ fun requestHandler(request: HttpServer.WsRequest) {
         val establishedSlot = slots.find { it.id == input["slot"]!!.toInt() }
 
         if (establishedSlot?.chessClock == null) {
-            establishedSlot?.chessClock = ChessClock(5.seconds, 5.seconds) { isWhite ->
+            establishedSlot?.chessClock = ChessClock(90.seconds, 90.seconds) { isWhite ->
                 when (isWhite) {
                     true -> {
                         launchAsap(asyncHandler) {

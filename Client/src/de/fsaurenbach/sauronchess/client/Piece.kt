@@ -1,5 +1,6 @@
 package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.client.GameState.activeCell
 import korlibs.image.color.*
 import korlibs.io.serialization.json.*
 import korlibs.korge.input.*
@@ -41,7 +42,18 @@ class Piece(
         currentPos = Pair(cx, cy)
         var error: Boolean
 
-        this.draggableCloseable(
+//        onUp {
+//
+//            this.zIndex = 3.0
+//            this.scale(1.2, 1.2)
+//            GameState.castleAttempt = false
+//
+//            activeCell = findCell(cx, cy).apply { markActive() }
+//
+//
+//        }
+
+        draggableCloseable(
             onMouseDrag {
                 newPos = Pair(
                     (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
@@ -81,7 +93,7 @@ class Piece(
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
                                     addTo(GameState.circles)
-                                    centerOn(it)
+                                    centerOn(it!!)
                                 }
 
                             }
@@ -92,59 +104,86 @@ class Piece(
             if (info.end) {
                 zIndex = 0.0
                 scale(1.0, 1.0)
-                // Check if newPosition is within the game board
-                if (newX !in 0..<8 || newY !in 0..<8) error = true
-
-                val pieceOnNewPos = findPiece(newX, newY)
-                if (pieceOnNewPos?.color == color) error = true
-                val newSave = newPos
-                val currentSave = currentPos
-                // Perform the move if no error
-                if (!error) {
-
-                    inCheck(GameState.pieces)
-                    if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
-                        println("in check     sent from line 116")
-                        if (doMove()) {
-                            pieceOnNewPos?.let { removePiece(it) }
-                        } else {
-                            currentPos = currentSave
-                            movePiece(this, currentX, currentY)
-                        }
-                        inCheck(GameState.pieces)
-                        checkGameLegal()
-
-                    } else if (moveChecker(
-                            newPos,
-                        ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
-                    ) {
-                        newPos = newSave
-                        if (doMove()) pieceOnNewPos?.let { removePiece(it) }
-
-                    } else {
-                        currentPos = currentSave
-                        movePiece(this, currentX, currentY)
-                    }
-
-                    error = false
-                } else {
-                    currentPos = currentSave
-
-                    movePiece(this, currentX, currentY)
-                }
-                error = false
-
-                GameState.enPassantVictim = null
-                GameState.circles.forEach { it.removeFromParent() }
-                GameState.circles.clear()
-
-                println()
-                println()
-
+                clickListener(newPos, false)
             }
         }
     }
 
+    fun clickListener(newPosArg: Pair<Int, Int>, wasClicked: Boolean) {
+
+        var error = false
+        newPos = newPosArg
+        // Check if newPosition is within the game board
+        //     println("oldXY: $cxy, newPos: $newPos")
+        if (newX !in 0..<8 || newY !in 0..<8) error = true
+
+
+        if (wasClicked) {
+
+            println("gonna color activeCell: $activeCell")
+            activeCell = findCell(cx, cy)!!.apply { markActive() }
+        }
+        println("ActiveCell:$activeCell")
+
+        if (cxy != newPos) {
+            val pieceOnNewPos = findPiece(newX, newY)
+            if (pieceOnNewPos?.color == color) error = true
+            val newSave = newPos
+            val currentSave = currentPos
+            // Perform the move if no error
+
+            println("oldPos: $currentPos, newPos: $newPos, error: $error, pieceOnNewPos: $pieceOnNewPos")
+
+            if (!error) {
+                inCheck(GameState.pieces)
+                // Case a king is in check
+                if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
+                    println("in check     sent from line 116")
+                    if (doMove()) {
+                        pieceOnNewPos?.let { removePiece(it) }
+                    } else {
+                        currentPos = currentSave
+                        movePiece(this, currentX, currentY)
+                    }
+                    inCheck(GameState.pieces)
+                    checkGameLegal()
+
+                }
+                // Case move is valid and no king is in check
+                else if (moveChecker(
+                        newPos,
+                    ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
+                ) {
+                    newPos = newSave
+                    if (doMove()) pieceOnNewPos?.let { removePiece(it) }
+
+                }
+                // Case move is not valid, reset the piece to its orig position
+                else {
+                    error = true
+                }
+
+            }
+            // Case error?
+            if (error) {
+                currentPos = currentSave
+
+                movePiece(this, currentX, currentY)
+                activeCell?.colorCell(); activeCell = null
+
+            }
+
+            GameState.enPassantVictim = null
+            GameState.circles.forEach { it.removeFromParent() }
+            GameState.circles.clear()
+            println()
+            println()
+        }
+        // No dragging happened (== click)
+        else {
+            activeCell = findCell(cx, cy)!!.apply { markActive() }
+        }
+    }
 
     fun moveChecker(
         newPos2: Pair<Int, Int>,
@@ -520,10 +559,10 @@ fun checkGameLegal() {
         for (piece in whitePieces + blackPieces) {
             if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
             else if (piece.kind == PieceKind.WhiteBishop) {
-                whiteBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
+                whiteBishopOnWhite = findCell(piece.cx, piece.cy)?.isWhite
             } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
             else if (piece.kind == PieceKind.BlackBishop) {
-                blackBishopOnWhite = findCell(piece.cx, piece.cy).isWhite
+                blackBishopOnWhite = findCell(piece.cx, piece.cy)?.isWhite
             }
         }
         if (whiteLegal || blackLegal) return

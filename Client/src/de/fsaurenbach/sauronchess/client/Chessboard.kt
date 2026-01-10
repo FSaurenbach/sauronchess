@@ -25,7 +25,7 @@ fun movePiece(
     newX: Int,
     newY: Int,
 ) {
-    findCell(newX, newY).let { piece.centerOn(it) }
+    findCell(newX, newY)?.let { piece.centerOn(it) }
 
     piece.cx = newX
     piece.cy = newY
