@@ -23,13 +23,16 @@ fun Container.piece(
 class Piece(
     var kind: PieceKind, val color: RGBA, cx: Int, cy: Int, var disabled: Boolean = false, val isWhite: Boolean
 ) : Container() {
+
     var currentPos = Pair(cx, cy)
-    lateinit var pImage: Image
-    private var newPos: Pair<Int, Int>
     val currentX get() = currentPos.first
     val currentY get() = currentPos.second
+
+    private var newPos: Pair<Int, Int>
     private val newX get() = newPos.first
     private val newY get() = newPos.second
+
+    lateinit var pImage: Image
     private var enPassantLegal = false
 
     init {
@@ -39,13 +42,12 @@ class Piece(
         GameState.pieces.add(this)
 
         movePiece(this, currentX, currentY)
-        currentPos = Pair(currentX, currentY)
 
         draggableCloseable(
             onMouseDrag {
                 newPos = Pair(
-                    (this.globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
-                    (this.globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
+                    (globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
+                    (globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
                 for (whiteCircle in GameState.whiteCircles) whiteCircle.markGrey()
                 for (circle in GameState.circles) {
@@ -57,7 +59,7 @@ class Piece(
                 }
             }, autoMove = false
         ) { info ->
-            if (((GameState.whiteTurn && this.isWhite) || (!GameState.whiteTurn && !this.isWhite)) && !GameState.promotionActive) {
+            if (((GameState.whiteTurn && isWhite) || (!GameState.whiteTurn && !isWhite)) && !GameState.promotionActive) {
                 if (GameState.onlinePlay) {
                     if (GameState.userIsWhite != isWhite) return@draggableCloseable
                 }
@@ -67,8 +69,8 @@ class Piece(
             // Dragging start
             if (info.start) {
                 // init vars
-                this.zIndex = 3.0
-                this.scale(1.2, 1.2)
+                zIndex = 3.0
+                scale(1.2, 1.2)
                 GameState.castleAttempt = false
 
 
@@ -332,7 +334,7 @@ class Piece(
             pImage.removeFromParent()
         }
 
-        this.pImage = image(
+        pImage = image(
             when (kind) {
                 PieceKind.WhitePawn -> Images.whitePawn!!
                 PieceKind.WhiteRook -> Images.whiteRook!!
@@ -423,13 +425,13 @@ class Piece(
         movePiece(this, newX, newY)
         pieceOnNewPos?.disabled = true
         inCheck(GameState.pieces)
-        if ((this.color == Colors.BLACK && GameState.blackKingInCheck) || (this.color == Colors.WHITE && GameState.whiteKingInCheck)) {
+        if ((color == Colors.BLACK && GameState.blackKingInCheck) || (color == Colors.WHITE && GameState.whiteKingInCheck)) {
             movePiece(this, oldX, oldY)
             println("King will (still) be in check after this move!")
             return false
         }
         inCheck(GameState.pieces)
-        println("Doing move: $oldX, $oldY ---> ${this.currentX}, ${this.currentY}, (still) inCheck: ${inCheck(GameState.pieces)}")
+        println("Doing move: $oldX, $oldY ---> ${currentX}, ${currentY}, (still) inCheck: ${inCheck(GameState.pieces)}")
 
         if (!receiver && GameState.onlinePlay) {
             val map = mutableMapOf(
@@ -460,7 +462,7 @@ class Piece(
         pieceOnNewPos?.let { removePiece(it) }
 
         if (!GameState.castleAttempt) {
-            when (this.kind) {
+            when (kind) {
                 PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
                 PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
                 else -> {}
