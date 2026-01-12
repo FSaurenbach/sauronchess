@@ -74,11 +74,10 @@ class Piece(
 
                 GameState.circles.forEach { it.removeFromParent() }
                 GameState.circles.clear()
-
                 // Show available moves
                 for (x in 0..7) {
                     for (y in 0..7) {
-                        if (simulateMove(currentPos, newPos, this)) {
+                        if (simulateMove(currentPos, Pair(x, y), this)) {
                             findCell(x, y).also {
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
@@ -110,7 +109,6 @@ class Piece(
         if (currentPos != newPos) {
             val pieceOnNewPos = findPiece(newX, newY)
             if (pieceOnNewPos?.color == color) error = true
-            val newSave = newPos
             val currentSave = currentPos
             // Perform the move if no error
 
@@ -136,10 +134,7 @@ class Piece(
                         newPos,
                     ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                 ) {
-                    println("newPos: $newPos, newSave: $newSave")
-//                    newPos = newSave
                     if (doMove()) pieceOnNewPos?.let { removePiece(it) }
-
                 }
                 // Case move is not valid, reset the piece to its orig position
                 else {
@@ -386,9 +381,7 @@ class Piece(
 
         }
 
-        GameState.enPassantVictim.let {
-            it?.removeFromParent()
-        }
+        GameState.enPassantVictim?.removeFromParent()
 
         if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
             when {
@@ -448,7 +441,6 @@ class Piece(
             )
             if (GameState.castleAttempt) map["castling"] = "true"
             map.putAll(uniqueIdentifier!!)
-            println("cx: $oldX, cy: $oldY, newX, $currentX, newY: $currentY")
 
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
