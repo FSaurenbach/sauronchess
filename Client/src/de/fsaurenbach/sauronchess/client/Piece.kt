@@ -114,7 +114,7 @@ class Piece(
             val currentSave = currentPos
             // Perform the move if no error
 
-            println("oldPos: $currentPos, newPos: $newPos, error: $error, pieceOnNewPos: $pieceOnNewPos")
+            println("currentPos: $currentPos, newPos: $newPos, error: $error, pieceOnNewPos: $pieceOnNewPos")
 
             if (!error) {
                 inCheck(GameState.pieces)
@@ -280,7 +280,7 @@ class Piece(
             when {
                 newX == 6 && newY == 7 -> {
 
-                    if (findPiece(6, 7) != null || findPiece(5, 7) != null) return false
+                    if (findPiece(newX, newY) != null || findPiece(5, 7) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
@@ -289,7 +289,10 @@ class Piece(
 
                 newX == 2 && newY == 7 -> {
 
-                    if (findPiece(1, 7) != null || findPiece(2, 7) != null || findPiece(3, 7) != null) return false
+                    if (findPiece(1, 7) != null || findPiece(newX, newY) != null || findPiece(
+                            3, 7
+                        ) != null
+                    ) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
@@ -301,7 +304,7 @@ class Piece(
             when {
                 newX == 6 && newY == 0 -> {
 
-                    if (findPiece(6, 0) != null || findPiece(5, 0) != null) return false
+                    if (findPiece(newX, newY) != null || findPiece(5, 0) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
@@ -310,7 +313,10 @@ class Piece(
 
                 newX == 2 && newY == 0 -> {
 
-                    if (findPiece(1, 0) != null || findPiece(2, 0) != null || findPiece(3, 0) != null) return false
+                    if (findPiece(1, 0) != null || findPiece(newX, newY) != null || findPiece(
+                            3, 0
+                        ) != null
+                    ) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
@@ -355,9 +361,12 @@ class Piece(
     }
 
     fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
+
         if ((GameState.whiteTurn && color == Colors.BLACK) || (!GameState.whiteTurn && color == Colors.WHITE)) return false
+
         val oldX = currentX
         val oldY = currentY
+
         newPos = Pair(newX, newY)
 
         inCheck(GameState.pieces)
@@ -390,7 +399,7 @@ class Piece(
                 newX == 6 && newY == 7 -> {
                     val rook = findPiece(7, 7)
                     movePiece(rook!!, 5, 7)
-                    movePiece(this, 6, 7)
+                    movePiece(this, newX, newY)
                     GameState.whiteCastlingLegal = false
 
                 }
@@ -398,7 +407,7 @@ class Piece(
                 newX == 2 && newY == 7 -> {
                     val rook = findPiece(0, 7)
                     movePiece(rook!!, 3, 7)
-                    movePiece(this, 2, 7)
+                    movePiece(this, newX, newY)
 
                     GameState.whiteCastlingLegal = false
                 }
@@ -408,7 +417,7 @@ class Piece(
                 newX == 6 && newY == 0 -> {
                     val rook = findPiece(7, 0)
                     movePiece(rook!!, 5, 0)
-                    movePiece(this, 6, 0)
+                    movePiece(this, newX, newY)
 
                     GameState.blackCastlingLegal = false
                 }
@@ -416,7 +425,7 @@ class Piece(
                 newX == 2 && newY == 0 -> {
                     val rook = findPiece(0, 0)
                     movePiece(rook!!, 3, 0)
-                    movePiece(this, 2, 0)
+                    movePiece(this, newX, newY)
                     GameState.blackCastlingLegal = false
                 }
             }
@@ -438,8 +447,8 @@ class Piece(
                 "id" to clientID,
                 "cx" to oldX.toString(),
                 "cy" to oldY.toString(),
-                "newX" to currentX.toString(),
-                "newY" to currentY.toString()
+                "newX" to newX.toString(),
+                "newY" to newY.toString()
             )
             if (GameState.castleAttempt) map["castling"] = "true"
             map.putAll(uniqueIdentifier!!)
@@ -455,7 +464,7 @@ class Piece(
             GameState.chessClock!!.blackTimer.toggle()
         }
 
-        currentPos = newPos
+        currentPos = newPos // TODO: Check if this is useless
         GameState.castleAttempt = false
         pieceOnNewPos?.disabled = false
         GameState.whiteTurn = !GameState.whiteTurn
