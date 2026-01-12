@@ -21,25 +21,25 @@ fun Container.piece(
 
 
 class Piece(
-    var kind: PieceKind, val color: RGBA, var cx: Int, var cy: Int, var disabled: Boolean = false, val isWhite: Boolean
+    var kind: PieceKind, val color: RGBA, cx: Int, cy: Int, var disabled: Boolean = false, val isWhite: Boolean
 ) : Container() {
-    val cxy get() = Pair(cx, cy)
+    var currentPos = Pair(cx, cy)
     lateinit var pImage: Image
-    var currentPos: Pair<Int, Int>
-    private lateinit var newPos: Pair<Int, Int>
-    private val currentX get() = currentPos.first
-    private val currentY get() = currentPos.second
+    private var newPos: Pair<Int, Int>
+    val currentX get() = currentPos.first
+    val currentY get() = currentPos.second
     private val newX get() = newPos.first
     private val newY get() = newPos.second
     private var enPassantLegal = false
 
     init {
+        newPos = currentPos
         reloadImages()
 
         GameState.pieces.add(this)
 
-        movePiece(this, cx, cy)
-        currentPos = Pair(cx, cy)
+        movePiece(this, currentX, currentY)
+        currentPos = Pair(currentX, currentY)
 
         draggableCloseable(
             onMouseDrag {
@@ -78,8 +78,7 @@ class Piece(
                 // Show available moves
                 for (x in 0..7) {
                     for (y in 0..7) {
-                        newPos = Pair(x, y)
-                        if (simulateMove(Pair(currentX, currentY), Pair(x, y), this)) {
+                        if (simulateMove(currentPos, newPos, this)) {
                             findCell(x, y).also {
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
@@ -108,7 +107,7 @@ class Piece(
         if (newX !in 0..<8 || newY !in 0..<8) error = true
 
 
-        if (cxy != newPos) {
+        if (currentPos != newPos) {
             val pieceOnNewPos = findPiece(newX, newY)
             if (pieceOnNewPos?.color == color) error = true
             val newSave = newPos
@@ -165,7 +164,7 @@ class Piece(
         }
         // No dragging happened (== click)
         else {
-            activeCell = findCell(cx, cy)!!.apply { markActive() }
+            activeCell = findCell(currentX, currentY)!!.apply { markActive() }
             movePiece(this, currentX, currentY)
         }
     }
@@ -437,19 +436,19 @@ class Piece(
             return false
         }
         inCheck(GameState.pieces)
-        println("Doing move: $oldX, $oldY ---> ${this.cx}, ${this.cy}, (still) inCheck: ${inCheck(GameState.pieces)}")
+        println("Doing move: $oldX, $oldY ---> ${this.currentX}, ${this.currentY}, (still) inCheck: ${inCheck(GameState.pieces)}")
 
         if (!receiver && GameState.onlinePlay) {
             val map = mutableMapOf(
                 "id" to clientID,
                 "cx" to oldX.toString(),
                 "cy" to oldY.toString(),
-                "newX" to cx.toString(),
-                "newY" to cy.toString()
+                "newX" to currentX.toString(),
+                "newY" to currentY.toString()
             )
             if (GameState.castleAttempt) map["castling"] = "true"
             map.putAll(uniqueIdentifier!!)
-            println("cx: $oldX, cy: $oldY, newX, $cx, newY: $cy")
+            println("cx: $oldX, cy: $oldY, newX, $currentX, newY: $currentY")
 
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
@@ -462,9 +461,7 @@ class Piece(
             GameState.chessClock!!.blackTimer.toggle()
         }
 
-        this@Piece.cx = newX
-        this@Piece.cy = newY
-        currentPos = Pair(newX, newY)
+        currentPos = newPos
         GameState.castleAttempt = false
         pieceOnNewPos?.disabled = false
         GameState.whiteTurn = !GameState.whiteTurn
@@ -523,7 +520,7 @@ fun checkGameLegal() {
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(Pair(piece.cx, piece.cy), x to y, piece)) return
+                if (simulateMove(piece.currentPos, x to y, piece)) return
             }
         }
         draw = true
@@ -544,10 +541,10 @@ fun checkGameLegal() {
         for (piece in whitePieces + blackPieces) {
             if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
             else if (piece.kind == PieceKind.WhiteBishop) {
-                whiteBishopOnWhite = findCell(piece.cx, piece.cy)?.isWhite
+                whiteBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
             } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
             else if (piece.kind == PieceKind.BlackBishop) {
-                blackBishopOnWhite = findCell(piece.cx, piece.cy)?.isWhite
+                blackBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
             }
         }
         if (whiteLegal || blackLegal) return

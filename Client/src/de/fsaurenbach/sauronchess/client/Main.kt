@@ -267,7 +267,7 @@ suspend fun webSockerListener(message: String) {
 
     if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
     val piece = findPiece(map["cx"]!!.toInt(), map["cy"]!!.toInt())
-    println("cx: ${piece?.cxy}")
+    println("cx: ${piece?.currentPos}")
     piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
 
 
@@ -280,8 +280,8 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     GameState.whiteKingInCheck = false
     GameState.blackKingInCheck = false
 
-    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.cxy
-    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.cxy
+    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.currentPos
+    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.currentPos
     for (enemyPiece in piecesList) {
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false

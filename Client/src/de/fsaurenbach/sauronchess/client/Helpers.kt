@@ -39,7 +39,7 @@ fun Container.addAllPieces() {
     piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
 
     for (piece in GameState.pieces) {
-        movePiece(piece, piece.cx, piece.cy)
+        movePiece(piece, piece.currentX, piece.currentY)
     }
 }
 
@@ -66,16 +66,16 @@ suspend fun reloadPictures() {
 fun simulateMove(
     oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
 ): Boolean {
-    if (!calledFromKing) if (!piece.moveChecker(
-            Pair(newPos.first, newPos.second)
-        )
-    ) {
-        return false
+    if (!calledFromKing) {
+        if (!piece.moveChecker(newPos)) {
+            return false
+        }
     }
 
     inCheck(GameState.pieces, calledFromKing)
     val pieceOnNewPos = findPiece(newPos.first, newPos.second)
     if (piece.color == pieceOnNewPos?.color) return false
+
 //    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(GameState.pieces)} , pieceonnewpos $pieceOnNewPos")
     if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
     if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
