@@ -221,7 +221,7 @@ class GameScene : Scene() {
 
                     if (piece != null){
                         println("starting clickListener")
-                        piece.clickListener(downPosition, wasClicked= true)
+                        piece.clickListener(downPosition)
                     }
                 }
 

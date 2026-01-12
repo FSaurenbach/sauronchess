@@ -40,7 +40,6 @@ class Piece(
 
         movePiece(this, cx, cy)
         currentPos = Pair(cx, cy)
-        var error: Boolean
 
         draggableCloseable(
             onMouseDrag {
@@ -65,7 +64,6 @@ class Piece(
                 x = info.viewNextX
                 y = info.viewNextY
             } else return@draggableCloseable
-            error = false
             // Dragging start
             if (info.start) {
                 // init vars
@@ -97,20 +95,18 @@ class Piece(
             if (info.end) {
                 zIndex = 0.0
                 scale(1.0, 1.0)
-                clickListener(newPos, false)
+                clickListener(newPos)
             }
         }
     }
 
-    fun clickListener(newPosArg: Pair<Int, Int>, wasClicked: Boolean) {
-
+    fun clickListener(newPosArgument: Pair<Int, Int>) {
+        newPos = newPosArgument
         var error = false
-        newPos = newPosArg
-        // Check if newPosition is within the game board
+        //newPos = newPosArg
         //     println("oldXY: $cxy, newPos: $newPos")
         if (newX !in 0..<8 || newY !in 0..<8) error = true
 
-        println("ActiveCell:$activeCell")
 
         if (cxy != newPos) {
             val pieceOnNewPos = findPiece(newX, newY)
@@ -141,7 +137,8 @@ class Piece(
                         newPos,
                     ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                 ) {
-                    newPos = newSave
+                    println("newPos: $newPos, newSave: $newSave")
+//                    newPos = newSave
                     if (doMove()) pieceOnNewPos?.let { removePiece(it) }
 
                 }
@@ -170,14 +167,13 @@ class Piece(
         else {
             activeCell = findCell(cx, cy)!!.apply { markActive() }
             movePiece(this, currentX, currentY)
-            // TODO: Reset the showAvailable Move circels
         }
     }
 
     fun moveChecker(
-        newPos2: Pair<Int, Int>,
+        newPosOverride: Pair<Int, Int>,
     ): Boolean {
-        newPos = newPos2
+        newPos = newPosOverride
 
         return when (kind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
@@ -363,10 +359,10 @@ class Piece(
     }
 
     fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
-        if ((GameState.whiteTurn && this.color == Colors.BLACK) || (!GameState.whiteTurn && this.color == Colors.WHITE)) return false
+        if ((GameState.whiteTurn && color == Colors.BLACK) || (!GameState.whiteTurn && color == Colors.WHITE)) return false
         val oldX = currentX
         val oldY = currentY
-        this.newPos = Pair(newX, newY)
+        newPos = Pair(newX, newY)
 
         inCheck(GameState.pieces)
         val pieceOnNewPos = findPiece(newX, newY)
@@ -436,7 +432,7 @@ class Piece(
         pieceOnNewPos?.disabled = true
         inCheck(GameState.pieces)
         if ((this.color == Colors.BLACK && GameState.blackKingInCheck) || (this.color == Colors.WHITE && GameState.whiteKingInCheck)) {
-            movePiece(this, currentX, currentY)
+            movePiece(this, oldX, oldY)
             println("King will (still) be in check after this move!")
             return false
         }
