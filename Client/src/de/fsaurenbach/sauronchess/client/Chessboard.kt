@@ -18,7 +18,7 @@ fun initializeBoard(chessboard: Container) {
     }
 }
 
-fun findPiece(x: Int, y: Int): Piece? = GameState.pieces.find { it.currentX == x && it.currentY == y }
+fun findPiece(x: Int, y: Int): Piece? = GameState.pieces.find { it.currentPos.x == x && it.currentPos.y == y }
 
 fun movePiece(
     piece: Piece,
@@ -26,5 +26,5 @@ fun movePiece(
     newY: Int,
 ) {
     findCell(newX, newY)?.let { piece.centerOn(it) }
-    piece.currentPos = Pair(newX,newY)
+    piece.currentPos = BoardPosition(newX, newY)
 }

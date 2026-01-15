@@ -210,16 +210,16 @@ class GameScene : Scene() {
                 println("Resetting cell $activeCell")
 
 
-                val downPosition = Pair(
+                val downPosition = BoardPosition(
                     (it.downPosStage.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
                     (it.downPosStage.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
 
-                val cell = findCell(downPosition.first, downPosition.second)
-                if (cell != null){
+                val cell = findCell(downPosition.x, downPosition.y)
+                if (cell != null) {
                     val piece = findPiece(activeCell!!.cx, activeCell!!.cy)
 
-                    if (piece != null){
+                    if (piece != null) {
                         println("starting clickListener")
                         piece.clickListener(downPosition)
                     }
@@ -268,7 +268,7 @@ suspend fun webSockerListener(message: String) {
     if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
     val piece = findPiece(map["cx"]!!.toInt(), map["cy"]!!.toInt())
     println("cx: ${piece?.currentPos}")
-    piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
+    piece?.doMove(true)
 
 
 }

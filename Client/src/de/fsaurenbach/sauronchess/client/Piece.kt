@@ -14,23 +14,23 @@ enum class PieceKind {
     WhitePawn, BlackPawn, WhiteRook, BlackRook, WhiteKnight, BlackKnight, WhiteBishop, BlackBishop, WhiteQueen, BlackQueen, WhiteKing, BlackKing,
 }
 
+data class BoardPosition(val x: Int, val y: Int)
 
 fun Container.piece(
-    kind: PieceKind, color: RGBA, cx: Int, cy: Int, disabled: Boolean = false, isWhite: Boolean
-): Piece = Piece(kind, color, cx, cy, disabled, isWhite).addTo(this)
+    kind: PieceKind, color: RGBA, currentPos: BoardPosition, disabled: Boolean = false, isWhite: Boolean
+): Piece = Piece(kind, color, currentPos, disabled, isWhite).addTo(this)
 
 
 class Piece(
-    var kind: PieceKind, val color: RGBA, cx: Int, cy: Int, var disabled: Boolean = false, val isWhite: Boolean
+    var kind: PieceKind,
+    val color: RGBA,
+    var currentPos: BoardPosition,
+    var disabled: Boolean = false,
+    val isWhite: Boolean
 ) : Container() {
 
-    var currentPos = Pair(cx, cy)
-    val currentX get() = currentPos.first
-    val currentY get() = currentPos.second
 
-    private var newPos: Pair<Int, Int>
-    private val newX get() = newPos.first
-    private val newY get() = newPos.second
+    private var newPos: BoardPosition
 
     lateinit var pImage: Image
     private var enPassantLegal = false
@@ -41,17 +41,17 @@ class Piece(
 
         GameState.pieces.add(this)
 
-        movePiece(this, currentX, currentY)
+        movePiece(this, currentPos.x, currentPos.y)
 
         draggableCloseable(
             onMouseDrag {
-                newPos = Pair(
+                newPos = BoardPosition(
                     (globalMousePos.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
                     (globalMousePos.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
                 for (whiteCircle in GameState.whiteCircles) whiteCircle.markGrey()
                 for (circle in GameState.circles) {
-                    if (circle.cx == newX && circle.cy == newY) {
+                    if (circle.cx == newPos.x && circle.cy == newPos.y) {
                         circle.markWhite()
                         GameState.whiteCircles.add(circle)
                     }
@@ -79,7 +79,7 @@ class Piece(
                 // Show available moves
                 for (x in 0..7) {
                     for (y in 0..7) {
-                        if (simulateMove(currentPos, Pair(x, y), this)) {
+                        if (simulateMove(currentPos, BoardPosition(x, y), this)) {
                             findCell(x, y).also {
                                 parent!!.moveIndicator(x, y).apply {
                                     if (findPiece(x, y) != null) markRed() else markGrey()
@@ -100,16 +100,16 @@ class Piece(
         }
     }
 
-    fun clickListener(newPosArgument: Pair<Int, Int>) {
+    fun clickListener(newPosArgument: BoardPosition) {
         newPos = newPosArgument
         var error = false
         //newPos = newPosArg
         //     println("oldXY: $cxy, newPos: $newPos")
-        if (newX !in 0..<8 || newY !in 0..<8) error = true
+        if (newPos.x !in 0..<8 || newPos.y !in 0..<8) error = true
 
 
         if (currentPos != newPos) {
-            val pieceOnNewPos = findPiece(newX, newY)
+            val pieceOnNewPos = findPiece(newPos.x, newPos.y)
             if (pieceOnNewPos?.color == color) error = true
             val currentSave = currentPos
             // Perform the move if no error
@@ -125,7 +125,7 @@ class Piece(
                         pieceOnNewPos?.let { removePiece(it) }
                     } else {
                         currentPos = currentSave
-                        movePiece(this, currentX, currentY)
+                        movePiece(this, currentPos.x, currentPos.y)
                     }
                     inCheck(GameState.pieces)
                     checkGameLegal()
@@ -148,7 +148,7 @@ class Piece(
             if (error) {
                 currentPos = currentSave
 
-                movePiece(this, currentX, currentY)
+                movePiece(this, currentPos.x, currentPos.y)
                 activeCell?.colorCell(); activeCell = null
 
             }
@@ -161,13 +161,13 @@ class Piece(
         }
         // No dragging happened (== click)
         else {
-            activeCell = findCell(currentX, currentY)!!.apply { markActive() }
-            movePiece(this, currentX, currentY)
+            activeCell = findCell(currentPos.x, currentPos.y)!!.apply { markActive() }
+            movePiece(this, currentPos.x, currentPos.y)
         }
     }
 
     fun moveChecker(
-        newPosOverride: Pair<Int, Int>,
+        newPosOverride: BoardPosition,
     ): Boolean {
         newPos = newPosOverride
 
@@ -182,37 +182,37 @@ class Piece(
     }
 
     private fun movePawn(): Boolean {
-        val pieceOnNewPos = findPiece(newX, newY)
+        val pieceOnNewPos = findPiece(newPos.x, newPos.y)
         val isPawnMoveForward = if (isWhite) {
-            newY - currentY == -1 && currentX == newX
+            newPos.y - currentPos.y == -1 && currentPos.x == newPos.x
         } else {
-            newY - currentY == 1 && currentX == newX
+            newPos.y - currentPos.y == 1 && currentPos.x == newPos.x
         }
         val isInitialPawnMove = if (isWhite) {
-            currentY == 6 && newY == 4 && currentX == newX
+            currentPos.y == 6 && newPos.y == 4 && currentPos.x == newPos.x
         } else {
-            currentY == 1 && newY == 3 && currentX == newX
+            currentPos.y == 1 && newPos.y == 3 && currentPos.x == newPos.x
         }
         val isEnPassant = if (isWhite) {
-            newY - currentY == -1 && abs(newX - currentX) == 1
+            newPos.y - currentPos.y == -1 && abs(newPos.x - currentPos.x) == 1
         } else {
-            newY - currentY == 1 && abs(currentX - newX) == 1
+            newPos.y - currentPos.y == 1 && abs(currentPos.x - newPos.x) == 1
         }
         if (isPawnMoveForward || isInitialPawnMove) {
             enPassantLegal = isInitialPawnMove
             if (pieceOnNewPos == null) {
                 return true
             }
-        } else if ((abs(newY - currentY) == 1 && abs(newX - currentX) == 1)) {
+        } else if ((abs(newPos.y - currentPos.y) == 1 && abs(newPos.x - currentPos.x) == 1)) {
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
-            if ((isWhite && newY > currentY) || (!isWhite && newY < currentY)) return false
+            if ((isWhite && newPos.y > currentPos.y) || (!isWhite && newPos.y < currentPos.y)) return false
 
             if (pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
                 return true
             }
         }
 
-        val pawnToTake = findPiece(newX, currentY)
+        val pawnToTake = findPiece(newPos.x, currentPos.y)
 
         if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite && pawnToTake.enPassantLegal) {
             GameState.enPassantVictim = pawnToTake
@@ -222,12 +222,14 @@ class Piece(
     }
 
     private fun moveRook(): Boolean {
-        if (currentX == newX) {
-            val range = if (newY > currentY) (currentY + 1 until newY) else (newY + 1 until currentY)
-            if (range.any { findPiece(currentX, it) != null }) return false
-        } else if (currentY == newY) {
-            val range = if (newX > currentX) (currentX + 1 until newX) else (newX + 1 until currentX)
-            if (range.any { findPiece(it, currentY) != null }) return false
+        if (currentPos.x == newPos.x) {
+            val range =
+                if (newPos.y > currentPos.y) (currentPos.y + 1 until newPos.y) else (newPos.y + 1 until currentPos.y)
+            if (range.any { findPiece(currentPos.x, it) != null }) return false
+        } else if (currentPos.y == newPos.y) {
+            val range =
+                if (newPos.x > currentPos.x) (currentPos.x + 1 until newPos.x) else (newPos.x + 1 until currentPos.x)
+            if (range.any { findPiece(it, currentPos.y) != null }) return false
         } else {
             return false
         }
@@ -237,25 +239,24 @@ class Piece(
     }
 
     private fun moveKnight(): Boolean {
-        val xDiff = abs(newX - currentX)
-        val yDiff = abs(newY - currentY)
-
+        val xDiff = abs(newPos.x - currentPos.x)
+        val yDiff = abs(newPos.y - currentPos.y)
         return (xDiff == 2 && yDiff == 1) || (xDiff == 1 && yDiff == 2)
     }
 
     private fun moveBishop(): Boolean {
-        val dx = abs(newX - currentX)
-        val dy = abs(newY - currentY)
+        val dx = abs(newPos.x - currentPos.x)
+        val dy = abs(newPos.y - currentPos.y)
 
         // Check if the move is diagonal
         if (dx != dy) return false
 
         // Check for obstructions on the diagonal path
-        val directionX = (newX - currentX).sign
-        val directionY = (newY - currentY).sign
+        val directionX = (newPos.x - currentPos.x).sign
+        val directionY = (newPos.y - currentPos.y).sign
 
         for (i in 1 until dx) {
-            val checkPos = currentX + i * directionX to currentY + i * directionY
+            val checkPos = currentPos.x + i * directionX to currentPos.y + i * directionY
             if (findPiece(checkPos.first, checkPos.second) != null) {
                 return false
             }
@@ -268,28 +269,28 @@ class Piece(
 
     private fun moveKing(): Boolean {
         // Determine the move direction
-        val deltaX = newX - currentX
-        val deltaY = newY - currentY
+        val deltaX = newPos.x - currentPos.x
+        val deltaY = newPos.y - currentPos.y
 
         // Check if the move is within the valid range for a king
 
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
 
         // Castling
-        if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7) {
+        if (GameState.whiteCastlingLegal && isWhite && currentPos.x == 4 && currentPos.y == 7) {
             when {
-                newX == 6 && newY == 7 -> {
+                newPos.x == 6 && newPos.y == 7 -> {
 
-                    if (findPiece(newX, newY) != null || findPiece(5, 7) != null) return false
+                    if (findPiece(newPos.x, newPos.y) != null || findPiece(5, 7) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
                     return true
                 }
 
-                newX == 2 && newY == 7 -> {
+                newPos.x == 2 && newPos.y == 7 -> {
 
-                    if (findPiece(1, 7) != null || findPiece(newX, newY) != null || findPiece(
+                    if (findPiece(1, 7) != null || findPiece(newPos.x, newPos.y) != null || findPiece(
                             3, 7
                         ) != null
                     ) return false
@@ -300,20 +301,20 @@ class Piece(
                 }
             }
         }
-        if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0) {
+        if (GameState.blackCastlingLegal && !isWhite && currentPos.x == 4 && currentPos.y == 0) {
             when {
-                newX == 6 && newY == 0 -> {
+                newPos.x == 6 && newPos.y == 0 -> {
 
-                    if (findPiece(newX, newY) != null || findPiece(5, 0) != null) return false
+                    if (findPiece(newPos.x, newPos.y) != null || findPiece(5, 0) != null) return false
                     if (!simulateMove(currentPos, newPos, this, true)) return false
 
                     GameState.castleAttempt = true
                     return true
                 }
 
-                newX == 2 && newY == 0 -> {
+                newPos.x == 2 && newPos.y == 0 -> {
 
-                    if (findPiece(1, 0) != null || findPiece(newX, newY) != null || findPiece(
+                    if (findPiece(1, 0) != null || findPiece(newPos.x, newPos.y) != null || findPiece(
                             3, 0
                         ) != null
                     ) return false
@@ -360,19 +361,19 @@ class Piece(
         pImage.scale = DisplayConfig.userScale
     }
 
-    fun doMove(newX: Int = newPos.first, newY: Int = newPos.second, receiver: Boolean = false): Boolean {
+    fun doMove(receiver: Boolean = false): Boolean {
 
         if ((GameState.whiteTurn && color == Colors.BLACK) || (!GameState.whiteTurn && color == Colors.WHITE)) return false
 
-        val oldX = currentX
-        val oldY = currentY
+        val oldX = currentPos.x
+        val oldY = currentPos.y
 
-        newPos = Pair(newX, newY)
+        newPos = BoardPosition(newPos.x, newPos.y)
 
         inCheck(GameState.pieces)
-        val pieceOnNewPos = findPiece(newX, newY)
+        val pieceOnNewPos = findPiece(newPos.x, newPos.y)
 
-        if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
+        if ((kind == PieceKind.WhitePawn && newPos.y == 0) || (kind == PieceKind.BlackPawn && newPos.y == 7)) {
 
             GameState.promotionActive = true
 
@@ -394,44 +395,44 @@ class Piece(
 
         GameState.enPassantVictim?.removeFromParent()
 
-        if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
+        if (GameState.whiteCastlingLegal && isWhite && currentPos.x == 4 && currentPos.y == 7 && GameState.castleAttempt) {
             when {
-                newX == 6 && newY == 7 -> {
+                newPos.x == 6 && newPos.y == 7 -> {
                     val rook = findPiece(7, 7)
                     movePiece(rook!!, 5, 7)
-                    movePiece(this, newX, newY)
+                    movePiece(this, newPos.x, newPos.y)
                     GameState.whiteCastlingLegal = false
 
                 }
 
-                newX == 2 && newY == 7 -> {
+                newPos.x == 2 && newPos.y == 7 -> {
                     val rook = findPiece(0, 7)
                     movePiece(rook!!, 3, 7)
-                    movePiece(this, newX, newY)
+                    movePiece(this, newPos.x, newPos.y)
 
                     GameState.whiteCastlingLegal = false
                 }
             }
-        } else if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0 && GameState.castleAttempt) {
+        } else if (GameState.blackCastlingLegal && !isWhite && currentPos.x == 4 && currentPos.y == 0 && GameState.castleAttempt) {
             when {
-                newX == 6 && newY == 0 -> {
+                newPos.x == 6 && newPos.y == 0 -> {
                     val rook = findPiece(7, 0)
                     movePiece(rook!!, 5, 0)
-                    movePiece(this, newX, newY)
+                    movePiece(this, newPos.x, newPos.y)
 
                     GameState.blackCastlingLegal = false
                 }
 
-                newX == 2 && newY == 0 -> {
+                newPos.x == 2 && newPos.y == 0 -> {
                     val rook = findPiece(0, 0)
                     movePiece(rook!!, 3, 0)
-                    movePiece(this, newX, newY)
+                    movePiece(this, newPos.x, newPos.y)
                     GameState.blackCastlingLegal = false
                 }
             }
 
         }
-        movePiece(this, newX, newY)
+        movePiece(this, newPos.x, newPos.y)
         pieceOnNewPos?.disabled = true
         inCheck(GameState.pieces)
         if ((color == Colors.BLACK && GameState.blackKingInCheck) || (color == Colors.WHITE && GameState.whiteKingInCheck)) {
@@ -440,15 +441,15 @@ class Piece(
             return false
         }
         inCheck(GameState.pieces)
-        println("Doing move: $oldX, $oldY ---> ${currentX}, ${currentY}, (still) inCheck: ${inCheck(GameState.pieces)}")
+        println("Doing move: $oldX, $oldY ---> ${currentPos.x}, ${currentPos.y}, (still) inCheck: ${inCheck(GameState.pieces)}")
 
         if (!receiver && GameState.onlinePlay) {
             val map = mutableMapOf(
                 "id" to clientID,
                 "cx" to oldX.toString(),
                 "cy" to oldY.toString(),
-                "newX" to newX.toString(),
-                "newY" to newY.toString()
+                "newPos.x" to newPos.x.toString(),
+                "newPos.y" to newPos.y.toString()
             )
             if (GameState.castleAttempt) map["castling"] = "true"
             map.putAll(uniqueIdentifier!!)
@@ -501,7 +502,7 @@ fun checkGameLegal() {
         for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
             for (x in 0..7) {
                 for (y in 0..7) {
-                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
+                    if (simulateMove(piece.currentPos, BoardPosition(x, y), piece)) {
                         println("there is still hope")
                         return
                     }
@@ -523,7 +524,7 @@ fun checkGameLegal() {
     for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
         for (x in 0..7) {
             for (y in 0..7) {
-                if (simulateMove(piece.currentPos, x to y, piece)) return
+                if (simulateMove(piece.currentPos, BoardPosition(x, y), piece)) return
             }
         }
         draw = true
@@ -544,10 +545,10 @@ fun checkGameLegal() {
         for (piece in whitePieces + blackPieces) {
             if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
             else if (piece.kind == PieceKind.WhiteBishop) {
-                whiteBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
+                whiteBishopOnWhite = findCell(piece.currentPos.x, piece.currentPos.y)?.isWhite
             } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
             else if (piece.kind == PieceKind.BlackBishop) {
-                blackBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
+                blackBishopOnWhite = findCell(piece.currentPos.x, piece.currentPos.y)?.isWhite
             }
         }
         if (whiteLegal || blackLegal) return
