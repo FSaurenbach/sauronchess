@@ -1,6 +1,7 @@
 package de.fsaurenbach.sauronchess.client
 
 import de.fsaurenbach.sauronchess.client.GameState.activeCell
+import de.fsaurenbach.sauronchess.client.GameState.cells
 import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
@@ -117,6 +118,7 @@ object UserSettings {
     var debugMode: Boolean = false // TODO: Make that configurable in game..
     var autoOnlineMode: Boolean =
         false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
+    var autoStart: Boolean = true
 }
 
 const val DEFAULT_PORT = 443
@@ -186,7 +188,7 @@ class GameScene : Scene() {
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
         GameState.chessClockContainer!!.centerXOnStage()
-        if (GameState.onlinePlay) {
+        /*if (GameState.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
@@ -200,11 +202,12 @@ class GameScene : Scene() {
             wsClient!!.onStringMessage {
                 launch { webSockerListener(it) }
             }
-        }
+        }*/
 
         // Active cell gets colored onUp.
         // To avoid immediately resetting the cell use onDown to be sure it is a different mouse press
-        onDown {
+        // TODO
+        /*onDown {
             if (activeCell != null) {
 
                 println("Resetting cell $activeCell")
@@ -228,7 +231,7 @@ class GameScene : Scene() {
                 activeCell?.colorCell()
                 activeCell = null
             }
-        }
+        }*/
 
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
@@ -239,7 +242,7 @@ class GameScene : Scene() {
 
 }
 
-suspend fun webSockerListener(message: String) {
+/*suspend fun webSockerListener(message: String) {
     println("INCOMING MESSAGE: $message")
     val map: Map<String, *>
     try {
@@ -271,12 +274,12 @@ suspend fun webSockerListener(message: String) {
     piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
 
 
-}
+}*/
 
 
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
-fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolean {
+/*fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolean {
     GameState.whiteKingInCheck = false
     GameState.blackKingInCheck = false
 
@@ -286,16 +289,16 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
         if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
             if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {/* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition) */
+            if (enemyPiece.moveChecker(whiteKingPosition)) {*//* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+                println(whiteKingPosition) *//*
                 GameState.whiteKingInCheck = true
                 return true
             }
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
             if (GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(blackKingPosition)) {/* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                 println(blackKingPosition) */
+            if (enemyPiece.moveChecker(blackKingPosition)) {*//* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                 println(blackKingPosition) *//*
                 GameState.blackKingInCheck = true
                 return true
             }
@@ -303,7 +306,7 @@ fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolea
     }
 
     return false
-}
+}*/
 
 suspend fun sendGameEnd(reason: String) {
     if (GameState.onlinePlay) {

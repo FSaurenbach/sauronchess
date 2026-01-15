@@ -9,15 +9,16 @@ import korlibs.math.geom.*
 
 
 fun Container.cell(
-    isWhite: Boolean, cx: Int, cy: Int, text: String
-) = Cell(isWhite, cx, cy, text).addTo(this)
+    isWhite: Boolean, cx: Int, cy: Int, text: String, position: Int
+) = Cell(isWhite, cx, cy, text, position).addTo(this)
 
 
 class Cell(
     var isWhite: Boolean,
-    var cx: Int,
-    var cy: Int,
+    cx: Int,
+    cy: Int,
     text: String,
+    var positionInt: Int,
 
     ) : Container() {
     private val cell: SolidRect = solidRect(cellWidth, cellHeight)
@@ -25,7 +26,7 @@ class Cell(
     init {
         moveCell(cx, cy)
         colorCell()
-        text(text, color = Colors.BLACK)
+        text(positionInt.toString(), color = Colors.BLACK)
 
     }
 
@@ -52,9 +53,8 @@ class Cell(
 }
 
 
-fun findCell(cx: Int, cy: Int): Cell? {
-    return GameState.cells.find { it.cx == cx && it.cy == cy }
-}
+fun findCell(positionInt: Int): Cell? = GameState.cells.find { it.positionInt == positionInt }
+
 
 fun reloadCells() = GameState.cells.forEach { it.colorCell() }
 

@@ -13,33 +13,37 @@ fun removePiece(piece: Piece) {
 }
 
 fun Container.addAllPieces() {
-    // Add all pieces in right order and add them to the pieces list (white pieces are at the bottom
-    for (i in 0 until 8) {
-        piece(PieceKind.WhitePawn, Colors.WHITE, i, 6, isWhite = true)
-    }
-    piece(PieceKind.WhiteRook, Colors.WHITE, 0, 7, isWhite = true)
-    piece(PieceKind.WhiteRook, Colors.WHITE, 7, 7, isWhite = true)
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 1, 7, isWhite = true)
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 6, 7, isWhite = true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 2, 7, isWhite = true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 5, 7, isWhite = true)
-    piece(PieceKind.WhiteQueen, Colors.WHITE, 3, 7, isWhite = true)
-    piece(PieceKind.WhiteKing, Colors.WHITE, 4, 7, isWhite = true)
+
 
     for (i in 0 until 8) {
-        piece(PieceKind.BlackPawn, Colors.BLACK, i, 1, isWhite = false)
+        piece(PieceKind.WhitePawn, Colors.WHITE, 8 + i, isWhite =  true)
     }
-    piece(PieceKind.BlackRook, Colors.BLACK, 0, 0, isWhite = false)
-    piece(PieceKind.BlackRook, Colors.BLACK, 7, 0, isWhite = false)
-    piece(PieceKind.BlackKnight, Colors.BLACK, 1, 0, isWhite = false)
-    piece(PieceKind.BlackKnight, Colors.BLACK, 6, 0, isWhite = false)
-    piece(PieceKind.BlackBishop, Colors.BLACK, 2, 0, isWhite = false)
-    piece(PieceKind.BlackBishop, Colors.BLACK, 5, 0, isWhite = false)
-    piece(PieceKind.BlackQueen, Colors.BLACK, 3, 0, isWhite = false)
-    piece(PieceKind.BlackKing, Colors.BLACK, 4, 0, isWhite = false)
+
+    piece(PieceKind.WhiteRook, Colors.WHITE, 0, isWhite =  true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, 1, isWhite =  true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, 2, isWhite =  true)
+    piece(PieceKind.WhiteQueen, Colors.WHITE, 3, isWhite =  true)
+    piece(PieceKind.WhiteKing, Colors.WHITE, 4, isWhite =  true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, 5, isWhite =  true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, 6, isWhite =  true)
+    piece(PieceKind.WhiteRook, Colors.WHITE, 7, isWhite =  true)
+
+    for (i in 0 until 8) {
+        piece(PieceKind.BlackPawn, Colors.BLACK, 48 + i, isWhite = false)
+    }
+
+    piece(PieceKind.BlackRook, Colors.BLACK, 56, isWhite = false)
+    piece(PieceKind.BlackKnight, Colors.BLACK, 57, isWhite = false)
+    piece(PieceKind.BlackBishop, Colors.BLACK, 58, isWhite = false)
+    piece(PieceKind.BlackQueen, Colors.BLACK, 59, isWhite = false)
+    piece(PieceKind.BlackKing, Colors.BLACK, 60, isWhite = false)
+    piece(PieceKind.BlackBishop, Colors.BLACK, 61, isWhite = false)
+    piece(PieceKind.BlackKnight, Colors.BLACK, 62, isWhite = false)
+    piece(PieceKind.BlackRook, Colors.BLACK, 63, isWhite = false)
+
 
     for (piece in GameState.pieces) {
-        movePiece(piece, piece.currentX, piece.currentY)
+        movePiece(piece, piece.positionInt)
     }
 }
 
@@ -64,7 +68,7 @@ suspend fun reloadPictures() {
 
 /** Simulates a move for showing available moves.*/
 fun simulateMove(
-    oldPos: Pair<Int, Int>, newPos: Pair<Int, Int>, piece: Piece, calledFromKing: Boolean = false
+    oldPos: Int, newPos: Int, piece: Piece, calledFromKing: Boolean = false
 ): Boolean {
     if (!calledFromKing) {
         if (!piece.moveChecker(newPos)) {
@@ -72,25 +76,25 @@ fun simulateMove(
         }
     }
 
-    inCheck(GameState.pieces, calledFromKing)
-    val pieceOnNewPos = findPiece(newPos.first, newPos.second)
+//    inCheck(GameState.pieces, calledFromKing)
+    val pieceOnNewPos = findPiece(newPos)
     if (piece.color == pieceOnNewPos?.color) return false
 
 //    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(GameState.pieces)} , pieceonnewpos $pieceOnNewPos")
     if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
     if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
-    movePiece(piece, newPos.first, newPos.second)
+    movePiece(piece, newPos)
     pieceOnNewPos?.disabled = true
     if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
-        movePiece(piece, oldPos.first, oldPos.second)
+        movePiece(piece, oldPos)
 //        println("move is not possible")
         return false
     }
-    val stillInCheck = inCheck(GameState.pieces, calledFromKing)
+//    val stillInCheck = inCheck(GameState.pieces, calledFromKing)
 //    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
-    movePiece(piece, oldPos.first, oldPos.second)
+    movePiece(piece, oldPos)
     pieceOnNewPos?.disabled = false
-    return !stillInCheck
+    return true // !stillInCheck
 }
 
 

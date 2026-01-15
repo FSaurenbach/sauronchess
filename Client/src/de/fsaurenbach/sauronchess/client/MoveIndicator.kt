@@ -3,9 +3,9 @@ package de.fsaurenbach.sauronchess.client
 import korlibs.image.color.*
 import korlibs.korge.view.*
 
-fun Container.moveIndicator(cx: Int, cy: Int): MoveIndicator = MoveIndicator(cx, cy).addTo(this)
+fun Container.moveIndicator(positionInt:Int): MoveIndicator = MoveIndicator(positionInt).addTo(this)
 
-class MoveIndicator(var cx: Int, var cy: Int) : Container() {
+class MoveIndicator(var positionInt: Int) : Container() {
 
     private var circle: Circle = circle()
     private var isRed: Boolean = false

@@ -6,25 +6,29 @@ import korlibs.math.*
 
 fun initializeBoard(chessboard: Container) {
     var d = 0
-    for (cx in 0 until 8) {
-        for (cy in 0 until 8) {
+
+    //TEMP
+    var positionInt = 0
+    for (cy in 7 downTo 0) {
+        for (cx in 0 until 8) {
             val text = "${'a' + cx}${8 - cy}"
 
-            GameState.cells.add(chessboard.cell(d.isEven, cx, cy, text))
-
+            GameState.cells.add(chessboard.cell(!d.isEven, cx, cy, text, positionInt))
+            positionInt++
             d++
         }
         d++
     }
 }
 
-fun findPiece(x: Int, y: Int): Piece? = GameState.pieces.find { it.currentX == x && it.currentY == y }
+fun findPiece(positionInt: Int): Piece? = GameState.pieces.find { it.positionInt == positionInt }
 
 fun movePiece(
     piece: Piece,
-    newX: Int,
-    newY: Int,
+    positionInt: Int
 ) {
-    findCell(newX, newY)?.let { piece.centerOn(it) }
-    piece.currentPos = Pair(newX,newY)
+    findCell(positionInt)?.let {
+        piece.centerOn(it)
+    }
+    piece.positionInt = (positionInt)
 }

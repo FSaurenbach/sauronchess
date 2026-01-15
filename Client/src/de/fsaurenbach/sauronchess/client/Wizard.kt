@@ -39,6 +39,10 @@ class Wizard : Scene() {
     override suspend fun SContainer.sceneMain() {
 
         reloadPictures()
+
+        if (UserSettings.autoStart) changeScene(true)
+
+
         offlinePlayButton = roundRect(Size(200, 100), corners, ThemeColors.whiteModeWhite).centerOnStage()
         offlinePlayButton.onClick {
             changeScene(true)
