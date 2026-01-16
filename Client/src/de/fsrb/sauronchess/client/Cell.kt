@@ -14,10 +14,10 @@ fun Container.cell(
 
 
 class Cell(
-    var isWhite: Boolean,
+    private var isWhite: Boolean,
     cx: Int,
     cy: Int,
-    text: String,
+    cellName: String,
     var positionInt: Int,
 
     ) : Container() {
@@ -26,7 +26,8 @@ class Cell(
     init {
         moveCell(cx, cy)
         colorCell()
-        text(positionInt.toString(), color = Colors.BLACK)
+        val text = if (UserSettings.debugMode) positionInt.toString() else cellName
+        text(text, color = Colors.BLACK)
 
     }
 
