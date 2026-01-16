@@ -85,23 +85,13 @@ class MC(
     private val diff get() = newPosInt - oldPosInt
 
     fun moveChecker(): Boolean {
-
-
-//        if (diff == 0) return false
         return when (piece!!.type) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
-            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook()
-            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
-
-            /*
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()
+            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook()
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen()
-            */
-            else -> {
-                println("error: ${piece!!.type}")
-                throw Error()
-            }
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()
         }
 
     }
@@ -153,6 +143,28 @@ class MC(
         return (xDiff == 2 && yDiff == 1) || (xDiff == 1 && yDiff == 2)
     }
 
+    private fun moveBishop(): Boolean {
+        val dx = abs(newPos.first - oldPos.first)
+        val dy = abs(newPos.second - oldPos.second)
+
+        // Check if the move is diagonal
+        if (dx != dy) return false
+
+        // Check for obstructions on the diagonal path
+        val directionX = (newPos.first - oldPos.first).sign
+        val directionY = (newPos.second - oldPos.second).sign
+
+        for (i in 1 until dx) {
+            val checkPos = oldPos.first + i * directionX to oldPos.second + i * directionY
+
+            if (findPieceOnBoard(converter(checkPos.first, checkPos.second), boardState) != null) {
+                return false
+            }
+        }
+
+        return true
+    }
+
     private fun moveRook(): Boolean {
 
 
@@ -176,6 +188,7 @@ class MC(
         }
     }
 
+    private fun moveQueen(): Boolean = moveRook() || moveBishop()
 
     private fun moveKing(): Boolean {
 
@@ -260,4 +273,8 @@ fun converter(positionInt: Int): Pair<Int, Int> {
     val y = t / 8
     val x = t % 8
     return x to y // Pair(first = x, second = y)
+}
+
+fun converter(x: Int, y: Int): Int {
+    return 63 - (y * 8 + x)
 }

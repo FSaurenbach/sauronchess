@@ -202,28 +202,6 @@ class Piece(
 
     /*
 
-    private fun moveBishop(): Boolean {
-        val dx = abs(newX - currentX)
-        val dy = abs(newY - currentY)
-
-        // Check if the move is diagonal
-        if (dx != dy) return false
-
-        // Check for obstructions on the diagonal path
-        val directionX = (newX - currentX).sign
-        val directionY = (newY - currentY).sign
-
-        for (i in 1 until dx) {
-            val checkPos = currentX + i * directionX to currentY + i * directionY
-            if (findPiece(checkPos.first, checkPos.second) != null) {
-                return false
-            }
-        }
-
-        return true
-    }
-
-    private fun moveQueen(): Boolean = moveRook() || moveBishop()
 
 
 
