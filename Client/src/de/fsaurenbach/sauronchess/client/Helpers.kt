@@ -72,13 +72,7 @@ fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     return this
 }
 
-
-fun <T : View> T.addTo(parent: Container): T {
+fun <T : View> T.addTo(parent: MutableList<in T>): T {
     parent += this
     return this
-}
-
-fun <T : View> T.addTo(parent: MutableList<in T>) {
-    parent.add(this)
-
 }
