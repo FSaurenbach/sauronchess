@@ -24,11 +24,12 @@ fun initializeBoard(chessboard: Container) {
 fun findPiece(positionInt: Int): Piece? = GameState.pieces.find { it.positionInt == positionInt }
 
 fun movePiece(
-    piece: Piece,
-    positionInt: Int
+    piece: Piece, newPositionInt: Int
 ) {
-    findCell(positionInt)?.let {
+    findCell(newPositionInt)?.let {
         piece.centerOn(it)
     }
-    piece.positionInt = (positionInt)
+    piece.positionInt = (newPositionInt)
+    movePieceOnBoard(piece.id, newPositionInt, boardState)
+
 }

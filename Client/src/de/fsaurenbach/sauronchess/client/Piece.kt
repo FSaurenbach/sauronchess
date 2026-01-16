@@ -1,6 +1,7 @@
 package de.fsaurenbach.sauronchess.client
 
 import de.fsaurenbach.sauronchess.client.GameState.activeCell
+import de.fsaurenbach.sauronchess.client.GameState.whiteTurn
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
@@ -19,15 +20,18 @@ fun Container.piece(
 
 
 class Piece(
-    var kind: PieceKind, val color: RGBA, var positionInt: Int, var disabled: Boolean = false, val isWhite: Boolean
+    var kind: PieceKind,
+    val color: RGBA,
+    var positionInt: Int,
+    var disabled: Boolean = false,
+    val isWhite: Boolean
 ) : Container() {
 
     /*var currentPos = Pair(cx, cy)
     val currentX get() = currentPos.first
     val currentY get() = currentPos.second*/
-
+    val id: Int = positionInt
     private var newPosInt: Int = positionInt
-    private val diff get() = newPosInt - positionInt
 
     lateinit var pImage: Image
     private var enPassantLegal = false
@@ -84,7 +88,7 @@ class Piece(
                 GameState.circles.clear()
                 // Show available moves
                 for (x in 0..63) {
-                    if (simulateMove(positionInt, x, this)) {
+                    if (simulateMove(positionInt, x)) {
                         findCell(x).also {
                             parent!!.moveIndicator(x).apply {
                                 if (findPiece(x) != null) markRed() else markGrey()
@@ -101,6 +105,7 @@ class Piece(
                 zIndex = 0.0
                 scale(1.0, 1.0)
                 clickListener(newPosInt)
+                println(boardState)
             }
         }
     }
@@ -141,11 +146,25 @@ class Piece(
                 }*/
 
                 // Case move is valid and no king is in check
-                /*else*/ if (moveChecker(
+
+                /*else*/
+                val mc = MC(positionInt, newPosInt)
+                if (mc.moveChecker(
                         newPosInt,
                     ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
                 ) {
-                    if (doMove()) pieceOnNewPos?.let { removePiece(it) }
+                    if (simulateMove(oldPos = positionInt, newPos = newPosInt)) {
+                        movePiece(this, newPosInt)
+
+
+                        pieceOnNewPos?.let {
+                            removePieceOnBoard(it.id, boardState)
+                            removePiece(it)
+                        }
+
+                        whiteTurn = !whiteTurn
+//                        println("whiteTurn: $whiteTurn, ${boardState}")
+                    }
                     else invalid = true
                 }
                 // Case move is not valid, reset the piece to its orig position
@@ -178,100 +197,7 @@ class Piece(
         }
     }
 
-    fun moveChecker(
-        newPosOverride: Int,
-    ): Boolean {
-        newPosInt = newPosOverride
 
-        if (diff == 0) return false
-        return when (kind) {
-            PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
-            PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook()
-
-
-            /*
-            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
-            PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()
-            PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen()
-            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()*/
-            else -> {
-                throw Error()
-            }
-        }
-
-    }
-
-    private fun movePawn(): Boolean {
-        val pieceOnNewPos = findPiece(newPosInt)
-        val isPawnMoveForward = if (isWhite) diff == 8 else diff == -8
-
-//        white: 8-15 black: 48-55
-
-        val isInitialPawnMove = if (isWhite) {
-            diff == 16 && positionInt in 8..15
-        } else {
-            diff == -16 && positionInt in 48..55
-        }
-
-        /*val isEnPassant = if (isWhite) {
-            newY - currentY == -1 && abs(newX - currentX) == 1
-        } else {
-            newY - currentY == 1 && abs(currentX - newX) == 1
-        }*/
-        if (isPawnMoveForward || isInitialPawnMove) {
-            enPassantLegal = isInitialPawnMove
-
-            if (pieceOnNewPos == null) {
-                return true
-            }
-        }
-
-        // White: +7 or +9 Black: -7 or -9
-        else if (((isWhite && diff == 7 || diff == 9) || (!isWhite && diff == -7 || diff == -9)) && pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
-            return true
-        }
-
-//            val pawnToTake = findPiece(newX, currentY)
-
-        /*
-        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite && pawnToTake.enPassantLegal) {
-            GameState.enPassantVictim = pawnToTake
-            return true
-        }*/
-        return false
-    }
-
-    private fun converter(positionInt: Int): Pair<Int, Int> {
-        require(positionInt in 0..63) { "positionInt must be 0..63" }
-        val t = 63 - positionInt
-        val y = t / 8
-        val x = t % 8
-        return x to y // Pair(first = x, second = y)
-    }
-
-    private fun moveRook(): Boolean {
-        val oldPos = converter(positionInt)
-        val newPos = converter(newPosInt)
-
-        val isVerticalMove = oldPos.second == newPos.second
-        val isHorizontalMove = oldPos.first == newPos.first
-        val range = when {
-            isHorizontalMove -> {
-                if (diff > 0) positionInt + 8 until newPosInt step 8 else positionInt downTo newPosInt + 8 step 8
-            }
-
-            isVerticalMove -> {
-                if (diff > 0) positionInt + 1 until newPosInt else positionInt downTo newPosInt + 1
-            }
-
-            else -> return false
-        }
-
-        return !range.any { pos ->
-            val piece = findPiece(pos)
-            piece != null && piece != this
-        }
-    }
 
     /*
     private fun moveKnight(): Boolean {
@@ -400,7 +326,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
     }
 
 
-    fun doMove(newPosOverride: Int = newPosInt, receiver: Boolean = false): Boolean {
+    /*fun doMove(newPosOverride: Int = newPosInt, receiver: Boolean = false): Boolean {
         println("do move: $positionInt -> $newPosInt")
         newPosInt = newPosOverride
         println("${GameState.whiteTurn}, me: ${color == Colors.BLACK}")
@@ -414,7 +340,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
         val pieceOnNewPos = findPiece(newPosInt)
 
         // Sonderregeln
-        /*if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
+        *//*if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
 
             GameState.promotionActive = true
 
@@ -472,7 +398,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
                 }
             }
 
-        }*/
+        }*//*
 
         movePiece(this, newPosInt)
         pieceOnNewPos?.disabled = true
@@ -485,7 +411,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
 //            inCheck(GameState.pieces)
         println("Doing move: $oldPosition ---> $newPosInt, (still) inCheck: ") // ${inCheck(GameState.pieces)}
 
-        /*if (!receiver && GameState.onlinePlay) {
+        *//*if (!receiver && GameState.onlinePlay) {
             val map = mutableMapOf(
                 "id" to clientID,
                 "cx" to oldX.toString(),
@@ -498,16 +424,16 @@ private fun promoteTo(newPieceKind: PieceKind) {
 
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
-        }*/
+        }*//*
 
 
-        /*if (GameState.firstMove) {
+        *//*if (GameState.firstMove) {
             GameState.chessClock!!.blackTimer.toggle()
             GameState.firstMove = false
         } else {
             GameState.chessClock!!.whiteTimer.toggle()
             GameState.chessClock!!.blackTimer.toggle()
-        }*/
+        }*//*
 
 
         positionInt = newPosInt // TODO: Check if this is useless
@@ -531,7 +457,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
 
         return true
 
-    }
+    }*/
 
 
 }

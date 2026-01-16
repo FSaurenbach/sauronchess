@@ -1,7 +1,5 @@
 package de.fsaurenbach.sauronchess.client
 
-import de.fsaurenbach.sauronchess.client.GameState.activeCell
-import de.fsaurenbach.sauronchess.client.GameState.cells
 import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
@@ -22,8 +20,8 @@ import korlibs.time.*
 import kotlinx.coroutines.*
 import kotlin.properties.*
 import kotlin.random.*
-import kotlin.time.*
 
+var boardState: BoardState by Delegates.notNull()
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
     val cells = ArrayList<Cell>()
@@ -232,11 +230,13 @@ class GameScene : Scene() {
                 activeCell = null
             }
         }*/
-
+        boardState = BoardState()
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)
         reloadPictures()
         chessboard.addAllPieces()
+
+        println(boardState)
     }
 
 

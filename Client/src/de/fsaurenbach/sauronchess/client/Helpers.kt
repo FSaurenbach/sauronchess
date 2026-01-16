@@ -44,6 +44,7 @@ fun Container.addAllPieces() {
 
     for (piece in GameState.pieces) {
         movePiece(piece, piece.positionInt)
+        boardState.pieces.add(PieceState(piece.id, piece.kind, piece.color, piece.positionInt))
     }
 }
 
@@ -66,36 +67,7 @@ suspend fun reloadPictures() {
     Images.creditsSvg = resourcesVfs["credits.png"].readBitmap()
 }
 
-/** Simulates a move for showing available moves.*/
-fun simulateMove(
-    oldPos: Int, newPos: Int, piece: Piece, calledFromKing: Boolean = false
-): Boolean {
-    if (!calledFromKing) {
-        if (!piece.moveChecker(newPos)) {
-            return false
-        }
-    }
 
-//    inCheck(GameState.pieces, calledFromKing)
-    val pieceOnNewPos = findPiece(newPos)
-    if (piece.color == pieceOnNewPos?.color) return false
-
-//    println("Simulated move: ${piece.cx}, ${piece.cy}, inCheck: ${inCheck(GameState.pieces)} , pieceonnewpos $pieceOnNewPos")
-    if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
-    if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
-    movePiece(piece, newPos)
-    pieceOnNewPos?.disabled = true
-    if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
-        movePiece(piece, oldPos)
-//        println("move is not possible")
-        return false
-    }
-//    val stillInCheck = inCheck(GameState.pieces, calledFromKing)
-//    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
-    movePiece(piece, oldPos)
-    pieceOnNewPos?.disabled = false
-    return true // !stillInCheck
-}
 
 
 fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
