@@ -201,12 +201,6 @@ class Piece(
 
 
     /*
-    private fun moveKnight(): Boolean {
-        val xDiff = abs(newX - currentX)
-        val yDiff = abs(newY - currentY)
-
-        return (xDiff == 2 && yDiff == 1) || (xDiff == 1 && yDiff == 2)
-    }
 
     private fun moveBishop(): Boolean {
         val dx = abs(newX - currentX)

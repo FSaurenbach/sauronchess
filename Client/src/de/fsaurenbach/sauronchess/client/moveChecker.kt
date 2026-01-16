@@ -77,6 +77,9 @@ class MC(
     var oldPosInt: Int, var newPosInt: Int, var boardState: BoardState
 ) {
 
+    val oldPos = converter(oldPosInt)
+    val newPos = converter(newPosInt)
+
     private var piece = boardState.pieces.find { it.positionInt == oldPosInt }
     var isWhite = if (piece?.color == Colors.WHITE) true else false
     private val diff get() = newPosInt - oldPosInt
@@ -89,9 +92,9 @@ class MC(
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook()
             PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()
+            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
 
             /*
-            PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen()
             */
@@ -114,7 +117,7 @@ class MC(
         } else {
             diff == -16 && oldPosInt in 48..55
         }
-
+        // TODO: Reimplement en passant
         /*val isEnPassant = if (isWhite) {
             newY - currentY == -1 && abs(newX - currentX) == 1
         } else {
@@ -143,10 +146,14 @@ class MC(
         return false
     }
 
+    private fun moveKnight(): Boolean {
+        val xDiff = abs(newPos.first - oldPos.first)
+        val yDiff = abs(newPos.second - oldPos.second)
+
+        return (xDiff == 2 && yDiff == 1) || (xDiff == 1 && yDiff == 2)
+    }
 
     private fun moveRook(): Boolean {
-        val oldPos = converter(oldPosInt)
-        val newPos = converter(newPosInt)
 
 
         val isVerticalMove = oldPos.second == newPos.second
@@ -172,8 +179,6 @@ class MC(
 
     private fun moveKing(): Boolean {
 
-        val oldPos = converter(oldPosInt)
-        val newPos = converter(newPosInt)
         // Determine the move direction
         val deltaX = newPos.first - oldPos.first
         val deltaY = newPos.second - oldPos.second
