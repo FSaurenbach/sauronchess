@@ -6,6 +6,7 @@ import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
+import kotlinx.coroutines.*
 import kotlin.math.*
 
 
@@ -16,20 +17,16 @@ enum class PieceKind {
 
 fun Container.piece(
     kind: PieceKind, color: RGBA, positionInt: Int, disabled: Boolean = false, isWhite: Boolean
-): Piece = Piece(kind, color, positionInt, disabled, isWhite).addTo(this)
+): Piece = Piece(kind, color, positionInt, isWhite).addTo(this)
 
 
 class Piece(
     var kind: PieceKind,
     val color: RGBA,
     var positionInt: Int,
-    var disabled: Boolean = false,
     val isWhite: Boolean
 ) : Container() {
 
-    /*var currentPos = Pair(cx, cy)
-    val currentX get() = currentPos.first
-    val currentY get() = currentPos.second*/
     val id: Int = positionInt
     private var newPosInt: Int = positionInt
 
@@ -138,6 +135,26 @@ class Piece(
                     if (simulateMove(oldPos = positionInt, newPos = newPosInt)) {
                         movePiece(this, newPosInt)
 
+                        if ((kind == PieceKind.WhitePawn && newPosInt in 56..63) || (kind == PieceKind.BlackPawn && newPosInt in 0..7)) {
+
+                            GameState.promotionActive = true
+
+                            if (UserSettings.autoPromote) {
+                                promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
+                                GameState.promotionActive = false
+
+                            } else {
+                                val promotionDialogue = PromotionDialogue(isWhite).addTo(GameState.sceneContainer)
+                                GameState.sceneContainer.launch {
+                                    promoteTo(promotionDialogue.getChoice())
+                                    GameState.promotionActive = false
+                                    promotionDialogue.removeFromParent()
+
+                                }
+                            }
+
+                        }
+
                         if (GameState.castleAttempt) {
                             when (newPosInt) {
                                 2 -> {
@@ -200,18 +217,13 @@ class Piece(
     }
 
 
-    /*
+    private fun promoteTo(newPieceKind: PieceKind) {
+        println("Promoting to $newPieceKind")
+        kind = newPieceKind
+        reloadImages()
+        boardState.pieces.find { it.id == id }!!.type = newPieceKind
+    }
 
-
-
-
-
-private fun promoteTo(newPieceKind: PieceKind) {
-    println("Promoting to $newPieceKind")
-    kind = newPieceKind
-    reloadImages()
-}
-*/
     private fun reloadImages() {
         if (::pImage.isInitialized) {
             pImage.removeFromParent()
@@ -252,25 +264,7 @@ private fun promoteTo(newPieceKind: PieceKind) {
         val pieceOnNewPos = findPiece(newPosInt)
 
         // Sonderregeln
-        *//*if ((kind == PieceKind.WhitePawn && newY == 0) || (kind == PieceKind.BlackPawn && newY == 7)) {
-
-            GameState.promotionActive = true
-
-            if (UserSettings.autoPromote) {
-                promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
-                GameState.promotionActive = false
-
-            } else {
-                val promotionDialogue = PromotionDialogue(isWhite).addTo(GameState.sceneContainer)
-                GameState.sceneContainer.launch {
-                    promoteTo(promotionDialogue.getChoice())
-                    GameState.promotionActive = false
-                    promotionDialogue.removeFromParent()
-
-                }
-            }
-
-        }
+        *//*
 
         GameState.enPassantVictim?.removeFromParent()
 

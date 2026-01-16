@@ -14,7 +14,6 @@ fun removePiece(piece: Piece) {
 
 fun Container.addAllPieces() {
 
-
     for (i in 0 until 8) {
         piece(PieceKind.WhitePawn, Colors.WHITE, 8 + i, isWhite =  true)
     }
@@ -67,9 +66,6 @@ suspend fun reloadPictures() {
     Images.blackKing = resourcesVfs["wikipedia/black_pieces/Chess_kdt45.svg"].readSVG().scaled(2.0, 2.0).render()
     Images.creditsSvg = resourcesVfs["credits.png"].readBitmap()
 }
-
-
-
 
 fun <T : View> T.centerYBetween(y1: Double, y2: Double): T {
     this.y = (y2 + y1 - this.scaledHeight) / 2

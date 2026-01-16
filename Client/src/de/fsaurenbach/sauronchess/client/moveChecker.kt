@@ -7,7 +7,7 @@ import kotlin.math.*
 typealias PieceId = Int
 
 data class PieceState(
-    val id: PieceId, val type: PieceKind, val color: RGBA, var positionInt: Int, var disabled: Boolean = false
+    val id: PieceId, var type: PieceKind, val color: RGBA, var positionInt: Int, var disabled: Boolean = false
 )
 
 data class BoardState(
@@ -15,9 +15,7 @@ data class BoardState(
 )
 
 fun movePieceOnBoard(pieceId: PieceId, newPosInt: Int, boardState: BoardState) {
-    //println("pieceID: $pieceId")
     val piece = boardState.pieces.find { it.id == pieceId }
-    //println("piece: $piece")
     piece!!.positionInt = newPosInt
 }
 
@@ -120,7 +118,7 @@ class MC(
                 return true
             }
         }
-
+        // TODO: EDGE CASE!!!! White pawn on 47 can take rook on 56!!!
         // White: +7 or +9 Black: -7 or -9
         else if (((isWhite && diff == 7 || diff == 9) || (!isWhite && diff == -7 || diff == -9)) && pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
             return true
