@@ -1,5 +1,6 @@
 package de.fsaurenbach.sauronchess.client
 
+import de.fsaurenbach.sauronchess.client.GameState.activeCell
 import de.fsaurenbach.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
@@ -18,6 +19,7 @@ import korlibs.math.random.*
 import korlibs.render.*
 import korlibs.time.*
 import kotlinx.coroutines.*
+import kotlin.math.*
 import kotlin.properties.*
 import kotlin.random.*
 
@@ -207,22 +209,22 @@ class GameScene : Scene() {
         // Active cell gets colored onUp.
         // To avoid immediately resetting the cell use onDown to be sure it is a different mouse press
         // TODO
-        /*onDown {
+        onDown {
             if (activeCell != null) {
 
                 println("Resetting cell $activeCell")
 
 
-                val downPosition = Pair(
-                    (it.downPosStage.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt(),
+                val downPosition = converter(
+                    (((it.downPosStage.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt()) - 7).absoluteValue,
                     (it.downPosStage.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
                 )
 
-                val cell = findCell(downPosition.first, downPosition.second)
-                if (cell != null){
-                    val piece = findPiece(activeCell!!.cx, activeCell!!.cy)
+                val cell = findCell(downPosition)
+                if (cell != null) {
+                    val piece = findPiece(activeCell!!.positionInt)
 
-                    if (piece != null){
+                    if (piece != null) {
                         println("starting clickListener")
                         piece.clickListener(downPosition)
                     }
@@ -231,7 +233,7 @@ class GameScene : Scene() {
                 activeCell?.colorCell()
                 activeCell = null
             }
-        }*/
+        }
         boardState = BoardState()
         settingsButton.centerYBetween(DisplayConfig.offsetY, 0.0)
         initializeBoard(chessboard)

@@ -113,12 +113,6 @@ class Piece(
     fun clickListener(newPosArgument: Int) {
 
         newPosInt = newPosArgument
-        //newPos = newPosArg
-        //     println("oldXY: $cxy, newPos: $newPos")
-
-        // TODO: Handle that in click listener as well!
-//        if (newX !in 0..<8 || newY !in 0..<8) error = true
-
 
         if (positionInt != newPosInt) {
             val pieceOnNewPos = findPiece(newPosInt)
@@ -208,11 +202,8 @@ class Piece(
         }
         // No dragging happened (== click)
         else {
-//            activeCell = findCell(currentX, currentY)!!.apply { markActive() }
+            activeCell = findCell(positionInt)!!.apply { markActive() }
             movePiece(this, positionInt)
-            // TODO: These have to be removed once click to move is reimplemented!
-            GameState.circles.forEach { it.removeFromParent() }
-            GameState.circles.clear()
         }
     }
 
