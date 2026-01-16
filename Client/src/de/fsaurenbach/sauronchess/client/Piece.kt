@@ -87,19 +87,22 @@ class Piece(
                 GameState.circles.forEach { it.removeFromParent() }
                 GameState.circles.clear()
                 // Show available moves
-                for (x in 0..63) {
-                    if (simulateMove(positionInt, x)) {
-                        findCell(x).also {
-                            parent!!.moveIndicator(x).apply {
-                                if (findPiece(x) != null) markRed() else markGrey()
-                                addTo(GameState.circles)
-                                centerOn(it!!)
+                if (UserSettings.showAvailableMoves){
+                    for (x in 0..63) {
+                        if (simulateMove(positionInt, x, showAvailableMovesCheck = true)) {
+                            findCell(x).also {
+                                parent!!.moveIndicator(x).apply {
+                                    if (findPiece(x) != null) markRed() else markGrey()
+                                    addTo(GameState.circles)
+                                    centerOn(it!!)
+                                }
+
                             }
-
                         }
-                    }
 
+                    }
                 }
+
             }
             if (info.end) {
                 zIndex = 0.0
@@ -148,14 +151,11 @@ class Piece(
                 // Case move is valid and no king is in check
 
                 /*else*/
-                val mc = MC(positionInt, newPosInt)
-                if (mc.moveChecker(
-                        newPosInt,
-                    ) && !GameState.blackKingInCheck && !GameState.whiteKingInCheck
+                val mc = MC(positionInt, newPosInt, boardState)
+                if (mc.moveChecker()/* && !GameState.blackKingInCheck && !GameState.whiteKingInCheck*/
                 ) {
                     if (simulateMove(oldPos = positionInt, newPos = newPosInt)) {
                         movePiece(this, newPosInt)
-
 
                         pieceOnNewPos?.let {
                             removePieceOnBoard(it.id, boardState)
@@ -163,6 +163,7 @@ class Piece(
                         }
 
                         whiteTurn = !whiteTurn
+                        inCheck(boardState)
 //                        println("whiteTurn: $whiteTurn, ${boardState}")
                     }
                     else invalid = true
@@ -230,67 +231,6 @@ class Piece(
 
     private fun moveQueen(): Boolean = moveRook() || moveBishop()
 
-    private fun moveKing(): Boolean {
-        // Determine the move direction
-        val deltaX = newX - currentX
-        val deltaY = newY - currentY
-
-        // Check if the move is within the valid range for a king
-
-        if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
-
-        // Castling
-        if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7) {
-            when {
-                newX == 6 && newY == 7 -> {
-
-                    if (findPiece(newX, newY) != null || findPiece(5, 7) != null) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-
-                newX == 2 && newY == 7 -> {
-
-                    if (findPiece(1, 7) != null || findPiece(newX, newY) != null || findPiece(
-                            3, 7
-                        ) != null
-                    ) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-            }
-        }
-        if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0) {
-            when {
-                newX == 6 && newY == 0 -> {
-
-                    if (findPiece(newX, newY) != null || findPiece(5, 0) != null) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-
-                newX == 2 && newY == 0 -> {
-
-                    if (findPiece(1, 0) != null || findPiece(newX, newY) != null || findPiece(
-                            3, 0
-                        ) != null
-                    ) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-            }
-        }
-
-        return false
-    }
 
 
 

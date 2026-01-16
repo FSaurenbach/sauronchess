@@ -1,6 +1,7 @@
 package de.fsaurenbach.sauronchess.client
 
 import korlibs.image.color.*
+import kotlin.math.*
 
 
 typealias PieceId = Int
@@ -18,38 +19,42 @@ data class BoardState(
 )
 
 fun movePieceOnBoard(pieceId: PieceId, newPosInt: Int, boardState: BoardState) {
+    //println("pieceID: $pieceId")
     val piece = boardState.pieces.find { it.id == pieceId }
-    piece?.positionInt = newPosInt
+    //println("piece: $piece")
+    piece!!.positionInt = newPosInt
 }
 
 fun removePieceOnBoard(pieceId: PieceId, boardState: BoardState){
     boardState.pieces.remove(boardState.pieces.find { it.id == pieceId })
 }
 
+fun findPieceOnBoard(positionInt: Int, boardState: BoardState): PieceState? = boardState.pieces.find { it.positionInt == positionInt }
+
+
 /** Simulates a move for showing available moves.*/
 fun simulateMove(
-    oldPos: Int, newPos: Int, calledFromKing: Boolean = false
+    oldPos: Int, newPos: Int, calledFromKing: Boolean = false, showAvailableMovesCheck: Boolean = false
 ): Boolean {
     val currentBoardState = boardState
 
     val piece: PieceState = currentBoardState.pieces.find { it.positionInt == oldPos }!!
     if (!calledFromKing) {
-        if (!MC(oldPos, newPos).moveChecker(newPos)) {
+        if (!MC(oldPos, newPos, currentBoardState).moveChecker()) {
             return false
         }
     }
 
-//    inCheck(GameState.pieces, calledFromKing)
+    inCheck(currentBoardState)
     val pieceOnNewPos = currentBoardState.pieces.find { it.positionInt == newPos }
 
     val pieceID: PieceId = currentBoardState.pieces.find { it.positionInt == oldPos }!!.id
 
     if (piece.color == pieceOnNewPos?.color) return false
-    // ${inCheck(GameState.pieces)}
-    println("Simulated move: ${oldPos} ->  ${newPos}, inCheck:  , pieceonnewpos $pieceOnNewPos")
+    if (!showAvailableMovesCheck)  println("Simulated move: $oldPos ->  ${newPos}, inCheck: ${inCheck(currentBoardState)} , pieceonnewpos $pieceOnNewPos")
+
     if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
     if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
-
 
     movePieceOnBoard(pieceID, newPos, currentBoardState)
 
@@ -57,44 +62,46 @@ fun simulateMove(
 
     if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
         movePieceOnBoard(pieceID, oldPos, currentBoardState)
-//        println("move is not possible")
+        println("move is not possible cause king in check")
         return false
     }
-//    val stillInCheck = inCheck(GameState.pieces, calledFromKing)
-//    println("Simulated move: ${piece.cx}, ${piece.cy}, stillInCheck: $stillInCheck")
+    val stillInCheck = inCheck(currentBoardState)
+    if (!showAvailableMovesCheck) println("Simulated move: $oldPos -> $newPos, stillInCheck: $stillInCheck , pieceonnewpos $pieceOnNewPos")
+
     movePieceOnBoard(pieceID, oldPos, currentBoardState)
     pieceOnNewPos?.disabled = false
-    return true // !stillInCheck
+
+    if ((GameState.whiteTurn && GameState.blackKingInCheck) || (!GameState.whiteTurn && GameState.whiteKingInCheck)) return true
+    return !stillInCheck
 }
 
 
 class MC(
     var oldPosInt: Int,
-    var newPosInt: Int
+    var newPosInt: Int,
+    var boardState: BoardState
 ) {
 
-    var piece = boardState.pieces.find { it.positionInt == oldPosInt }
+    private var piece = boardState.pieces.find { it.positionInt == oldPosInt }
     var isWhite = if (piece?.color == Colors.WHITE) true else false
     private val diff get() = newPosInt - oldPosInt
 
-    fun moveChecker(
-        newPosOverride: Int,
-    ): Boolean {
-        newPosInt = newPosOverride
+    fun moveChecker(): Boolean {
 
 
 //        if (diff == 0) return false
         return when (piece!!.type) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
             PieceKind.WhiteRook, PieceKind.BlackRook -> moveRook()
-
+            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()
 
             /*
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()
             PieceKind.WhiteQueen, PieceKind.BlackQueen -> moveQueen()
-            PieceKind.WhiteKing, PieceKind.BlackKing -> moveKing()*/
+            */
             else -> {
+                println("error: ${piece!!.type}")
                 throw Error()
             }
         }
@@ -163,9 +170,75 @@ class MC(
         }
 
         return !range.any { pos ->
-            val p = findPiece(pos)
+            val p = findPieceOnBoard(pos, boardState)
             p != null && p.id != piece?.id
         }
+    }
+
+
+    private fun moveKing(): Boolean {
+
+        val oldPos = converter(oldPosInt)
+        val newPos = converter(newPosInt)
+        // Determine the move direction
+        val deltaX = newPos.first - oldPos.first
+        val deltaY = newPos.second - oldPos.second
+
+        // Check if the move is within the valid range for a king
+
+        if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
+
+        // Castling
+        /*if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7) {
+            when {
+                newX == 6 && newY == 7 -> {
+
+                    if (findPiece(newX, newY) != null || findPiece(5, 7) != null) return false
+                    if (!simulateMove(currentPos, newPos, this, true)) return false
+
+                    GameState.castleAttempt = true
+                    return true
+                }
+
+                newX == 2 && newY == 7 -> {
+
+                    if (findPiece(1, 7) != null || findPiece(newX, newY) != null || findPiece(
+                            3, 7
+                        ) != null
+                    ) return false
+                    if (!simulateMove(currentPos, newPos, this, true)) return false
+
+                    GameState.castleAttempt = true
+                    return true
+                }
+            }
+        }
+        if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0) {
+            when {
+                newX == 6 && newY == 0 -> {
+
+                    if (findPiece(newX, newY) != null || findPiece(5, 0) != null) return false
+                    if (!simulateMove(currentPos, newPos, this, true)) return false
+
+                    GameState.castleAttempt = true
+                    return true
+                }
+
+                newX == 2 && newY == 0 -> {
+
+                    if (findPiece(1, 0) != null || findPiece(newX, newY) != null || findPiece(
+                            3, 0
+                        ) != null
+                    ) return false
+                    if (!simulateMove(currentPos, newPos, this, true)) return false
+
+                    GameState.castleAttempt = true
+                    return true
+                }
+            }
+        }*/
+
+        return false
     }
 }
 fun converter(positionInt: Int): Pair<Int, Int> {

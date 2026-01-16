@@ -22,6 +22,7 @@ import kotlin.properties.*
 import kotlin.random.*
 
 var boardState: BoardState by Delegates.notNull()
+
 object GameState {
     var sceneContainer: SceneContainer by Delegates.notNull()
     val cells = ArrayList<Cell>()
@@ -117,6 +118,7 @@ object UserSettings {
     var autoOnlineMode: Boolean =
         false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
     var autoStart: Boolean = true
+    val showAvailableMoves: Boolean = true
 }
 
 const val DEFAULT_PORT = 443
@@ -279,34 +281,35 @@ class GameScene : Scene() {
 
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
-/*fun inCheck(piecesList: ArrayList<Piece>, fromCastling: Boolean = false): Boolean {
+fun inCheck(boardState: BoardState): Boolean {
     GameState.whiteKingInCheck = false
     GameState.blackKingInCheck = false
 
-    val whiteKingPosition = piecesList.find { it.kind == PieceKind.WhiteKing }!!.currentPos
-    val blackKingPosition = piecesList.find { it.kind == PieceKind.BlackKing }!!.currentPos
-    for (enemyPiece in piecesList) {
-        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
-            if (!GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(whiteKingPosition)) {*//* println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
-                println(whiteKingPosition) *//*
+    val whiteKingPosition = boardState.pieces.find { it.type == PieceKind.WhiteKing }!!.positionInt
+    val blackKingPosition = boardState.pieces.find { it.type == PieceKind.BlackKing }!!.positionInt
+
+    for (enemyPiece in boardState.pieces) {
+        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
+
+            if (MC(enemyPiece.positionInt, whiteKingPosition, boardState).moveChecker()) {
+                // println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
+                println(whiteKingPosition)
                 GameState.whiteKingInCheck = true
                 return true
             }
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
-            if (GameState.whiteTurn && !fromCastling) return false
 
-            if (enemyPiece.moveChecker(blackKingPosition)) {*//* println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
-                 println(blackKingPosition) *//*
+            if (MC(enemyPiece.positionInt, blackKingPosition, boardState).moveChecker()) {
+                // println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
+                println(blackKingPosition)
                 GameState.blackKingInCheck = true
                 return true
             }
         }
     }
-
     return false
-}*/
+}
 
 suspend fun sendGameEnd(reason: String) {
     if (GameState.onlinePlay) {

@@ -29,7 +29,7 @@ fun movePiece(
     findCell(newPositionInt)?.let {
         piece.centerOn(it)
     }
-    piece.positionInt = (newPositionInt)
+    piece.positionInt = newPositionInt
     movePieceOnBoard(piece.id, newPositionInt, boardState)
 
 }
