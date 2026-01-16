@@ -1,7 +1,7 @@
-package de.fsaurenbach.sauronchess.client
+package de.fsrb.sauronchess.client
 
-import de.fsaurenbach.sauronchess.client.DisplayConfig.cellHeight
-import de.fsaurenbach.sauronchess.client.DisplayConfig.cellWidth
+import de.fsrb.sauronchess.client.DisplayConfig.cellHeight
+import de.fsrb.sauronchess.client.DisplayConfig.cellWidth
 import korlibs.image.color.*
 import korlibs.korge.view.*
 import korlibs.korge.view.addTo

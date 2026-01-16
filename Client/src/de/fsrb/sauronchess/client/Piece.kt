@@ -1,7 +1,7 @@
-package de.fsaurenbach.sauronchess.client
+package de.fsrb.sauronchess.client
 
-import de.fsaurenbach.sauronchess.client.GameState.activeCell
-import de.fsaurenbach.sauronchess.client.GameState.whiteTurn
+import de.fsrb.sauronchess.client.GameState.activeCell
+import de.fsrb.sauronchess.client.GameState.whiteTurn
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*

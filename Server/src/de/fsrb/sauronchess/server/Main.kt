@@ -1,6 +1,6 @@
-package de.fsaurenbach.sauronchess.server
+package de.fsrb.sauronchess.server
 
-import de.fsaurenbach.sauronchess.common.*
+import de.fsrb.sauronchess.common.ChessClock
 import korlibs.io.async.*
 import korlibs.io.net.http.*
 import korlibs.io.serialization.json.*

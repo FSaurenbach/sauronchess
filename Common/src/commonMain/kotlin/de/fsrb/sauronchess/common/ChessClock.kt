@@ -1,4 +1,4 @@
-package de.fsaurenbach.sauronchess.common
+package de.fsrb.sauronchess.common
 
 import kotlinx.coroutines.*
 import kotlin.time.*

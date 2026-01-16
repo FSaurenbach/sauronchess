@@ -1,4 +1,4 @@
-package de.fsaurenbach.sauronchess.client
+package de.fsrb.sauronchess.client
 
 import korlibs.image.color.*
 import kotlin.math.*

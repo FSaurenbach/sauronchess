@@ -1,6 +1,6 @@
-package de.fsaurenbach.sauronchess.client
+package de.fsrb.sauronchess.client
 
-import de.fsaurenbach.sauronchess.common.*
+import de.fsrb.sauronchess.common.*
 import korlibs.image.color.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
