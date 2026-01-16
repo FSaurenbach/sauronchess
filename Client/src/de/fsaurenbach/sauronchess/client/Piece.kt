@@ -87,7 +87,7 @@ class Piece(
                 GameState.circles.forEach { it.removeFromParent() }
                 GameState.circles.clear()
                 // Show available moves
-                if (UserSettings.showAvailableMoves){
+                if (UserSettings.showAvailableMoves) {
                     for (x in 0..63) {
                         if (simulateMove(positionInt, x, showAvailableMovesCheck = true)) {
                             findCell(x).also {
@@ -132,30 +132,31 @@ class Piece(
             println("currentPos: $positionInt, newPos: $newPosInt, error: $invalid, pieceOnNewPos: $pieceOnNewPos")
 
             if (!invalid) {
-//                inCheck(GameState.pieces)
-                // Case a king is in check
-                //TODO
-                /*if (!GameState.whiteTurn && (GameState.blackKingInCheck || GameState.whiteKingInCheck)) {
-                    println("in check     sent from line 116")
-                    if (doMove()) {
-                        pieceOnNewPos?.let { removePiece(it) }
-                    } else {
-                        currentPos = currentSave
-                        movePiece(this, currentX, currentY)
-                    }
-                    inCheck(GameState.pieces)
-                    checkGameLegal()
 
-                }*/
-
-                // Case move is valid and no king is in check
-
-                /*else*/
                 val mc = MC(positionInt, newPosInt, boardState)
-                if (mc.moveChecker()/* && !GameState.blackKingInCheck && !GameState.whiteKingInCheck*/
-                ) {
+                if (mc.moveChecker()) {
                     if (simulateMove(oldPos = positionInt, newPos = newPosInt)) {
                         movePiece(this, newPosInt)
+
+                        if (GameState.castleAttempt) {
+                            when (newPosInt) {
+                                2 -> {
+                                    movePiece(findPiece(0)!!, 3)
+                                }
+
+                                6 -> {
+                                    movePiece(findPiece(7)!!, 5)
+                                }
+
+                                58 -> {
+                                    movePiece(findPiece(56)!!, 59)
+                                }
+
+                                62 -> {
+                                    movePiece(findPiece(63)!!, 61)
+                                }
+                            }
+                        }
 
                         pieceOnNewPos?.let {
                             removePieceOnBoard(it.id, boardState)
@@ -164,9 +165,7 @@ class Piece(
 
                         whiteTurn = !whiteTurn
                         inCheck(boardState)
-//                        println("whiteTurn: $whiteTurn, ${boardState}")
-                    }
-                    else invalid = true
+                    } else invalid = true
                 }
                 // Case move is not valid, reset the piece to its orig position
                 else {
@@ -192,12 +191,13 @@ class Piece(
         }
         // No dragging happened (== click)
         else {
-            // TODO
 //            activeCell = findCell(currentX, currentY)!!.apply { markActive() }
-//            movePiece(this, currentX, currentY)
+            movePiece(this, positionInt)
+            // TODO: These have to be removed once click to move is reimplemented!
+            GameState.circles.forEach { it.removeFromParent() }
+            GameState.circles.clear()
         }
     }
-
 
 
     /*

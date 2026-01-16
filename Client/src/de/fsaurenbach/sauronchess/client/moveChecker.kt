@@ -7,11 +7,7 @@ import kotlin.math.*
 typealias PieceId = Int
 
 data class PieceState(
-    val id: PieceId,
-    val type: PieceKind,
-    val color: RGBA,
-    var positionInt: Int,
-    var disabled: Boolean = false
+    val id: PieceId, val type: PieceKind, val color: RGBA, var positionInt: Int, var disabled: Boolean = false
 )
 
 data class BoardState(
@@ -25,11 +21,12 @@ fun movePieceOnBoard(pieceId: PieceId, newPosInt: Int, boardState: BoardState) {
     piece!!.positionInt = newPosInt
 }
 
-fun removePieceOnBoard(pieceId: PieceId, boardState: BoardState){
+fun removePieceOnBoard(pieceId: PieceId, boardState: BoardState) {
     boardState.pieces.remove(boardState.pieces.find { it.id == pieceId })
 }
 
-fun findPieceOnBoard(positionInt: Int, boardState: BoardState): PieceState? = boardState.pieces.find { it.positionInt == positionInt }
+fun findPieceOnBoard(positionInt: Int, boardState: BoardState): PieceState? =
+    boardState.pieces.find { it.positionInt == positionInt }
 
 
 /** Simulates a move for showing available moves.*/
@@ -51,7 +48,7 @@ fun simulateMove(
     val pieceID: PieceId = currentBoardState.pieces.find { it.positionInt == oldPos }!!.id
 
     if (piece.color == pieceOnNewPos?.color) return false
-    if (!showAvailableMovesCheck)  println("Simulated move: $oldPos ->  ${newPos}, inCheck: ${inCheck(currentBoardState)} , pieceonnewpos $pieceOnNewPos")
+    if (!showAvailableMovesCheck) println("Simulated move: $oldPos ->  ${newPos}, inCheck: ${inCheck(currentBoardState)} , pieceonnewpos $pieceOnNewPos")
 
     if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
     if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
@@ -77,9 +74,7 @@ fun simulateMove(
 
 
 class MC(
-    var oldPosInt: Int,
-    var newPosInt: Int,
-    var boardState: BoardState
+    var oldPosInt: Int, var newPosInt: Int, var boardState: BoardState
 ) {
 
     private var piece = boardState.pieces.find { it.positionInt == oldPosInt }
@@ -149,7 +144,6 @@ class MC(
     }
 
 
-
     private fun moveRook(): Boolean {
         val oldPos = converter(oldPosInt)
         val newPos = converter(newPosInt)
@@ -189,58 +183,72 @@ class MC(
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
 
         // Castling
-        /*if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7) {
-            when {
-                newX == 6 && newY == 7 -> {
+        if (GameState.whiteCastlingLegal && isWhite) {
+            when (newPosInt) {
+                2 -> {
 
-                    if (findPiece(newX, newY) != null || findPiece(5, 7) != null) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
+                    if (findPieceOnBoard(newPosInt, boardState) != null || findPieceOnBoard(
+                            1, boardState
+                        ) != null || findPieceOnBoard(
+                            3, boardState
+                        ) != null
+                    ) return false
+                    if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
+
 
                     GameState.castleAttempt = true
                     return true
                 }
 
-                newX == 2 && newY == 7 -> {
+                6 -> {
 
-                    if (findPiece(1, 7) != null || findPiece(newX, newY) != null || findPiece(
-                            3, 7
+                    if (findPieceOnBoard(newPosInt, boardState) != null || findPieceOnBoard(
+                            5, boardState
                         ) != null
                     ) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
+                    if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
+                    println("castling legalllllll")
+                    GameState.castleAttempt = true
+                    return true
+                }
+            }
+        }
+        if (GameState.blackCastlingLegal && !isWhite) {
+            when (newPosInt) {
+                58 -> {
+
+                    if (findPieceOnBoard(newPosInt, boardState) != null || findPieceOnBoard(
+                            57, boardState
+                        ) != null || findPieceOnBoard(
+                            59, boardState
+                        ) != null
+                    ) return false
+                    if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
+
+
+                    GameState.castleAttempt = true
+                    return true
+                }
+
+                62 -> {
+
+                    if (findPieceOnBoard(newPosInt, boardState) != null || findPieceOnBoard(
+                            61, boardState
+                        ) != null
+                    ) return false
+                    if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
+
 
                     GameState.castleAttempt = true
                     return true
                 }
             }
         }
-        if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0) {
-            when {
-                newX == 6 && newY == 0 -> {
-
-                    if (findPiece(newX, newY) != null || findPiece(5, 0) != null) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-
-                newX == 2 && newY == 0 -> {
-
-                    if (findPiece(1, 0) != null || findPiece(newX, newY) != null || findPiece(
-                            3, 0
-                        ) != null
-                    ) return false
-                    if (!simulateMove(currentPos, newPos, this, true)) return false
-
-                    GameState.castleAttempt = true
-                    return true
-                }
-            }
-        }*/
 
         return false
     }
 }
+
 fun converter(positionInt: Int): Pair<Int, Int> {
     require(positionInt in 0..63) { "positionInt must be 0..63" }
     val t = 63 - positionInt
