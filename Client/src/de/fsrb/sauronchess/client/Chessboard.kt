@@ -7,7 +7,6 @@ import korlibs.math.*
 fun initializeBoard(chessboard: Container) {
     var d = 0
 
-    //TEMP
     var positionInt = 0
     for (cy in 7 downTo 0) {
         for (cx in 0 until 8) {

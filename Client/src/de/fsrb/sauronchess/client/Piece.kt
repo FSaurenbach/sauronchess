@@ -118,9 +118,7 @@ class Piece(
             val pieceOnNewPos = findPiece(newPosInt)
             if (pieceOnNewPos?.color == color) invalid = true
             val currentSave = positionInt
-            // Perform the move if no error
-
-            println("currentPos: $positionInt, newPos: $newPosInt, error: $invalid, pieceOnNewPos: $pieceOnNewPos")
+            println("currentPos: $positionInt, newPos: $newPosInt, error: $invalid, pieceOnNewPos: $pieceOnNewPos, invalid: $invalid")
 
             if (!invalid) {
 
@@ -172,6 +170,15 @@ class Piece(
                         pieceOnNewPos?.let {
                             removePieceOnBoard(it.id, boardState)
                             removePiece(it)
+                        }
+
+                        // Shouldn't this be handled in main or anywhere else than piece?
+                        if (GameState.firstMove) {
+                            GameState.chessClock!!.blackTimer.toggle()
+                            GameState.firstMove = false
+                        } else {
+                            GameState.chessClock!!.whiteTimer.toggle()
+                            GameState.chessClock!!.blackTimer.toggle()
                         }
 
                         whiteTurn = !whiteTurn
@@ -321,15 +328,6 @@ class Piece(
 
             println("SENDING :${map.toJson()}")
             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
-        }*//*
-
-
-        *//*if (GameState.firstMove) {
-            GameState.chessClock!!.blackTimer.toggle()
-            GameState.firstMove = false
-        } else {
-            GameState.chessClock!!.whiteTimer.toggle()
-            GameState.chessClock!!.blackTimer.toggle()
         }*//*
 
 

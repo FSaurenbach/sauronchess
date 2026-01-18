@@ -15,17 +15,17 @@ fun removePiece(piece: Piece) {
 fun Container.addAllPieces() {
 
     for (i in 0 until 8) {
-        piece(PieceKind.WhitePawn, Colors.WHITE, 8 + i, isWhite =  true)
+        piece(PieceKind.WhitePawn, Colors.WHITE, 8 + i, isWhite = true)
     }
 
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 1, isWhite =  true)
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 6, isWhite =  true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 2, isWhite =  true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 5, isWhite =  true)
-    piece(PieceKind.WhiteRook, Colors.WHITE, 0, isWhite =  true)
-    piece(PieceKind.WhiteQueen, Colors.WHITE, 3, isWhite =  true)
-    piece(PieceKind.WhiteRook, Colors.WHITE, 7, isWhite =  true)
-    piece(PieceKind.WhiteKing, Colors.WHITE, 4, isWhite =  true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, 1, isWhite = true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, 6, isWhite = true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, 2, isWhite = true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, 5, isWhite = true)
+    piece(PieceKind.WhiteRook, Colors.WHITE, 0, isWhite = true)
+    piece(PieceKind.WhiteQueen, Colors.WHITE, 3, isWhite = true)
+    piece(PieceKind.WhiteRook, Colors.WHITE, 7, isWhite = true)
+    piece(PieceKind.WhiteKing, Colors.WHITE, 4, isWhite = true)
 
 
     for (i in 0 until 8) {
