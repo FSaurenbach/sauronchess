@@ -272,49 +272,6 @@ class Piece(
         pImage.scale = DisplayConfig.userScale
     }
 
-
-    /*fun doMove(newPosOverride: Int = newPosInt, receiver: Boolean = false): Boolean {
-
-//            inCheck(GameState.pieces)
-        val pieceOnNewPos = findPiece(newPosInt)
-
-
-        GameState.enPassantVictim?.removeFromParent()
-
-
-
-        movePiece(this, newPosInt)
-        pieceOnNewPos?.disabled = true
-//            inCheck(GameState.pieces)
-        if ((color == Colors.BLACK && GameState.blackKingInCheck) || (color == Colors.WHITE && GameState.whiteKingInCheck)) {
-            movePiece(this, newPosInt)
-            println("King will (still) be in check after this move!")
-            return false
-        }
-//            inCheck(GameState.pieces)
-        println("Doing move: $oldPosition ---> $newPosInt, (still) inCheck: ") // ${inCheck(GameState.pieces)}
-
-
-
-
-        positionInt = newPosInt // TODO: Check if this is useless
-
-        GameState.castleAttempt = false
-        pieceOnNewPos?.disabled = false
-        GameState.whiteTurn = !GameState.whiteTurn
-        pieceOnNewPos?.let { removePiece(it) }
-
-
-
-//            inCheck(GameState.pieces)
-
-        checkGameLegal()
-
-        return true
-
-    }*/
-
-
 }
 
 
