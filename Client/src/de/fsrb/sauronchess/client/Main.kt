@@ -22,6 +22,7 @@ import kotlinx.coroutines.*
 import kotlin.math.*
 import kotlin.properties.*
 import kotlin.random.*
+import kotlin.time.*
 
 var boardState: BoardState by Delegates.notNull()
 
@@ -116,10 +117,10 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = false // TODO: Make that configurable in game..
+    var debugMode: Boolean = true // TODO: Make that configurable in game..
     var autoOnlineMode: Boolean =
         false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
-    var autoStart: Boolean = true
+    var autoStart: Boolean = false
     val showAvailableMoves: Boolean = true
 }
 
@@ -190,7 +191,8 @@ class GameScene : Scene() {
 
         GameState.chessClockContainer = ChessClockContainer().addTo(this)
         GameState.chessClockContainer!!.centerXOnStage()
-        /*if (GameState.onlinePlay) {
+
+        if (GameState.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
@@ -204,7 +206,7 @@ class GameScene : Scene() {
             wsClient!!.onStringMessage {
                 launch { webSockerListener(it) }
             }
-        }*/
+        }
 
         // Active cell gets colored onUp.
         // To avoid immediately resetting the cell use onDown to be sure it is a different mouse press
@@ -231,7 +233,7 @@ class GameScene : Scene() {
                         println("starting clickListener")
                         piece.isOnLeftEdge = downPosition.first == 7
                         piece.isOnRightEdge = downPosition.first == 0
-                        piece.clickListener(downPositionConverted)
+                        piece.clickListener(downPositionConverted, false)
                     }
                 }
 
@@ -251,7 +253,7 @@ class GameScene : Scene() {
 
 }
 
-/*suspend fun webSockerListener(message: String) {
+suspend fun webSockerListener(message: String) {
     println("INCOMING MESSAGE: $message")
     val map: Map<String, *>
     try {
@@ -275,15 +277,13 @@ class GameScene : Scene() {
         return
     }
     if (map.containsKey("castling")) GameState.castleAttempt = true
-    println("cx: ${map["cx"]}, cy: ${map["cy"]}, newX, ${map["newX"]}, newY: ${map["newY"]}")
+    println("oldPosInt: ${map["oldPosInt"]}, newPosInt: ${map["newPosInt"]}")
 
-    if (map["cx"] == null || map["cy"] == null || map["newX"] == null || map["newY"] == null) return
-    val piece = findPiece(map["cx"]!!.toInt(), map["cy"]!!.toInt())
-    println("cx: ${piece?.currentPos}")
-    piece?.doMove(map["newX"]!!.toInt(), map["newY"]!!.toInt(), true)
+    if (map["oldPosInt"] == null || map["newPosInt"] == null) return
+    val piece = findPiece(map["oldPosInt"]!!.toInt())
 
-
-}*/
+    piece?.clickListener(map["newPosInt"]!!.toInt(), true)
+}
 
 
 /** Check if a piece could take a king from the current position

@@ -3,6 +3,7 @@ package de.fsrb.sauronchess.client
 import de.fsrb.sauronchess.client.GameState.activeCell
 import de.fsrb.sauronchess.client.GameState.whiteTurn
 import korlibs.image.color.*
+import korlibs.io.serialization.json.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
 import korlibs.korge.view.align.*
@@ -105,13 +106,13 @@ class Piece(
             if (info.end) {
                 zIndex = 0.0
                 scale(1.0, 1.0)
-                clickListener(newPosInt)
+                clickListener(newPosInt, false)
                 println(boardState)
             }
         }
     }
 
-    fun clickListener(newPosArgument: Int) {
+    fun clickListener(newPosArgument: Int, serverRequestedMove: Boolean) {
 
         newPosInt = newPosArgument
 
@@ -126,6 +127,7 @@ class Piece(
                 val mc = MC(positionInt, newPosInt, boardState)
                 if (mc.moveChecker()) {
                     if (simulateMove(oldPos = positionInt, newPos = newPosInt)) {
+                        val oldPosInt = positionInt
                         movePiece(this, newPosInt)
 
                         if ((kind == PieceKind.WhitePawn && newPosInt in 56..63) || (kind == PieceKind.BlackPawn && newPosInt in 0..7)) {
@@ -182,6 +184,17 @@ class Piece(
                             GameState.chessClock!!.blackTimer.toggle()
                         }
 
+                        if (!serverRequestedMove && GameState.onlinePlay) {
+                            val map = mutableMapOf(
+                                "oldPosInt" to oldPosInt.toString(),
+                                "newPosInt" to positionInt.toString(),
+                            )
+                            if (GameState.castleAttempt) map["castling"] = "true"
+                            map.putAll(uniqueIdentifier!!)
+
+                            println("SENDING :${map.toJson()}")
+                            GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+                        }
                         whiteTurn = !whiteTurn
                         inCheck(boardState)
                     } else invalid = true
@@ -250,60 +263,14 @@ class Piece(
 
 
     /*fun doMove(newPosOverride: Int = newPosInt, receiver: Boolean = false): Boolean {
-        println("do move: $positionInt -> $newPosInt")
-        newPosInt = newPosOverride
-        println("${GameState.whiteTurn}, me: ${color == Colors.BLACK}")
-
-        if ((GameState.whiteTurn && color == Colors.BLACK) || (!GameState.whiteTurn && color == Colors.WHITE)) return false
-        println("fine here")
-        val oldPosition = positionInt
-
 
 //            inCheck(GameState.pieces)
         val pieceOnNewPos = findPiece(newPosInt)
 
-        // Sonderregeln
-        *//*
 
         GameState.enPassantVictim?.removeFromParent()
 
-        if (GameState.whiteCastlingLegal && isWhite && currentX == 4 && currentY == 7 && GameState.castleAttempt) {
-            when {
-                newX == 6 && newY == 7 -> {
-                    val rook = findPiece(7, 7)
-                    movePiece(rook!!, 5, 7)
-                    movePiece(this, newX, newY)
-                    GameState.whiteCastlingLegal = false
 
-                }
-
-                newX == 2 && newY == 7 -> {
-                    val rook = findPiece(0, 7)
-                    movePiece(rook!!, 3, 7)
-                    movePiece(this, newX, newY)
-
-                    GameState.whiteCastlingLegal = false
-                }
-            }
-        } else if (GameState.blackCastlingLegal && !isWhite && currentX == 4 && currentY == 0 && GameState.castleAttempt) {
-            when {
-                newX == 6 && newY == 0 -> {
-                    val rook = findPiece(7, 0)
-                    movePiece(rook!!, 5, 0)
-                    movePiece(this, newX, newY)
-
-                    GameState.blackCastlingLegal = false
-                }
-
-                newX == 2 && newY == 0 -> {
-                    val rook = findPiece(0, 0)
-                    movePiece(rook!!, 3, 0)
-                    movePiece(this, newX, newY)
-                    GameState.blackCastlingLegal = false
-                }
-            }
-
-        }*//*
 
         movePiece(this, newPosInt)
         pieceOnNewPos?.disabled = true
@@ -316,20 +283,7 @@ class Piece(
 //            inCheck(GameState.pieces)
         println("Doing move: $oldPosition ---> $newPosInt, (still) inCheck: ") // ${inCheck(GameState.pieces)}
 
-        *//*if (!receiver && GameState.onlinePlay) {
-            val map = mutableMapOf(
-                "id" to clientID,
-                "cx" to oldX.toString(),
-                "cy" to oldY.toString(),
-                "newX" to newX.toString(),
-                "newY" to newY.toString()
-            )
-            if (GameState.castleAttempt) map["castling"] = "true"
-            map.putAll(uniqueIdentifier!!)
 
-            println("SENDING :${map.toJson()}")
-            GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
-        }*//*
 
 
         positionInt = newPosInt // TODO: Check if this is useless
@@ -359,10 +313,7 @@ class Piece(
 }
 
 
-fun checkGameLegal() {
-
-    // TODO
-    if (1 == 1) return/*
+/*fun checkGameLegal() {
     var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
     var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
     var draw = false
@@ -435,5 +386,4 @@ fun checkGameLegal() {
         if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
     }
     println("insuffmat: $insufficientMaterial, checkmate: $checkMate, draw: $draw")
-*/
-}
+}*/
