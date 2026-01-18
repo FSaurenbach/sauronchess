@@ -16,7 +16,7 @@ enum class PieceKind {
 
 
 fun Container.piece(
-    kind: PieceKind, color: RGBA, positionInt: Int, disabled: Boolean = false, isWhite: Boolean
+    kind: PieceKind, color: RGBA, positionInt: Int, isWhite: Boolean
 ): Piece = Piece(kind, color, positionInt, isWhite).addTo(this)
 
 
@@ -32,7 +32,7 @@ class Piece(
 
     lateinit var pImage: Image
     private var enPassantLegal = false
-    var invalid = false
+    private var invalid = false
     var isOnLeftEdge = false
     var isOnRightEdge = false
 
@@ -51,7 +51,8 @@ class Piece(
                 if ((newPos.first !in 0..<8 || newPos.second !in 0..<8)) {
                     invalid = true
                 }
-                if (newPos.first == 7) isOnLeftEdge = true else if (newPos.first == 0) isOnRightEdge = true
+                isOnLeftEdge = newPos.first == 7
+                isOnRightEdge = newPos.first == 0
 
 
                 newPosInt = 63 - (newPos.second * 8 + newPos.first) // That calculation was a pain :(

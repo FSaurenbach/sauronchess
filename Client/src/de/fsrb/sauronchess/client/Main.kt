@@ -214,19 +214,24 @@ class GameScene : Scene() {
 
                 println("Resetting cell $activeCell")
 
-
-                val downPosition = converter(
+                val downPosition = Pair(
                     (((it.downPosStage.x - DisplayConfig.offsetX).toInt() / DisplayConfig.cellWidth.toInt()) - 7).absoluteValue,
-                    (it.downPosStage.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt(),
+                    (it.downPosStage.y - DisplayConfig.offsetY).toInt() / DisplayConfig.cellHeight.toInt()
                 )
 
-                val cell = findCell(downPosition)
+                val downPositionConverted = converter(
+                    downPosition.first, downPosition.second
+                )
+
+                val cell = findCell(downPositionConverted)
                 if (cell != null) {
                     val piece = findPiece(activeCell!!.positionInt)
 
                     if (piece != null) {
                         println("starting clickListener")
-                        piece.clickListener(downPosition)
+                        piece.isOnLeftEdge = downPosition.first == 7
+                        piece.isOnRightEdge = downPosition.first == 0
+                        piece.clickListener(downPositionConverted)
                     }
                 }
 
