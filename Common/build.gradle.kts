@@ -2,7 +2,7 @@ plugins {
     kotlin("multiplatform")
 }
 
-group = "de.fsaurenbach.sauronchess"
+group = "de.fsrb.sauronchess"
 version = "1.0"
 
 repositories {

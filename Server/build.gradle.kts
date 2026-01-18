@@ -5,10 +5,10 @@ plugins {
 }
 
 korge {
-    id = "de.fsaurenbach.sauronchess.server"
+    id = "de.fsrb.sauronchess.server"
     name = "Sauronchess Server"
     targetJvm()
-    jvmMainClassName = "de.fsaurenbach.sauronchess.server.MainKt"
+    jvmMainClassName = "de.fsrb.sauronchess.server.MainKt"
 }
 
 dependencies {

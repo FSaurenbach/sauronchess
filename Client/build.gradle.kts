@@ -5,12 +5,12 @@ plugins {
 }
 
 korge {
-    id = "de.fsaurenbach.sauronchess.client"
+    id = "de.fsrb.sauronchess.client"
     name = "Sauronchess Client"
     targetJvm()
     targetJs()
     webBindPort = 8989
-    jvmMainClassName = "de.fsaurenbach.sauronchess.client.MainKt"
+    jvmMainClassName = "de.fsrb.sauronchess.client.MainKt"
 }
 
 kotlin {
