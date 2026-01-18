@@ -7,10 +7,6 @@ import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
 
-fun removePiece(piece: Piece) {
-    GameState.pieces.remove(piece)
-    piece.removeFromParent()
-}
 
 fun Container.addAllPieces() {
 

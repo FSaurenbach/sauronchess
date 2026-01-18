@@ -22,10 +22,7 @@ fun Container.piece(
 
 
 class Piece(
-    var kind: PieceKind,
-    val color: RGBA,
-    var positionInt: Int,
-    val isWhite: Boolean
+    var kind: PieceKind, val color: RGBA, var positionInt: Int, val isWhite: Boolean
 ) : Container() {
 
     val id: Int = positionInt
@@ -130,6 +127,7 @@ class Piece(
                         val oldPosInt = positionInt
                         movePiece(this, newPosInt)
 
+                        // Pawn promoting
                         if ((kind == PieceKind.WhitePawn && newPosInt in 56..63) || (kind == PieceKind.BlackPawn && newPosInt in 0..7)) {
 
                             GameState.promotionActive = true
@@ -150,6 +148,7 @@ class Piece(
 
                         }
 
+                        // Castling
                         if (GameState.castleAttempt) {
                             when (newPosInt) {
                                 2 -> {
@@ -169,11 +168,14 @@ class Piece(
                                 }
                             }
                         }
-
-                        pieceOnNewPos?.let {
-                            removePieceOnBoard(it.id, boardState)
-                            removePiece(it)
+                        if (!GameState.castleAttempt) {
+                            when (kind) {
+                                PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
+                                PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
+                                else -> {}
+                            }
                         }
+
 
                         // Shouldn't this be handled in main or anywhere else than piece?
                         if (GameState.firstMove) {
@@ -194,6 +196,9 @@ class Piece(
 
                             println("SENDING :${map.toJson()}")
                             GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+                        }
+                        pieceOnNewPos?.let {
+                            removePiece(it)
                         }
                         whiteTurn = !whiteTurn
                         inCheck(boardState)
@@ -226,6 +231,12 @@ class Piece(
             activeCell = findCell(positionInt)!!.apply { markActive() }
             movePiece(this, positionInt)
         }
+    }
+
+    private fun removePiece(piece: Piece) {
+        boardState.pieces.remove(boardState.pieces.find { it.id == piece.id })
+        GameState.pieces.remove(piece)
+        piece.removeFromParent()
     }
 
 
@@ -293,13 +304,7 @@ class Piece(
         GameState.whiteTurn = !GameState.whiteTurn
         pieceOnNewPos?.let { removePiece(it) }
 
-        if (!GameState.castleAttempt) {
-            when (kind) {
-                PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
-                PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
-                else -> {}
-            }
-        }
+
 
 //            inCheck(GameState.pieces)
 

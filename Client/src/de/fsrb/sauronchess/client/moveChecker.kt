@@ -19,13 +19,8 @@ fun movePieceOnBoard(pieceId: PieceId, newPosInt: Int, boardState: BoardState) {
     piece!!.positionInt = newPosInt
 }
 
-fun removePieceOnBoard(pieceId: PieceId, boardState: BoardState) {
-    boardState.pieces.remove(boardState.pieces.find { it.id == pieceId })
-}
-
 fun findPieceOnBoard(positionInt: Int, boardState: BoardState): PieceState? =
     boardState.pieces.find { it.positionInt == positionInt }
-
 
 /** Simulates a move for showing available moves.*/
 fun simulateMove(
