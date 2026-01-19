@@ -7,6 +7,7 @@ import korlibs.image.color.*
 import korlibs.image.vector.*
 import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
+import korlibs.io.lang.*
 import korlibs.io.net.ws.*
 import korlibs.io.serialization.json.*
 import korlibs.korge.*
@@ -117,11 +118,10 @@ object ThemeColors {
 object UserSettings {
     var darkMode: Boolean = false
     var autoPromote: Boolean = false
-    var debugMode: Boolean = true // TODO: Make that configurable in game..
-    var autoOnlineMode: Boolean =
-        false // TODO: AND make them configurable by external env vars to avoid commiting value changes..
+    var debugMode: Boolean = false
+    var autoOnlineMode: Boolean = false
     var autoStart: Boolean = false
-    val showAvailableMoves: Boolean = true
+    var showAvailableMoves: Boolean = true
 }
 
 const val DEFAULT_PORT = 443
@@ -141,6 +141,17 @@ suspend fun main() = Korge(
 ) {
     sceneContainer().apply {
         GameState.sceneContainer = this
+        val localProperties = localCurrentDirVfs["local.properties"]
+        if (localProperties.exists()) {
+            val props = Properties.parseString(localProperties.readAll().decodeToString())
+            UserSettings.darkMode = props["darkMode"].toBoolean()
+            UserSettings.autoOnlineMode = props["autoOnlineMode"].toBoolean()
+            UserSettings.autoPromote = props["autoPromote"].toBoolean()
+            UserSettings.autoStart = props["autoStart"].toBoolean()
+            UserSettings.debugMode = props["debugMode"].toBoolean()
+            UserSettings.showAvailableMoves = props["showAvailableMoves"].toBoolean()
+        }
+
         this.changeTo { Wizard() }
     }
 }
