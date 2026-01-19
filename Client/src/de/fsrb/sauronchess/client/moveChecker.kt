@@ -43,14 +43,14 @@ fun simulateMove(
     if (piece.color == pieceOnNewPos?.color) return false
     if (!showAvailableMovesCheck) println("Simulated move: $oldPos ->  ${newPos}, inCheck: ${inCheck(currentBoardState)} , pieceonnewpos $pieceOnNewPos")
 
-    if (GameState.whiteTurn && piece.color == Colors.BLACK) return false
-    if (!GameState.whiteTurn && piece.color == Colors.WHITE) return false
+    if (Game.whiteTurn && piece.color == Colors.BLACK) return false
+    if (!Game.whiteTurn && piece.color == Colors.WHITE) return false
 
     movePieceOnBoard(pieceID, newPos, currentBoardState)
 
     pieceOnNewPos?.disabled = true
 
-    if ((piece.color == Colors.WHITE && GameState.blackKingInCheck) || (piece.color == Colors.BLACK && GameState.whiteKingInCheck)) {
+    if ((piece.color == Colors.WHITE && Game.blackKingInCheck) || (piece.color == Colors.BLACK && Game.whiteKingInCheck)) {
         movePieceOnBoard(pieceID, oldPos, currentBoardState)
         println("move is not possible cause king in check")
         return false
@@ -61,7 +61,7 @@ fun simulateMove(
     movePieceOnBoard(pieceID, oldPos, currentBoardState)
     pieceOnNewPos?.disabled = false
 
-    if ((GameState.whiteTurn && GameState.blackKingInCheck) || (!GameState.whiteTurn && GameState.whiteKingInCheck)) return true
+    if ((Game.whiteTurn && Game.blackKingInCheck) || (!Game.whiteTurn && Game.whiteKingInCheck)) return true
     return !stillInCheck
 }
 
@@ -194,7 +194,7 @@ class MC(
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
 
         // Castling
-        if (GameState.whiteCastlingLegal && isWhite) {
+        if (Game.whiteCastlingLegal && isWhite) {
             when (newPosInt) {
                 2 -> {
 
@@ -207,7 +207,7 @@ class MC(
                     if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
 
 
-                    GameState.castleAttempt = true
+                    Game.castleAttempt = true
                     return true
                 }
 
@@ -219,12 +219,12 @@ class MC(
                     ) return false
                     if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
                     println("castling legalllllll")
-                    GameState.castleAttempt = true
+                    Game.castleAttempt = true
                     return true
                 }
             }
         }
-        if (GameState.blackCastlingLegal && !isWhite) {
+        if (Game.blackCastlingLegal && !isWhite) {
             when (newPosInt) {
                 58 -> {
 
@@ -237,7 +237,7 @@ class MC(
                     if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
 
 
-                    GameState.castleAttempt = true
+                    Game.castleAttempt = true
                     return true
                 }
 
@@ -250,7 +250,7 @@ class MC(
                     if (!simulateMove(oldPosInt, newPosInt, calledFromKing = true)) return false
 
 
-                    GameState.castleAttempt = true
+                    Game.castleAttempt = true
                     return true
                 }
             }

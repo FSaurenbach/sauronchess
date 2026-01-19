@@ -1,7 +1,5 @@
 package de.fsrb.sauronchess.client
 
-import de.fsrb.sauronchess.client.GameState.activeCell
-import de.fsrb.sauronchess.client.GameState.whiteTurn
 import korlibs.image.color.*
 import korlibs.io.serialization.json.*
 import korlibs.korge.input.*
@@ -36,7 +34,7 @@ class Piece(
 
     init {
         reloadImages()
-        GameState.pieces.add(this)
+        Game.pieces.add(this)
 //        println("I am piece: $kind, at pos: $positionInt, myPos: $pos")
 
         draggableCloseable(
@@ -56,18 +54,18 @@ class Piece(
                 newPosInt = 63 - (newPos.second * 8 + newPos.first) // That calculation was a pain :(
 //                println("newPosX: ${newPos.first} newPosY: ${newPos.second}, calculated: $newPosInt")
 
-                for (whiteCircle in GameState.whiteCircles) whiteCircle.markGrey()
-                for (circle in GameState.circles) {
+                for (whiteCircle in Game.whiteCircles) whiteCircle.markGrey()
+                for (circle in Game.circles) {
                     if (circle.positionInt == newPosInt) {
                         circle.markWhite()
-                        GameState.whiteCircles.add(circle)
+                        Game.whiteCircles.add(circle)
                     }
                 }
             }, autoMove = false
         ) { info ->
-            if (((GameState.whiteTurn && isWhite) || (!GameState.whiteTurn && !isWhite)) && !GameState.promotionActive) {
-                if (GameState.onlinePlay) {
-                    if (GameState.userIsWhite != isWhite) return@draggableCloseable
+            if (((Game.whiteTurn && isWhite) || (!Game.whiteTurn && !isWhite)) && !Game.promotionActive) {
+                if (Game.onlinePlay) {
+                    if (Game.userIsWhite != isWhite) return@draggableCloseable
                 }
                 x = info.viewNextX
                 y = info.viewNextY
@@ -77,11 +75,11 @@ class Piece(
                 // init vars
                 zIndex = 3.0
                 scale(1.2, 1.2)
-                GameState.castleAttempt = false
+                Game.castleAttempt = false
 
 
-                GameState.circles.forEach { it.removeFromParent() }
-                GameState.circles.clear()
+                Game.circles.forEach { it.removeFromParent() }
+                Game.circles.clear()
                 // Show available moves
                 if (UserSettings.showAvailableMoves) {
                     for (x in 0..63) {
@@ -89,7 +87,7 @@ class Piece(
                             findCell(x).also {
                                 parent!!.moveIndicator(x).apply {
                                     if (findPiece(x) != null) markRed() else markGrey()
-                                    addTo(GameState.circles)
+                                    addTo(Game.circles)
                                     centerOn(it!!)
                                 }
 
@@ -130,17 +128,17 @@ class Piece(
                         // Pawn promoting
                         if ((kind == PieceKind.WhitePawn && newPosInt in 56..63) || (kind == PieceKind.BlackPawn && newPosInt in 0..7)) {
 
-                            GameState.promotionActive = true
+                            Game.promotionActive = true
 
                             if (UserSettings.autoPromote) {
                                 promoteTo(if (isWhite) PieceKind.WhiteQueen else PieceKind.BlackQueen)
-                                GameState.promotionActive = false
+                                Game.promotionActive = false
 
                             } else {
-                                val promotionDialogue = PromotionDialogue(isWhite).addTo(GameState.sceneContainer)
-                                GameState.sceneContainer.launch {
+                                val promotionDialogue = PromotionDialogue(isWhite).addTo(Game.sceneContainer)
+                                Game.sceneContainer.launch {
                                     promoteTo(promotionDialogue.getChoice())
-                                    GameState.promotionActive = false
+                                    Game.promotionActive = false
                                     promotionDialogue.removeFromParent()
 
                                 }
@@ -149,7 +147,7 @@ class Piece(
                         }
 
                         // Castling
-                        if (GameState.castleAttempt) {
+                        if (Game.castleAttempt) {
                             when (newPosInt) {
                                 2 -> {
                                     movePiece(findPiece(0)!!, 3)
@@ -168,39 +166,39 @@ class Piece(
                                 }
                             }
                         }
-                        if (!GameState.castleAttempt) {
+                        if (!Game.castleAttempt) {
                             when (kind) {
-                                PieceKind.WhiteRook, PieceKind.WhiteKing -> GameState.whiteCastlingLegal = false
-                                PieceKind.BlackRook, PieceKind.BlackKing -> GameState.blackCastlingLegal = false
+                                PieceKind.WhiteRook, PieceKind.WhiteKing -> Game.whiteCastlingLegal = false
+                                PieceKind.BlackRook, PieceKind.BlackKing -> Game.blackCastlingLegal = false
                                 else -> {}
                             }
                         }
 
 
                         // Shouldn't this be handled in main or anywhere else than piece?
-                        if (GameState.firstMove) {
-                            GameState.chessClock!!.blackTimer.toggle()
-                            GameState.firstMove = false
+                        if (Game.firstMove) {
+                            Game.chessClock!!.blackTimer.toggle()
+                            Game.firstMove = false
                         } else {
-                            GameState.chessClock!!.whiteTimer.toggle()
-                            GameState.chessClock!!.blackTimer.toggle()
+                            Game.chessClock!!.whiteTimer.toggle()
+                            Game.chessClock!!.blackTimer.toggle()
                         }
 
-                        if (!serverRequestedMove && GameState.onlinePlay) {
+                        if (!serverRequestedMove && Game.onlinePlay) {
                             val map = mutableMapOf(
                                 "oldPosInt" to oldPosInt.toString(),
                                 "newPosInt" to positionInt.toString(),
                             )
-                            if (GameState.castleAttempt) map["castling"] = "true"
+                            if (Game.castleAttempt) map["castling"] = "true"
                             map.putAll(uniqueIdentifier!!)
 
                             println("SENDING :${map.toJson()}")
-                            GameState.sceneContainer.launch { wsClient!!.send(map.toJson()) }
+                            Game.sceneContainer.launch { wsClient!!.send(map.toJson()) }
                         }
                         pieceOnNewPos?.let {
                             removePiece(it)
                         }
-                        whiteTurn = !whiteTurn
+                        Game.whiteTurn = !Game.whiteTurn
                         inCheck(boardState)
                     } else invalid = true
                 }
@@ -215,27 +213,27 @@ class Piece(
                 positionInt = currentSave
 
                 movePiece(this, positionInt)
-                activeCell?.colorCell(); activeCell = null
+                Game.activeCell?.colorCell(); Game.activeCell = null
 
             }
 
-            GameState.enPassantVictim = null
-            GameState.circles.forEach { it.removeFromParent() }
-            GameState.circles.clear()
+            Game.enPassantVictim = null
+            Game.circles.forEach { it.removeFromParent() }
+            Game.circles.clear()
             println()
             println()
             invalid = false
         }
         // No dragging happened (== click)
         else {
-            activeCell = findCell(positionInt)!!.apply { markActive() }
+            Game.activeCell = findCell(positionInt)!!.apply { markActive() }
             movePiece(this, positionInt)
         }
     }
 
     private fun removePiece(piece: Piece) {
         boardState.pieces.remove(boardState.pieces.find { it.id == piece.id })
-        GameState.pieces.remove(piece)
+        Game.pieces.remove(piece)
         piece.removeFromParent()
     }
 

@@ -3,7 +3,6 @@ package de.fsrb.sauronchess.client
 import korlibs.image.color.*
 import korlibs.korge.input.*
 import korlibs.korge.view.*
-import korlibs.korge.view.addTo
 import korlibs.korge.view.align.*
 import korlibs.korge.view.align.centerYBetween
 import korlibs.math.geom.*
@@ -98,20 +97,20 @@ class Settings : Container() {
         }
 
         private fun handleAboutClick() {
-            if (GameState.aboutPageInForeground) {
-                GameState.settingsContainer.findViewByName("AboutPage")?.removeFromParent()
-                GameState.aboutPageInForeground = false
+            if (Game.aboutPageInForeground) {
+                Game.settingsContainer.findViewByName("AboutPage")?.removeFromParent()
+                Game.aboutPageInForeground = false
                 return
             }
             solidRect(background.width, background.height, Colors["#000000"].withAd(0.3))
-            AboutPage().name("AboutPage").addTo(GameState.settingsContainer).centerOnStage()
-            GameState.aboutPageInForeground = true
+            AboutPage().name("AboutPage").addTo(Game.settingsContainer).centerOnStage()
+            Game.aboutPageInForeground = true
 
         }
 
         private fun handleExitClick() {
-            GameState.settingsInForeground = false
-            GameState.settingsContainer.removeFromParent()
+            Game.settingsInForeground = false
+            Game.settingsContainer.removeFromParent()
         }
 
     }
@@ -138,11 +137,11 @@ class Settings : Container() {
 }
 
 fun showSettings() {
-    GameState.settingsContainer = GameState.sceneContainer.container()
+    Game.settingsContainer = Game.sceneContainer.container()
 
-    GameState.settingsContainer.solidRect(
+    Game.settingsContainer.solidRect(
         DisplayConfig.chessBoardWidth + 18, DisplayConfig.chessBoardHeight + 18, Colors["#000000"].withAd(0.6)
     ).centerOnStage()
-    Settings().addTo(GameState.settingsContainer).centerOnStage()
-    GameState.settingsInForeground = true
+    Settings().addTo(Game.settingsContainer).centerOnStage()
+    Game.settingsInForeground = true
 }

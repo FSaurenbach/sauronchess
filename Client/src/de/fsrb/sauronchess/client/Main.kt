@@ -1,6 +1,6 @@
 package de.fsrb.sauronchess.client
 
-import de.fsrb.sauronchess.client.GameState.activeCell
+import de.fsrb.sauronchess.client.Game.activeCell
 import de.fsrb.sauronchess.common.*
 import korlibs.image.bitmap.*
 import korlibs.image.color.*
@@ -27,7 +27,7 @@ import kotlin.time.*
 
 var boardState: BoardState by Delegates.notNull()
 
-object GameState {
+object Game {
     var sceneContainer: SceneContainer by Delegates.notNull()
     val cells = ArrayList<Cell>()
     val pieces = ArrayList<Piece>()
@@ -140,7 +140,7 @@ suspend fun main() = Korge(
     quality = GameWindow.Quality.QUALITY
 ) {
     sceneContainer().apply {
-        GameState.sceneContainer = this
+        Game.sceneContainer = this
         val localProperties = localCurrentDirVfs["local.properties"]
         if (localProperties.exists()) {
             val props = Properties.parseString(localProperties.readAll().decodeToString())
@@ -184,7 +184,7 @@ class GameScene : Scene() {
 
             position(DisplayConfig.screenWidth * 0.8, 26)
             onClick {
-                if (!GameState.settingsInForeground) showSettings()
+                if (!Game.settingsInForeground) showSettings()
             }
         }
 
@@ -198,18 +198,18 @@ class GameScene : Scene() {
 
         }.positionY(26)
         println("initializing clock")
-        GameState.chessClock = ChessClock(90.seconds, 90.seconds, timesUp())
+        Game.chessClock = ChessClock(90.seconds, 90.seconds, timesUp())
 
-        GameState.chessClockContainer = ChessClockContainer().addTo(this)
-        GameState.chessClockContainer!!.centerXOnStage()
+        Game.chessClockContainer = ChessClockContainer().addTo(this)
+        Game.chessClockContainer!!.centerXOnStage()
 
-        if (GameState.onlinePlay) {
+        if (Game.onlinePlay) {
             wsClient = WebSocketClient("ws$protocolSecurity://$serverAddress:$serverPort")
             println("Opened socket")
             uniqueIdentifier = mapOf(
                 "id" to clientID,
-                "color" to GameState.userIsWhite.toString(),
-                "slot" to GameState.currentSlot.toString()
+                "color" to Game.userIsWhite.toString(),
+                "slot" to Game.currentSlot.toString()
             )
             println("sending: ${uniqueIdentifier!!.toJson()}")
             launch { wsClient!!.send(uniqueIdentifier!!.toJson()) }
@@ -281,13 +281,13 @@ suspend fun webSockerListener(message: String) {
         val blackTime = map["blackTimeLeft"]!!.toString().toDouble().toDuration(DurationUnit.SECONDS)
         println("white: $whiteTime")
         println("black: $blackTime")
-        GameState.chessClock!!.whiteTimer.override(whiteTime)
-        GameState.chessClock!!.blackTimer.override(blackTime)
+        Game.chessClock!!.whiteTimer.override(whiteTime)
+        Game.chessClock!!.blackTimer.override(blackTime)
     }
     if (map.containsKey("timeSync")) {
         return
     }
-    if (map.containsKey("castling")) GameState.castleAttempt = true
+    if (map.containsKey("castling")) Game.castleAttempt = true
     println("oldPosInt: ${map["oldPosInt"]}, newPosInt: ${map["newPosInt"]}")
 
     if (map["oldPosInt"] == null || map["newPosInt"] == null) return
@@ -300,8 +300,8 @@ suspend fun webSockerListener(message: String) {
 /** Check if a piece could take a king from the current position
  *  (Can also be called from simulateMove, as it sets some enemy pieces as disabled).*/
 fun inCheck(boardState: BoardState): Boolean {
-    GameState.whiteKingInCheck = false
-    GameState.blackKingInCheck = false
+    Game.whiteKingInCheck = false
+    Game.blackKingInCheck = false
 
 
     val whiteKingPosition = boardState.pieces.find { it.type == PieceKind.WhiteKing }!!.positionInt
@@ -313,7 +313,7 @@ fun inCheck(boardState: BoardState): Boolean {
             if (MC(enemyPiece.positionInt, whiteKingPosition, boardState).moveChecker()) {
                 // println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
                 println(whiteKingPosition)
-                GameState.whiteKingInCheck = true
+                Game.whiteKingInCheck = true
                 return true
             }
         } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
@@ -321,7 +321,7 @@ fun inCheck(boardState: BoardState): Boolean {
             if (MC(enemyPiece.positionInt, blackKingPosition, boardState).moveChecker()) {
                 // println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")
                 println(blackKingPosition)
-                GameState.blackKingInCheck = true
+                Game.blackKingInCheck = true
                 return true
             }
         }
@@ -330,33 +330,33 @@ fun inCheck(boardState: BoardState): Boolean {
 }
 
 suspend fun sendGameEnd(reason: String) {
-    if (GameState.onlinePlay) {
+    if (Game.onlinePlay) {
         val map = uniqueIdentifier!!.toMutableMap()
         map["gameOver"] = "true"
         map["reason"] = reason
-        GameState.sceneContainer.launch { wsClient?.send(map.toJson()) }
+        Game.sceneContainer.launch { wsClient?.send(map.toJson()) }
     }
     println("reasonHere: $reason")
     handleGameEnd(reason)
 }
 
 suspend fun handleGameEnd(reason: String) {
-    val text = GameState.sceneContainer.text("GAME END\nBecause of: \n$reason", 50, Colors.RED)
+    val text = Game.sceneContainer.text("GAME END\nBecause of: \n$reason", 50, Colors.RED)
     text.centerOnStage()
     delay(4000)
-    GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
+    Game.sceneContainer.launch { Game.sceneContainer.changeTo { Wizard() } }.invokeOnCompletion {
         text.removeFromParent()
         wsClient?.close()
-        GameState.reset()
+        Game.reset()
     }
 
 }
 
 fun timesUp(): (Boolean) -> Unit = { isWhite ->
-    if (!GameState.onlinePlay) {
+    if (!Game.onlinePlay) {
         when (isWhite) {
-            true -> GameState.sceneContainer.launch { sendGameEnd("whiteTime") }
-            false -> GameState.sceneContainer.launch { sendGameEnd("blackTime") }
+            true -> Game.sceneContainer.launch { sendGameEnd("whiteTime") }
+            false -> Game.sceneContainer.launch { sendGameEnd("blackTime") }
         }
     }
 }

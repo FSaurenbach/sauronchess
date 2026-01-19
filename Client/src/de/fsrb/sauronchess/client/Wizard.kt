@@ -31,7 +31,7 @@ class Wizard : Scene() {
     private lateinit var offlinePlayButton: RoundRect
     private fun updateColors() {
         for (rr in slots) {
-            rr.roundRect.color = if (GameState.currentSlot == rr.number) Colors.GREEN else Colors.RED
+            rr.roundRect.color = if (Game.currentSlot == rr.number) Colors.GREEN else Colors.RED
 
         }
     }
@@ -73,18 +73,18 @@ class Wizard : Scene() {
 
         if (UserSettings.autoOnlineMode) {
             onlinePlayButton.color = Colors.GREEN
-            GameState.onlinePlay = true
+            Game.onlinePlay = true
             updateOnline()
         }
 
         onlinePlayButton.onClick {
             if (onlinePlayButton.color == Colors.GREEN) {
                 onlinePlayButton.color = Colors.RED
-                GameState.onlinePlay = false
+                Game.onlinePlay = false
                 removeSlots()
             } else {
                 onlinePlayButton.color = Colors.GREEN
-                GameState.onlinePlay = true
+                Game.onlinePlay = true
                 updateOnline()
             }
         }
@@ -105,11 +105,11 @@ class Wizard : Scene() {
             try {
                 // This fails if the server is down
                 client.endpoint("http$protocolSecurity://$serverAddress:$serverPort").request(Http.Method.GET, "check")
-                GameState.onlinePlay = true
+                Game.onlinePlay = true
                 println("Online play enabled!")
 
             } catch (e: Throwable) {
-                GameState.onlinePlay = false
+                Game.onlinePlay = false
                 println("Server offline, disabling online play: $e")
                 onlinePlayButton.color = Colors.RED
                 whiteQueen.visible = false
@@ -119,10 +119,10 @@ class Wizard : Scene() {
             }
         }.invokeOnCompletion {
 
-            whiteQueen.visible = GameState.onlinePlay
-            blackQueen.visible = GameState.onlinePlay
-            offlinePlayButton.visible = !GameState.onlinePlay
-            if (GameState.onlinePlay) {
+            whiteQueen.visible = Game.onlinePlay
+            blackQueen.visible = Game.onlinePlay
+            offlinePlayButton.visible = !Game.onlinePlay
+            if (Game.onlinePlay) {
                 for (integer in 0..maxSlots) {
                     Slot(RoundRect(backgroundSize, corners), integer).apply {
                         addTo(this@updateOnline)
@@ -136,7 +136,7 @@ class Wizard : Scene() {
                 for (slot in slots) {
                     updateSlots()
                     slot.onClick {
-                        GameState.currentSlot = slot.number
+                        Game.currentSlot = slot.number
                         updateSlots()
                     }
                 }
@@ -148,9 +148,9 @@ class Wizard : Scene() {
         updateColors()
         launch {
             val response = HttpClient().endpoint("http$protocolSecurity://$serverAddress:$serverPort")
-                .request(Http.Method.GET, ("get_slot" + GameState.currentSlot))
+                .request(Http.Method.GET, ("get_slot" + Game.currentSlot))
             val map: Map<String, *> = response.decode().fromJson() as Map<String, *>
-            println("Slot map (Slot: ${GameState.currentSlot}): $map")
+            println("Slot map (Slot: ${Game.currentSlot}): $map")
             whiteQueen.visible = true
             blackQueen.visible = true
             if (map["player1"] != null) {
@@ -165,8 +165,8 @@ class Wizard : Scene() {
     }
 
     private fun changeScene(isWhite: Boolean) {
-        GameState.userIsWhite = isWhite
-        GameState.sceneContainer.launch { GameState.sceneContainer.changeTo { GameScene() } }
+        Game.userIsWhite = isWhite
+        Game.sceneContainer.launch { Game.sceneContainer.changeTo { GameScene() } }
     }
 }
 

@@ -12,7 +12,7 @@ fun initializeBoard(chessboard: Container) {
         for (cx in 0 until 8) {
             val text = "${'a' + cx}${8 - cy}"
 
-            GameState.cells.add(chessboard.cell(!d.isEven, cx, cy, text, positionInt))
+            Game.cells.add(chessboard.cell(!d.isEven, cx, cy, text, positionInt))
             positionInt++
             d++
         }
@@ -20,7 +20,7 @@ fun initializeBoard(chessboard: Container) {
     }
 }
 
-fun findPiece(positionInt: Int): Piece? = GameState.pieces.find { it.positionInt == positionInt }
+fun findPiece(positionInt: Int): Piece? = Game.pieces.find { it.positionInt == positionInt }
 
 fun movePiece(
     piece: Piece, newPositionInt: Int

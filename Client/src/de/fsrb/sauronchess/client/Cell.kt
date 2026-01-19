@@ -4,7 +4,6 @@ import de.fsrb.sauronchess.client.DisplayConfig.cellHeight
 import de.fsrb.sauronchess.client.DisplayConfig.cellWidth
 import korlibs.image.color.*
 import korlibs.korge.view.*
-import korlibs.korge.view.addTo
 import korlibs.math.geom.*
 
 
@@ -54,8 +53,8 @@ class Cell(
 }
 
 
-fun findCell(positionInt: Int): Cell? = GameState.cells.find { it.positionInt == positionInt }
+fun findCell(positionInt: Int): Cell? = Game.cells.find { it.positionInt == positionInt }
 
 
-fun reloadCells() = GameState.cells.forEach { it.colorCell() }
+fun reloadCells() = Game.cells.forEach { it.colorCell() }
 
