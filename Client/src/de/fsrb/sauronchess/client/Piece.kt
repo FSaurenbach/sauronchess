@@ -213,7 +213,8 @@ class Piece(
                 positionInt = currentSave
 
                 movePiece(this, positionInt)
-                Game.activeCell?.colorCell(); Game.activeCell = null
+                Game.activeCell?.colorCell()
+                Game.activeCell = null
 
             }
 

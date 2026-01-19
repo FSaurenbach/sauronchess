@@ -1,6 +1,7 @@
 package de.fsrb.sauronchess.client
 
 import korlibs.image.color.*
+import kotlinx.atomicfu.locks.*
 import kotlin.math.*
 
 
@@ -67,14 +68,14 @@ fun simulateMove(
 
 
 class MC(
-    var oldPosInt: Int, var newPosInt: Int, var boardState: BoardState
+    private var oldPosInt: Int, private var newPosInt: Int, private var boardState: BoardState
 ) {
 
-    val oldPos = converter(oldPosInt)
-    val newPos = converter(newPosInt)
+    private val oldPos = converter(oldPosInt)
+    private val newPos = converter(newPosInt)
 
     private var piece = boardState.pieces.find { it.positionInt == oldPosInt }
-    var isWhite = if (piece?.color == Colors.WHITE) true else false
+    private var isWhite = piece?.color == Colors.WHITE
     private val diff get() = newPosInt - oldPosInt
 
     fun moveChecker(): Boolean {
@@ -95,11 +96,13 @@ class MC(
 
 //        white: 8-15 black: 48-55
 
+        // TODO: what if a piece is in between?
         val isInitialPawnMove = if (isWhite) {
             diff == 16 && oldPosInt in 8..15
         } else {
             diff == -16 && oldPosInt in 48..55
         }
+
         // TODO: Reimplement en passant
         /*val isEnPassant = if (isWhite) {
             newY - currentY == -1 && abs(newX - currentX) == 1
@@ -269,5 +272,6 @@ fun converter(positionInt: Int): Pair<Int, Int> {
 }
 
 fun converter(x: Int, y: Int): Int {
+    require(x in 0..7 && y in 0..7)
     return 63 - (y * 8 + x)
 }
