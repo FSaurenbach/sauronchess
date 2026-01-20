@@ -35,7 +35,6 @@ class Piece(
     init {
         reloadImages()
         Game.pieces.add(this)
-//        println("I am piece: $kind, at pos: $positionInt, myPos: $pos")
 
         draggableCloseable(
             onMouseDrag {
@@ -274,77 +273,58 @@ class Piece(
 }
 
 
-/*fun checkGameLegal() {
-    var whitePieces = GameState.pieces.filter { it.color == Colors.WHITE }
-    var blackPieces = GameState.pieces.filter { it.color == Colors.BLACK }
-    var draw = false
-    var checkMate = false
-    val insufficientMaterial: Boolean
-    if ((GameState.whiteKingInCheck && GameState.whiteTurn) || (GameState.blackKingInCheck && !GameState.whiteTurn)) {
-        println("someone is in check")
-        for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
-            for (x in 0..7) {
-                for (y in 0..7) {
-                    if (simulateMove(piece.currentPos, Pair(x, y), piece)) {
-                        println("there is still hope")
-                        return
-                    }
-
+// TODO: test this
+fun checkGameLegal() {
+    var whitePieces = boardState.pieces.filter { it.isWhite }
+    var blackPieces = boardState.pieces.filter { !it.isWhite }
+    if ((Game.whiteKingInCheck && Game.whiteTurn) || (Game.blackKingInCheck && !Game.whiteTurn)) {
+        for (piece in if (Game.whiteTurn) whitePieces else blackPieces) {
+            for (i in 0..63) {
+                if (simulateMove(piece.positionInt, i)) {
+                    return
                 }
             }
         }
         println("GAME IS LEGAL: false")
-        checkMate = true
-        GameState.sceneContainer.launch { sendGameEnd("checkmate") }
+        Game.sceneContainer.launch { sendGameEnd("checkmate") }
 
     }
-
-
-    // advanced rules
 
 
     // Check for Draw
-    for (piece in if (GameState.whiteTurn) whitePieces else blackPieces) {
-        for (x in 0..7) {
-            for (y in 0..7) {
-                if (simulateMove(piece.currentPos, x to y, piece)) return
-            }
+    for (piece in if (Game.whiteTurn) whitePieces else blackPieces) {
+        for (i in 0..63) {
+            if (simulateMove(piece.positionInt, i)) return
+
         }
-        draw = true
-        GameState.sceneContainer.launch { sendGameEnd("draw") }
+        Game.sceneContainer.launch { sendGameEnd("draw") }
+        return
     }
+
+
     // Check for insufficient material rule (no pawns left at all is a hard req)
-    if (GameState.pieces.none { it.kind == PieceKind.WhitePawn || it.kind == PieceKind.BlackPawn }) {
-        whitePieces =
-            GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.WhiteKing || !it.isWhite }.toSet()
-        blackPieces =
-            GameState.pieces - GameState.pieces.filter { it.kind == PieceKind.BlackKing || it.isWhite }.toSet()
+    if (boardState.pieces.none { it.type == PieceKind.WhitePawn || it.type == PieceKind.BlackPawn }) {
+        whitePieces -= whitePieces.filter { it.type == PieceKind.WhiteKing }.toSet()
+        blackPieces -= blackPieces.filter { it.type == PieceKind.BlackKing }.toSet()
 
         if (whitePieces.count() > 1 && blackPieces.count() > 1) return
         var whiteLegal = false
         var blackLegal = false
         var whiteBishopOnWhite: Boolean? = null
         var blackBishopOnWhite: Boolean? = null
+
         for (piece in whitePieces + blackPieces) {
-            if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
-            else if (piece.kind == PieceKind.WhiteBishop) {
-                whiteBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
-            } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
-            else if (piece.kind == PieceKind.BlackBishop) {
-                blackBishopOnWhite = findCell(piece.currentX, piece.currentY)?.isWhite
+            if (piece.type == PieceKind.WhiteKnight) whiteLegal = true
+            else if (piece.type == PieceKind.WhiteBishop) {
+                whiteBishopOnWhite = findCell(piece.positionInt)?.isWhite
+            } else if (piece.type == PieceKind.BlackKnight) blackLegal = true
+            else if (piece.type == PieceKind.BlackBishop) {
+                blackBishopOnWhite = findCell(piece.positionInt)?.isWhite
             }
         }
         if (whiteLegal || blackLegal) return
         if (whiteBishopOnWhite != null && blackBishopOnWhite != null && whiteBishopOnWhite == blackBishopOnWhite) return
-        insufficientMaterial = true
-        GameState.sceneContainer.launch { sendGameEnd("draw") }
-    } else return
-
-    println("No moves left for white / black!")
-    if (GameState.whiteTurn) {
-        if (GameState.whiteKingInCheck) println("White got checkmated") else println("White got stalemated")
-    } else {
-        if (GameState.blackKingInCheck) println("Black got checkmated") else println("Black got stalemated")
+        Game.sceneContainer.launch { sendGameEnd("insufficientMaterial") }
+        return
     }
-    println("insuffmat: $insufficientMaterial, checkmate: $checkMate, draw: $draw")
-}*/
+}
