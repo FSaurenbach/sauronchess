@@ -308,7 +308,7 @@ fun inCheck(boardState: BoardState): Boolean {
     val blackKingPosition = boardState.pieces.find { it.type == PieceKind.BlackKing }!!.positionInt
 
     for (enemyPiece in boardState.pieces) {
-        if (enemyPiece.color == Colors.BLACK && !enemyPiece.disabled) {
+        if (!enemyPiece.isWhite && !enemyPiece.disabled) {
 
             if (MC(enemyPiece.positionInt, whiteKingPosition, boardState).moveChecker()) {
                 // println("White King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind} whiteTurn")
@@ -316,7 +316,7 @@ fun inCheck(boardState: BoardState): Boolean {
                 Game.whiteKingInCheck = true
                 return true
             }
-        } else if (enemyPiece.color == Colors.WHITE && !enemyPiece.disabled) {
+        } else if (enemyPiece.isWhite && !enemyPiece.disabled) {
 
             if (MC(enemyPiece.positionInt, blackKingPosition, boardState).moveChecker()) {
                 // println("Black King is in check because of: ${enemyPiece.cx}, ${enemyPiece.cy}, ${enemyPiece.kind}")

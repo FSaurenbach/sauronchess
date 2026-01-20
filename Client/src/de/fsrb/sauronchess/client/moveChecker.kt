@@ -1,14 +1,12 @@
 package de.fsrb.sauronchess.client
 
-import korlibs.image.color.*
-import kotlinx.atomicfu.locks.*
 import kotlin.math.*
 
 
 typealias PieceId = Int
 
 data class PieceState(
-    val id: PieceId, var type: PieceKind, val color: RGBA, var positionInt: Int, var disabled: Boolean = false
+    val id: PieceId, var type: PieceKind, val isWhite: Boolean, var positionInt: Int, var disabled: Boolean = false
 )
 
 data class BoardState(
@@ -41,17 +39,17 @@ fun simulateMove(
 
     val pieceID: PieceId = currentBoardState.pieces.find { it.positionInt == oldPos }!!.id
 
-    if (piece.color == pieceOnNewPos?.color) return false
+    if (piece.isWhite == pieceOnNewPos?.isWhite) return false
     if (!showAvailableMovesCheck) println("Simulated move: $oldPos ->  ${newPos}, inCheck: ${inCheck(currentBoardState)} , pieceonnewpos $pieceOnNewPos")
 
-    if (Game.whiteTurn && piece.color == Colors.BLACK) return false
-    if (!Game.whiteTurn && piece.color == Colors.WHITE) return false
+    if (Game.whiteTurn && !piece.isWhite) return false
+    if (!Game.whiteTurn && piece.isWhite) return false
 
     movePieceOnBoard(pieceID, newPos, currentBoardState)
 
     pieceOnNewPos?.disabled = true
 
-    if ((piece.color == Colors.WHITE && Game.blackKingInCheck) || (piece.color == Colors.BLACK && Game.whiteKingInCheck)) {
+    if ((piece.isWhite && Game.blackKingInCheck) || (!piece.isWhite && Game.whiteKingInCheck)) {
         movePieceOnBoard(pieceID, oldPos, currentBoardState)
         println("move is not possible cause king in check")
         return false
@@ -74,12 +72,11 @@ class MC(
     private val oldPos = converter(oldPosInt)
     private val newPos = converter(newPosInt)
 
-    private var piece = boardState.pieces.find { it.positionInt == oldPosInt }
-    private var isWhite = piece?.color == Colors.WHITE
+    private var piece = boardState.pieces.find { it.positionInt == oldPosInt }!!
     private val diff get() = newPosInt - oldPosInt
 
     fun moveChecker(): Boolean {
-        return when (piece!!.type) {
+        return when (piece.type) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()
@@ -92,12 +89,12 @@ class MC(
 
     private fun movePawn(): Boolean {
         val pieceOnNewPos = findPiece(newPosInt)
-        val isPawnMoveForward = if (isWhite) diff == 8 else diff == -8
+        val isPawnMoveForward = if (piece.isWhite) diff == 8 else diff == -8
 
 //        white: 8-15 black: 48-55
 
         // TODO: what if a piece is in between?
-        val isInitialPawnMove = if (isWhite) {
+        val isInitialPawnMove = if (piece.isWhite) {
             diff == 16 && oldPosInt in 8..15
         } else {
             diff == -16 && oldPosInt in 48..55
@@ -118,7 +115,7 @@ class MC(
         }
         // TODO: EDGE CASE!!!! White pawn on 47 can take rook on 56!!!
         // White: +7 or +9 Black: -7 or -9
-        else if (((isWhite && diff == 7 || diff == 9) || (!isWhite && diff == -7 || diff == -9)) && pieceOnNewPos != null && pieceOnNewPos.isWhite != isWhite) {
+        else if (((piece.isWhite && diff == 7 || diff == 9) || (!piece.isWhite && diff == -7 || diff == -9)) && pieceOnNewPos != null && pieceOnNewPos.isWhite != piece.isWhite) {
             return true
         }
 
@@ -180,7 +177,7 @@ class MC(
 
         return !range.any { pos ->
             val p = findPieceOnBoard(pos, boardState)
-            p != null && p.id != piece?.id
+            p != null && p.id != piece.id
         }
     }
 
@@ -197,7 +194,7 @@ class MC(
         if (abs(deltaX) <= 1 && abs(deltaY) <= 1) return true
 
         // Castling
-        if (Game.whiteCastlingLegal && isWhite) {
+        if (Game.whiteCastlingLegal && piece.isWhite) {
             when (newPosInt) {
                 2 -> {
 
@@ -227,7 +224,7 @@ class MC(
                 }
             }
         }
-        if (Game.blackCastlingLegal && !isWhite) {
+        if (Game.blackCastlingLegal && !piece.isWhite) {
             when (newPosInt) {
                 58 -> {
 

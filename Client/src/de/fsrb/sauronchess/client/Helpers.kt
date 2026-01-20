@@ -39,7 +39,7 @@ fun Container.addAllPieces() {
 
 
     for (piece in Game.pieces) {
-        boardState.pieces.add(PieceState(piece.id, piece.kind, piece.color, piece.positionInt))
+        boardState.pieces.add(PieceState(piece.id, piece.kind, piece.isWhite, piece.positionInt))
         movePiece(piece, piece.positionInt)
     }
 }
