@@ -6,7 +6,7 @@ import kotlin.math.*
 typealias PieceId = Int
 
 data class PieceState(
-    val id: PieceId, var type: PieceKind, val isWhite: Boolean, var positionInt: Int, var disabled: Boolean = false
+    val id: PieceId, var kind: PieceKind, val isWhite: Boolean, var positionInt: Int, var disabled: Boolean = false
 )
 
 data class BoardState(
@@ -76,7 +76,7 @@ class MC(
     private val diff get() = newPosInt - oldPosInt
 
     fun moveChecker(): Boolean {
-        return when (piece.type) {
+        return when (piece.kind) {
             PieceKind.WhitePawn, PieceKind.BlackPawn -> movePawn()
             PieceKind.WhiteKnight, PieceKind.BlackKnight -> moveKnight()
             PieceKind.WhiteBishop, PieceKind.BlackBishop -> moveBishop()

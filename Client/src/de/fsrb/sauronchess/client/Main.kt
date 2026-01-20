@@ -304,8 +304,8 @@ fun inCheck(boardState: BoardState): Boolean {
     Game.blackKingInCheck = false
 
 
-    val whiteKingPosition = boardState.pieces.find { it.type == PieceKind.WhiteKing }!!.positionInt
-    val blackKingPosition = boardState.pieces.find { it.type == PieceKind.BlackKing }!!.positionInt
+    val whiteKingPosition = boardState.pieces.find { it.kind == PieceKind.WhiteKing }!!.positionInt
+    val blackKingPosition = boardState.pieces.find { it.kind == PieceKind.BlackKing }!!.positionInt
 
     for (enemyPiece in boardState.pieces) {
         if (!enemyPiece.isWhite && !enemyPiece.disabled) {

@@ -242,7 +242,7 @@ class Piece(
         println("Promoting to $newPieceKind")
         kind = newPieceKind
         reloadImages()
-        boardState.pieces.find { it.id == id }!!.type = newPieceKind
+        boardState.pieces.find { it.id == id }!!.kind = newPieceKind
     }
 
     private fun reloadImages() {
@@ -303,9 +303,9 @@ fun checkGameLegal() {
 
 
     // Check for insufficient material rule (no pawns left at all is a hard req)
-    if (boardState.pieces.none { it.type == PieceKind.WhitePawn || it.type == PieceKind.BlackPawn }) {
-        whitePieces -= whitePieces.filter { it.type == PieceKind.WhiteKing }.toSet()
-        blackPieces -= blackPieces.filter { it.type == PieceKind.BlackKing }.toSet()
+    if (boardState.pieces.none { it.kind == PieceKind.WhitePawn || it.kind == PieceKind.BlackPawn }) {
+        whitePieces -= whitePieces.filter { it.kind == PieceKind.WhiteKing }.toSet()
+        blackPieces -= blackPieces.filter { it.kind == PieceKind.BlackKing }.toSet()
 
         if (whitePieces.count() > 1 && blackPieces.count() > 1) return
         var whiteLegal = false
@@ -314,11 +314,11 @@ fun checkGameLegal() {
         var blackBishopOnWhite: Boolean? = null
 
         for (piece in whitePieces + blackPieces) {
-            if (piece.type == PieceKind.WhiteKnight) whiteLegal = true
-            else if (piece.type == PieceKind.WhiteBishop) {
+            if (piece.kind == PieceKind.WhiteKnight) whiteLegal = true
+            else if (piece.kind == PieceKind.WhiteBishop) {
                 whiteBishopOnWhite = findCell(piece.positionInt)?.isWhite
-            } else if (piece.type == PieceKind.BlackKnight) blackLegal = true
-            else if (piece.type == PieceKind.BlackBishop) {
+            } else if (piece.kind == PieceKind.BlackKnight) blackLegal = true
+            else if (piece.kind == PieceKind.BlackBishop) {
                 blackBishopOnWhite = findCell(piece.positionInt)?.isWhite
             }
         }
