@@ -88,12 +88,11 @@ class MC(
     }
 
     private fun movePawn(): Boolean {
-        val pieceOnNewPos = findPiece(newPosInt)
+        val pieceOnNewPos = findPieceOnBoard(newPosInt, boardState)
         val isPawnMoveForward = if (piece.isWhite) diff == 8 else diff == -8
 
 //        white: 8-15 black: 48-55
 
-        // TODO: what if a piece is in between?
         val isInitialPawnMove = if (piece.isWhite) {
             diff == 16 && oldPosInt in 8..15
         } else {
@@ -106,7 +105,7 @@ class MC(
         } else {
             newY - currentY == 1 && abs(currentX - newX) == 1
         }*/
-        if (isPawnMoveForward || isInitialPawnMove) {
+        if (isPawnMoveForward || (isInitialPawnMove && findPieceOnBoard(oldPosInt + diff / 2, boardState) == null)) {
 //            enPassantLegal = isInitialPawnMove
 
             if (pieceOnNewPos == null) {
