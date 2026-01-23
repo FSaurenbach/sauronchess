@@ -41,7 +41,7 @@ object Game {
     var settingsInForeground = false
     var aboutPageInForeground = false
     var settingsContainer: Container by Delegates.notNull()
-    var enPassantVictim: Piece? = null
+    var enPassantVictim: PieceState? = null
     val circles = ArrayList<MoveIndicator>()
     val whiteCircles = ArrayList<MoveIndicator>()
     var chessClock: ChessClock? = null

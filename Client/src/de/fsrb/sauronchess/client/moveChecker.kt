@@ -6,7 +6,12 @@ import kotlin.math.*
 typealias PieceId = Int
 
 data class PieceState(
-    val id: PieceId, var kind: PieceKind, val isWhite: Boolean, var positionInt: Int, var disabled: Boolean = false
+    val id: PieceId,
+    var kind: PieceKind,
+    val isWhite: Boolean,
+    var positionInt: Int,
+    var disabled: Boolean = false,
+    var enPassantLegal: Boolean = false
 )
 
 data class BoardState(
@@ -89,42 +94,44 @@ class MC(
 
     private fun movePawn(): Boolean {
         val pieceOnNewPos = findPieceOnBoard(newPosInt, boardState)
-        val isPawnMoveForward = if (piece.isWhite) diff == 8 else diff == -8
 
-//        white: 8-15 black: 48-55
-
-        val isInitialPawnMove = if (piece.isWhite) {
-            diff == 16 && oldPosInt in 8..15
+        val isPawnMoveForward = if (piece.isWhite) {
+            newPos.second - oldPos.second == -1 && newPos.first == oldPos.first
         } else {
-            diff == -16 && oldPosInt in 48..55
+            newPos.second - oldPos.second == 1 && newPos.first == oldPos.first
         }
 
-        // TODO: Reimplement en passant
-        /*val isEnPassant = if (isWhite) {
-            newY - currentY == -1 && abs(newX - currentX) == 1
+        val isInitialPawnMove = if (piece.isWhite) {
+            oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         } else {
-            newY - currentY == 1 && abs(currentX - newX) == 1
-        }*/
-        if (isPawnMoveForward || (isInitialPawnMove && findPieceOnBoard(oldPosInt + diff / 2, boardState) == null)) {
-//            enPassantLegal = isInitialPawnMove
+            oldPos.second == 1 && newPos.second == 3 && newPos.first == oldPos.first
+        }
+        val isEnPassant = if (piece.isWhite) {
+            newPos.second - oldPos.second == -1 && abs(newPos.first - oldPos.first) == 1
+        } else {
+            newPos.second - oldPos.second == 1 && abs(oldPos.first - newPos.first) == 1
+        }
 
+        if (isPawnMoveForward || (isInitialPawnMove && findPieceOnBoard(oldPosInt + diff / 2, boardState) == null)) {
+            piece.enPassantLegal = isInitialPawnMove
             if (pieceOnNewPos == null) {
                 return true
             }
-        }
-        // TODO: EDGE CASE!!!! White pawn on 47 can take rook on 56!!!
-        // White: +7 or +9 Black: -7 or -9
-        else if (((piece.isWhite && diff == 7 || diff == 9) || (!piece.isWhite && diff == -7 || diff == -9)) && pieceOnNewPos != null && pieceOnNewPos.isWhite != piece.isWhite) {
-            return true
+        } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1)) {
+            // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
+            if ((piece.isWhite && newPos.second > oldPos.second) || (!piece.isWhite && newPos.second < oldPos.second)) return false
+
+            if (pieceOnNewPos != null && pieceOnNewPos.isWhite != piece.isWhite) {
+                return true
+            }
         }
 
-//            val pawnToTake = findPiece(newX, currentY)
+        val pawnToTake = findPieceOnBoard(converter(newPos.first, oldPos.second), boardState)
 
-        /*
-        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !isWhite && pawnToTake.enPassantLegal) {
-            GameState.enPassantVictim = pawnToTake
+        if (isEnPassant && pawnToTake != null && pawnToTake.isWhite == !piece.isWhite && pawnToTake.enPassantLegal) {
+            Game.enPassantVictim = boardState.pieces.find { it.id == pawnToTake.id }
             return true
-        }*/
+        }
         return false
     }
 
