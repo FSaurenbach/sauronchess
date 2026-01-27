@@ -166,6 +166,7 @@ class Wizard : Scene() {
 
     private fun changeScene(isWhite: Boolean) {
         Game.userIsWhite = isWhite
+        UserSettings.whiteOnBottom = isWhite
         Game.sceneContainer.launch { Game.sceneContainer.changeTo { GameScene() } }
     }
 }

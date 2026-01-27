@@ -122,6 +122,7 @@ object UserSettings {
     var autoOnlineMode: Boolean = false
     var autoStart: Boolean = false
     var showAvailableMoves: Boolean = true
+    var whiteOnBottom = false // TODO: Make this configurable ingame!!
 }
 
 const val DEFAULT_PORT = 443
@@ -291,9 +292,9 @@ suspend fun webSockerListener(message: String) {
     println("oldPosInt: ${map["oldPosInt"]}, newPosInt: ${map["newPosInt"]}")
 
     if (map["oldPosInt"] == null || map["newPosInt"] == null) return
-    val piece = findPiece(map["oldPosInt"]!!.toInt())
+    val piece = findPiece(conv(map["oldPosInt"]!!.toInt()))
 
-    piece?.clickListener(map["newPosInt"]!!.toInt(), true)
+    piece?.clickListener(conv(map["newPosInt"]!!.toInt()), true)
 }
 
 

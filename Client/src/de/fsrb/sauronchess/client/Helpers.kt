@@ -7,35 +7,38 @@ import korlibs.image.vector.format.*
 import korlibs.io.file.std.*
 import korlibs.korge.view.*
 
+fun conv(positionInt: Int): Int {
+    return if (UserSettings.whiteOnBottom) positionInt else 63 - positionInt
+}
 
 fun Container.addAllPieces() {
 
     for (i in 0 until 8) {
-        piece(PieceKind.WhitePawn, Colors.WHITE, 8 + i, isWhite = true)
+        piece(PieceKind.WhitePawn, Colors.WHITE, conv(8 + i), isWhite = true)
     }
 
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 1, isWhite = true)
-    piece(PieceKind.WhiteKnight, Colors.WHITE, 6, isWhite = true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 2, isWhite = true)
-    piece(PieceKind.WhiteBishop, Colors.WHITE, 5, isWhite = true)
-    piece(PieceKind.WhiteRook, Colors.WHITE, 0, isWhite = true)
-    piece(PieceKind.WhiteQueen, Colors.WHITE, 3, isWhite = true)
-    piece(PieceKind.WhiteRook, Colors.WHITE, 7, isWhite = true)
-    piece(PieceKind.WhiteKing, Colors.WHITE, 4, isWhite = true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, conv(1), isWhite = true)
+    piece(PieceKind.WhiteKnight, Colors.WHITE, conv(6), isWhite = true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, conv(2), isWhite = true)
+    piece(PieceKind.WhiteBishop, Colors.WHITE, conv(5), isWhite = true)
+    piece(PieceKind.WhiteRook, Colors.WHITE, conv(0), isWhite = true)
+    piece(PieceKind.WhiteQueen, Colors.WHITE, conv(3), isWhite = true)
+    piece(PieceKind.WhiteRook, Colors.WHITE, conv(7), isWhite = true)
+    piece(PieceKind.WhiteKing, Colors.WHITE, conv(4), isWhite = true)
 
 
     for (i in 0 until 8) {
-        piece(PieceKind.BlackPawn, Colors.BLACK, 48 + i, isWhite = false)
+        piece(PieceKind.BlackPawn, Colors.BLACK, conv(48 + i), isWhite = false)
     }
 
-    piece(PieceKind.BlackKnight, Colors.BLACK, 57, isWhite = false)
-    piece(PieceKind.BlackKnight, Colors.BLACK, 62, isWhite = false)
-    piece(PieceKind.BlackBishop, Colors.BLACK, 58, isWhite = false)
-    piece(PieceKind.BlackBishop, Colors.BLACK, 61, isWhite = false)
-    piece(PieceKind.BlackRook, Colors.BLACK, 56, isWhite = false)
-    piece(PieceKind.BlackRook, Colors.BLACK, 63, isWhite = false)
-    piece(PieceKind.BlackQueen, Colors.BLACK, 59, isWhite = false)
-    piece(PieceKind.BlackKing, Colors.BLACK, 60, isWhite = false)
+    piece(PieceKind.BlackKnight, Colors.BLACK, conv(57), isWhite = false)
+    piece(PieceKind.BlackKnight, Colors.BLACK, conv(62), isWhite = false)
+    piece(PieceKind.BlackBishop, Colors.BLACK, conv(58), isWhite = false)
+    piece(PieceKind.BlackBishop, Colors.BLACK, conv(61), isWhite = false)
+    piece(PieceKind.BlackRook, Colors.BLACK, conv(56), isWhite = false)
+    piece(PieceKind.BlackRook, Colors.BLACK, conv(63), isWhite = false)
+    piece(PieceKind.BlackQueen, Colors.BLACK, conv(59), isWhite = false)
+    piece(PieceKind.BlackKing, Colors.BLACK, conv(60), isWhite = false)
 
 
     for (piece in Game.pieces) {

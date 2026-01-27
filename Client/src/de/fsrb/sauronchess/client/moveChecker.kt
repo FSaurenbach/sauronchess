@@ -56,7 +56,7 @@ fun simulateMove(
 
     if ((piece.isWhite && Game.blackKingInCheck) || (!piece.isWhite && Game.whiteKingInCheck)) {
         movePieceOnBoard(pieceID, oldPos, currentBoardState)
-        println("move is not possible cause king in check")
+        println("move is not possible cause king in check: wk:${Game.whiteKingInCheck}")
         return false
     }
     val stillInCheck = inCheck(currentBoardState)
@@ -95,18 +95,18 @@ class MC(
     private fun movePawn(): Boolean {
         val pieceOnNewPos = findPieceOnBoard(newPosInt, boardState)
 
-        val isPawnMoveForward = if (piece.isWhite) {
+        val isPawnMoveForward = if ((piece.isWhite && UserSettings.whiteOnBottom) || (!piece.isWhite && !UserSettings.whiteOnBottom)) {
             newPos.second - oldPos.second == -1 && newPos.first == oldPos.first
         } else {
             newPos.second - oldPos.second == 1 && newPos.first == oldPos.first
         }
 
-        val isInitialPawnMove = if (piece.isWhite) {
+        val isInitialPawnMove = if ((piece.isWhite && UserSettings.whiteOnBottom) || (!piece.isWhite && !UserSettings.whiteOnBottom)) {
             oldPos.second == 6 && newPos.second == 4 && oldPos.first == newPos.first
         } else {
             oldPos.second == 1 && newPos.second == 3 && newPos.first == oldPos.first
         }
-        val isEnPassant = if (piece.isWhite) {
+        val isEnPassant = if ((piece.isWhite && UserSettings.whiteOnBottom) || (!piece.isWhite && !UserSettings.whiteOnBottom)) {
             newPos.second - oldPos.second == -1 && abs(newPos.first - oldPos.first) == 1
         } else {
             newPos.second - oldPos.second == 1 && abs(oldPos.first - newPos.first) == 1
@@ -119,9 +119,10 @@ class MC(
             }
         } else if ((abs(newPos.second - oldPos.second) == 1 && abs(newPos.first - oldPos.first) == 1)) {
             // Fix that pawns can take pieces behind themselves (check correct direction if taking a piece)
-            if ((piece.isWhite && newPos.second > oldPos.second) || (!piece.isWhite && newPos.second < oldPos.second)) return false
+            if (((piece.isWhite && UserSettings.whiteOnBottom) && newPos.second > oldPos.second) || ((!piece.isWhite && !UserSettings.whiteOnBottom) && newPos.second < oldPos.second)) return false
 
             if (pieceOnNewPos != null && pieceOnNewPos.isWhite != piece.isWhite) {
+                println("im: $oldPos and i")
                 return true
             }
         }

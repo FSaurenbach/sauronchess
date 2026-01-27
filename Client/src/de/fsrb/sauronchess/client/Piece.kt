@@ -185,8 +185,8 @@ class Piece(
 
                         if (!serverRequestedMove && Game.onlinePlay) {
                             val map = mutableMapOf(
-                                "oldPosInt" to oldPosInt.toString(),
-                                "newPosInt" to positionInt.toString(),
+                                "oldPosInt" to conv(oldPosInt).toString(),
+                                "newPosInt" to conv(positionInt).toString(),
                             )
                             if (Game.castleAttempt) map["castling"] = "true"
                             map.putAll(uniqueIdentifier!!)
