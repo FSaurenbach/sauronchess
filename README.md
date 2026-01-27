@@ -5,8 +5,9 @@
 ![GitHub last commit](https://img.shields.io/github/last-commit/FSaurenbach/sauronchess?style=flat-square)
 ![GitHub stars](https://img.shields.io/github/stars/FSaurenbach/sauronchess?style=social)
 
-Chess game made with [KorGE](https://korge.org/) and Kotlin as a hobby project. It features online play and a white/dark mode.
-Hosted on chess.fsrb.de (client is hosted on GitHub pages; I host the chess server(chessapi.fsrb.de) myself)
+## Chess game made with [KorGE](https://korge.org/) and Kotlin as a hobby project.
+It features online play and a white/dark mode.
+
 ---
 ## **[Play Now!](https://chess.fsrb.de)**
 
